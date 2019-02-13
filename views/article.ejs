@@ -1,0 +1,171 @@
+<% include layout/header %>
+<script src="https://cdn.ckeditor.com/4.11.2/standard-all/ckeditor.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous">
+
+
+<div class="container  p-4">
+    <div class="row">
+        <div class="col-9">
+            <div id="mian" class="bg-white" style="padding-top: 50px;padding-bottom: 50px;">
+                <h1 id="Title">
+                    <%=article.title%>
+                </h1>
+                <div class="row">
+                    <div class="col">
+                        <span id="PostDate" class="text-secondary">
+
+                        </span>
+                    </div>
+                    <div class="col">
+                        <span id="tags" class="text-warning"></span>
+                    </div>
+
+                </div>
+                <br>
+                <p style="padding-bottom: 1px">點擊文章來展開 <i class="fas fa-arrow-circle-down"></i>
+                </p>
+                <textarea style="display: none" id="hidedata">
+                    <%=article.body%>
+                </textarea>
+                <p id="Detail">
+                    <%=article.body%>
+                </p>
+                <br>
+                <button id="likeBtn" class="btn btn-primary">Like</button>
+                <span id="likenumber">0</span>
+                <div class="float-right">
+                    <%if(user){%>
+                    <%if(user.id == article.author_id){%>
+                    <a href="/articles/edit/<%=article._id%>" class="btn btn-success">Edit</a>
+                    <a href="#" class="btn btn-danger delete-article" data-id="<%=article._id%>">Delete</a>
+                    <%}%>
+                    <%}%>
+                </div>
+
+
+            </div>
+            <div id="relate" class="bg-white mt-4" style="padding: 50px;">
+                <h3 class="text-secondary">相關文章</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up
+                                    the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up
+                                    the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="card" style="width: 100%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up
+                                    the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reply" class="bg-white mt-4" style="padding: 50px;">
+                <h3 class="text-secondary">回覆</h3>
+                <br>
+                <ul class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-1">
+                                <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
+                            </div>
+                            <div class="col-9">
+
+                                <p class="mb-1">上次老師說的那個泡沫...</p>
+                                <small class="text-muted">3 days ago</small>
+                            </div>
+                        </div>
+                    </a>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid img-thumbnail" alt="Responsive image">
+                </div>
+                <div class="col">
+                    <h5 id="poster">
+                        <%=author%>
+                    </h5>
+                    <a href="#" class="badge badge-primary">個人網頁</a>
+                </div>
+            </div>
+
+            <div class="row pt-1">
+                <div class="col">
+                    <small id="posterIntroduction" class="text-secondary"></small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    let hidedata = document.getElementById('hidedata');
+    CKEDITOR.replace('Detail', {
+        height: 600,
+        on: {
+            instanceReady: function (evt) {
+                // Hide the editor top bar.
+                document.getElementById('cke_1_top').style.display = 'none';
+            }
+        },
+        extraPlugins: 'autogrow',
+        autoGrow_minHeight: 600,
+        autoGrow_bottomSpace: 50,
+        removePlugins: 'resize'
+    });
+    var text = hidedata.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
+    CKEDITOR.instances.Detail.setData(text);
+
+    CKEDITOR.on('instanceReady', function (ev) {
+        editor = ev.editor;
+        toggleReadOnly(true);
+    });
+
+    function toggleReadOnly(isReadOnly) {
+        // Change the read-only state of the editor.
+        // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setReadOnly
+        editor.setReadOnly(isReadOnly);
+    }
+</script>
+<!--  -->
+
+
+
+<% include layout/footer %>

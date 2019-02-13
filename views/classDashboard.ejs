@@ -1,0 +1,105 @@
+<% include layout/header %>
+<div class="row">
+    <div class="col-9">
+        <div class="row">
+            <div class=" col">
+                <img class="card-img-top bg-light" style="height: 14rem">
+            </div>
+            <div class="col">
+                <div>
+                    <h5 class="float-left">
+                        <%=classinfo.className%>
+                    </h5>
+                    <p class="float-right m-0">指導老師:
+                        <%=teacher.name%>
+                    </p>
+                </div>
+
+                <div class="md-form">
+                    <textarea type="text" id="outline" name="outline" class="md-textarea form-control " style="resize: none;height: 12rem;"><%=classinfo.outline%></textarea>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand mr-auto" href="#">課程單元與教材</a>
+                    <form class="form-inline my-2 my-lg-0">
+                        <%if(user.permission =='teacher'){%>
+                        <%if(user.id == classinfo.teacher){%>
+                        <a href="/class/classManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0"
+                            type="submit">管理</a>
+                        <%}%>
+                        <%}%>
+                    </form>
+                </nav>
+                <hr>
+                <div class="list-group">
+                    <%units.forEach(function(unit){%>
+                    <a href="#" class="list-group-item list-group-item-action disabled">
+                        <%=unit.unitName%></a>
+                    <%})%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <h5>課程人數：0</h5>
+        <table class="table table-striped">
+
+            <tbody>
+                <tr>
+                    <th scope="row">上課時間</th>
+                    <td>
+                        <%=classinfo.classTime%>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th scope="row">上課地點</th>
+                    <td>
+                        <%=classinfo.classRoom%>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <th scope="row">學分數</th>
+                    <td>
+                        <%=classinfo.credit%>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+        <%if(user.permission == "teacher"){%>
+        <%if(classinfo.teacher == user._id){%>
+        <button class="btn btn-info form-control mb-2">課程上架</button>
+        <button class="btn btn-info form-control mb-2">助教管理</button>
+        <button class="btn btn-info form-control mb-2">成員管理</button>
+        <button class="btn btn-info form-control mb-2">批閱考卷</button>
+        <button class="btn btn-info form-control mb-2">學習狀況</button>
+        <button class="btn btn-info form-control mb-2">討論區</button>
+        <button class="btn btn-danger form-control mb-2 " id="deleteCourse">刪除課程</button>
+        <%}%>
+        <%}else{%>
+        <button class="btn btn-success form-control mb-2 " style="height: 100px;font-size: 20px">參加此課程</button>
+        <%}%>
+
+    </div>
+</div>
+<script>
+    let deleteCourseBtn = document.getElementById('deleteCourse');
+    deleteCourseBtn.onclick = function () {
+        result = window.confirm("你確定要刪除課程嗎？");
+        if (result == true) {
+            window.location = "/class/deleteCourse/<%=classinfo._id%>";
+        } else {
+
+        }
+
+    }
+</script>
+<% include layout/footer %>

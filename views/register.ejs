@@ -1,0 +1,68 @@
+<% include layout/header %>
+
+<h1>
+    註冊
+</h1>
+<form method="POST" action="/users/register">
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" name="name">
+    </div>
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="text" class="form-control" name="email">
+    </div>
+    <div class="form-group">
+        <label>Username:</label>
+        <input type="text" class="form-control" name="username">
+    </div>
+    <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control" name="password">
+    </div>
+    <div class="form-group">
+        <label>Confirm Password:</label>
+        <input type="password" class="form-control" name="password2">
+    </div>
+    <div class="form-group">
+        <label style="margin-right: 10px">身份</label>
+        <label>學生</label>
+        <input type="checkbox" id="student" name="student">
+        <label>老師</label>
+        <input type="checkbox" id="teacher" name="teacher">
+    </div>
+    <div id="hide" style="display: none">
+        <div class="form-group">
+            <label>學校名稱:</label>
+            <input type="text" class="form-control" name="schoolname">
+        </div>
+        <div class="form-group">
+            <label>科系:</label>
+            <input type="text" class="form-control" name="department">
+        </div>
+        <div class="form-group">
+            <label>學號:</label>
+            <input type="text" class="form-control" name="studentid">
+        </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="註冊">
+</form>
+
+<script>
+    var studentCheckbox = document.getElementById('student');
+    var teacherCheckbox = document.getElementById('teacher');
+    var hideForm = document.getElementById('hide');
+    studentCheckbox.onclick = function () {
+        if (studentCheckbox.checked) {
+            teacherCheckbox.checked = false;
+            hideForm.style.display = "block";
+        }
+    }
+    teacherCheckbox.onclick = function () {
+        if (teacherCheckbox.checked) {
+            studentCheckbox.checked = false;
+            hideForm.style.display = "none";
+        }
+    }
+</script>
+<% include layout/footer %>

@@ -1,0 +1,18 @@
+<% include layout/header %>
+<h1>
+    <%=title%>
+</h1>
+
+<form method="POST" action="/articles/edit/<%=article._id%>">
+    <div class="form-group">
+        <label>Title:</label>
+        <input type="text" class="form-control" name="title" value="<%=article.title%>">
+    </div>
+    <div class="form-group">
+        <label>Body:</label>
+        <textarea name="body" class="form-control" rows="20"><%=article.body%></textarea>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Edit">
+</form>
+
+<% include layout/footer %>

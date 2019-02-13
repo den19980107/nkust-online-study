@@ -1,0 +1,53 @@
+<% include layout/header %>
+<style>
+    /* 文字超過自動省略成... */
+    .ellipsisText {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<section class="jumbotron text-center" style="height: 50%">
+    <div class="container">
+        <h1 class="jumbotron-heading">選修各式各樣的課！</h1>
+        <p class="lead text-muted">我這該死的～無處安方的～魅力</p>
+        <p>
+            <a href="#" class="btn btn-primary my-2">藍色按鈕</a>
+            <a href="#" class="btn btn-secondary my-2">灰色按鈕</a>
+        </p>
+    </div>
+</section>
+<div class="album  bg-light">
+    <div class="container">
+        <div class="row">
+            <% for(var i=0; i<classes.length; i++) {%>
+            <div class="col-md-3">
+                <div class="card" style="width: 100%;margin-top: 20px">
+
+                    <img class="card-img-top bg-dark" style="height: 14rem">
+                    <div class="centered">
+                        <h5 id="imgTitle" style="color: white; position: absolute;top: 7rem;left: 50%;transform: translate(-50%, -50%);">
+                            <%=classes[i].className%>
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title ellipsisText" id="cardTitle">
+                            <%=classes[i].className%>
+                        </h5>
+                        <p class="card-text ellipsisText" id="cardOutline">
+                            <%=classes[i].outline%>
+                        </p>
+                        <a href="/class/<%=classes[i]._id%>" class="btn btn-primary">查看課程</a>
+
+                    </div>
+                </div>
+            </div>
+
+            <%}%>
+        </div>
+
+    </div>
+</div>
+
+<% include layout/footer %>

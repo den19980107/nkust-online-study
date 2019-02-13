@@ -1,0 +1,125 @@
+<% include layout/header %>
+<h4>新增課程</h4>
+<hr>
+<div class="row">
+    <div class="col-7">
+        <form method="POST" action="/class/CreateNewClass">
+            <label>課程名稱</label>
+            <input type="text" class="form-control" name="title" id="title">
+            <label>課程大綱</label>
+            <div class="md-form">
+                <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10" style="resize: none"></textarea>
+            </div>
+            <label>課程學分數</label>
+            <input type="number" class="form-control" name="credit" value="0">
+            <label>上課教室</label>
+            <input type="text" class="form-control" name="classroom">
+            <label>上課時間</label>
+            <table class="table table-bordered" id="table">
+                <thead>
+                    <tr>
+                        <th scope="col">禮拜一</th>
+                        <th scope="col">禮拜二</th>
+                        <th scope="col">禮拜三</th>
+                        <th scope="col">禮拜四</th>
+                        <th scope="col">禮拜五</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+            <input id="chooseClassTime" class="form-control" name='chooseClassTime'></input>
+            <br>
+            <label>課程封面</label>
+            <input type="file" class="form-control-file">
+            <br>
+            <input type="submit" class="btn btn-primary float-right" value="新增課程">
+        </form>
+    </div>
+    <div class="col">
+        <h4>預覽</h4>
+        <div class="card" style="width: 22rem;">
+
+            <img class="card-img-top bg-light" style="height: 14rem">
+            <div class="centered">
+                <h4 id="imgTitle">預設封面</h4>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title" id="cardTitle">您的課程標題</h5>
+                <p class="card-text" id="cardOutline">您的課程簡介</p>
+                <a href="#" class="btn btn-primary">查看課程</a>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        padding-bottom: 20px;
+    }
+
+    .centered {
+        position: absolute;
+        top: 7rem;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<script>
+    let title = document.getElementById('title');
+    let cardTitle = document.getElementById('cardTitle');
+    let imgTitle = document.getElementById('imgTitle');
+    let outline = document.getElementById('outline');
+    let cardOutline = document.getElementById('cardOutline');
+    let table = document.getElementById('table');
+    let tbody = document.getElementById('tbody');
+    let chooseClassTimeLabel = document.getElementById('chooseClassTime');
+    title.oninput = function () {
+        cardTitle.innerHTML = title.value;
+        imgTitle.innerHTML = title.value;
+    }
+    outline.oninput = function () {
+        cardOutline.innerHTML = outline.value;
+    }
+
+
+    let chooseClassTime = [];
+    if (table != null) {
+        for (let i = 1; i <= 10; i++) {
+            let tr = document.createElement('tr');
+
+            for (let j = 1; j <= 5; j++) {
+                let td = document.createElement('td');
+                if (i == 9) {
+                    td.innerHTML = 'A';
+                } else if (i == 10) {
+                    td.innerHTML = 'B';
+                } else {
+                    td.innerHTML = i;
+                }
+
+                td.id = j + '-' + i
+                td.onclick = function () {
+                    if (this.className == 'bg-dark text-white') {
+                        this.className = '';
+                        chooseClassTime.splice(chooseClassTime.indexOf(this.id), 1);
+                        chooseClassTimeLabel.innerHTML = chooseClassTime;
+                        chooseClassTimeLabel.value = chooseClassTime;
+                        console.log(chooseClassTime);
+                    } else {
+                        this.className = 'bg-dark text-white'
+                        chooseClassTime.push(this.id);
+                        chooseClassTimeLabel.innerHTML = chooseClassTime
+                        chooseClassTimeLabel.value = chooseClassTime;
+                        console.log(chooseClassTime);
+                    }
+
+                }
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        }
+    }
+</script>
+<% include layout/footer %>

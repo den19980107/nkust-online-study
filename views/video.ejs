@@ -1,0 +1,210 @@
+<% include layout/header %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous">
+<style>
+    .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: rgb(230, 65, 54);
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: rgb(230, 65, 54);
+    cursor: pointer;
+  }
+  </style>
+<h3>
+    <%=video.videoName%>
+</h3>
+<div class="row">
+    <div class="col-8 ">
+
+        <div id="player">
+        </div>
+        <div id="progress">
+            <input type="range" id="slider" value="0" class="slider" style="width: 100%;">
+        </div>
+        <div id="controler" style="position: relative;padding: 2px 10px;background: rgba(0,0,0,0.8)">
+            <i class="fas fa-play mr-2" style="color: white;" id="PlayPauseBtn" onclick="controlVideo(this)"></i>
+            <span class="mr-2" style="color:white;">00:00</span>
+            <i class="fas fa-volume-up mr-0" style="color: white;"></i>
+            <input type="range">
+            <div style="position: absolute;right: 15px;top: 6px">
+                <i class="fas fa-expand" style="color: white;" id="fullScreenBtn" onclick="playFullscreen()"></i>
+            </div>
+        </div>
+        <h5 class="pt-2">影片描述</h5>
+        <hr>
+        <p style="padding-left: 20px">....</p>
+        <hr>
+        <h5>留言</h5>
+        <form>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">
+                    <%=user.username%></label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="Password">
+                </div>
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary">送出</button>
+                </div>
+            </div>
+        </form>
+        <div id="reply" class="bg-white ">
+            <br>
+            <ul class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="row">
+                        <div class="col-1">
+                            <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
+                        </div>
+                        <div class="col-9">
+
+                            <p class="mb-1">上次老師說的那個泡沫...</p>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                    </div>
+                </a>
+            </ul>
+        </div>
+
+
+    </div>
+    <div class="col pl-4">
+        <button class="form-control mb-2">單元內影片</button>
+        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc">
+        </div>
+        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
+        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
+        <button class="form-control mb-2">相關影片</button>
+        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
+        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
+        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
+
+    </div>
+</div>
+
+
+<script>
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+
+    function onYouTubeIframeAPIReady() {
+        let width = document.getElementsByClassName('col-8')[0].clientWidth * 0.96;
+        let height = (document.getElementsByClassName('col-8')[0].clientWidth * 9) / 16;
+        console.log(width);
+        console.log(height);
+        player = new YT.Player('player', {
+            height: height,
+            width: width,
+            videoId: '<%=video.videoURL%>',
+            events: {
+                'onReady': onPlayerReady
+            },
+            playerVars: {
+                autoplay: 0,
+                controls: 0,
+                disablekb: 1,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0
+            }
+        });
+        console.log(document.getElementById('player'));
+    }
+    let vtime = 0;
+    let nowtime = 0;
+    let slider = document.getElementById('slider');
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        // event.target.playVideo();
+        vtime = player.getDuration();
+        slider.max = vtime;
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+
+
+    function stopVideo() {
+        player.stopVideo();
+    }
+
+    window.onload = function () {
+        $(window).resize(function () {
+            console.log("asd");
+
+            let width = document.getElementsByClassName('col-8')[0].clientWidth * 0.95;
+            let height = (document.getElementsByClassName('col-8')[0].clientWidth * 9) / 16;
+            player.setSize(width, height);
+        });
+
+
+        slider.onchange = function () {
+            console.log(slider.value);
+            player.seekTo(slider.value);
+        }
+
+    }
+
+    function controlVideo(e) {
+        let play = "fas fa-play mr-2";
+        let pause = "fas fa-pause mr-2";
+        let fullscreen = "fas fa-expand";
+        let PlayPauseBtn = document.getElementById('PlayPauseBtn');
+        let fullscreenbtn = document.getElementById('fullscreenBtn');
+        if (e.className == play) {
+            PlayPauseBtn.className = pause;
+            player.playVideo();
+        } else if (e.className == pause) {
+            PlayPauseBtn.className = play;
+            player.pauseVideo();
+        } else if (e.className == fullscreen) {
+
+        }
+        console.log(e);
+    }
+
+    function playFullscreen() {
+        let playerElement = document.getElementById('player');
+        var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
+        requestFullScreen.bind(playerElement)();
+    }
+
+    setInterval(function () {
+        nowtime = player.getCurrentTime();
+        slider.value = nowtime;
+    }, 1000);
+</script>
+<% include layout/footer %>

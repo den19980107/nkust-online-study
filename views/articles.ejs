@@ -1,0 +1,176 @@
+<% include layout/header %>
+<script src="https://cdn.ckeditor.com/4.11.1/full/ckeditor.js"></script>
+<style>
+    p{
+        display : inline-block;
+        overflow : hidden;
+        text-overflow : ellipsis;
+        white-space : nowrap;
+        width : 100%; 
+    }
+    .name{
+        display : inline-block;
+        overflow : hidden;
+        text-overflow : ellipsis;
+        white-space : nowrap;
+        width : 100%; 
+    }
+</style>
+<h5>
+    <%=title%>
+</h5>
+<hr>
+<nav class="navbar navbar-light ">
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <div class="float-left">
+        <button style="margin-right: 5px;" type="button" class="btn btn-success my-2 my-sm-0" data-toggle="modal"
+            data-target=".bd-example-modal-lg">
+            新增文章
+        </button>
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">新增文章</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/articles/add">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">文章標題</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="DiscussTitle" placeholder="請輸入文章標題"
+                                        name="title">
+                                </div>
+                            </div>
+                            <p>文章內容</p>
+                            <div class="md-form">
+                                <textarea type="text" id="DiscussDetail" class="md-textarea form-control" rows="10"
+                                    name="body"></textarea>
+                            </div>
+
+                            <br>
+                            <input type="submit" class="btn btn-primary" value="新增">
+                        </form>
+
+                        <div id="example1" class="taggle_list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                排序
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">依照發佈時間</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">依照留言數量</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">依照投票次數</a>
+
+            </div>
+        </div>
+
+</nav>
+<hr>
+
+<div class="list-group" id="list">
+    <%articles.forEach(function(article){%>
+    <a href="/articles/<%=article._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="row">
+            <div class="col-1">
+                <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
+                <small class="text-center name">
+                    <%=article.author%>
+                </small>
+            </div>
+            <div class="col-9">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        <%=article.title%>
+                    </h5>
+                    <small class="text-muted">3 days ago</small>
+                </div>
+                <p class="mb-1">
+                    <%=article.body%>
+                </p>
+                <small class="text-muted">1則回覆</small>
+            </div>
+            <div class="col-1">
+                <div class="row">
+                    <div class="col">
+                        <p class="text-center">Like</p>
+
+                    </div>
+                    <div class="col">
+                        <h5 class="text-center">13</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="row">
+                    <div class="col">
+                        <p class="text-center">View</p>
+
+                    </div>
+                    <div class="col">
+                        <h5 class="text-center">20</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+    <%})%>
+</div>
+<script>
+    CKEDITOR.replace('DiscussDetail', {
+        height: 400,
+        toolbar: [{
+                name: 'save',
+                items: ['savebtn', 'Undo', 'Redo']
+            },
+            {
+                name: 'clipboard',
+                items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord']
+            },
+            {
+                name: 'document',
+                items: ['Find', 'Replace']
+            },
+            {
+                name: 'lists',
+                items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent']
+            },
+            {
+                name: 'insert',
+                items: ['Image', 'Table', 'Smiley', 'SpecialChar']
+            },
+            {
+                name: 'link',
+                items: ['Link', 'Unlink']
+            },
+            '/',
+            {
+                name: 'basicstyles',
+                items: ['Font', 'FontSize', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+                    'Superscript'
+                ]
+            },
+            //'/',
+            {
+                name: 'align',
+                items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+            }
+        ]
+    });
+</script>
+
+<% include layout/footer %>

@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <title>線上學習平台</title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Brand</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <%if(user){%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/articles">討論區</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/class">課程</a>
+                </li>
+                <%}%>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <%if(user){%>
+                <%if(user.permission == "teacher"){%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/class/CreateNewClass">
+                        新增課程
+                    </a>
+                </li>
+                <%}%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/userinfo">
+                        <%=user.username%>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/logout">登出</a>
+                </li>
+                <%}else{%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/register">註冊<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/login">登入</a>
+                </li>
+                <%}%>
+
+            </ul>
+
+        </div>
+    </nav>
+    <br>
+
+    <%- messages('message', locals) %>
+    <!-- ejs 的if如果要確定他有沒有傳過來的話是要用typeof -->
+    <% if(typeof errors !== 'undefined') { %>
+    <%errors.forEach(function(error){%>
+    <div class="alert alert-danger">
+        <%=error.msg%>
+    </div>
+    <%})%>
+    <%}%>

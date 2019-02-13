@@ -1,0 +1,527 @@
+<% include layout/header %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+    crossorigin="anonymous">
+<script src="https://cdn.ckeditor.com/4.11.1/full/ckeditor.js"></script>
+
+<style>
+    .just-padding {
+        padding: 15px;
+    }
+
+    .list-group.list-group-root {
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .list-group.list-group-root .list-group {
+        margin-bottom: 0;
+    }
+
+    .list-group.list-group-root .list-group-item {
+        border-radius: 0;
+        border-width: 1px 0 0 0;
+    }
+
+    .list-group.list-group-root>.list-group-item:first-child {
+        border-top-width: 0;
+    }
+
+    .list-group.list-group-root>.list-group>.list-group-item {
+        padding-left: 30px;
+    }
+
+    .list-group.list-group-root>.list-group>.list-group>.list-group-item {
+        padding-left: 45px;
+    }
+
+    .list-group-item .fa {
+        margin-right: 5px;
+    }
+    
+    /* 文字超過自動省略成... */
+    .ellipsisText {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: inherit;
+        
+    }
+
+</style>
+<div class="row">
+    <div class="col-4">
+        <div>
+            <h5 class="float-left">單元總覽</h5>
+            <button type="button" class="btn-danger float-right" id="deleteUnitBtn" onclick="showDelete()">刪除單元</button>
+            <button type="button" class="btn-secondary float-right mr-2" data-toggle="modal" data-target="#myModal">新增單元</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modal Header</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>請輸入單元名稱</p>
+                            <input type="text" id="unitName" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="createNewUnit()">確定</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="just-padding">
+            <div class="list-group list-group-root">
+                <%units.forEach(function(unit){%>
+                <div class="row border-top">
+
+                    <div class="col border-0">
+                        <a href="/class/<%=classinfo._id%>/showUnit/<%=unit._id%>" class="list-group-item list-group-item-action border-0">
+                            <%=unit.unitName%>
+                        </a>
+                    </div>
+                    <div class="col-2 border-0 showAddUnit">
+                        <!-- <div class="modal fade" id="addNewChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">新增章節</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>請輸入章節名稱</p>
+                                        <input type="text" id="chapterName" class="form-control">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" onclick="addNewChapter('<%=unit._id%>')" class="btn btn-secondary">新增</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-2 border-0 showDeleteUnit" style="display: none;">
+                        <a class="btn btn-danger float-right" href="/class/classManager/<%=classinfo._id%>/deleteUnit/<%=unit._id%>"
+                            style=" width: 36px;color: white;"><span>-</span></a>
+                    </div>
+
+                </div>
+
+                <%})%>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col bg-light" style="height: 500px;">
+        <!-- 如果使用者有選取單元的話 -->
+        <%if(typeof chapters !="undefined" ){%>
+        <label class="m-0">
+            <%=unitName%></label>
+        <label style="display: none;" id="unitID" value="<%=unitID%>">
+            <%=unitID%>
+        </label>
+        <label style="display: none;" id="classID" value="<%=classinfo._id%>">
+            <%=classinfo._id%>
+        </label>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary w-100 mb-10">講義</button>
+                <hr>
+                <div class="list-group" style="height: 55%;overflow-y: scroll;">
+                    <%if(typeof chapters !="undefined" ){%>
+                    <%chapters.forEach(function(chapter){%>
+                    <div class="alert alert-warning alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
+                        role="alert">
+                        <p style="padding: 0;margin: 0 " onclick="showChapter('<%=chapter._id%>')">
+                            <%=chapter.chapterName%>
+                        </p>
+
+                        <a class="close" style="padding: 12px;">
+                            <span class=" delete-chapter" id="<%=chapter._id%>" aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+
+                    <%})%>
+                    <%}%>
+
+                </div>
+                <br>
+                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#addLecture">新增</button>
+                <!-- Modal -->
+                <div class="modal fade" id="addLecture" tabindex="-1" role="dialog" aria-labelledby="eaddLectureLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addLectureLabel">新增講義</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- TODO 加入新增講義功能 要想辦法拿到unit_id -->
+                                <form method="POST" action="/class/unit/addLecture">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">講義名稱</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="DiscussTitle" placeholder="請輸入講義名稱"
+                                                name="title">
+                                        </div>
+                                    </div>
+                                    <input type="text" name="unitID" style="display: none" value="<%=unitID%>">
+                                    <input type="text" name="classID" style="display: none" value="<%=classinfo._id%>">
+
+                                    <p>講義內容</p>
+                                    <div class="md-form">
+                                        <textarea type="text" id="LectureDetail" class="md-textarea form-control" rows="10"
+                                            name="body"></textarea>
+                                    </div>
+                                    <br>
+                                    <input id="addNewChapterbtn" type="submit" class="btn btn-primary float-right"
+                                        value="新增">
+                                </form>
+
+                                <div id="example1" class="taggle_list"></div>
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary w-100">影片</button>
+                <hr>
+                <div style="height: 55%;overflow-y: scroll;">
+                    <!-- 顯示影片列表 -->
+                    <%if(typeof videos !="undefined" ){%>
+                    <%videos.forEach(function(video){%>
+                    <div class="alert alert-warning alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
+                        role="alert">
+                        <!-- TODO:把showVideo做好 -->
+                        <p style="padding: 0;margin: 0 " onclick="showVideo('<%=video._id%>')">
+                            <%=video.videoName%>
+                        </p>
+                        <a class="close" style="padding: 12px;">
+                            <span class="delete-video" id="<%=video._id%>" aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+
+                    <%})%>
+                    <%}%>
+                </div>
+                <br>
+                <button class="btn btn-secondary w-100" id="newVideo" data-toggle="modal" data-target="#uploadVideoModal">新增</button>
+                <!-- Modal -->
+                <div class="modal fade" id="uploadVideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">上傳影片</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="nav nav-tabs" id="tabContent" style="border: none">
+                                    <li class="mr-2"><a href="#fileTab" class="badge badge-info" data-toggle="tab">檔案</a></li>
+                                    <li><a href="#URLTab" class="badge badge-info" data-toggle="tab">網址</a></li>
+                                </ul>
+                                <br>
+                                <div class="tab-content">
+
+                                    <!-- file upload panel -->
+                                    <div class="tab-pane active" id="fileTab">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-default">影片名稱</span>
+                                            </div>
+                                            <input type="text" id="videoTitle" class="form-control" aria-label="Default"
+                                                aria-describedby="inputGroup-sizing-default" placeholder="請輸入影片名稱">
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">上傳</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="select-file">
+                                                <label class="custom-file-label" for="select-file-button" id="file-text">選擇檔案</label>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            var selectFile = document.getElementById('select-file');
+                                        var fileText = document.getElementById('file-text');
+                                        selectFile.addEventListener('change',function(){
+                                            var fileName = selectFile.files[0].name;
+                                      
+                                            fileText.innerHTML = fileName;
+                                        });
+                                    </script>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="progress mt-1" id="uploadProgressBar">
+                                                    <div id="uploadPersent" class="progress-bar " role="progressbar"
+                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                        <p id="persentText" class="mt-3 px-1">0%</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <table id="uploadVideoList" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">影片名稱</th>
+                                                    <th scope="col">影片網址</th>
+                                                </tr>
+                                            </thead>
+                                            </tbody>
+
+                                            </tbody>
+                                        </table>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning" id="execute-request-button">登入老師youtube影片帳號</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                            <button type="button" class="btn btn-primary" id="upload-file-button">上傳</button>
+                                        </div>
+
+                                    </div>
+                                    <!-- end of file upload panel -->
+
+                                    <!-- URL upload panel -->
+                                    <div class="tab-pane" id="URLTab">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-default">影片名稱</span>
+                                            </div>
+                                            <input id="URL-videoName" type="text" class="form-control" aria-label="Default"
+                                                aria-describedby="inputGroup-sizing-default" placeholder="請輸入影片名稱">
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-default">影片網址</span>
+                                            </div>
+                                            <input id="URL-videoURL" type="text" class="form-control" aria-label="Default"
+                                                aria-describedby="inputGroup-sizing-default" placeholder="請輸入影片網址">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning" id="execute-request-button">登入老師youtube影片帳號</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                            <button type="button" class="btn btn-primary" id="upload-videoURL-button">上傳</button>
+                                        </div>
+                                    </div>
+                                    <!-- end of URL upload panel -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+
+            </div>
+            <div class="col">
+                <button class="btn btn-primary w-100">試卷</button>
+                <hr>
+                <div style="height: 55%;overflow-y: scroll;"></div>
+                <br>
+                <button class="btn btn-secondary w-100">新增</button>
+            </div>
+
+        </div>
+        <%}%>
+    </div>
+</div>
+<script>
+    function createNewUnit() {
+        let unitName = document.getElementById('unitName');
+
+        $.ajax({
+            type: 'POST',
+            url: '/class/<%=classinfo._id%>/addUnit',
+            data: {
+                unitname: unitName.value
+            },
+            success: function (response) {
+                alert('新增成功');
+                window.location = '/class/classManager/<%=id%>';
+            },
+            error: function (err) {
+                alert('新增失敗');
+                console.log(err);
+            }
+        });
+    }
+
+    function showDelete() {
+        let showAddUnit = document.getElementsByClassName("showAddUnit");
+        let showDeleteUnit = document.getElementsByClassName("showDeleteUnit");
+        let deleteUnitBtn = document.getElementById("deleteUnitBtn");
+        for (let i = 0; i < showAddUnit.length; i++) {
+            if (showAddUnit[i].style.display == "none") {
+                showAddUnit[i].style.display = "inline";
+                showDeleteUnit[i].style.display = "none";
+                deleteUnitBtn.innerHTML = "刪除單元";
+                deleteUnitBtn.className = "btn-danger float-right";
+            } else {
+                showAddUnit[i].style.display = "none";
+                showDeleteUnit[i].style.display = "inline";
+                deleteUnitBtn.innerHTML = "完成";
+                deleteUnitBtn.className = "btn-success float-right";
+            }
+        }
+    }
+
+    CKEDITOR.replace('LectureDetail', {
+        height: 400,
+        toolbar: [{
+                name: 'save',
+                items: ['savebtn', 'Undo', 'Redo']
+            },
+            {
+                name: 'clipboard',
+                items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord']
+            },
+            {
+                name: 'document',
+                items: ['Find', 'Replace']
+            },
+            {
+                name: 'lists',
+                items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent']
+            },
+            {
+                name: 'insert',
+                items: ['Image', 'Table', 'Smiley', 'SpecialChar']
+            },
+            {
+                name: 'link',
+                items: ['Link', 'Unlink']
+            },
+            '/',
+            {
+                name: 'basicstyles',
+                items: ['Font', 'FontSize', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+                    'Superscript'
+                ]
+            },
+            //'/',
+            {
+                name: 'align',
+                items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+            }
+        ]
+    });
+    window.onload = function () {
+        //刪除講義
+        $('.delete-chapter').on('click', function (e) {
+            result = window.confirm("你確定要刪除這篇講義嗎？");
+            if (result == true) {
+                $target = $(e.target);
+                const id = $target.attr('id');
+                const unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
+                console.log(unitID);
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/class/deletechapter/' + id,
+                    success: function (response) {
+                        window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
+                        alert('刪除成功!');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+
+            }
+
+        })
+        //刪除影片
+        $('.delete-video').on('click', function (e) {
+            result = window.confirm("你確定要刪除這篇講義嗎？");
+            if (result == true) {
+                $target = $(e.target);
+                const id = $target.attr('id');
+                const unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
+                console.log(unitID);
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/class/deletevideo/' + id,
+                    success: function (response) {
+                        window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
+                        alert('刪除成功!');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+
+            }
+
+        })
+        //點擊已新增的講義列表中的一個講義 秀出講義的內容
+        showChapter = function (chapterID) {
+            let path = '/class/showChapter/' + chapterID;
+            window.location = path;
+        }
+
+        //點擊已新增的講義列表中的一個影片 秀出影片的內容
+        showVideo = function (videoID) {
+            let path = '/class/showVideo/' + videoID;
+            window.location = path;
+        }
+        let uploadvideoURLbutton = document.getElementById('upload-videoURL-button');
+        uploadvideoURLbutton.onclick = function () {
+            let classID = document.getElementById('classID').innerText.replace(/\s/g, '');
+            let videoname = document.getElementById('URL-videoName').value;
+            let videoURL = document.getElementById('URL-videoURL').value;
+            let url = '';
+            var pos = videoURL.indexOf("watch?v=");
+            if (pos != -1) {
+                url = videoURL.substring(pos + 8);
+                console.log(url);
+
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' + videoname +
+                    '/' + url,
+                success: function (response) {
+                    window.location = '/class/' + classID + '/showUnit/' + unitID.innerText.replace(
+                        /\s/g, '');
+                    alert('新增成功!');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    }
+</script>
+<script src="/js/uploadVideo.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+<% include layout/footer %>
