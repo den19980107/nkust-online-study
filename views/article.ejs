@@ -37,8 +37,8 @@
                 <div class="float-right">
                     <%if(user){%>
                     <%if(user.id == article.author_id){%>
-                    <a href="/articles/edit/<%=article._id%>" class="btn btn-success">Edit</a>
-                    <a href="#" class="btn btn-danger delete-article" data-id="<%=article._id%>">Delete</a>
+                    <a href="/articles/edit/<%=article._id%>/inClass/<%=belongclass%>" class="btn btn-success">Edit</a>
+                    <a href="#" class="btn btn-danger delete-article" data-id="<%=article._id%>" data-classid="<%=belongclass%>">Delete</a>
                     <%}%>
                     <%}%>
                 </div>

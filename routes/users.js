@@ -2,9 +2,22 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-//Bring in User Model
+//todo 做刪除單元
+let ObjectID = require('mongodb').ObjectID;
+//bring in Article models
+let Article = require('../model/article');
+//bring User model
 let User = require('../model/user');
-
+//bring Class model
+let Class = require('../model/class');
+//bring Unit model
+let Unit = require('../model/unit');
+//bring Chapter model
+let Chapter = require('../model/chapter');
+//bring Video model
+let Video = require('../model/video');
+//bring student take courese model
+let StudebtTakeCourse = require('../model/StudentTakeCourse');
 // Register Form
 router.get('/register', function (req, res) {
     res.render('register');
@@ -26,12 +39,12 @@ router.post('/register', function (req, res) {
     } else if (req.body.teacher) {
         permission = "teacher";
     }
-    req.checkBody('name', 'Name is required').notEmpty();
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Email is not valid').isEmail();
-    req.checkBody('username', 'Username is required').notEmpty();
-    req.checkBody('password', 'password is required').notEmpty();
-    req.checkBody('password2', 'Password do not match').equals(req.body.password);
+    req.checkBody('name', '名字不得為空').notEmpty();
+    req.checkBody('email', 'Email不得為空').notEmpty();
+    req.checkBody('email', 'Email格式錯誤').isEmail();
+    req.checkBody('username', '帳號不得為空').notEmpty();
+    req.checkBody('password', '密碼不得為空').notEmpty();
+    req.checkBody('password2', '密碼不相符合').equals(req.body.password);
     if (permission == "student") {
         req.checkBody('schoolname', '請輸入您的學校名稱').notEmpty();
         req.checkBody('department', '請輸入您的系別').notEmpty();
@@ -67,7 +80,7 @@ router.post('/register', function (req, res) {
                         console.log(err);
                         return;
                     } else {
-                        req.flash('success', 'You are now registered and can log in');
+                        req.flash('success', '您現在已經註冊且可以使用此帳號密碼登入了！');
                         res.redirect('/users/login'); //?
                     }
                 });
@@ -104,14 +117,16 @@ router.post('/login', function (req, res, next) {
 
 //User info 
 router.get('/userinfo', function (req, res) {
-    res.render('userinfo');
+    res.render('userinfo', {
+        authenticate: true
+    });
 });
 
 
 //Logout 
 router.get('/logout', function (req, res) {
     req.logout();
-    req.flash('success', 'You are logout');
+    req.flash('success', '您已登出！');
     res.redirect('/users/login');
 });
 
@@ -132,4 +147,46 @@ router.post('/updateUserinfo', function (req, res) {
     })
 });
 
+//顯示我選的課
+router.get('/myclass', function (req, res) {
+    if (req.user.permission == "student") {
+        StudebtTakeCourse.find({
+            studentID: req.user._id
+        }, function (err, classes) {
+            if (err) {
+                console.log(err);
+            }
+            console.log(classes);
+            let findClassInfoQuery = [];
+            for (let i = 0; i < classes.length; i++) {
+                findClassInfoQuery.push(ObjectID(classes[i].classID));
+            }
+            Class.find({
+                _id: findClassInfoQuery
+            }, function (err, classesInfo) {
+                if (err) {
+                    console.log(err);
+                }
+                res.render("myclass", {
+                    title: "我修的課",
+                    classes: classesInfo
+                })
+            })
+
+        })
+    }
+    if (req.user.permission == "teacher") {
+        Class.find({
+            teacher: req.user._id
+        }, function (err, classes) {
+            if (err) {
+                console.log(err);
+            }
+            res.render("myclass", {
+                title: "我開的課",
+                classes: classes
+            })
+        })
+    }
+});
 module.exports = router;

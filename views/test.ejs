@@ -1,0 +1,128 @@
+<% include layout/header %>
+<style>
+    .qution{
+        margin-bottom: 2rem;
+        padding: 20px;
+        border-radius:20px;
+        background-color:rgb(255, 255, 255);
+        border: 1px solid rgb(194, 190, 190);
+    }
+    .qution:hover {
+        box-shadow: 0px 0px 10px rgb(180, 198, 235);
+        border: 1px solid rgba(93, 143, 246, 1);
+        z-index: 2;
+        -webkit-transition: all 200ms ease-in;
+        -webkit-transform: scale(1.005);
+        -ms-transition: all 200ms ease-in;
+        -ms-transform: scale(1.005);
+        -moz-transition: all 200ms ease-in;
+        -moz-transform: scale(1.005);
+        transition: all 200ms ease-in;
+        transform: scale(1.005);
+    }
+</style>
+<h4>考卷名稱:
+    <%=test.testName%>
+</h4>
+<hr>
+<div class="col-md-12">
+
+    <%test.testQutions.forEach(function(qution){%>
+    <div class="qution">
+
+        <%if(qution.type=='MCQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （選擇題）
+        </p>
+        <div>
+            <div class="row">
+                <div class="col-2"><input name="textmode" type="radio"> A:
+                    <%=qution.answerA.text%>
+                </div>
+                <div class="col-2"><input name="textmode" type="radio"> B:
+                    <%=qution.answerB.text%>
+                </div>
+                <div class="col-2"><input name="textmode" type="radio"> C:
+                    <%=qution.answerC.text%>
+                </div>
+                <div class="col-2"><input name="textmode" type="radio"> D:
+                    <%=qution.answerD.text%>
+                </div>
+            </div>
+            <br />
+            <p>(配分:
+                <%=qution.score%>)</p>
+        </div>
+
+        <%}%>
+
+        <%if(qution.type=='YNQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （是非題）
+        </p>
+        <div>
+            <div class="row">
+                <div class="col-2"><input name="textmode1" type="radio"> yes</div>
+                <div class="col-2"><input name="textmode1" type="radio"> no</div>
+            </div>
+            <br />
+            <p>(配分:
+                <%=qution.score%>)</p>
+        </div>
+        <%}%>
+
+        <%if(qution.type=='FBQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （填空題）
+        </p>
+        <div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="inputEmail3" class=" col-form-label">請輸入答案:</label>
+                    <input type="text" class="form-control">
+                </div>
+
+            </div>
+            <p>(配分:
+                <%=qution.score%>)</p>
+        </div>
+        <%}%>
+
+        <%if(qution.type=='PGQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （程式題）
+        </p>
+        <div>
+            <p>輸入說明:
+                <%=qution.inputDescription%>
+            </p>
+            <p>輸出說明:
+                <%=qution.outputDescription%>
+            </p>
+            <div class="row">
+                <div class="col ">
+                    <pre>輸入範例：
+<%=qution.inputExample%>
+            </pre>
+                </div>
+                <div class="col ">
+                    <pre>輸出範例：
+<%=qution.outputExample%>
+            </pre>
+                </div>
+            </div>
+
+
+            <p>(配分:
+                <%=qution.score%>)
+            </p>
+        </div>
+        <%}%>
+
+    </div>
+    <%})%>
+
+
+</div>
+
+<% include layout/footer %>

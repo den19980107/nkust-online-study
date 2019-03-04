@@ -1,5 +1,11 @@
 <% include layout/header %>
-
+<style>
+    @media only screen and (max-width: 768px) {
+            .submit{
+                width: 100%
+            }
+        }
+</style>
 <h1>
     註冊
 </h1>
@@ -45,7 +51,7 @@
             <input type="text" class="form-control" name="studentid">
         </div>
     </div>
-    <input type="submit" class="btn btn-primary" value="註冊">
+    <input type="submit" class="btn btn-primary submit" value="註冊">
 </form>
 
 <script>

@@ -1,41 +1,61 @@
 <% include layout/header %>
+<style>
+    @media only screen and (max-width: 768px) {
+        .submit{
+            width: 100%
+        }
+    }
+</style>
 <br>
 <div>
     <h2>修改我的資料</h2>
     <hr>
     <form method="POST" action="/users/updateUserinfo">
-        <h4>簡介</h4>
-        <span>讓其他人可以更認識您</span>
-        <div class="form-group">
-            <textarea name="userinfo" type="text" id="form7" class="md-textarea form-control" rows="10" style="resize: none">
-<%=user.userInfo%>            
-            </textarea>
+
+        <div class="row" style="height: 375px;">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <h4>姓名</h4>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.name%>">
+                </div>
+                <div class="form-group">
+                    <h4>信箱</h4>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.email%>">
+                </div>
+                <%if(user.permission == "student"){%>
+                <div class="form-group">
+                    <h4>學校</h4>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.schoolname%>">
+                </div>
+                <div class="form-group">
+                    <h4>科系</h4>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.department%>">
+                </div>
+                <div class="form-group">
+                    <h4>學號</h4>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.studentid%>">
+                </div>
+
+                <%}%>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <h4>簡介</h4>
+                <span>讓其他人可以更認識您</span>
+                <div class="form-group">
+                    <textarea name="userinfo" type="text" id="form7" class="md-textarea form-control" style="resize: none ;height:100%"><%=user.userInfo%>            
+                    </textarea>
+                </div>
+            </div>
+            <div class="col-12">
+                <%if(authenticate){%>
+                <button type="submit" class="btn btn-primary float-right submit">更改</button>
+                <%}%>
+            </div>
+        </div>
+        <div class="row">
+
         </div>
 
-        <div class="form-group">
-            <h4>姓名</h4>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.name%>">
-        </div>
-        <div class="form-group">
-            <h4>信箱</h4>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.email%>">
-        </div>
-        <%if(user.permission == "student"){%>
-        <div class="form-group">
-            <h4>學校</h4>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.schoolname%>">
-        </div>
-        <div class="form-group">
-            <h4>科系</h4>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.department%>">
-        </div>
-        <div class="form-group">
-            <h4>學號</h4>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=user.studentid%>">
-        </div>
-
-        <%}%>
-        <button type="submit" class="btn btn-primary">更改</button>
     </form>
 
 </div>

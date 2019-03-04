@@ -1,91 +1,225 @@
 <% include layout/header %>
+<style>
+    .unit:link {
+        text-decoration: none;
+    }
+
+    .unit:visited {
+    text-decoration: none;
+    }
+
+    .unit:hover {
+    text-decoration: underline;
+    color: cornflowerblue
+    }
+
+    .unit:active {
+    text-decoration: underline;
+    }
+    .box {
+    background:#ccc;
+    position:relative;
+    overflow:hidden;
+    margin: 0px;
+    }
+    .box:after {
+        padding-top: 56.25%;
+        content:"";
+        display: block;
+    }
+    .img {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        max-width:100%;
+        margin:auto;
+    }
+    .ellipsisText {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .scrollText {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 <div class="row">
-    <div class="col-9">
+    <div class="col-lg-9 col-sm-12">
         <div class="row">
-            <div class=" col">
-                <img class="card-img-top bg-light" style="height: 14rem">
-            </div>
-            <div class="col">
-                <div>
-                    <h5 class="float-left">
-                        <%=classinfo.className%>
+            <div class="col-lg-6 col-sm-12">
+                <div class="row container mb-2">
+                    <h5>
+                        課程封面照片：
                     </h5>
-                    <p class="float-right m-0">指導老師:
-                        <%=teacher.name%>
-                    </p>
+                </div>
+                <%if(img){%>
+                <%if(img.isImage) {%>
+                <div class="row box mb-2">
+                    <img class="card-img-top bg-light w-100 img" src="/class/image/<%=img.filename%>" style="border: 1px solid lightslategray;height: 15rem;overflow: hidden;">
                 </div>
 
+                <%}else{%>
+                <div class="box mb-2">
+                    <img class="img w-100" src="/img/NoImage.png" style="border: 1px solid rgb(226, 226, 226);">
+                </div>
+                <%}%>
+                <%}else{%>
+                <p>no class image</p>
+                <%}%>
+            </div>
+            <div class="col-lg-6 col-sm-12 mb-0">
+                <div class="row mb-0">
+                    <div class="col-lg-7 col-sm-12 mb-2">
+                        <h5 class="float-left scrollText " style="width: 100%;overflow: hidden;">
+                            課程名稱：
+                            <%=classinfo.className%>
+                        </h5>
+
+                    </div>
+                    <div class="col-lg-5 col-sm-12 mb-2">
+                        <p class="mb-0">指導老師:
+                            <%=teacher.name%>
+                        </p>
+                    </div>
+                </div>
+
+
                 <div class="md-form">
-                    <textarea type="text" id="outline" name="outline" class="md-textarea form-control " style="resize: none;height: 12rem;"><%=classinfo.outline%></textarea>
+                    <textarea type="text" id="outline" name="outline" class="md-textarea form-control " style="resize: none;height: 15rem;"><%=classinfo.outline%></textarea>
                 </div>
             </div>
         </div>
         <br>
-        <div class="row">
+        <div class="row mb-2">
             <div class="col">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <a class="navbar-brand mr-auto" href="#">課程單元與教材</a>
                     <form class="form-inline my-2 my-lg-0">
                         <%if(user.permission =='teacher'){%>
                         <%if(user.id == classinfo.teacher){%>
-                        <a href="/class/classManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0"
-                            type="submit">管理</a>
+                        <a href="/class/classManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
+                        </a>
                         <%}%>
                         <%}%>
                     </form>
                 </nav>
-                <hr>
-                <div class="list-group">
+                <hr style="margin-top: 5px">
+                <div class="list-group" id="unitlist">
                     <%units.forEach(function(unit){%>
-                    <a href="#" class="list-group-item list-group-item-action disabled">
-                        <%=unit.unitName%></a>
+                    <a href="/class/<%=classinfo._id%>/showUnit/<%=unit._id%>" class="list-group-item list-group-item-action disabled">
+                        <img src="/img/bookmark-regular.svg" alt="" style="height:20px ; width:20px ; margin-right: 10px">
+                        <%=unit.unitName%>
+                    </a>
                     <%})%>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col">
-        <h5>課程人數：0</h5>
-        <table class="table table-striped">
+    <div class="col-lg-3 col-sm-12">
+        <h5>課程人數：
+            <%=thisClassStudents.length%>
+        </h5>
+        <ul class="list-group">
+            <div id="classtimelist">
+                <li class="list-group-item  text-center  list-group-item-action active">上課時間</li>
+            </div>
 
-            <tbody>
-                <tr>
-                    <th scope="row">上課時間</th>
-                    <td>
-                        <%=classinfo.classTime%>
-                    </td>
+            <li class="list-group-item  text-center  list-group-item-action active">上課地點</li>
+            <li class="list-group-item list-group-item-action" style="line-height: 24px;">
+                <%if(!classinfo.classRoom){%>
+                未設定
+                <%}else{%>
+                <%=classinfo.classRoom%>
+                <%}%>
+            </li>
+            <li class="list-group-item  text-center  list-group-item-action active">學分數</li>
+            <li class="list-group-item list-group-item-action" style="line-height: 24px;">
+                <%=classinfo.credit%>
+            </li>
+        </ul>
+        <br>
+        <script>
+            let data = "<%=classinfo.classTime%>";
+            let classtime = [];
+            classtime = data.split(',');
+            let classtimelist = document.getElementById('classtimelist');
+            if (data.length == 0) {
+                let li = document.createElement('li');
+                li.className = "list-group-item list-group-item-action";
+                li.style.cssText = "line-height:24px";
+                li.innerHTML = '未設定';
+                classtimelist.appendChild(li);
+            } else {
+                for (let i = 0; i < classtime.length; i++) {
+                    let li = document.createElement('li');
+                    li.className = "list-group-item list-group-item-action";
+                    li.style.cssText = "line-height:24px";
+                    li.innerHTML = classtime[i];
+                    classtimelist.appendChild(li);
+                }
+            }
+        </script>
 
-                </tr>
-                <tr>
-                    <th scope="row">上課地點</th>
-                    <td>
-                        <%=classinfo.classRoom%>
-                    </td>
-
-
-                </tr>
-                <tr>
-                    <th scope="row">學分數</th>
-                    <td>
-                        <%=classinfo.credit%>
-                    </td>
-
-
-                </tr>
-            </tbody>
-        </table>
         <%if(user.permission == "teacher"){%>
         <%if(classinfo.teacher == user._id){%>
-        <button class="btn btn-info form-control mb-2">課程上架</button>
+        <%if(classinfo.isLunched){%>
         <button class="btn btn-info form-control mb-2">助教管理</button>
-        <button class="btn btn-info form-control mb-2">成員管理</button>
+        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
         <button class="btn btn-info form-control mb-2">批閱考卷</button>
         <button class="btn btn-info form-control mb-2">學習狀況</button>
-        <button class="btn btn-info form-control mb-2">討論區</button>
+        <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">討論區</a>
+        <%}else{%>
+        <a href="/class/LunchClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">課程上架</a>
+        <button class="btn btn-info form-control mb-2 disabled">助教管理</button>
+        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2 disabled" style="color: white">本班成員</a>
+        <button class="btn btn-info form-control mb-2 disabled">批閱考卷</button>
+        <button class="btn btn-info form-control mb-2 disabled">學習狀況</button>
+        <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2 disabled" style="color: white">討論區</a>
+        <%}%>
         <button class="btn btn-danger form-control mb-2 " id="deleteCourse">刪除課程</button>
         <%}%>
-        <%}else{%>
-        <button class="btn btn-success form-control mb-2 " style="height: 100px;font-size: 20px">參加此課程</button>
+        <%}%>
+        <%if(user.permission == "student"){%>
+        <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">討論區</a>
+        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
+        <a href="/SDC/student/<%=user._id%>/Take/class/:<%=classinfo._id%>" id="takeClassBtn" class="btn btn-success form-control "
+            style="color:white">參加此課程</a>
+        <hr>
+        <button id="quitClassBtn" class="btn btn-danger form-control " style="color:white ;display: none">退出此課程</button>
+        <script>
+            let thisClassStudents = <%- JSON.stringify(thisClassStudents)%>
+            let isin = false;
+            let takeClassBtn = document.getElementById('takeClassBtn');
+            let quitClassBtn = document.getElementById('quitClassBtn');
+            for (let i = 0; i < thisClassStudents.length; i++) {
+                if (thisClassStudents[i].studentID == "<%=user._id%>") {
+                    takeClassBtn.style.cssText = "display:none";
+                    isin = true;
+                }
+            }
+            if (isin) {
+                let unitlist = document.getElementById('unitlist');
+                for (let i = 0; i < unitlist.children.length; i++) {
+                    unitlist.children[i].className = "list-group-item list-group-item-action unit";
+                }
+                quitClassBtn.style.cssText = "display:block";
+                quitClassBtn.onclick = function () {
+                    let r = confirm("確定要退出此課程嗎");
+                    if (r == true) {
+                        window.location = "/SDC/student/<%=user._id%>/Quit/class/:<%=classinfo._id%>";
+                    } else {
+
+                    }
+                }
+            } else {
+                quitClassBtn.style.cssText = "display:none";
+            }
+        </script>
         <%}%>
 
     </div>
@@ -102,4 +236,5 @@
 
     }
 </script>
+
 <% include layout/footer %>

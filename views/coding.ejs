@@ -1,0 +1,128 @@
+<% include layout/header %>
+<style>
+    .Category {
+        display: flex;
+        justify-content: space-between;
+    }
+    .noHoverStyle:hover{
+        outline: none;
+        text-shadow: none;
+    }
+    .noHoverStyle{
+        outline: none;
+        text-shadow: none;
+        border: 1px rgb(104, 103, 103) solid;
+        padding: 0 .8em
+
+    }
+</style>
+<div class="row">
+    <div class="col-9">
+        <section style="width: 100%;height: auto%;background: #ccc">
+            <img src="/img/程式區招牌.png" class="img-fluid">
+        </section>
+        <div style="margin-top: 2em;">
+            <h5>分類</h5>
+            <div class="Category">
+                <button class="btn btn-primary" style="width: 10em;height: 5em;">演算法</button>
+                <button class="btn btn-secondary" style="width: 10em;height: 5em;">資料結構</button>
+                <button class="btn btn-success" style="width: 10em;height: 5em;">圖形理論</button>
+                <button class="btn btn-info" style="width: 10em;height: 5em;">組合優化</button>
+                <button class="btn" style="width: 10em;height: 5em;background: rgb(71, 189, 134);color: white">動態規劃</button>
+            </div>
+            <hr>
+            <div class="search" style="margin-top: 2em;">
+                <form action="" class="form Category">
+                    <input type="text" class="noHoverStyle" style="width: 50%;border-radius: 20px">
+                    <div>
+                        <span>難易度:</span>
+                        <select name="" id="">
+                            <option value="volvo">簡單</option>
+                            <option value="saab">普通</option>
+                            <option value="mercedes">困難</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>解題狀態:</span>
+                        <select name="" id="">
+                            <option value="volvo">還沒解過</option>
+                            <option value="saab">以後要解</option>
+                            <option value="mercedes">解決了</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>標籤:</span>
+                        <select name="" id="">
+                            <option value="volvo">簡單</option>
+                            <option value="saab">普通</option>
+                            <option value="mercedes">困難</option>
+                        </select>
+                    </div>
+                </form>
+
+            </div>
+            <div class="topic" style="margin-top: 2em;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">題目</th>
+                            <th scope="col">解題率</th>
+                            <th scope="col">難易度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Two Sum</td>
+                            <td>73.4%</td>
+                            <td><span class="badge badge-success" style="font-size: 14px">簡單</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Median of Two Sorted Arrays </td>
+                            <td>27.3%</td>
+                            <td><span class="badge badge-danger" style="font-size: 14px">困難</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Longest Palindromic Substring </td>
+                            <td>47.5%</td>
+                            <td><span class="badge badge-warning" style="font-size: 14px;color: white">普通</span></td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>Two Sum</td>
+                            <td>73.4%</td>
+                            <td><span class="badge badge-success" style="font-size: 14px">簡單</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>Median of Two Sorted Arrays </td>
+                            <td>27.3%</td>
+                            <td><span class="badge badge-danger" style="font-size: 14px">困難</span></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>Longest Palindromic Substring </td>
+                            <td>47.5%</td>
+                            <td><span class="badge badge-warning" style="font-size: 14px;color: white">普通</span></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div style="width: 100%">
+            <div>
+                <h5>你的活動紀錄</h5>
+                <canvas id="myChart" style="width: 100%;height:300px;background: #cccccc"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include layout/footer %>

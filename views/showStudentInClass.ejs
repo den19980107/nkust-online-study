@@ -1,0 +1,38 @@
+<% include layout/header %>
+<h3>本班同學</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">姓名</th>
+            <th class="text-center" scope="col">科系</th>
+            <th class="text-center" scope="col">學號</th>
+            <th class="text-center" scope="col">信箱</th>
+            <th class="text-center" scope="col">個人網頁</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <%students.forEach(function(student){%>
+        <tr>
+            <td class="text-center">
+                <%=student.name%>
+            </td>
+            <td class="text-center">
+                <%=student.department%>
+            </td>
+            <td class="text-center">
+                <%=student.studentid%>
+            </td>
+            <td class="text-center">
+                <a href="mailto:<%=student.email%>">電子信箱Email</a>
+            </td>
+            <td class="text-center">
+                <a href="/class/<%=classID%>/showClassmateInfo/<%=student._id%>">個人網頁Personal WebPage</a>
+            </td>
+        </tr>
+        <%})%>
+    </tbody>
+</table>
+
+
+<% include layout/footer %>

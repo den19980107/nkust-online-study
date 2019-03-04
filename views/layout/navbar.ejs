@@ -1,15 +1,25 @@
 <html>
 
 <head>
-    <title>線上學習平台</title>
+    <title>線上教育平台</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/css/style.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 </head>
+<style>
+    .nooutline:focus,.nooutline:active {
+            outline: none !important;
+            box-shadow: none;
+        }
+</style>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Brand</a>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white" style="position: fixed;top: 0px;z-index: 3;width: 100%">
+        <a class="navbar-brand" href="/"><img src="/img/logo.png" class="img-fluid" style="height: 30px"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -18,30 +28,49 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">首頁 <span class="sr-only">(current)</span></a>
                 </li>
                 <%if(user){%>
                 <li class="nav-item">
-                    <a class="nav-link" href="/articles">討論區</a>
+                    <a class="nav-link" href="/class">課程</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/class">課程</a>
+                    <a class="nav-link" href="/coding">程式練習區</a>
                 </li>
                 <%}%>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <%if(user){%>
+                <%if(user.permission == "admin"){%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/backend">
+                        後台
+                    </a>
+                </li>
+                <%}%>
                 <%if(user.permission == "teacher"){%>
                 <li class="nav-item">
                     <a class="nav-link" href="/class/CreateNewClass">
-                        新增課程
+                        建立課程
                     </a>
                 </li>
                 <%}%>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/userinfo">
-                        <%=user.username%>
-                    </a>
+                    <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle nooutline" style="color: rgb(130, 130, 130)"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <%=user.username%>
+                        </button>
+                        <div class="dropdown-menu ">
+                            <a class="dropdown-item text-center" href="/users/userinfo">個人資料</a>
+                            <%if(user.permission == "teacher"){%>
+                            <a class="dropdown-item text-center" href="/users/myclass">我開的課</a>
+                            <%}%>
+                            <%if(user.permission == "student"){%>
+                            <a class="dropdown-item text-center" href="/users/myclass">我修的課</a>
+                            <%}%>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/logout">登出</a>
@@ -59,6 +88,8 @@
 
         </div>
     </nav>
+    <br>
+    <br>
     <br>
 
     <%- messages('message', locals) %>

@@ -14,15 +14,96 @@ let Unit = require('../model/unit');
 let Chapter = require('../model/chapter');
 //bring Video model
 let Video = require('../model/video');
+//bring student take courese model
+let StudebtTakeCourse = require('../model/StudentTakeCourse');
+//bring student comment chapter model
+let studentCommentChapter = require('../model/studentCommentChapter');
+//bring student comment video model
+let studentCommentVideo = require('../model/studentCommentVideo');
+//bring Test model
+let Test = require('../model/test');
+
+const mongoose = require('mongoose');
+
+const config = require('../config/database'); //在我們的config file裡面可以設定要用的database URL
+const path = require('path');
+
+//上傳照片
+const crypto = require("crypto");
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
+const methodOverride = require("method-override");
+//init gfs   
+let gfs
+
+mongoose.connect(config.database);
+let db = mongoose.connection;
+
+
+//check connection
+db.once('open', function () {
+    console.log("connect to mongodb");
+
+    //init Stream
+    gfs = Grid(db.db, mongoose.mongo);
+    gfs.collection('uploads');
+});
+
+//create storage engine
+
+const storage = new GridFsStorage({
+    url: config.database,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+
+const upload = multer({
+    storage
+});
 
 router.get('/', ensureAuthenticated, function (req, res) {
     Class.find({}, function (err, classes) {
         if (err) {
             console.log(err);
         } else {
-            res.render('class', {
-                classes: classes
-            });
+            // res.render('class', {
+            //     classes: classes
+            // });
+
+            gfs.files.find().toArray((err, imgs) => {
+                if (!imgs || imgs.length === 0) {
+                    res.render('class', {
+                        classes: classes,
+                        imgs: false
+                    });
+                } else {
+                    imgs.map(img => {
+                        if (img.contentType === 'image/jpeg' || img.contentType === "image/png") {
+                            img.isImage = true;
+                        } else {
+                            img.isImage = false;
+                        }
+                    });
+
+                    res.render('class', {
+                        classes: classes
+                    });
+                }
+            })
         }
 
     });
@@ -34,18 +115,18 @@ router.get('/CreateNewClass', ensureAuthenticated, function (req, res) {
     if (req.user.permission == "teacher") {
         res.render('CreateNewClass')
     } else {
-        req.flash('danger', 'you are not teacher');
+        req.flash('danger', '您不是老師');
         res.redirect('/');
     }
 });
 
 //新增課程資料
-router.post('/CreateNewClass', ensureAuthenticated, function (req, res) {
+router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req, res) {
     req.checkBody('title', '課程名稱不得為空').notEmpty();
-    req.checkBody('outline', '課程大綱不得為空').notEmpty();
-    req.checkBody('credit', '學分不得為空').notEmpty();
-    req.checkBody('classroom', '教室不得為空').notEmpty();
-    req.checkBody('chooseClassTime', '上課時間不得為空').notEmpty();
+    // req.checkBody('outline', '課程大綱不得為空').notEmpty();
+    // req.checkBody('credit', '學分不得為空').notEmpty();
+    // req.checkBody('classroom', '教室不得為空').notEmpty();
+    // req.checkBody('chooseClassTime', '上課時間不得為空').notEmpty();
     console.log(req.body.chooseClassTime);
 
     let errors = req.validationErrors();
@@ -62,14 +143,15 @@ router.post('/CreateNewClass', ensureAuthenticated, function (req, res) {
         newclass.classRoom = req.body.classroom;
         newclass.classTime = req.body.chooseClassTime;
         newclass.teacher = req.user._id;
-
+        newclass.isLunched = false;
+        newclass.classImage = req.files[0].filename
         newclass.save(function (err) {
             if (err) {
                 console.log(err);
                 return;
             } else {
                 req.flash('success', '新增成功');
-                res.redirect('/class'); //?
+                res.redirect('/users/myclass'); //?
             }
         });
         console.log(newclass);
@@ -78,20 +160,51 @@ router.post('/CreateNewClass', ensureAuthenticated, function (req, res) {
 });
 
 //查看課程內容
-router.get('/:id', function (req, res) {
+router.get('/:id', ensureAuthenticated, function (req, res) {
     Class.findById(req.params.id, function (error, classinfo) {
         User.findById(classinfo.teacher, function (error2, teacher) {
             Unit.find({
                 belongClass: classinfo._id
             }, function (error3, units) {
-                if (error2) {
+                if (error3) {
                     console.log(error3);
                 } else {
-                    res.render('classDashboard', {
-                        id: req.params.id,
-                        classinfo: classinfo,
-                        units: units,
-                        teacher: teacher
+                    StudebtTakeCourse.find({
+                        classID: classinfo._id
+                    }, function (error4, thisClassStudents) {
+                        if (error4) {
+                            console.log(error4);
+                        }
+                        gfs.files.findOne({
+                            filename: classinfo.classImage
+                        }, (err, img) => {
+                            if (!img || img.length === 0) {
+                                res.render('classDashboard', {
+                                    id: req.params.id,
+                                    classinfo: classinfo,
+                                    units: units,
+                                    teacher: teacher,
+                                    thisClassStudents: thisClassStudents,
+                                    img: 'not Image'
+                                });
+                            } else {
+                                if (img.contentType === 'image/jpeg' || img.contentType === "image/png") {
+                                    img.isImage = true;
+                                } else {
+                                    img.isImage = false;
+                                }
+                                console.log(img);
+
+                                res.render('classDashboard', {
+                                    id: req.params.id,
+                                    classinfo: classinfo,
+                                    units: units,
+                                    teacher: teacher,
+                                    thisClassStudents: thisClassStudents,
+                                    img: img
+                                });
+                            }
+                        })
                     });
                 }
             })
@@ -99,6 +212,28 @@ router.get('/:id', function (req, res) {
         });
     });
 });
+//@顯示照片的route
+router.get('/image/:imageName', (req, res) => {
+    gfs.files.findOne({
+        filename: req.params.imageName
+    }, (err, img) => {
+        //check if image exists
+        if (!img || img.length === 0) {
+            return res.status(404).json({
+                err: 'No image exists'
+            })
+        }
+        //check if image
+        if (img.contentType === 'image/jpeg' || img.contentType === "image/png") {
+            const readstream = gfs.createReadStream(img.filename);
+            readstream.pipe(res);
+        } else {
+            return res.status(404).json({
+                err: 'No an image'
+            })
+        }
+    });
+})
 
 //管理課程內容
 router.get('/classManager/:id', function (req, res) {
@@ -132,16 +267,41 @@ router.get('/deleteCourse/:id', function (req, res) {
                 res.redirect('/class');
             })
         } else {
-            req.flash('danger', 'not your course');
+            req.flash('danger', '這堂課不是您開的課');
             res.redirect('/class');
         }
 
     })
 
 })
+//上架課程
+router.get('/LunchClass/:cid', function (req, res) {
+    Class.findById(req.params.cid, function (err, classinfo) {
+        let updateClass = {}
+        updateClass.className = classinfo.className
+        updateClass.credit = classinfo.credit
+        updateClass.classTime = classinfo.classTime
+        updateClass.classRoom = classinfo.classRoom
+        updateClass.teacher = classinfo.teacher
+        updateClass.outline = classinfo.outline
+        updateClass.isLunched = true
+        let query = {
+            _id: classinfo._id
+        }
+        console.log(updateClass);
+
+        Class.update(query, updateClass, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            req.flash('success', "上架成功！");
+            res.redirect('/class/' + req.params.cid);
+        })
+    })
+})
 
 //新增單元
-router.post('/:id/addUnit', function (req, res) {
+router.get('/:id/addUnit/:unitName', function (req, res) {
     //確認是否登入
     if (!req.user._id) {
         res.status(500).send();
@@ -157,14 +317,14 @@ router.post('/:id/addUnit', function (req, res) {
             console.log("不是老師");
         } else {
             let newUnit = new Unit();
-            newUnit.unitName = req.body.unitname;
+            newUnit.unitName = req.params.unitName;
             newUnit.belongClass = classId;
             console.log(newUnit);
             newUnit.save(function (err) {
                 if (err) {
-                    res.send('error');
+                    console.log(err);
                 } else {
-                    res.send('success');
+                    res.redirect('/class/classManager/' + req.params.id);
                 }
             })
 
@@ -210,15 +370,24 @@ router.get('/:classID/showUnit/:unitID', function (req, res) {
                 Video.find({
                     belongUnit: req.params.unitID
                 }, function (error4, videos) {
-                    res.render('classManger', {
-                        id: req.params.id,
-                        classinfo: classinfo,
-                        units: units,
-                        chapters: chapters,
-                        unitName: selectUnit,
-                        unitID: selectUnitID,
-                        videos: videos
-                    });
+                    Test.find({
+                        belongUnit: req.params.unitID
+                    }, function (err, tests) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.render('classManger', {
+                            id: req.params.id,
+                            classinfo: classinfo,
+                            units: units,
+                            chapters: chapters,
+                            unitName: selectUnit,
+                            unitID: selectUnitID,
+                            videos: videos,
+                            tests: tests
+                        });
+                    })
+
                 });
             });
         })
@@ -227,8 +396,8 @@ router.get('/:classID/showUnit/:unitID', function (req, res) {
 
 //新增講義
 router.post('/unit/addLecture', function (req, res) {
-    req.checkBody('title', 'Title is required').notEmpty();
-    req.checkBody('body', 'Body is required').notEmpty();
+    req.checkBody('title', '講義標題不得為空').notEmpty();
+    req.checkBody('body', '講義內容不得為空').notEmpty();
     let errors = req.validationErrors();
     if (errors) {
         req.flash('danger', "講義標題與內容不得為空");
@@ -281,9 +450,27 @@ router.get('/showChapter/:id', function (req, res) {
         if (err) {
             console.log(error);
         }
-        res.render('chapter', {
-            chapter: chapter
-        });
+        studentCommentChapter.find({
+            chapterID: chapter._id
+        }, function (err, comments) {
+            if (err) {
+                console.log(err);
+            }
+            Unit.findById(chapter.belongUnit, function (err, unit) {
+                if (err) {
+                    console.log(err);
+                }
+                Class.findById(unit.belongClass, function (err, classinfo) {
+                    res.render('chapter', {
+                        chapter: chapter,
+                        comments: comments,
+                        classinfo: classinfo
+                    });
+                })
+            })
+
+        })
+
     })
 });
 
@@ -293,6 +480,7 @@ router.post('/:unitID/addvideo/:videoName/:videoURLid', function (req, res) {
     newVideo.videoName = req.params.videoName;
     newVideo.videoURL = req.params.videoURLid;
     newVideo.belongUnit = req.params.unitID;
+    newVideo.vtime = "";
     console.log(newVideo);
 
     newVideo.save(function (err) {
@@ -309,7 +497,7 @@ router.delete('/deletevideo/:videoID', function (req, res) {
     console.log(req.user._id);
 
     if (!req.user._id) {
-        req.flash('danger', 'please login');
+        req.flash('danger', '請先登入');
         res.redirect('/');
     }
 
@@ -328,7 +516,7 @@ router.delete('/deletevideo/:videoID', function (req, res) {
     })
 });
 
-//顯示講義內容
+//顯示影片內容
 router.get('/showVideo/:id', function (req, res) {
     let query = {
         _id: req.params.id
@@ -337,19 +525,190 @@ router.get('/showVideo/:id', function (req, res) {
         if (err) {
             console.log(error);
         }
-        res.render('video', {
-            video: video
+        Unit.findById({
+            _id: video.belongUnit
+        }, function (err, unit) {
+            Class.findById({
+                _id: unit.belongClass
+            }, function (err, classinfo) {
+                if (err) {
+                    console.log(err);
+                }
+                studentCommentVideo.find({
+                    videoID: video._id
+                }, function (err, comments) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.render('video', {
+                        video: video,
+                        comments: comments,
+                        classinfo: classinfo
+                    });
+                });
+
+            })
         });
+
     })
 });
-router.post
 
+//新增測驗
+router.post('/addTest/class/:cid/unit/:uid', function (req, res) {
+    console.log(req.body);
+    if (req.body.testName == '' || req.body.testName == undefined) {
+        res.status(500).send({
+            msg: '測驗名稱不得為空'
+        });
+    } else {
+        let newTest = new Test();
+        newTest.testName = req.body.testName;
+        newTest.testQutions = req.body.QuationList;
+        newTest.belongUnit = req.body.belongUnit;
+        console.log(newTest);
+        newTest.save(function (err) {
+            if (err) {
+                console.log(err);
+            }
+            res.json({
+                success: 1
+            });
+        })
+
+    }
+});
+
+//刪除測驗
+router.delete('/deletetest/:testID', function (req, res) {
+    console.log(req.user._id);
+
+    if (!req.user._id) {
+        req.flash('danger', '請先登入');
+        res.redirect('/');
+    }
+
+    let query = {
+        _id: req.params.testID
+    }
+    Test.findById(req.params.testID, function (err, test) {
+        Test.remove(query, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            res.send('Success');
+        })
+
+    })
+})
+
+//顯示測驗
+router.get('/showTest/:testID', function (req, res) {
+    let query = {
+        _id: req.params.testID
+    }
+    Test.findById(query, function (err, test) {
+        if (err) {
+            console.log(error);
+        }
+        Unit.findById({
+            _id: test.belongUnit
+        }, function (err, unit) {
+            Class.findById({
+                _id: unit.belongClass
+            }, function (err, classinfo) {
+                if (err) {
+                    console.log(err);
+                }
+                res.render('test', {
+                    test: test,
+                    classinfo: classinfo
+                });
+            })
+        });
+
+    })
+
+})
+
+//顯示所有有修這堂課的學生
+router.get('/showStudentIn/:classID', function (req, res) {
+
+    StudebtTakeCourse.find({
+        classID: req.params.classID
+    }, function (err, students) {
+        if (err) {
+            console.log(err);
+        }
+        let findStudentInfoQuery = [];
+        for (let i = 0; i < students.length; i++) {
+            findStudentInfoQuery.push(ObjectID(students[i].studentID).toString());
+        }
+        let query = {
+            _id: findStudentInfoQuery
+        }
+        User.find({
+            _id: findStudentInfoQuery
+        }, function (err, users) {
+            if (err) {
+                console.log(err);
+            }
+            res.render('showStudentInClass', {
+                classID: req.params.classID,
+                students: users
+            })
+        });
+
+    })
+
+});
+//搜尋課程名稱
+router.get('/search/:className', function (req, res) {
+    Class.find({}, function (err, classes) {
+        if (err) {
+            console.log(err);
+        } else {
+            let searchClassName = req.params.className;
+            if (searchClassName == 'null') {
+                res.render('class', {
+                    classes: classes
+                });
+            } else {
+                let searchedClasses = []
+                for (let i = 0; i < classes.length; i++) {
+                    if (classes[i].className.includes(searchClassName)) {
+                        searchedClasses.push(classes[i]);
+                    }
+                }
+                res.render('class', {
+                    classes: searchedClasses
+                });
+            }
+        }
+
+    });
+})
+
+//看課程內同學的個人頁面
+router.get('/:id/showClassmateInfo/:sid', function (req, res) {
+    console.log(req.params.sid);
+
+    User.findById({
+        _id: req.params.sid
+    }, function (err, student) {
+        console.log(student);
+
+        res.render('userinfo', {
+            user: student,
+            authenticate: false
+        })
+    });
+})
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
-        req.flash('danger', 'Please Login');
+        req.flash('danger', '請先登入');
         res.redirect('/users/login');
     }
 }

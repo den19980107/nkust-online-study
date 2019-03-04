@@ -1,45 +1,125 @@
 <% include layout/header %>
-<h4>新增課程</h4>
+<style>
+    .myinput {
+        width: 32%;
+        padding: .375rem .25rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-image: none;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        display: inline;
+    }
+    body {
+        padding-bottom: 20px;
+    }
+
+    .centered {
+        position: absolute;
+        top: 7rem;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .clear {
+        clear: left;
+    }
+    .p2{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        margin-bottom: 1rem       
+    }
+    .card:hover {
+        box-shadow: 0px 0px 30px #686666;
+        z-index: 2;
+        -webkit-transition: all 200ms ease-in;
+        -webkit-transform: scale(1.01);
+        -ms-transition: all 200ms ease-in;
+        -ms-transform: scale(1.01);
+        -moz-transition: all 200ms ease-in;
+        -moz-transform: scale(1.01);
+        transition: all 200ms ease-in;
+        transform: scale(1.01);
+    }
+    .box {
+    background:#ccc;
+    position:relative;
+    overflow:hidden;
+    margin: 0px;
+    }
+    .box:after {
+        padding-top: 56.25%;
+        content:"";
+        display: block;
+    }
+    .img {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        max-width:100%;
+        margin:auto;
+    }
+    @media only screen and (max-width: 768px) {
+        .submit{
+            width: 100%
+        }
+    }
+</style>
+<h4>建立課程</h4>
 <hr>
 <div class="row">
-    <div class="col-7">
-        <form method="POST" action="/class/CreateNewClass">
-            <label>課程名稱</label>
-            <input type="text" class="form-control" name="title" id="title">
-            <label>課程大綱</label>
-            <div class="md-form">
+    <div class="col-lg-9 col-sm-12">
+        <form id="classinfoForm" method="POST" action="/class/CreateNewClass" enctype="multipart/form-data">
+            <h5>課程名稱</h5>
+            <input type="text" class="form-control" name="title" id="title" style="margin-bottom: 10px;">
+            <h5>課程大綱</h5>
+            <div class="md-form" style="margin-bottom: 10px;">
                 <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10" style="resize: none"></textarea>
             </div>
-            <label>課程學分數</label>
-            <input type="number" class="form-control" name="credit" value="0">
-            <label>上課教室</label>
-            <input type="text" class="form-control" name="classroom">
-            <label>上課時間</label>
-            <table class="table table-bordered" id="table">
-                <thead>
-                    <tr>
-                        <th scope="col">禮拜一</th>
-                        <th scope="col">禮拜二</th>
-                        <th scope="col">禮拜三</th>
-                        <th scope="col">禮拜四</th>
-                        <th scope="col">禮拜五</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
+            <h5>課程學分數</h5>
+            <input type="number" class="form-control" name="credit" value="0" style="margin-bottom: 10px;">
+            <h5>上課教室</h5>
+            <input type="text" class="form-control" name="classroom" style="margin-bottom: 10px;">
+            <h5>上課時間</h5>
+            <div id="selectedTime" style="margin-bottom: 10px;">
 
-                </tbody>
-            </table>
-            <input id="chooseClassTime" class="form-control" name='chooseClassTime'></input>
-            <br>
-            <label>課程封面</label>
-            <input type="file" class="form-control-file">
-            <br>
-            <input type="submit" class="btn btn-primary float-right" value="新增課程">
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-10 col-sm-12 mb-4" style="justify-content: space-between;height: 2.5rem;">
+                    <select name="YourLocation" class="myinput h-100" id="weekdaySelector">
+                        　<option value="星期一">星期一</option>
+                        　<option value="星期二">星期二</option>
+                        　<option value="星期三">星期三</option>
+                        　<option value="星期四">星期四</option>
+                        　<option value="星期五">星期五</option>
+                        　<option value="星期六">星期六</option>
+                        　<option value="星期日">星期日</option>
+                    </select>
+                    <input class="myinput h-100" type="time" value="09:10" id="beginTime">
+                    <input class="myinput h-100" type="time" value="10:00" id="endTime">
+                </div>
+                <div class="col-lg-2 col-sm-12 " style="height: 2.5rem">
+                    <button type="button" class="btn btn-primary w-100 h-100" onclick="createNewClassTime()">新增</button>
+                </div>
+            </div>
+            <h5>課程封面</h5>
+            <div class="row container">
+                <input id="classIMGinput" onchange="readURL(this);" type="file" class="form-control-file" name="classImg">
+            </div>
+            <input id="chooseClassTime" class="form-control" name='chooseClassTime' style="display: none"></input>
         </form>
     </div>
-    <div class="col">
-        <h4>預覽</h4>
-        <div class="card" style="width: 22rem;">
+    <div class="col-lg-3 col-sm-12">
+        <h5>預覽</h5>
+        <!-- <div class="card mx-auto" style="width: 22rem;">
 
             <img class="card-img-top bg-light" style="height: 14rem">
             <div class="centered">
@@ -51,21 +131,32 @@
                 <p class="card-text" id="cardOutline">您的課程簡介</p>
                 <a href="#" class="btn btn-primary">查看課程</a>
             </div>
+        </div> -->
+        <div class="card" style="width: 100%;margin-top: 20px">
+
+
+            <div class="box">
+                <img class="img w-100" id="previewIMG" src="/img/NoImage.png" style="border: 1px solid rgb(226, 226, 226);">
+            </div>
+
+            <div class="card-body" style="height: 13rem;border-top: 4px solid rgb(255, 160, 35)">
+                <h5 class="card-title ellipsisText" id="cardTitle">
+
+                </h5>
+                <div class="card-text p2" id="cardOutline" style="height: 4.5rem">
+
+                </div>
+                <a href="#" class="btn btn-primary">查看課程</a>
+
+            </div>
         </div>
     </div>
+    <div class="col-lg-9 col-sm-12">
+        <br>
+        <input type="submit" form="classinfoForm" class="btn btn-primary float-right submit" value="建立課程">
+    </div>
 </div>
-<style>
-    body {
-        padding-bottom: 20px;
-    }
 
-    .centered {
-        position: absolute;
-        top: 7rem;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-</style>
 <script>
     let title = document.getElementById('title');
     let cardTitle = document.getElementById('cardTitle');
@@ -85,40 +176,57 @@
 
 
     let chooseClassTime = [];
-    if (table != null) {
-        for (let i = 1; i <= 10; i++) {
-            let tr = document.createElement('tr');
 
-            for (let j = 1; j <= 5; j++) {
-                let td = document.createElement('td');
-                if (i == 9) {
-                    td.innerHTML = 'A';
-                } else if (i == 10) {
-                    td.innerHTML = 'B';
-                } else {
-                    td.innerHTML = i;
-                }
+    function createNewClassTime() {
+        let weekday = document.getElementById('weekdaySelector');
+        let beginTime = document.getElementById('beginTime');
+        let endTime = document.getElementById('endTime');
+        let selectedTimeDiv = document.getElementById('selectedTime');
+        selectedTimeDiv.innerHTML = '';
+        chooseClassTime.push(weekday.value + ' ' + beginTime.value + '~' + endTime.value);
+        console.log(chooseClassTime);
+        chooseClassTimeLabel.innerHTML = chooseClassTime
+        chooseClassTimeLabel.value = chooseClassTime;
+        for (let i = 0; i < chooseClassTime.length; i++) {
+            let div = document.createElement('div');
+            div.className = "alert alert-warning alert-dismissible fade show";
+            div.role = "alert";
+            div.innerHTML = chooseClassTime[i];
+            let btn = document.createElement('button');
+            btn.type = "button";
+            btn.className = "close";
+            btn.setAttribute("data-dismiss", "alert");
+            btn.setAttribute("aria-label", "Close");
+            btn.setAttribute('index', i);
+            btn.setAttribute('onclick', "deleteChooseTime(this)");
 
-                td.id = j + '-' + i
-                td.onclick = function () {
-                    if (this.className == 'bg-dark text-white') {
-                        this.className = '';
-                        chooseClassTime.splice(chooseClassTime.indexOf(this.id), 1);
-                        chooseClassTimeLabel.innerHTML = chooseClassTime;
-                        chooseClassTimeLabel.value = chooseClassTime;
-                        console.log(chooseClassTime);
-                    } else {
-                        this.className = 'bg-dark text-white'
-                        chooseClassTime.push(this.id);
-                        chooseClassTimeLabel.innerHTML = chooseClassTime
-                        chooseClassTimeLabel.value = chooseClassTime;
-                        console.log(chooseClassTime);
-                    }
+            let span = document.createElement('span');
+            span.setAttribute("aria-hidden", "true");
+            span.innerHTML = "&times;";
+            btn.appendChild(span);
+            div.appendChild(btn);
+            //清空
 
-                }
-                tr.appendChild(td);
-            }
-            tbody.appendChild(tr);
+            selectedTimeDiv.appendChild(div);
+        }
+    }
+
+    function deleteChooseTime(e) {
+        chooseClassTime.pop(parseInt(e.getAttribute("index")));
+        chooseClassTimeLabel.innerHTML = chooseClassTime
+        chooseClassTimeLabel.value = chooseClassTime;
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#previewIMG')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
         }
     }
 </script>

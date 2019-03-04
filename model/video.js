@@ -13,6 +13,10 @@ const VideoSchema = mongoose.Schema({
     belongUnit: {
         type: String,
         require: true
+    },
+    vtime: {
+        type: String,
+        require: true
     }
 
 });

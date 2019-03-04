@@ -6,48 +6,120 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+
+    .backgroundIMG {
+        background: url(/img/loading.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100% ;
+    }
+    .p2{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        margin-bottom: 1rem       
+    }
+    .card:hover {
+        box-shadow: 0px 0px 30px #686666;
+        z-index: 2;
+        -webkit-transition: all 200ms ease-in;
+        -webkit-transform: scale(1.01);
+        -ms-transition: all 200ms ease-in;
+        -ms-transform: scale(1.01);
+        -moz-transition: all 200ms ease-in;
+        -moz-transform: scale(1.01);
+        transition: all 200ms ease-in;
+        transform: scale(1.01);
+    }
+    .box {
+    background:#ccc;
+    position:relative;
+    overflow:hidden;
+    margin: 0px;
+    }
+    .box:after {
+        padding-top: 56.25%;
+        content:"";
+        display: block;
+    }
+    .img {
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        max-width:100%;
+        margin:auto;
+    }
+
 </style>
-<section class="jumbotron text-center" style="height: 50%">
-    <div class="container">
-        <h1 class="jumbotron-heading">選修各式各樣的課！</h1>
-        <p class="lead text-muted">我這該死的～無處安方的～魅力</p>
-        <p>
-            <a href="#" class="btn btn-primary my-2">藍色按鈕</a>
-            <a href="#" class="btn btn-secondary my-2">灰色按鈕</a>
-        </p>
+<div class="container ">
+    <div class="row" style="height: 2.5rem;">
+        <div class="col mb-2" style="display: flex;justify-content: space-between">
+            <input class="form-control mr-sm-2 h-100" type=" search" id="searchClassName" placeholder="搜尋課程" aria-label="Search">
+            <button class="btn btn-outline-success h-100" onclick="searchClass()" type="button">搜尋</button>
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-3" style="display: flex;justify-content: space-between">
+            <div class="dropdown">
+                <button class="btn btn-outline-info dropdown-toggle h-100" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    排序
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+            <button class="btn btn-outline-info  h-100" type="button">熱門課程</button>
+            <button class=" btn btn-outline-info h-100" type="button">最新課程</button>
+        </div>
     </div>
-</section>
+</div>
+<br>
+<br>
 <div class="album  bg-light">
     <div class="container">
-        <div class="row">
+        <div class="row" id="classesContainer">
             <% for(var i=0; i<classes.length; i++) {%>
-            <div class="col-md-3">
-                <div class="card" style="width: 100%;margin-top: 20px">
-
-                    <img class="card-img-top bg-dark" style="height: 14rem">
-                    <div class="centered">
-                        <h5 id="imgTitle" style="color: white; position: absolute;top: 7rem;left: 50%;transform: translate(-50%, -50%);">
-                            <%=classes[i].className%>
-                        </h5>
+            <%if(classes[i].isLunched){%>
+            <div class="col-lg-3 col-md-4 col-sm-6 col- ">
+                <div class="card" style="width: 100%;margin-top: 20px" onclick="window.location = '/class/<%=classes[i]._id%>'">
+                    <%if(classes[i].classImage){%>
+                    <div class="box">
+                        <img class="img w-100" src="/class/image/<%=classes[i].classImage%>" style="border: 1px solid rgb(226, 226, 226);">
                     </div>
-
-                    <div class="card-body">
+                    <%}else{%>
+                    <div class="box">
+                        <img class="img w-100" src="/img/NoImage.png" style="border: 1px solid rgb(226, 226, 226);">
+                    </div>
+                    <%}%>
+                    <div class="card-body" style="height: 13rem;border-top: 4px solid rgb(255, 160, 35)">
                         <h5 class="card-title ellipsisText" id="cardTitle">
                             <%=classes[i].className%>
                         </h5>
-                        <p class="card-text ellipsisText" id="cardOutline">
+                        <div class="card-text p2" id="cardOutline" style="height: 4.5rem">
                             <%=classes[i].outline%>
-                        </p>
+                        </div>
                         <a href="/class/<%=classes[i]._id%>" class="btn btn-primary">查看課程</a>
 
                     </div>
                 </div>
             </div>
-
+            <%}%>
             <%}%>
         </div>
 
     </div>
 </div>
-
+<script>
+    function searchClass() {
+        let searchClassName = document.getElementById('searchClassName').value;
+        if (searchClassName == '') {
+            searchClassName = "null";
+        }
+        window.location = "/class/search/" + searchClassName;
+    }
+</script>
 <% include layout/footer %>

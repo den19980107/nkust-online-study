@@ -1,6 +1,7 @@
 <% include layout/header %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossorigin="anonymous">
+
 <style>
     .slider {
     -webkit-appearance: none;
@@ -32,6 +33,23 @@
     background: rgb(230, 65, 54);
     cursor: pointer;
   }
+  .replyInput{
+        height: 100%;
+        width: 100%;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+    .replyInput:focus{
+        outline: none;
+        border-bottom: 2px solid black;
+        animation-name: showCommentField;
+        animation-duration: 0.7s;
+    }
+    @keyframes showCommentField {
+        from {border-bottom: 2px solid rgb(211, 206, 206);}
+        to {border-bottom: 2px solid black;}
+    }
   </style>
 <h3>
     <%=video.videoName%>
@@ -58,34 +76,68 @@
         <p style="padding-left: 20px">....</p>
         <hr>
         <h5>留言</h5>
-        <form>
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">
-                    <%=user.username%></label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="inputPassword" placeholder="Password">
+        <div id="reply" class="bg-white mt-4" style="padding: 50px;">
+            <h3 class="text-secondary">回覆</h3>
+            <br>
+            <div class="row" style="height: 50px">
+                <div class="col-1">
+                    <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
                 </div>
-                <div class="col-sm-3">
-                    <button type="submit" class="btn btn-primary">送出</button>
+                <div class="col-11">
+                    <input type="text" id="replyInput" class="replyInput">
                 </div>
             </div>
-        </form>
-        <div id="reply" class="bg-white ">
             <br>
-            <ul class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="row">
-                        <div class="col-1">
-                            <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
-                        </div>
-                        <div class="col-9">
+            <div class="row" style="height: auto;display: none;" id="commentDiv">
+                <div class="col">
+                    <a class="btn btn-primary" style="float: right;color: white;" id="submitComment">留言</a>
+                    <a class="btn " style="float: right;margin-right: 1em;border: 1px solid black;border-radius: 3px">取消</a>
+                </div>
+            </div>
+            <br>
+            <%comments.forEach(function(comment){%>
+            <div class="row" style="margin-top: 20px;">
+                <%if(comments.length == 0){%>
+                <div class="col">
+                    <h5 style="text-align: center">還沒有評論喔！快來留下你對這篇教材的想法吧～～</h5>
+                </div>
+                <%}else{%>
 
-                            <p class="mb-1">上次老師說的那個泡沫...</p>
-                            <small class="text-muted">3 days ago</small>
+                <div class="col">
+                    <li style="width: 100%;list-style: none;margin-bottom: 20px;">
+                        <div class="row">
+                            <div class="col-1">
+                                <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
+                            </div>
+                            <div class="col-11">
+                                <div class="row">
+                                    <%if(comment.userID == classinfo.teacher){%>
+                                    <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
+                                        <%=comment.userName%>老師回復：
+                                    </h5>
+                                    <%}else{%>
+                                    <h5 style="margin-right: 10px;">
+                                        <%=comment.userName%>
+                                    </h5>
+                                    <%}%>
+
+                                    <p>
+                                        <%=comment.commentTime%>
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <p style="width: 100%;word-wrap:break-word;padding-right: 5px;">
+                                        <%=comment.body%>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </ul>
+                    </li>
+                </div>
+                <%}%>
+            </div>
+            <%})%>
+
         </div>
 
 
@@ -149,6 +201,13 @@
         // event.target.playVideo();
         vtime = player.getDuration();
         slider.max = vtime;
+        //網頁打開紀錄
+        socket.emit('videoAction', {
+            type: 'open',
+            watcherID: "<%=user._id%>",
+            videoID: "<%=video._id%>",
+            vtime: vtime
+        });
     }
 
     // 5. The API calls this function when the player's state changes.
@@ -161,10 +220,13 @@
         player.stopVideo();
     }
 
+    //socket io
+    var socket = io();
+
     window.onload = function () {
+
         $(window).resize(function () {
             console.log("asd");
-
             let width = document.getElementsByClassName('col-8')[0].clientWidth * 0.95;
             let height = (document.getElementsByClassName('col-8')[0].clientWidth * 9) / 16;
             player.setSize(width, height);
@@ -173,7 +235,48 @@
 
         slider.onchange = function () {
             console.log(slider.value);
+            let beginTime = nowtime;
             player.seekTo(slider.value);
+            socket.emit('videoAction', {
+                type: 'fastTurn',
+                beginTime: beginTime,
+                endTime: slider.value
+            });
+            let play = "fas fa-play mr-2";
+            let isplay = document.getElementById('PlayPauseBtn');
+            console.log(isplay);
+
+            if (isplay.className != play) {
+                socket.emit('videoAction', {
+                    type: 'play',
+                    time: nowtime
+                });
+            }
+
+        }
+
+        //留言
+        let replyInput = document.getElementById('replyInput');
+        let submitComment = document.getElementById('submitComment');
+        if (replyInput.value == "") {
+            submitComment.className += "btn btn-primary disabled"
+        }
+        replyInput.oninput = function () {
+            if (replyInput.value == "") {
+                submitComment.className += "btn btn-primary disabled"
+            } else {
+                submitComment.className = "btn btn-primary"
+            }
+        }
+        replyInput.onfocus = function () {
+
+            let commentDiv = document.getElementById('commentDiv');
+            commentDiv.style.cssText = "display:block";
+        }
+
+        submitComment.onclick = function () {
+            let replyInput = document.getElementById('replyInput');
+            window.location = "/SDC/user/<%=user._id%>/comment/video/<%=video._id%>/body/" + replyInput.value;
         }
 
     }
@@ -187,9 +290,17 @@
         if (e.className == play) {
             PlayPauseBtn.className = pause;
             player.playVideo();
+            socket.emit('videoAction', {
+                type: 'play',
+                time: nowtime
+            });
         } else if (e.className == pause) {
             PlayPauseBtn.className = play;
             player.pauseVideo();
+            socket.emit('videoAction', {
+                type: 'pause',
+                time: nowtime
+            });
         } else if (e.className == fullscreen) {
 
         }
@@ -206,5 +317,12 @@
         nowtime = player.getCurrentTime();
         slider.value = nowtime;
     }, 1000);
+
+
+    window.onunload = function () {
+        socket.emit('videoAction', {
+            type: 'close'
+        });
+    }
 </script>
 <% include layout/footer %>

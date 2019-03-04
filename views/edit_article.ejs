@@ -3,7 +3,7 @@
     <%=title%>
 </h1>
 
-<form method="POST" action="/articles/edit/<%=article._id%>">
+<form method="POST" action="/articles/edit/<%=article._id%>/inClass/<%=belongclass%>">
     <div class="form-group">
         <label>Title:</label>
         <input type="text" class="form-control" name="title" value="<%=article.title%>">

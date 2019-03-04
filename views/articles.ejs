@@ -19,6 +19,7 @@
 <h5>
     <%=title%>
 </h5>
+
 <hr>
 <nav class="navbar navbar-light ">
     <form class="form-inline">
@@ -41,7 +42,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="/articles/add">
+                        <form method="POST" id="postform" action="/articles/add/inClass/<%=belongclass%>">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">文章標題</label>
                                 <div class="col-sm-10">
@@ -58,6 +59,7 @@
                             <br>
                             <input type="submit" class="btn btn-primary" value="新增">
                         </form>
+
 
                         <div id="example1" class="taggle_list"></div>
                     </div>
@@ -84,7 +86,7 @@
 
 <div class="list-group" id="list">
     <%articles.forEach(function(article){%>
-    <a href="/articles/<%=article._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="/articles/<%=article._id%>/inClass/<%=belongclass%>" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="row">
             <div class="col-1">
                 <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">

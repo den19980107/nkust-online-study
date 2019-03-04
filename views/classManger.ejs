@@ -45,14 +45,20 @@
         text-overflow: inherit;
         
     }
+   
 
 </style>
 <div class="row">
     <div class="col-4">
         <div>
-            <h5 class="float-left">單元總覽</h5>
-            <button type="button" class="btn-danger float-right" id="deleteUnitBtn" onclick="showDelete()">刪除單元</button>
-            <button type="button" class="btn-secondary float-right mr-2" data-toggle="modal" data-target="#myModal">新增單元</button>
+            <div style="display: flex;justify-content: space-between">
+                <h5 class="float-left">單元總覽</h5>
+                <%if(user._id == classinfo.teacher){%>
+                <button type="button" class="btn-secondary mr-2" data-toggle="modal" data-target="#myModal">新增單元</button>
+                <%}%>
+            </div>
+
+
 
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
@@ -76,53 +82,45 @@
                 </div>
             </div>
         </div>
-        <br>
-        <div class="just-padding">
-            <div class="list-group list-group-root">
-                <%units.forEach(function(unit){%>
-                <div class="row border-top">
 
-                    <div class="col border-0">
+        <div class="just-padding">
+            <div class="list-group list-group-root" style="height: 450px;overflow-y: scroll;">
+                <%units.forEach(function(unit){%>
+                <!-- <div class="row border-top bg-white">
+
+                    <div class="col border-0 ">
                         <a href="/class/<%=classinfo._id%>/showUnit/<%=unit._id%>" class="list-group-item list-group-item-action border-0">
                             <%=unit.unitName%>
                         </a>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="col-2 border-0 showAddUnit">
-                        <!-- <div class="modal fade" id="addNewChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">新增章節</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>請輸入章節名稱</p>
-                                        <input type="text" id="chapterName" class="form-control">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" onclick="addNewChapter('<%=unit._id%>')" class="btn btn-secondary">新增</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                    </div>
+
                     <div class="col-2 border-0 showDeleteUnit" style="display: none;">
                         <a class="btn btn-danger float-right" href="/class/classManager/<%=classinfo._id%>/deleteUnit/<%=unit._id%>"
                             style=" width: 36px;color: white;"><span>-</span></a>
                     </div>
 
-                </div>
+                </div> -->
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <a href="/class/<%=classinfo._id%>/showUnit/<%=unit._id%>" class="text-dark " style="text-decoration: none;padding-top:20px;padding-bottom:20px;padding-right:60px ">
+                        <%=unit.unitName%>
+                    </a>
+                    <%if(user._id == classinfo.teacher){%>
+                    <a href="/class/classManager/<%=classinfo._id%>/deleteUnit/<%=unit._id%>" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                    <%}%>
 
+                </div>
                 <%})%>
 
             </div>
 
         </div>
     </div>
-    <div class="col bg-light" style="height: 500px;">
+    <div class="col bg-light">
         <!-- 如果使用者有選取單元的話 -->
         <%if(typeof chapters !="undefined" ){%>
         <label class="m-0">
@@ -135,10 +133,10 @@
         </label>
         <hr>
         <div class="row">
-            <div class="col">
-                <button class="btn btn-primary w-100 mb-10">講義</button>
+            <div class="col-lg-3 col-sm-12">
+                <button class="btn btn-primary w-100 mb-10">教材</button>
                 <hr>
-                <div class="list-group" style="height: 55%;overflow-y: scroll;">
+                <div class="list-group" style="height: 300px;overflow-y: scroll;">
                     <%if(typeof chapters !="undefined" ){%>
                     <%chapters.forEach(function(chapter){%>
                     <div class="alert alert-warning alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
@@ -146,10 +144,12 @@
                         <p style="padding: 0;margin: 0 " onclick="showChapter('<%=chapter._id%>')">
                             <%=chapter.chapterName%>
                         </p>
-
+                        <%if(classinfo.teacher == user._id){%>
                         <a class="close" style="padding: 12px;">
                             <span class=" delete-chapter" id="<%=chapter._id%>" aria-hidden="true">&times;</span>
                         </a>
+                        <%}%>
+
                     </div>
 
                     <%})%>
@@ -157,14 +157,17 @@
 
                 </div>
                 <br>
+                <%if(user._id == classinfo.teacher){%>
                 <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#addLecture">新增</button>
+                <%}%>
+
                 <!-- Modal -->
                 <div class="modal fade" id="addLecture" tabindex="-1" role="dialog" aria-labelledby="eaddLectureLabel"
                     aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="addLectureLabel">新增講義</h5>
+                                <h5 class="modal-title" id="addLectureLabel">新增教材</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -173,7 +176,7 @@
                                 <!-- TODO 加入新增講義功能 要想辦法拿到unit_id -->
                                 <form method="POST" action="/class/unit/addLecture">
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">講義名稱</label>
+                                        <label class="col-sm-2 col-form-label">教材名稱</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="DiscussTitle" placeholder="請輸入講義名稱"
                                                 name="title">
@@ -182,7 +185,7 @@
                                     <input type="text" name="unitID" style="display: none" value="<%=unitID%>">
                                     <input type="text" name="classID" style="display: none" value="<%=classinfo._id%>">
 
-                                    <p>講義內容</p>
+                                    <p>教材內容</p>
                                     <div class="md-form">
                                         <textarea type="text" id="LectureDetail" class="md-textarea form-control" rows="10"
                                             name="body"></textarea>
@@ -201,29 +204,33 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <button class="btn btn-primary w-100">影片</button>
+            <div class="col-lg-3 col-sm-12">
+                <button class="btn btn-primary w-100">課程影片</button>
                 <hr>
-                <div style="height: 55%;overflow-y: scroll;">
+                <div style="height: 300px;overflow-y: scroll;">
                     <!-- 顯示影片列表 -->
                     <%if(typeof videos !="undefined" ){%>
                     <%videos.forEach(function(video){%>
                     <div class="alert alert-warning alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
                         role="alert">
-                        <!-- TODO:把showVideo做好 -->
                         <p style="padding: 0;margin: 0 " onclick="showVideo('<%=video._id%>')">
                             <%=video.videoName%>
                         </p>
+                        <%if(classinfo.teacher == user._id){%>
                         <a class="close" style="padding: 12px;">
                             <span class="delete-video" id="<%=video._id%>" aria-hidden="true">&times;</span>
                         </a>
+                        <%}%>
                     </div>
 
                     <%})%>
                     <%}%>
                 </div>
                 <br>
+                <%if(user._id == classinfo.teacher){%>
                 <button class="btn btn-secondary w-100" id="newVideo" data-toggle="modal" data-target="#uploadVideoModal">新增</button>
+                <%}%>
+
                 <!-- Modal -->
                 <div class="modal fade" id="uploadVideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                     aria-hidden="true">
@@ -264,13 +271,14 @@
                                         </div>
                                         <script>
                                             var selectFile = document.getElementById('select-file');
-                                        var fileText = document.getElementById('file-text');
-                                        selectFile.addEventListener('change',function(){
-                                            var fileName = selectFile.files[0].name;
+                                            var fileText = document.getElementById('file-text');
+                                            selectFile.addEventListener('change',function(){
+                                                var fileName = selectFile.files[0].name;
                                       
-                                            fileText.innerHTML = fileName;
-                                        });
-                                    </script>
+                                                fileText.innerHTML = fileName;
+                                            });
+                                        
+                                        </script>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="progress mt-1" id="uploadProgressBar">
@@ -337,14 +345,215 @@
                 <!-- Modal -->
 
             </div>
-            <div class="col">
-                <button class="btn btn-primary w-100">試卷</button>
+            <div class="col-lg-3 col-sm-12">
+                <button class="btn btn-primary w-100">測驗</button>
                 <hr>
-                <div style="height: 55%;overflow-y: scroll;"></div>
-                <br>
-                <button class="btn btn-secondary w-100">新增</button>
-            </div>
+                <div class="list-group" style="height: 300px;overflow-y: scroll;">
+                    <%if(typeof tests !="undefined" ){%>
+                    <%tests.forEach(function(test){%>
+                    <div class="alert alert-warning alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
+                        role="alert">
+                        <p style="padding: 0;margin: 0 " onclick="showTest('<%=test._id%>')">
+                            <%=test.testName%>
+                        </p>
+                        <%if(classinfo.teacher == user._id){%>
+                        <a class="close" style="padding: 12px;">
+                            <span class="delete-test" id="<%=test._id%>" aria-hidden="true">&times;</span>
+                        </a>
+                        <%}%>
 
+                    </div>
+
+                    <%})%>
+                    <%}%>
+
+                </div>
+                <br>
+                <%if(user._id == classinfo.teacher){%>
+                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal">新增</button>
+                <!-- Modal -->
+                <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" style="width: 50%;max-width: 50%;" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">新增測驗</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">測驗名稱：</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="testName" placeholder="請輸入測驗名稱">
+                                    </div>
+                                </div>
+                                <div class="bg-info p-2" id="QuationList" style="height: 20rem;overflow: scroll;">
+
+                                </div>
+                                <div class="bg-light pt-2" id="QuationSelector">
+                                    <div class="container" style="display: flex;justify-content: space-between">
+                                        <label><input type="radio" onclick="checkSelect(this)" id="MCQ" checked> 選擇題</label>
+                                        <label><input type="radio" onclick="checkSelect(this)" id="YNQ"> 是非題</label>
+                                        <label><input type="radio" onclick="checkSelect(this)" id="FBQ"> 填空題</label>
+                                        <label><input type="radio" onclick="checkSelect(this)" id="PGQ"> 程式題</label>
+                                    </div>
+
+                                    <div class="container pb-2 pt-2" id="MCD">
+                                        <div class="form-group row title">
+                                            <label class="col-sm-2 col-form-label ">題目：</label>
+                                            <div class="col-sm-10 title-col">
+                                                <input type="text" class="form-control title-text" placeholder="請輸入題目">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">答案：</label>
+                                        </div>
+
+                                        <div class="form-group row answerA">
+                                            <div class="col-sm-1 answerA-check-col">
+                                                <input type="radio" onclick="checkAnswerCheck(this)" class="form-control answerA-check">
+                                            </div>
+                                            <div class="col-sm-1 form-control" style="background: none;border: none">
+                                                <label>A：</label>
+                                            </div>
+                                            <div class="col-sm-10 answerA-text-col">
+                                                <input type="text" class="form-control answerA-text" placeholder="請輸入選項內容">
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row answerB">
+                                            <div class="col-sm-1 answerB-check-col">
+                                                <input type="radio" onclick="checkAnswerCheck(this)" class="form-control answerB-check">
+                                            </div>
+                                            <div class="col-sm-1 form-control " style="background: none;border: none">
+                                                <label>B：</label>
+                                            </div>
+                                            <div class="col-sm-10 answerB-text-col">
+                                                <input type="text" class="form-control answerB-text" placeholder="請輸入選項內容">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row answerC">
+                                            <div class="col-sm-1 answerC-check-col">
+                                                <input type="radio" onclick="checkAnswerCheck(this)" class="form-control answerC-check">
+                                            </div>
+                                            <div class="col-sm-1 form-control" style="background: none;border: none">
+                                                <label>C：</label>
+                                            </div>
+                                            <div class="col-sm-10 answerC-text-col">
+                                                <input type="text" class="form-control answerC-text" placeholder="請輸入選項內容">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row answerD">
+                                            <div class="col-sm-1 answerD-check-col">
+                                                <input type="radio" onclick="checkAnswerCheck(this)" class="form-control answerD-check">
+                                            </div>
+                                            <div class="col-sm-1 form-control" style="background: none;border: none">
+                                                <label>D：</label>
+                                            </div>
+                                            <div class="col-sm-10 answerD-text-col">
+                                                <input type="text" class="form-control answerD-text" placeholder="請輸入選項內容">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container pb-2 pt-2" id="YND" style="display: none">
+                                        <div class="form-group row title">
+                                            <label class="col-sm-2 col-form-label">題目：</label>
+                                            <div class="col-sm-10 title-col">
+                                                <input type="text" class="form-control title-text" placeholder="請輸入題目">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row answer">
+                                            <label class="col-sm-2 col-form-label ">答案：</label>
+                                            <div class="col-sm-4 answer-col">
+                                                <div class="form-check form-check-inline pt-1 answer-form" style="display: flex;justify-content: space-evenly">
+                                                    <input class="form-check-input answer-y" type="radio" name="exampleRadios"
+                                                        id="yes" value="option1">
+                                                    <span class="form-check-label pl-0" for="yes">
+                                                        是
+                                                    </span>
+                                                    <input class="form-check-input answer-n" type="radio" name="exampleRadios"
+                                                        id="no" value="option1">
+                                                    <span class="form-check-label pl-0" for="no">
+                                                        否
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container pb-2 pt-2" id="FBD" style="display: none">
+                                        <div class="form-group row title">
+                                            <label class="col-sm-2 col-form-label">題目：</label>
+                                            <div class="col-sm-10 title-col">
+                                                <input type="text" class="form-control title-text" placeholder="請輸入題目">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">答案：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" id="FBDanswer" class="form-control" placeholder="請輸入答案">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container pb-2 pt-2" id="PGD" style="display: none">
+                                        <div class="form-group row title">
+                                            <label class="col-sm-2 col-form-label">題目：</label>
+                                            <div class="col-sm-10 title-col">
+                                                <input type="text" class="form-control title-text" placeholder="請輸入題目">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">輸入說明：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" id="input-description" class="form-control"
+                                                    placeholder="請輸入輸入說明">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">輸出說明：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" id="output-description" class="form-control"
+                                                    placeholder="請輸入輸出說明">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row ">
+                                            <label class="col-3 col-form-label mr-0">範例輸入輸出：</label>
+                                            <div class="col w-100">
+                                                <textarea class="w-100" rows="3" id="input-example"></textarea>
+                                            </div>
+                                            <div class="col w-100">
+                                                <textarea class="w-100" rows="3" id="output-example"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="number" id="score" class="form-control" placeholder="請輸入配分">
+                                <button type="button" class="btn btn-secondary" onclick="createNewQution()">新增題目</button>
+                                <button type="button" class="btn btn-primary" onclick="saveQutionList()">儲存題目</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <button class="btn btn-primary w-100">作業</button>
+                <hr>
+                <div style="height: 300px;overflow-y: scroll;"></div>
+                <br>
+                <%if(user._id == classinfo.teacher){%>
+                <button class="btn btn-secondary w-100">新增</button>
+                <%}%>
+            </div>
         </div>
         <%}%>
     </div>
@@ -352,39 +561,22 @@
 <script>
     function createNewUnit() {
         let unitName = document.getElementById('unitName');
-
-        $.ajax({
-            type: 'POST',
-            url: '/class/<%=classinfo._id%>/addUnit',
-            data: {
-                unitname: unitName.value
-            },
-            success: function (response) {
-                alert('新增成功');
-                window.location = '/class/classManager/<%=id%>';
-            },
-            error: function (err) {
-                alert('新增失敗');
-                console.log(err);
-            }
-        });
+        window.location = '/class/<%=classinfo._id%>/addUnit/' + unitName.value;
     }
 
     function showDelete() {
-        let showAddUnit = document.getElementsByClassName("showAddUnit");
+        // let showAddUnit = document.getElementsByClassName("showAddUnit");
         let showDeleteUnit = document.getElementsByClassName("showDeleteUnit");
         let deleteUnitBtn = document.getElementById("deleteUnitBtn");
-        for (let i = 0; i < showAddUnit.length; i++) {
-            if (showAddUnit[i].style.display == "none") {
-                showAddUnit[i].style.display = "inline";
-                showDeleteUnit[i].style.display = "none";
-                deleteUnitBtn.innerHTML = "刪除單元";
-                deleteUnitBtn.className = "btn-danger float-right";
-            } else {
-                showAddUnit[i].style.display = "none";
+        for (let i = 0; i < showDeleteUnit.length; i++) {
+            if (showDeleteUnit[i].style.display == "none") {
                 showDeleteUnit[i].style.display = "inline";
                 deleteUnitBtn.innerHTML = "完成";
                 deleteUnitBtn.className = "btn-success float-right";
+            } else {
+                showDeleteUnit[i].style.display = "none";
+                deleteUnitBtn.innerHTML = "刪除單元";
+                deleteUnitBtn.className = "btn-danger float-right";
             }
         }
     }
@@ -418,7 +610,8 @@
             '/',
             {
                 name: 'basicstyles',
-                items: ['Font', 'FontSize', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+                items: ['Font', 'FontSize', 'Bold', 'Italic', 'Underline', 'Strike',
+                    'Subscript',
                     'Superscript'
                 ]
             },
@@ -436,14 +629,16 @@
             if (result == true) {
                 $target = $(e.target);
                 const id = $target.attr('id');
-                const unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
+                const unitID = document.getElementById('unitID').innerText.replace(/\s/g,
+                    '');
                 console.log(unitID);
 
                 $.ajax({
                     type: 'DELETE',
                     url: '/class/deletechapter/' + id,
                     success: function (response) {
-                        window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
+                        window.location.href =
+                            '/class/<%=classinfo._id%>/showUnit/' + unitID;
                         alert('刪除成功!');
                     },
                     error: function (err) {
@@ -461,12 +656,37 @@
             if (result == true) {
                 $target = $(e.target);
                 const id = $target.attr('id');
-                const unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
+                const unitID = document.getElementById('unitID').innerText.replace(/\s/g,
+                    '');
                 console.log(unitID);
 
                 $.ajax({
                     type: 'DELETE',
                     url: '/class/deletevideo/' + id,
+                    success: function (response) {
+                        window.location.href =
+                            '/class/<%=classinfo._id%>/showUnit/' + unitID;
+                        alert('刪除成功!');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+
+            }
+
+        })
+        //刪除測驗
+        $('.delete-test').on('click', function (e) {
+            result = window.confirm("你確定要刪除這個測驗嗎？");
+            if (result == true) {
+                $target = $(e.target);
+                const id = $target.attr('id');
+                const unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/class/deletetest/' + id,
                     success: function (response) {
                         window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
                         alert('刪除成功!');
@@ -480,6 +700,7 @@
             }
 
         })
+
         //點擊已新增的講義列表中的一個講義 秀出講義的內容
         showChapter = function (chapterID) {
             let path = '/class/showChapter/' + chapterID;
@@ -491,6 +712,12 @@
             let path = '/class/showVideo/' + videoID;
             window.location = path;
         }
+
+        //點擊已新增的講義列表中的一個測驗 秀出測驗的內容
+        showTest = function (testID) {
+            let path = '/class/showTest/' + testID;
+            window.location = path;
+        }
         let uploadvideoURLbutton = document.getElementById('upload-videoURL-button');
         uploadvideoURLbutton.onclick = function () {
             let classID = document.getElementById('classID').innerText.replace(/\s/g, '');
@@ -498,18 +725,21 @@
             let videoURL = document.getElementById('URL-videoURL').value;
             let url = '';
             var pos = videoURL.indexOf("watch?v=");
-            if (pos != -1) {
-                url = videoURL.substring(pos + 8);
-                console.log(url);
+            var end = videoURL.indexOf("&");
+            console.log(end);
 
+            if (pos != -1) {
+                url = videoURL.substring(pos + 8, end);
+                console.log(url);
             }
+
             $.ajax({
                 type: 'POST',
-                url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' + videoname +
+                url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' +
+                    videoname +
                     '/' + url,
                 success: function (response) {
-                    window.location = '/class/' + classID + '/showUnit/' + unitID.innerText.replace(
-                        /\s/g, '');
+                    window.location = '/class/' + "<%=classinfo._id%>";
                     alert('新增成功!');
                 },
                 error: function (err) {
@@ -517,8 +747,467 @@
                 }
             });
         }
+
+    }
+    //測驗出題的部分
+    let MCQ = document.getElementById('MCQ'); //選擇題按鈕
+    let YNQ = document.getElementById('YNQ'); //是非題按鈕
+    let FBQ = document.getElementById('FBQ'); //填空題按鈕
+    let PGQ = document.getElementById('PGQ'); //程式題按鈕
+    let MCD = document.getElementById('MCD'); //選擇題輸入匡
+    let YND = document.getElementById('YND'); //是非題輸入匡
+    let FBD = document.getElementById('FBD'); //填空題輸入匡
+    let PGD = document.getElementById('PGD'); //程式題輸入匡
+    function checkSelect(e) {
+        if (e.id == 'MCQ') {
+            MCD.style.cssText = 'display:block';
+            YND.style.cssText = 'display:none';
+            FBD.style.cssText = 'display:none';
+            PGD.style.cssText = 'display:none';
+            YNQ.checked = false;
+            FBQ.checked = false;
+            PGQ.checked = false;
+        }
+        if (e.id == 'YNQ') {
+            MCD.style.cssText = 'display:none';
+            YND.style.cssText = 'display:block';
+            FBD.style.cssText = 'display:none';
+            PGD.style.cssText = 'display:none';
+            MCQ.checked = false;
+            FBQ.checked = false;
+            PGQ.checked = false;
+        }
+        if (e.id == 'FBQ') {
+            MCD.style.cssText = 'display:none';
+            YND.style.cssText = 'display:none';
+            FBD.style.cssText = 'display:block';
+            PGD.style.cssText = 'display:none';
+            MCQ.checked = false;
+            YNQ.checked = false;
+            PGQ.checked = false;
+        }
+        if (e.id == 'PGQ') {
+            MCD.style.cssText = 'display:none';
+            YND.style.cssText = 'display:none';
+            FBD.style.cssText = 'display:none';
+            PGD.style.cssText = 'display:block';
+            MCQ.checked = false;
+            YNQ.checked = false;
+            FBQ.checked = false;
+        }
+    }
+
+    // checkA.onclick = checkAnswerCheck();
+    // checkB.onclick = checkAnswerCheck();
+    // checkC.onclick = checkAnswerCheck();
+    // checkD.onclick = checkAnswerCheck();
+
+    function checkAnswerCheck(e) {
+        let checkA = $('#MCD').children('.answerA').children('.answerA-check-col').children('.answerA-check')[0];
+        let checkB = $('#MCD').children('.answerB').children('.answerB-check-col').children('.answerB-check')[0];
+        let checkC = $('#MCD').children('.answerC').children('.answerC-check-col').children('.answerC-check')[0];
+        let checkD = $('#MCD').children('.answerD').children('.answerD-check-col').children('.answerD-check')[0];
+        console.log(checkA);
+
+        if (e.className == "form-control answerA-check") {
+            checkB.checked = false;
+            checkC.checked = false;
+            checkD.checked = false;
+        }
+        if (e.className == "form-control answerB-check") {
+            checkA.checked = false;
+            checkC.checked = false;
+            checkD.checked = false;
+        }
+        if (e.className == "form-control answerC-check") {
+            checkB.checked = false;
+            checkA.checked = false;
+            checkD.checked = false;
+        }
+        if (e.className == "form-control answerD-check") {
+            checkB.checked = false;
+            checkC.checked = false;
+            checkA.checked = false;
+        }
+    }
+    //新增題目的部分
+    function createNewQution() {
+        let checkA = $('#MCD').children('.answerA').children('.answerA-check-col').children('.answerA-check')[0];
+        let checkB = $('#MCD').children('.answerB').children('.answerB-check-col').children('.answerB-check')[0];
+        let checkC = $('#MCD').children('.answerC').children('.answerC-check-col').children('.answerC-check')[0];
+        let checkD = $('#MCD').children('.answerD').children('.answerD-check-col').children('.answerD-check')[0];
+        let textA = $('#MCD').children('.answerA').children('.answerA-text-col').children('.answerA-text')[0];
+        let textB = $('#MCD').children('.answerB').children('.answerB-text-col').children('.answerB-text')[0];
+        let textC = $('#MCD').children('.answerC').children('.answerC-text-col').children('.answerC-text')[0];
+        let textD = $('#MCD').children('.answerD').children('.answerD-text-col').children('.answerD-text')[0];
+        if (MCQ.checked) {
+            let title = $('#MCD').children('.title').children('.title-col').children('.title-text')[0];
+            let answerA = {
+                checked: $('#MCD').children('.answerA').children('.answerA-check-col').children('.answerA-check')[0]
+                    .checked,
+                text: $('#MCD').children('.answerA').children('.answerA-text-col').children('.answerA-text').val()
+            }
+            let answerB = {
+                checked: $('#MCD').children('.answerB').children('.answerB-check-col').children('.answerB-check')[0]
+                    .checked,
+                text: $('#MCD').children('.answerB').children('.answerB-text-col').children('.answerB-text').val()
+            }
+            let answerC = {
+                checked: $('#MCD').children('.answerC').children('.answerC-check-col').children('.answerC-check')[0]
+                    .checked,
+                text: $('#MCD').children('.answerC').children('.answerC-text-col').children('.answerC-text').val()
+            }
+            let answerD = {
+                checked: $('#MCD').children('.answerD').children('.answerD-check-col').children('.answerD-check')[0]
+                    .checked,
+                text: $('#MCD').children('.answerD').children('.answerD-text-col').children('.answerD-text').val()
+            }
+            let score = document.getElementById('score');
+            let answer = {
+                title: title.value,
+                answerA: answerA,
+                answerB: answerB,
+                answerC: answerC,
+                answerD: answerD,
+                score: score.value,
+                type: 'MCQ'
+            }
+            console.log(answer);
+            updateCreatedQutionList(answer);
+            //清除上次填的資料
+            checkA.checked = false;
+            checkB.checked = false;
+            checkC.checked = false;
+            checkD.checked = false;
+            textA.value = '';
+            textB.value = '';
+            textC.value = '';
+            textD.value = '';
+            title.value = '';
+            score.value = '';
+
+        }
+        if (YNQ.checked) {
+            let title = $('#YND').children('.title').children('.title-col').children('.title-text')[0];
+            let answery = document.getElementById('yes').checked;
+            let answern = document.getElementById('no').checked;
+            let score = document.getElementById('score');
+            let answer = {
+                title: title.value,
+                answer: '',
+                score: score.value,
+                type: 'YNQ'
+            }
+            if (answery && !answern) {
+                answer.answer = 'yes'
+            } else if (answern && !answery) {
+                answer.answer = 'no'
+            }
+            //console.log(answer);
+            updateCreatedQutionList(answer);
+
+            //清除上次填寫資料
+            score.value = '';
+            title.value = '';
+            answery = false;
+            answern = false;
+
+        }
+        if (FBQ.checked) {
+            let title = $('#FBD').children('.title').children('.title-col').children('.title-text')[0];
+            let answertext = document.getElementById('FBDanswer');
+            let score = document.getElementById('score');
+            let answer = {
+                title: title.value,
+                answer: answertext.value,
+                score: score.value,
+                type: 'FBQ'
+            }
+            //console.log(answer);
+            updateCreatedQutionList(answer);
+
+            score.value = '';
+            title.value = '';
+            answertext.value = '';
+        }
+        if (PGQ.checked) {
+            let title = $('#PGD').children('.title').children('.title-col').children('.title-text')[0];
+            let inputd = document.getElementById('input-description');
+            let outputd = document.getElementById('output-description');
+            let inpute = document.getElementById('input-example');
+            let outpute = document.getElementById('output-example');
+            let score = document.getElementById('score');
+
+            let answer = {
+                title: title.value,
+                inputDescription: inputd.value,
+                outputDescription: outputd.value,
+                inputExample: inpute.value,
+                outputExample: outpute.value,
+                score: score.value,
+                type: 'PGQ',
+                answer: false
+            }
+            console.log(answer);
+            updateCreatedQutionList(answer);
+
+            title.value = '';
+            inputd.value = '';
+            outputd.value = '';
+            inpute.value = '';
+            outpute.value = '';
+            score.value = '';
+
+        }
+    }
+    let QuationList = [];
+
+    function updateCreatedQutionList(newQution) {
+        QuationList.push(newQution);
+        console.log(QuationList);
+
+        let QuationListDIV = document.getElementById('QuationList');
+        if (newQution.type == 'MCQ') {
+            // <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            //     <h5>題目類型：選擇題</h5>
+            //     <h6>題目：我有10顆蘋果吃了兩顆請問還剩幾科</h6>
+            //     <p>A:9顆 B:8顆 C:7顆 D:6顆</p>
+            //     <p>正確答案:(B) 8顆</p>
+            //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            //         <span aria-hidden="true">&times;</span>
+            //     </button>
+            // </div>
+            let div = document.createElement('div');
+            div.className = 'alert alert-warning alert-dismissible fade show';
+            let h5 = document.createElement('h5');
+            h5.innerText = "題目類型：選擇題";
+            let h6 = document.createElement('h6');
+            h6.innerText = `題目：${newQution.title}`;
+            let p1 = document.createElement('p');
+            p1.innerText =
+                `A: ${newQution.answerA.text} B:${newQution.answerB.text} C:${newQution.answerC.text} D:${newQution.answerD.text} `;
+            let p2 = document.createElement('p');
+            let correct = '未設定';
+            let correctanswer = '未設定'
+            if (newQution.answerA.checked) {
+                correct = 'A';
+                correctanswer = newQution.answerA.text
+            }
+            if (newQution.answerB.checked) {
+                correct = 'B';
+                correctanswer = newQution.answerB.text
+            }
+            if (newQution.answerC.checked) {
+                correct = 'C';
+                correctanswer = newQution.answerC.text
+            }
+            if (newQution.answerD.checked) {
+                correct = 'D';
+                correctanswer = newQution.answerD.text
+            }
+            p2.innerText = `正確答案：(${correct}) ${correctanswer}`;
+            let p3 = document.createElement('p');
+            let score = document.getElementById('score');
+            p3.innerText = '配分：' + score.value;
+            let btn = document.createElement('button');
+            btn.className = 'close';
+            btn.setAttribute("data-dismiss", "alert");
+            btn.setAttribute("aria-label", "Close");
+            btn.setAttribute("onclick", `deleteQutioListItem(${QuationList.length - 1})`);
+
+            let span = document.createElement('span');
+            span.attributes = 'aria-hidden="true"';
+            span.setAttribute("aria-hidden", "true");
+            span.innerHTML = '&times;';
+            btn.appendChild(span);
+            div.appendChild(h5);
+            div.appendChild(h6);
+            div.appendChild(p1);
+            div.appendChild(p2);
+            div.appendChild(p3);
+            div.appendChild(btn);
+
+            QuationListDIV.appendChild(div);
+        }
+        if (newQution.type == 'YNQ') {
+            // <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            //     <h5>題目類型：是非題</h5>
+            //     <h6>題目：我是不是一個帥哥？</h6>
+            //     <p>正確答案:是</p>
+            //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            //         <span aria-hidden="true">&times;</span>
+            //     </button>
+            // </div>
+            let div = document.createElement('div');
+            div.className = 'alert alert-warning alert-dismissible fade show';
+            let h5 = document.createElement('h5');
+            h5.innerText = "題目類型：是非題";
+            let h6 = document.createElement('h6');
+            h6.innerText = `題目：${newQution.title}`;
+            let p = document.createElement('p');
+            if (newQution.answer == 'yes') {
+                p.innerHTML = '正確答案：是';
+            }
+            if (newQution.answer == 'no') {
+                p.innerHTML = '正確答案：否';
+            }
+            let p3 = document.createElement('p');
+            let score = document.getElementById('score');
+            p3.innerText = '配分：' + score.value;
+            let btn = document.createElement('button');
+            btn.className = 'close';
+            btn.setAttribute("data-dismiss", "alert");
+            btn.setAttribute("aria-label", "Close");
+            btn.setAttribute("onclick", `deleteQutioListItem(${QuationList.length - 1})`);
+
+            let span = document.createElement('span');
+            span.attributes = 'aria-hidden="true"';
+            span.setAttribute("aria-hidden", "true");
+            span.innerHTML = '&times;';
+            btn.appendChild(span);
+            div.appendChild(h5);
+            div.appendChild(h6);
+            div.appendChild(p);
+            div.appendChild(p3);
+            div.appendChild(btn);
+            QuationListDIV.appendChild(div);
+
+        }
+        if (newQution.type == 'FBQ') {
+            // <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            //     <h5>題目類型：填空題</h5>
+            //     <h6>題目：請寫出這學期上這堂課之後的心得</h6>
+            //     <p>正確答案:無設定正確答案</p>
+            //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            //         <span aria-hidden="true">&times;</span>
+            //     </button>
+            // </div>
+            let div = document.createElement('div');
+            div.className = 'alert alert-warning alert-dismissible fade show';
+            let h5 = document.createElement('h5');
+            h5.innerText = "題目類型：填空題";
+            let h6 = document.createElement('h6');
+            h6.innerText = `題目：${newQution.title}`;
+            let p = document.createElement('p');
+            if (newQution.answer == '' || undefined) {
+                p.innerHTML = "正確答案：無設定正確答案";
+            } else {
+                p.innerHTML = `正確答案：${newQution.answer}`;
+            }
+            let p3 = document.createElement('p');
+            let score = document.getElementById('score');
+            p3.innerText = '配分：' + score.value;
+            let btn = document.createElement('button');
+            btn.className = 'close';
+            btn.setAttribute("data-dismiss", "alert");
+            btn.setAttribute("aria-label", "Close");
+            btn.setAttribute("onclick", `deleteQutioListItem(${QuationList.length - 1})`);
+
+            let span = document.createElement('span');
+            span.attributes = 'aria-hidden="true"';
+            span.setAttribute("aria-hidden", "true");
+            span.innerHTML = '&times;';
+            btn.appendChild(span);
+            div.appendChild(h5);
+            div.appendChild(h6);
+            div.appendChild(p);
+            div.appendChild(p3);
+            div.appendChild(btn);
+            QuationListDIV.appendChild(div);
+        }
+        if (newQution.type == 'PGQ') {
+            //             div class="alert alert-warning alert-dismissible fade show" role="alert">
+            //                 <h5>題目類型：程式題</h5>
+            //                 <h6>題目：請用c語言print出下列圖形</h6>
+            //                 <p>輸入說明:輸入一個n且為正整數</p>
+            //                 <p>輸出說明:印出n階的三角形 註:不可直接印出此圖形</p>
+            //                 <pre>範例輸入:3</pre>
+            //                 <pre>範例輸出:
+            // *
+            // **
+            // ***
+            //                 </pre>
+
+            //                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            //                     <span aria-hidden="true">&times;</span>
+            //                 </button>
+            let div = document.createElement('div');
+            div.className = 'alert alert-warning alert-dismissible fade show';
+            let h5 = document.createElement('h5');
+            h5.innerText = "題目類型：填空題";
+            let h6 = document.createElement('h6');
+            h6.innerText = `題目：${newQution.title}`;
+            let p1 = document.createElement('p');
+            p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
+            let p2 = document.createElement('p');
+            p2.innerHTML = `輸出說明：${newQution.outputDescription}`;
+            let p3 = document.createElement('pre');
+            p3.innerHTML = `輸入範例：\n${newQution.inputExample}`;
+            let p4 = document.createElement('pre');
+            p4.innerHTML = `輸出範例：\n${newQution.outputExample}`;
+            let btn = document.createElement('button');
+            let p5 = document.createElement('p');
+            let score = document.getElementById('score');
+            p5.innerText = '配分：' + score.value;
+            btn.className = 'close';
+            // btn.attributes = 'data-dismiss="alert" aria-label="Close" qutionID=' + QuationList.length - 1;
+            btn.setAttribute("data-dismiss", "alert");
+            btn.setAttribute("aria-label", "Close");
+            btn.setAttribute("onclick", `deleteQutioListItem(${QuationList.length - 1})`);
+
+            let span = document.createElement('span');
+            span.attributes = 'aria-hidden="true"';
+            span.setAttribute("aria-hidden", "true");
+            span.innerHTML = '&times;';
+            btn.appendChild(span);
+            div.appendChild(h5);
+            div.appendChild(h6);
+            div.appendChild(p1);
+            div.appendChild(p2);
+            div.appendChild(p3);
+            div.appendChild(p4);
+            div.appendChild(p5);
+            div.appendChild(btn);
+            QuationListDIV.appendChild(div);
+        }
+
+    }
+
+    function deleteQutioListItem(id) {
+        QuationList[id] = '';
+        console.log(QuationList);
+    }
+
+    function saveQutionList() {
+        QuationList = QuationList.filter(list => list != '');
+        let testName = document.getElementById('testName');
+        let unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
+
+        let testinfo = {
+            testName: testName.value,
+            QuationList: QuationList,
+            belongUnit: unitID
+        }
+
+        //TODO
+        //傳到伺服器存起來
+        $.ajax({
+            url: '/class/addTest/class/<%=classinfo._id%>/unit/' + unitID,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(testinfo),
+            dataType: 'json',
+            success: function (response) {
+                alert('新增成功');
+                window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err.responseJSON.msg);
+            }
+        });
     }
 </script>
+
 <script src="/js/uploadVideo.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"

@@ -28,7 +28,15 @@ let classSchema = mongoose.Schema({
     },
     outline: {
         type: String
+    },
+    isLunched: {
+        type: Boolean,
+        require: true
+    },
+    classImage: {
+        type: String
     }
+
 });
 
 let Class = module.exports = mongoose.model('Class', classSchema, 'class');

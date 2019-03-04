@@ -17,6 +17,10 @@ let articleSchema = mongoose.Schema({
     body: {
         type: String,
         require: true
+    },
+    belongClass: {
+        type: String,
+        require: true
     }
 });
 
