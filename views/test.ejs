@@ -26,9 +26,11 @@
 </h4>
 <hr>
 <div class="col-md-12">
-
+    <%let i = 0%>
     <%test.testQutions.forEach(function(qution){%>
-    <div class="qution">
+
+    <%i++%>
+    <div class="qution" id="qution<%=i%>">
 
         <%if(qution.type=='MCQ'){%>
         <p style="font-size: 20px">題目:
@@ -103,26 +105,118 @@
                 <div class="col ">
                     <pre>輸入範例：
 <%=qution.inputExample%>
-            </pre>
+                    </pre>
                 </div>
                 <div class="col ">
                     <pre>輸出範例：
 <%=qution.outputExample%>
-            </pre>
+                    </pre>
                 </div>
             </div>
 
-
-            <p>(配分:
-                <%=qution.score%>)
-            </p>
         </div>
-        <%}%>
+
+        <div class="row" style="height: 20rem">
+            <div class="col">
+                <div class="md-form">
+                    <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code<%=i%>"></textarea>
+                </div>
+                <div class="md-form">
+                    <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input<%=i%>"></textarea>
+                </div>
+                <select id="language<%=i%>" class="mt-1">
+                    <option value="cpp">c++</option>
+                    <option value="c">c</option>
+                    <option value="javascript">javascript</option>
+                    <option value="python3">python</option>
+                </select>
+            </div>
+            <div class="col">
+                <div class="md-form">
+                    <div class="md-textarea form-control" style="height: 90%;">
+                        <pre id="output<%=i%>"></pre>
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-1 float-right" onclick="compile(<%=i%>)">編譯</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>(配分:
+                    <%=qution.score%>)
+                </p>
+            </div>
+        </div>
 
     </div>
-    <%})%>
+    <%}%>
+
+</div>
+<%})%>
 
 
 </div>
+<script>
+    let compile = function (qutionNumber) {
+        console.log(qutionNumber);
+        let script = document.getElementById('code' + qutionNumber);
+        let input = document.getElementById('input' + qutionNumber);
+        let language = document.getElementById('language' + qutionNumber);
+        let output = document.getElementById('output' + qutionNumber);
+        var scriptData = {
+            input: input.value,
+            script: script.value,
+            language: language.value,
+            id: "001"
+        }
+        console.log(scriptData);
+
+        var socket = io();
+        socket.emit('script', scriptData);
+        output.innerHTML = "編譯中....\n";
+        socket.on('answer', function (obj) {
+            console.log(obj);
+            output.innerHTML = "輸出:\n" + obj.body.output;
+        });
+        //為了讓textarea - script 按下tab的時候不會自己切去另一個textarea
+        script.onkeydown = function (e) {
+            if (e.keyCode == 9) {
+                insertAtCursor('    ');
+                return false;
+            }
+        }
+    }
+
+    let setCanTab = function (script) {
+        script.onkeydown = function (e) {
+            if (e.keyCode == 9) {
+                insertAtCursor2('    ', script);
+                return false;
+            }
+        }
+    }
+
+    function insertAtCursor2(myValue, field) {
+        myField = field;
+        //IE support
+        if (document.selection) {
+            myField.focus();
+            sel = document.selection.createRange();
+            sel.text = myValue;
+        }
+        //MOZILLA and others
+        else if (myField.selectionStart || myField.selectionStart == '0') {
+            var startPos = myField.selectionStart;
+            var endPos = myField.selectionEnd;
+            myField.value = myField.value.substring(0, startPos) +
+                myValue +
+                myField.value.substring(endPos, myField.value.length);
+            myField.selectionStart = startPos + myValue.length;
+            myField.selectionEnd = startPos + myValue.length;
+        } else {
+            myField.value += myValue;
+        }
+    }
+</script>
 
 <% include layout/footer %>

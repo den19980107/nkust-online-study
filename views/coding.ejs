@@ -67,49 +67,20 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">題目</th>
-                            <th scope="col">解題率</th>
-                            <th scope="col">難易度</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <%for(let i = 0;i<qutions.length;i++){%>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Two Sum</td>
-                            <td>73.4%</td>
-                            <td><span class="badge badge-success" style="font-size: 14px">簡單</span></td>
+                            <th scope="row">
+                                <%=i%>
+                            </th>
+                            <td>
+                                <%=qutions[i].title%>
+                            </td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Median of Two Sorted Arrays </td>
-                            <td>27.3%</td>
-                            <td><span class="badge badge-danger" style="font-size: 14px">困難</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Longest Palindromic Substring </td>
-                            <td>47.5%</td>
-                            <td><span class="badge badge-warning" style="font-size: 14px;color: white">普通</span></td>
+                        <%}%>
 
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Two Sum</td>
-                            <td>73.4%</td>
-                            <td><span class="badge badge-success" style="font-size: 14px">簡單</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Median of Two Sorted Arrays </td>
-                            <td>27.3%</td>
-                            <td><span class="badge badge-danger" style="font-size: 14px">困難</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>Longest Palindromic Substring </td>
-                            <td>47.5%</td>
-                            <td><span class="badge badge-warning" style="font-size: 14px;color: white">普通</span></td>
-
-                        </tr>
                     </tbody>
                 </table>
             </div>

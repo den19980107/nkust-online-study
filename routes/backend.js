@@ -12,6 +12,9 @@ let Chapter = require('../model/chapter');
 let Video = require('../model/video');
 //bring Videobehavior model
 let Videobehavior = require('../model/videobehavior');
+//bring codeqution model
+let CodeQution = require('../model/codeQution');
+
 router.get('/', function (req, res) {
     if (req.user.permission != "admin") {
         req.flash('danger', '您不是管理員');
@@ -85,5 +88,22 @@ router.get('/videoBehavior/:id', function (req, res) {
 
 router.get('/uploadCodeQution', function (req, res) {
     res.render('uploadCodeingQution')
+})
+router.post('/uploadCodeQution', function (req, res) {
+    //TODO 把題目存進資料庫
+    console.log(req.body);
+    let newQution = CodeQution();
+    newQution.title = req.body.title;
+    newQution.description = req.body.description;
+    newQution.exInput = req.body.Exinput;
+    newQution.exoutput = req.body.Exoutput;
+    newQution.url = req.body.qutionURL
+    newQution.save(function (err) {
+        if (err) {
+            console.log(err);
+        }
+        req.flash('success', '新增成功');
+        res.redirect('/backend/uploadCodeQution');
+    })
 })
 module.exports = router;
