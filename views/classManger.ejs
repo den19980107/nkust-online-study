@@ -1,7 +1,7 @@
 <% include layout/header %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
     crossorigin="anonymous">
-<script src="https://cdn.ckeditor.com/4.11.1/full/ckeditor.js"></script>
+<script src="/ckeditor/ckeditor.js"></script>
 
 <style>
     .just-padding {
@@ -108,8 +108,8 @@
                         <%=unit.unitName%>
                     </a>
                     <%if(user._id == classinfo.teacher){%>
-                    <a href="/class/classManager/<%=classinfo._id%>/deleteUnit/<%=unit._id%>" class="close">
-                        <span aria-hidden="true">&times;</span>
+                    <a class=" close">
+                        <span id="<%=unit._id%>" class="delete-unit" aria-hidden="true">&times;</span>
                     </a>
                     <%}%>
 
@@ -291,7 +291,7 @@
                                             </div>
 
                                         </div>
-                                        <table id="uploadVideoList" class="table table-hover">
+                                        <table id="uploadVideoList" class="table table-hover" style="display: none">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
@@ -558,6 +558,31 @@
         <%}%>
     </div>
 </div>
+<%if (locals.noSelectUnit) {%>
+<script>
+    console.log("<%=noSelectUnit%>");
+    window.onload = function () {
+        console.log("loaded");
+
+        //刪除單元
+        $('.delete-unit').on('click', function (e) {
+            console.log("asd");
+
+            result = window.confirm("你確定要刪除這個單元嗎？");
+            if (result == true) {
+                $target = $(e.target);
+                const id = $target.attr('id');
+                console.log(id);
+
+                window.location.href = "/class/classManager/<%=classinfo._id%>/deleteUnit/" + id;
+            } else {
+
+            }
+
+        })
+    }
+</script>
+<%}%>
 <script>
     function createNewUnit() {
         let unitName = document.getElementById('unitName');
@@ -583,46 +608,29 @@
 
     CKEDITOR.replace('LectureDetail', {
         height: 400,
-        toolbar: [{
-                name: 'save',
-                items: ['savebtn', 'Undo', 'Redo']
-            },
-            {
-                name: 'clipboard',
-                items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord']
-            },
-            {
-                name: 'document',
-                items: ['Find', 'Replace']
-            },
-            {
-                name: 'lists',
-                items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent']
-            },
-            {
-                name: 'insert',
-                items: ['Image', 'Table', 'Smiley', 'SpecialChar']
-            },
-            {
-                name: 'link',
-                items: ['Link', 'Unlink']
-            },
-            '/',
-            {
-                name: 'basicstyles',
-                items: ['Font', 'FontSize', 'Bold', 'Italic', 'Underline', 'Strike',
-                    'Subscript',
-                    'Superscript'
-                ]
-            },
-            //'/',
-            {
-                name: 'align',
-                items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-            }
-        ]
+        filebrowserUploadUrl: '/uploader',
+        //記得加下面那行  filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form',
     });
     window.onload = function () {
+        console.log("loaded");
+
+        //刪除單元
+        $('.delete-unit').on('click', function (e) {
+            console.log("asd");
+
+            result = window.confirm("你確定要刪除這個單元嗎？");
+            if (result == true) {
+                $target = $(e.target);
+                const id = $target.attr('id');
+                console.log(id);
+
+                window.location.href = "/class/classManager/<%=classinfo._id%>/deleteUnit/" + id;
+            } else {
+
+            }
+
+        })
         //刪除講義
         $('.delete-chapter').on('click', function (e) {
             result = window.confirm("你確定要刪除這篇講義嗎？");
@@ -652,7 +660,7 @@
         })
         //刪除影片
         $('.delete-video').on('click', function (e) {
-            result = window.confirm("你確定要刪除這篇講義嗎？");
+            result = window.confirm("你確定要刪除這個影片嗎？");
             if (result == true) {
                 $target = $(e.target);
                 const id = $target.attr('id');

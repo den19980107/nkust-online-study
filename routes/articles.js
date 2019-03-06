@@ -5,8 +5,10 @@ const router = express.Router();
 let Article = require('../model/article');
 //bring User model
 let User = require('../model/user');
-
-
+//bring student comment article model
+let studentCommentArticle = require('../model/studentCommentArticle');
+//bring Class model
+let Class = require('../model/class');
 //把有格式的字轉成沒格式 <<h2p>>
 var h2p = require('html2plaintext')
 
@@ -99,18 +101,28 @@ router.post('/edit/:id/inClass/:classid', function (req, res) {
 //顯示一篇文章的route
 router.get('/:id/inClass/:classid', ensureAuthenticated, function (req, res) {
     Article.findById(req.params.id, function (err, article) {
-        User.findById(article.author_id, function (err, user) {
+        Class.findById(article.belongClass, function (err, classinfo) {
+            User.findById(article.author_id, function (err, user) {
+                studentCommentArticle.find({
+                    articleID: article._id
+                }, function (err, articleComments) {
+                    console.log(articleComments);
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.render('article', {
+                            article: article,
+                            author: user.name,
+                            belongclass: req.params.classid,
+                            comments: articleComments,
+                            classinfo: classinfo
+                        })
+                    }
+                });
 
-            if (err) {
-                console.log(err);
-            } else {
-                res.render('article', {
-                    article: article,
-                    author: user.name,
-                    belongclass: req.params.classid
-                })
-            }
+            });
         });
+
     });
 });
 

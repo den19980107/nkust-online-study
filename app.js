@@ -175,13 +175,14 @@ let Class = require('./routes/class');
 let backend = require('./routes/backend');
 let SDC = require('./routes/SDC');
 let coding = require('./routes/coding');
+let uploader = require('./routes/uploader');
 app.use('/articles', articles);
 app.use('/users', users);
 app.use('/class', Class);
 app.use('/backend', backend);
 app.use('/SDC', SDC);
 app.use('/coding', coding);
-
+app.use('/uploader', uploader);
 //start server
 server.listen(port, function () {
     console.log("Server started on port" + port);

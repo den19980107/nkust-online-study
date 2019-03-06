@@ -12,6 +12,9 @@ let chapterSchema = mongoose.Schema({
     body: {
         type: String,
         require: true
+    },
+    images: {
+        type: Array
     }
 });
 

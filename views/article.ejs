@@ -3,7 +3,25 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossorigin="anonymous">
 
-
+<style>
+    .replyInput{
+        height: 100%;
+        width: 100%;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+    .replyInput:focus{
+        outline: none;
+        border-bottom: 2px solid black;
+        animation-name: showCommentField;
+        animation-duration: 0.7s;
+    }
+    @keyframes showCommentField {
+        from {border-bottom: 2px solid rgb(211, 206, 206);}
+        to {border-bottom: 2px solid black;}
+    }
+</style>
 <div class="container  p-4">
     <div class="row">
         <div class="col-9">
@@ -92,20 +110,68 @@
             <div id="reply" class="bg-white mt-4" style="padding: 50px;">
                 <h3 class="text-secondary">回覆</h3>
                 <br>
-                <ul class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="row">
-                            <div class="col-1">
-                                <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
-                            </div>
-                            <div class="col-9">
+                <div class="row" style="height: 50px">
+                    <div class="col-1">
+                        <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
+                    </div>
+                    <div class="col-11">
+                        <input type="text" id="replyInput" class="replyInput">
+                    </div>
+                </div>
+                <br>
+                <div class="row" style="height: auto;display: none;" id="commentDiv">
+                    <div class="col">
+                        <a class="btn btn-primary" style="float: right;color: white;" id="submitComment">留言</a>
+                        <a class="btn " style="float: right;margin-right: 1em;border: 1px solid black;border-radius: 3px">取消</a>
+                    </div>
+                </div>
+                <br>
 
-                                <p class="mb-1">上次老師說的那個泡沫...</p>
-                                <small class="text-muted">3 days ago</small>
+                <%comments.forEach(function(comment){%>
+                <div class="row" style="margin-top: 20px;">
+                    <%if(comments.length == 0){%>
+                    <div class="col">
+                        <h5 style="text-align: center">還沒有評論喔！快來留下你對這篇教材的想法吧～～</h5>
+                    </div>
+                    <%}else{%>
+
+                    <div class="col">
+                        <li style="width: 100%;list-style: none;margin-bottom: 20px;">
+                            <div class="row">
+                                <div class="col-1">
+                                    <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid"
+                                        alt="Responsive image">
+                                </div>
+                                <div class="col-11">
+                                    <div class="row">
+                                        <%if(comment.userID == classinfo.teacher){%>
+                                        <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
+                                            <%=comment.userName%>老師回復：
+                                        </h5>
+                                        <%}else{%>
+                                        <h5 style="margin-right: 10px;">
+                                            <%=comment.userName%>
+                                        </h5>
+                                        <%}%>
+
+                                        <p>
+                                            <%=comment.commentTime%>
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p style="width: 100%;word-wrap:break-word;padding-right: 5px;">
+                                            <%=comment.body%>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </ul>
+                        </li>
+                    </div>
+                    <%}%>
+                </div>
+                <%})%>
+
+
             </div>
 
         </div>
@@ -162,6 +228,50 @@
         // Change the read-only state of the editor.
         // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setReadOnly
         editor.setReadOnly(isReadOnly);
+    }
+    window.onload = function () {
+        $('.delete-article').on('click', function (e) {
+            $target = $(e.target);
+            const id = $target.attr('data-id');
+            const classid = $target.attr('data-classid');
+            $.ajax({
+                type: 'DELETE',
+                url: '/articles/' + id,
+                success: function (response) {
+                    alert('Deleting Article');
+                    window.location.href = '/articles/inClass/' + classid;
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        })
+
+
+        let replyInput = document.getElementById('replyInput');
+        let submitComment = document.getElementById('submitComment');
+        if (replyInput.value == "") {
+            submitComment.className += "btn btn-primary disabled"
+        }
+        replyInput.oninput = function () {
+            if (replyInput.value == "") {
+                submitComment.className += "btn btn-primary disabled"
+            } else {
+                submitComment.className = "btn btn-primary"
+            }
+        }
+        replyInput.onfocus = function () {
+
+            let commentDiv = document.getElementById('commentDiv');
+            commentDiv.style.cssText = "display:block";
+        }
+
+        submitComment.onclick = function () {
+            let replyInput = document.getElementById('replyInput');
+            window.location = "/SDC/user/<%=user._id%>/comment/article/<%=article._id%>/body/" + replyInput.value +
+                '/inClass/<%=article.belongClass%>';
+        }
+
     }
 </script>
 <!--  -->

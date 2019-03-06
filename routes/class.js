@@ -133,6 +133,10 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
     if (errors) {
         res.render('CreateNewClass', {
             user: req.user,
+            title: req.body.title,
+            outline: req.body.outline,
+            credit: req.body.credit,
+            classroom: req.body.classroom,
             errors: errors
         })
     } else {
@@ -244,7 +248,8 @@ router.get('/classManager/:id', function (req, res) {
             res.render('classManger', {
                 id: req.params.id,
                 classinfo: classinfo,
-                units: units
+                units: units,
+                noSelectUnit: true
             });
         })
 
@@ -264,7 +269,7 @@ router.get('/deleteCourse/:id', function (req, res) {
                     console.log(err);
                 }
                 req.flash('success', '刪除成功');
-                res.redirect('/class');
+                res.redirect('/users/myclass');
             })
         } else {
             req.flash('danger', '這堂課不是您開的課');

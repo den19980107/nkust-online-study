@@ -21,6 +21,9 @@ let StudebtTakeCourse = require('../model/StudentTakeCourse');
 let studentCommentChapter = require('../model/studentCommentChapter');
 //bring student comment video model
 let studentCommentVideo = require('../model/studentCommentVideo');
+//bring student comment article model
+let studentCommentArticle = require('../model/studentCommentArticle');
+
 //寄email的工具
 var nodemailer = require('nodemailer');
 router.get('/student/:sid/Take/class/:cid', function (req, res) {
@@ -143,4 +146,29 @@ router.get('/user/:uid/comment/video/:vid/body/:body', function (req, res) {
 
 });
 
+//使用者對文章留言
+// /user/<%=user._id%>/comment/article/<%=article._id%>/body/
+router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', function (req, res) {
+    let userID = req.params.uid;
+    let articleID = req.params.aid;
+    let body = req.params.body;
+    let userName = req.user.username;
+    let sca = new studentCommentArticle();
+    sca.userID = userID;
+    sca.articleID = articleID;
+    sca.body = body;
+    sca.userName = userName;
+    let d = new Date();
+    sca.commentTime = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+    console.log("sca = " + sca);
+
+    sca.save(function (err) {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect('/articles/' + articleID + '/inClass/' + req.params.cid);
+    })
+
+});
 module.exports = router;

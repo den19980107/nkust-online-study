@@ -10,48 +10,50 @@
     註冊
 </h1>
 <form method="POST" action="/users/register">
-    <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" name="name">
-    </div>
-    <div class="form-group">
-        <label>Email:</label>
-        <input type="text" class="form-control" name="email">
-    </div>
-    <div class="form-group">
-        <label>Username:</label>
-        <input type="text" class="form-control" name="username">
-    </div>
-    <div class="form-group">
-        <label>Password:</label>
-        <input type="password" class="form-control" name="password">
-    </div>
-    <div class="form-group">
-        <label>Confirm Password:</label>
-        <input type="password" class="form-control" name="password2">
-    </div>
-    <div class="form-group">
-        <label style="margin-right: 10px">身份</label>
-        <label>學生</label>
-        <input type="checkbox" id="student" name="student">
-        <label>老師</label>
-        <input type="checkbox" id="teacher" name="teacher">
-    </div>
-    <div id="hide" style="display: none">
+    <div id="remember_form">
         <div class="form-group">
-            <label>學校名稱:</label>
-            <input type="text" class="form-control" name="schoolname">
+            <label>姓名: <label style="color: red">*</label></label>
+            <input type="text" class="form-control" name="name">
         </div>
         <div class="form-group">
-            <label>科系:</label>
-            <input type="text" class="form-control" name="department">
+            <label>信箱: <label style="color: red">*</label></label>
+            <input type="text" class="form-control" name="email">
         </div>
         <div class="form-group">
-            <label>學號:</label>
-            <input type="text" class="form-control" name="studentid">
+            <label>帳號: <label style="color: red">*</label></label>
+            <input type="text" class="form-control" name="username">
         </div>
+        <div class="form-group">
+            <label>密碼: <label style="color: red">*</label></label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <div class="form-group">
+            <label>確認密碼: <label style="color: red">*</label></label>
+            <input type="password" class="form-control" name="password2">
+        </div>
+        <div class="form-group">
+            <label style="margin-right: 10px">身份</label>
+            <label>學生</label>
+            <input type="checkbox" id="student" name="student">
+            <label>老師</label>
+            <input type="checkbox" id="teacher" name="teacher">
+        </div>
+        <div id="hide" style="display: none">
+            <div class="form-group">
+                <label>學校名稱:</label>
+                <input type="text" class="form-control" name="schoolname">
+            </div>
+            <div class="form-group">
+                <label>科系:</label>
+                <input type="text" class="form-control" name="department">
+            </div>
+            <div class="form-group">
+                <label>學號:</label>
+                <input type="text" class="form-control" name="studentid">
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary submit" value="註冊">
     </div>
-    <input type="submit" class="btn btn-primary submit" value="註冊">
 </form>
 
 <script>
@@ -70,5 +72,11 @@
             hideForm.style.display = "none";
         }
     }
+</script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/sisyphus.js/1.1.3/sisyphus.min.js'></script>
+<!--執行程式碼-->
+<script>
+    $("#remember_form").sisyphus();
 </script>
 <% include layout/footer %>

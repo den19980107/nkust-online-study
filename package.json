@@ -16,6 +16,7 @@
     "body-parser": "^1.18.3",
     "chart.js": "^2.7.3",
     "connect-flash": "^0.1.1",
+    "connect-multiparty": "^2.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-messages": "^1.0.1",

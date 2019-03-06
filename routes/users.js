@@ -45,11 +45,11 @@ router.post('/register', function (req, res) {
     req.checkBody('username', '帳號不得為空').notEmpty();
     req.checkBody('password', '密碼不得為空').notEmpty();
     req.checkBody('password2', '密碼不相符合').equals(req.body.password);
-    if (permission == "student") {
-        req.checkBody('schoolname', '請輸入您的學校名稱').notEmpty();
-        req.checkBody('department', '請輸入您的系別').notEmpty();
-        req.checkBody('studentid', '請輸入您的學號').notEmpty();
-    }
+    // if (permission == "student") {
+    //     req.checkBody('schoolname', '請輸入您的學校名稱').notEmpty();
+    //     req.checkBody('department', '請輸入您的系別').notEmpty();
+    //     req.checkBody('studentid', '請輸入您的學號').notEmpty();
+    // }
 
     let errors = req.validationErrors();
 
@@ -132,19 +132,41 @@ router.get('/logout', function (req, res) {
 
 //update user info
 router.post('/updateUserinfo', function (req, res) {
+    console.log(req.body);
 
     let query = {
         _id: req.user.id
     }
-    User.update(query, {
-        "userInfo": req.body.userinfo
-    }, function (err) {
-        if (err) {
-            console.log(err);
-        }
-        req.flash('success', '更新成功');
-        res.redirect('/users/userinfo');
-    })
+    if (req.user.permission == "student") {
+        User.update(query, {
+            "userInfo": req.body.userinfo,
+            "name": req.body.name,
+            "email": req.body.email,
+            "schoolname": req.body.schoolname,
+            "department": req.body.department,
+            "studentid": req.body.studentid
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            req.flash('success', '更新成功');
+            res.redirect('/users/userinfo');
+        })
+    }
+    if (req.user.permission == "teacher") {
+        User.update(query, {
+            "userInfo": req.body.userinfo,
+            "name": req.body.name,
+            "email": req.body.email
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            req.flash('success', '更新成功');
+            res.redirect('/users/userinfo');
+        })
+    }
+
 });
 
 //顯示我選的課
@@ -168,7 +190,7 @@ router.get('/myclass', function (req, res) {
                     console.log(err);
                 }
                 res.render("myclass", {
-                    title: "我修的課",
+                    title: "修課清單",
                     classes: classesInfo
                 })
             })
@@ -183,7 +205,7 @@ router.get('/myclass', function (req, res) {
                 console.log(err);
             }
             res.render("myclass", {
-                title: "我開的課",
+                title: "開課清單",
                 classes: classes
             })
         })

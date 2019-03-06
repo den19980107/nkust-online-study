@@ -83,5 +83,7 @@ router.get('/videoBehavior/:id', function (req, res) {
     });
 });
 
-
+router.get('/uploadCodeQution', function (req, res) {
+    res.render('uploadCodeingQution')
+})
 module.exports = router;
