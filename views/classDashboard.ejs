@@ -170,14 +170,14 @@
         <%if(classinfo.isLunched){%>
         <button class="btn btn-info form-control mb-2">助教管理</button>
         <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
-        <button class="btn btn-info form-control mb-2">批閱考卷</button>
+        <a href="/class/correctTestIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">批閱測驗</a>
         <button class="btn btn-info form-control mb-2">學習狀況</button>
         <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">討論區</a>
         <%}else{%>
         <a href="/class/LunchClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">課程上架</a>
         <button class="btn btn-info form-control mb-2 disabled">助教管理</button>
         <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2 disabled" style="color: white">本班成員</a>
-        <button class="btn btn-info form-control mb-2 disabled">批閱考卷</button>
+        <a herf="/class/showTestIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2 disabled" style="color: white">批閱測驗</a>
         <button class="btn btn-info form-control mb-2 disabled">學習狀況</button>
         <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2 disabled" style="color: white">討論區</a>
         <%}%>

@@ -21,14 +21,20 @@
         transform: scale(1.005);
     }
 </style>
+<%if(isSubmited){%>
+<h4>考卷名稱:
+    <%=test.testName%>(已提交過此測驗)
+</h4>
+<%}else{%>
 <h4>考卷名稱:
     <%=test.testName%>
 </h4>
+<%}%>
+
 <hr>
 <div class="col-md-12">
     <%let i = 0%>
     <%test.testQutions.forEach(function(qution){%>
-
     <%i++%>
     <div class="qution" id="qution<%=i%>">
 
@@ -38,16 +44,16 @@
         </p>
         <div>
             <div class="row">
-                <div class="col-2"><input name="textmode" type="radio"> A:
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','A','<%=i%>')" type="radio"> A:
                     <%=qution.answerA.text%>
                 </div>
-                <div class="col-2"><input name="textmode" type="radio"> B:
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','B','<%=i%>')" type="radio"> B:
                     <%=qution.answerB.text%>
                 </div>
-                <div class="col-2"><input name="textmode" type="radio"> C:
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','C','<%=i%>')" type="radio"> C:
                     <%=qution.answerC.text%>
                 </div>
-                <div class="col-2"><input name="textmode" type="radio"> D:
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','D','<%=i%>')" type="radio"> D:
                     <%=qution.answerD.text%>
                 </div>
             </div>
@@ -64,8 +70,8 @@
         </p>
         <div>
             <div class="row">
-                <div class="col-2"><input name="textmode1" type="radio"> yes</div>
-                <div class="col-2"><input name="textmode1" type="radio"> no</div>
+                <div class="col-2"><input name="textmode1" onclick="onAnswer('YNQ','yes','<%=i%>')" type="radio"> yes</div>
+                <div class="col-2"><input name="textmode1" onclick="onAnswer('YNQ','no','<%=i%>')" type="radio"> no</div>
             </div>
             <br />
             <p>(配分:
@@ -81,7 +87,7 @@
             <div class="form-group row">
                 <div class="col">
                     <label for="inputEmail3" class=" col-form-label">請輸入答案:</label>
-                    <input type="text" class="form-control">
+                    <input type="text" id='FBQanswer<%=i%>' class="form-control" onkeyup="onAnswer('FBQ','null','<%=i%>')">
                 </div>
 
             </div>
@@ -113,50 +119,76 @@
                     </pre>
                 </div>
             </div>
-
-        </div>
-
-        <div class="row" style="height: 20rem">
-            <div class="col">
-                <div class="md-form">
-                    <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code<%=i%>"></textarea>
-                </div>
-                <div class="md-form">
-                    <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input<%=i%>"></textarea>
-                </div>
-                <select id="language<%=i%>" class="mt-1">
-                    <option value="cpp">c++</option>
-                    <option value="c">c</option>
-                    <option value="javascript">javascript</option>
-                    <option value="python3">python</option>
-                </select>
-            </div>
-            <div class="col">
-                <div class="md-form">
-                    <div class="md-textarea form-control" style="height: 90%;">
-                        <pre id="output<%=i%>"></pre>
+            <div class="row" style="height: 20rem">
+                <div class="col">
+                    <div class="md-form">
+                        <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code<%=i%>"></textarea>
                     </div>
+                    <div class="md-form">
+                        <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input<%=i%>"></textarea>
+                    </div>
+                    <select id="language<%=i%>" class="mt-1">
+                        <option value="cpp">c++</option>
+                        <option value="c">c</option>
+                        <option value="javascript">javascript</option>
+                        <option value="python3">python</option>
+                    </select>
                 </div>
-                <button class="btn btn-primary mt-1 float-right" onclick="compile(<%=i%>)">編譯</button>
+                <div class="col">
+                    <div class="md-form">
+                        <div class="md-textarea form-control" style="height: 90%;">
+                            <pre id="output<%=i%>"></pre>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-1 float-right" onclick="compile(<%=i%>)">編譯</button>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <p>(配分:
-                    <%=qution.score%>)
-                </p>
+            <div class="row">
+                <div class="col">
+                    <p>(配分:
+                        <%=qution.score%>)
+                    </p>
+                </div>
             </div>
-        </div>
 
+        </div>
+        <%}%>
     </div>
+
+    <%})%>
+    <%if(user.permission == 'student'){%>
+    <%if(isSubmited == false){%>
+    <button class="btn btn-primary float-right" onclick="finishTest()">送出</button>
     <%}%>
 
+    <%}%>
 </div>
-<%})%>
+
+
 
 
 </div>
 <script>
+    let answerArray = [];
+    let onAnswer = function (qutionType, answer, qutionNumber) {
+        console.log(qutionType + ' ' + answer + ' ' + qutionNumber);
+        if (qutionType == 'MCQ') {
+            answerArray[qutionNumber - 1] = answer
+        }
+        if (qutionType == 'YNQ') {
+            answerArray[qutionNumber - 1] = answer
+        }
+        if (qutionType == 'FBQ') {
+            let answerText = document.getElementById('FBQanswer' + qutionNumber).value;
+            answerArray[qutionNumber - 1] = answerText
+        }
+        if (qutionType == 'PGQ') {
+            answerArray[qutionNumber - 1] = answer
+        }
+        console.log(answerArray);
+
+    }
+
     let compile = function (qutionNumber) {
         console.log(qutionNumber);
         let script = document.getElementById('code' + qutionNumber);
@@ -177,6 +209,12 @@
         socket.on('answer', function (obj) {
             console.log(obj);
             output.innerHTML = "輸出:\n" + obj.body.output;
+
+            //記錄到答案中
+            onAnswer('PGQ', {
+                scriptData: scriptData,
+                output: obj.body.output
+            }, qutionNumber);
         });
         //為了讓textarea - script 按下tab的時候不會自己切去另一個textarea
         script.onkeydown = function (e) {
@@ -216,6 +254,28 @@
         } else {
             myField.value += myValue;
         }
+    }
+    let finishTest = function () {
+        let qutions = <%- JSON.stringify(test) %>
+        for (let i = 0; i < qutions.testQutions.length; i++) {
+            qutions.testQutions[i].userAnswer = answerArray[i]
+        }
+        qutions.writer = "<%=user._id%>"
+        console.log(qutions);
+        $.ajax({
+            url: '/SDC/submitTest',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(qutions),
+            dataType: 'json',
+            error: function (xhr) {
+                alert('發生錯誤');
+            },
+            success: function (response) {
+                alert('填寫測驗成功');
+                window.location = "/class/<%=classinfo._id%>/showUnit/<%=test.belongUnit%>"
+            }
+        })
     }
 </script>
 

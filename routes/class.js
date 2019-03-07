@@ -22,7 +22,8 @@ let studentCommentChapter = require('../model/studentCommentChapter');
 let studentCommentVideo = require('../model/studentCommentVideo');
 //bring Test model
 let Test = require('../model/test');
-
+//bring student submit test model
+let studntSubmitTest = require('../model/studentSubmitTest');
 const mongoose = require('mongoose');
 
 const config = require('../config/database'); //在我們的config file裡面可以設定要用的database URL
@@ -381,16 +382,34 @@ router.get('/:classID/showUnit/:unitID', function (req, res) {
                         if (err) {
                             console.log(err);
                         }
-                        res.render('classManger', {
-                            id: req.params.id,
-                            classinfo: classinfo,
-                            units: units,
-                            chapters: chapters,
-                            unitName: selectUnit,
-                            unitID: selectUnitID,
-                            videos: videos,
-                            tests: tests
-                        });
+                        studntSubmitTest.find({}, function (err, TestSubmitRecords) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            console.log(TestSubmitRecords);
+                            console.log(tests);
+
+                            for (let i = 0; i < TestSubmitRecords.length; i++) {
+                                for (let j = 0; j < tests.length; j++) {
+                                    if (TestSubmitRecords[i].writer == req.user._id) {
+                                        if (TestSubmitRecords[i].testID == tests[j]._id) {
+                                            tests[j].isComplete = true
+                                        }
+                                    }
+                                }
+                            }
+                            res.render('classManger', {
+                                id: req.params.id,
+                                classinfo: classinfo,
+                                units: units,
+                                chapters: chapters,
+                                unitName: selectUnit,
+                                unitID: selectUnitID,
+                                videos: videos,
+                                tests: tests
+                            });
+                        })
+
                     })
 
                 });
@@ -624,16 +643,57 @@ router.get('/showTest/:testID', function (req, res) {
                 if (err) {
                     console.log(err);
                 }
-                res.render('test', {
-                    test: test,
-                    classinfo: classinfo
-                });
+                let isSubmited = false;
+                studntSubmitTest.find({}, function (err, TestSubmitRecords) {
+                    for (let i = 0; i < TestSubmitRecords.length; i++) {
+                        if (TestSubmitRecords[i].writer == req.user._id) {
+                            if (TestSubmitRecords[i].testID == test._id) {
+                                isSubmited = true
+                            }
+                        }
+                    }
+                    res.render('test', {
+                        test: test,
+                        classinfo: classinfo,
+                        isSubmited: isSubmited
+                    });
+                })
+
             })
         });
 
     })
 
-})
+});
+//批閱考卷
+router.get('/correctTestIn/:classID', function (req, res) {
+    Class.findById(req.params.classID, function (err, classinfo) {
+        if (err) {
+            console.log(err);
+        }
+        Unit.find({
+            belongClass: classinfo._id
+        }, function (err, units) {
+            if (err) {
+                console.log(err);
+            }
+            let querytext = []
+
+            for (let i = 0; i < units.length; i++) {
+                querytext.push(ObjectID(units[i]._id).toString())
+            }
+            query = {
+                belongUnit: querytext
+            }
+            console.log("query = " + query);
+
+            Test.find(query, function (err, tests) {
+                console.log(tests);
+
+            })
+        })
+    })
+});
 
 //顯示所有有修這堂課的學生
 router.get('/showStudentIn/:classID', function (req, res) {

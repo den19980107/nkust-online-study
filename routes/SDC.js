@@ -23,7 +23,8 @@ let studentCommentChapter = require('../model/studentCommentChapter');
 let studentCommentVideo = require('../model/studentCommentVideo');
 //bring student comment article model
 let studentCommentArticle = require('../model/studentCommentArticle');
-
+//bring student submit test model
+let studntSubmitTest = require('../model/studentSubmitTest');
 //寄email的工具
 var nodemailer = require('nodemailer');
 router.get('/student/:sid/Take/class/:cid', function (req, res) {
@@ -170,5 +171,24 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', function (
         res.redirect('/articles/' + articleID + '/inClass/' + req.params.cid);
     })
 
+});
+
+//學生對測驗進行填寫
+router.post('/submitTest', function (req, res) {
+    let qutioninfo = req.body
+    console.log(qutioninfo);
+    let newsubmit = studntSubmitTest();
+    newsubmit.testName = qutioninfo.testName;
+    newsubmit.testID = qutioninfo._id;
+    newsubmit.writer = qutioninfo.writer;
+    newsubmit.belongUnit = qutioninfo.belongUnit;
+    newsubmit.testQutionsAndAnswer = qutioninfo.testQutions
+    newsubmit.save(function (err) {
+        if (err) {
+            res.send('error');
+        } else {
+            res.send('200')
+        }
+    })
 });
 module.exports = router;

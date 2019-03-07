@@ -64,7 +64,7 @@
         </div>
         <div id="controler" style="position: relative;padding: 2px 10px;background: rgba(0,0,0,0.8)">
             <i class="fas fa-play mr-2" style="color: white;" id="PlayPauseBtn" onclick="controlVideo(this)"></i>
-            <span class="mr-2" style="color:white;">00:00</span>
+            <p class="mr-2" style="color:white;display:inline;" id="videoTime">00:00:00</p>
             <i class="fas fa-volume-up mr-0" style="color: white;"></i>
             <input type="range">
             <div style="position: absolute;right: 15px;top: 6px">
@@ -312,10 +312,25 @@
         var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
         requestFullScreen.bind(playerElement)();
     }
-
+    let videoTime = document.getElementById('videoTime');
     setInterval(function () {
         nowtime = player.getCurrentTime();
         slider.value = nowtime;
+        var hr = Math.floor(nowtime / 3600);
+        var min = Math.floor((nowtime - (hr * 3600)) / 60);
+        var sec = parseInt(nowtime - (hr * 3600) - (min * 60));
+        if (hr < 10) {
+            hr = '0' + hr
+        }
+        if (sec < 10) {
+            sec = '0' + sec
+        }
+        if (min < 10) {
+            min = '0' + min
+        }
+        console.log(videoTime);
+
+        videoTime.innerText = hr + ':' + min + ':' + sec
     }, 1000);
 
 
