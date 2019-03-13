@@ -247,6 +247,38 @@
             </tbody>
         </table>
     </div>
+
+    <h4>學生選課</h4>
+    <div class="table-wrapper-scroll-y">
+        <table id="dtHorizontalExample2" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th style="width: 20%">學生id</th>
+                    <th style="width: 10%">課程id</th>
+                    <th style="width: 40%">預測成績</th>
+                    <th style="width: 10%">權限</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%stc.forEach(function(stcinfo){%>
+                <tr>
+                    <td>
+                        <%=stcinfo.studentID%>
+                    </td>
+                    <td>
+                        <%=stcinfo.classID%>
+                    </td>
+                    <td>
+                        <%=stcinfo.pridectGrade%>
+                    </td>
+                    <td>
+                        <%=stcinfo.permission%>
+                    </td>
+                </tr>
+                <%})%>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script>
     function showVideoBehavior(id) {

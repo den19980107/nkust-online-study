@@ -1,0 +1,943 @@
+<% include layout/header %>
+
+
+<style>
+    .list-group-item .fa {
+        margin-right: 5px;
+    }
+
+    /* 文字超過自動省略成... */
+    .ellipsisText {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: inherit;
+
+    }
+
+    .alert:hover {
+        background: rgb(228, 227, 225);
+    }
+
+    .unit {
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        background: rgb(88, 175, 164);
+        color: rgb(90, 88, 88);
+        border-radius: 25px;
+    }
+
+    .test {
+        width: 100%;
+        text-align: center;
+        padding: 0.6rem;
+        background: rgb(102, 172, 129);
+        color: rgb(255, 255, 255);
+        border-radius: 25px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    .unitList{
+        width: 100%;
+        padding: 0.6rem;
+        text-align: center;
+        background: rgb(130, 218, 164);
+        list-style: none;
+        border-radius: 5px;
+        margin-bottom: 0.6rem;
+    }
+    .unitUl{
+        width: 100%;
+        padding: 0;
+        height: 10rem;
+        overflow: scroll;
+        margin-bottom: 0;
+    }
+    .studentList{
+        width: 100%;
+        padding: 0.6rem;
+        text-align: center;
+        list-style: none;
+        margin-bottom: 0.6rem
+    }
+    
+    .studentUl{
+        width: 100%;
+        padding: 0;
+        height: 30rem;
+        overflow-y: scroll;
+    }   
+    .qution{
+        margin-bottom: 2rem;
+        padding: 20px;
+        border-radius:20px;
+        background-color:rgb(255, 255, 255);
+        border: 1px solid rgb(194, 190, 190);
+    }
+    .qution:hover {
+        box-shadow: 0px 0px 10px rgb(180, 198, 235);
+        border: 1px solid rgba(93, 143, 246, 1);
+        z-index: 2;
+        -webkit-transition: all 200ms ease-in;
+        -webkit-transform: scale(1.005);
+        -ms-transition: all 200ms ease-in;
+        -ms-transform: scale(1.005);
+        -moz-transition: all 200ms ease-in;
+        -moz-transform: scale(1.005);
+        transition: all 200ms ease-in;
+        transform: scale(1.005);
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css">
+<div class="row">
+    <!-- 左邊的匡 -->
+    <div class="col-3">
+        <div class="row">
+            <div class="dropdown w-100">
+                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    選擇單元
+                </button>
+                <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+                    <%units.forEach(function(unit){%>
+                    <a class="dropdown-item" href="#" unitID="<%=unit._id%>" unitName="<%=unit.unitName%>" onclick="showTestInUnit(this)">
+                        <%=unit.unitName%></a>
+                    <%})%>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <h6 class="w-100" style="text-align:center;" id='unitNameField'>請選擇單元</h6>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <ul class="unitUl" id="testList">
+            </ul>
+        </div>
+
+        <div class="row mb-3 mt-3 pb-0">
+            <div class="col p-0">
+                <button class="btn btn-primary form-control" id="showDataBtn">觀看測驗情形</button>
+            </div>
+        </div>
+
+        <div class="row p-1 mb-0 pb-0" style="border: 0.3px solid rgb(192, 192, 192);">
+            <ul class="studentUl" id="studentList">
+
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- 右邊的匡 -->
+    <div class="col-9" id='leftbox'>
+
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script>
+        let tests = <%- JSON.stringify(tests) %>;
+        let studentSubmits = <%-JSON.stringify(submits)%>
+        let nowUnit;
+        let nowE;
+        let nowSubmiterName;
+        let nowStudent;
+        let nowTest;
+        console.log("tests = ");
+        console.log(studentSubmits);
+
+        let submiter = <%-JSON.stringify(submiter)%>
+        let getScore;
+        let totalScore;
+        let showTestInUnit = function (unit) {
+            console.log("-------showTestInUnit ------");
+            let unitID = unit.getAttribute('unitID');
+            nowUnit = unit;
+            console.log("nowUnit = " + nowUnit);
+            let unitName = unit.getAttribute('unitName');
+            let unitNameField = document.getElementById('unitNameField');
+            let testList = document.getElementById('testList');
+            let studentList = document.getElementById('studentList');
+            let leftbox = document.getElementById('leftbox');
+            console.log(unitID);
+            console.log(unitName);
+            console.log(tests);
+            console.log(unitNameField);
+            console.log(testList);
+            console.log(studentList);
+            console.log(leftbox);
+            console.log("-------------");
+
+            leftbox.innerHTML = '';
+            unitNameField.innerText = unitName;
+            testList.innerHTML = '';
+            for (let i = 0; i < tests.length; i++) {
+                if (tests[i].belongUnit == unitID) {
+                    testList.innerHTML +=
+                        `<li class="unitList" onclick = 'showSubmiter("${tests[i]._id}",this)'>${tests[i].testName}</li>`
+                }
+            }
+
+        }
+
+        let showTestInUnit2 = function (unitID, unitName) {
+            console.log("-------showTestInUnit2 ------");
+            let unitNameField = document.getElementById('unitNameField');
+            let testList = document.getElementById('testList');
+            let studentList = document.getElementById('studentList');
+            let leftbox = document.getElementById('leftbox');
+            console.log("unitID" + unitID);
+            console.log("unitName" + unitName);
+            console.log("tests" + tests);
+            console.log("unitNameField" + unitNameField);
+            console.log("testList" + testList);
+            console.log("studentList" + studentList);
+            console.log("leftbox" + leftbox);
+            console.log("-------------");
+            leftbox.innerHTML = '';
+            unitNameField.innerText = unitName;
+            testList.innerHTML = '';
+            for (let i = 0; i < tests.length; i++) {
+                console.log(tests[i].belongUnit, unitID);
+                if (tests[i].belongUnit == unitID) {
+                    testList.innerHTML +=
+                        `<li class="unitList" onclick = 'showSubmiter("${tests[i]._id}",this)'>${tests[i].testName}</li>`
+
+                }
+            }
+
+        }
+
+
+        let showSubmiter = function (testID, e) {
+            nowTest = testID;
+            studentList.innerHTML = '';
+            let leftbox = document.getElementById('leftbox');
+            leftbox.innerHTML = '';
+            let testList = document.getElementById('testList');
+            for (let i = 0; i < testList.children.length; i++) {
+                if (testList.children[i] == e) {
+                    nowE = i;
+                }
+                testList.children[i].style.cssText = "background:rgb(150, 216, 168)";
+            }
+            e.style.cssText = "background:rgb(194, 190, 190)";
+            for (let i = 0; i < studentSubmits.length; i++) {
+                let submiterName = ''
+                for (let j = 0; j < submiter.length; j++) {
+                    if (submiter[j]._id == studentSubmits[i].writer) {
+                        if (studentSubmits[i].testID == testID) {
+                            submiterName = submiter[j].name;
+                            studentList.innerHTML +=
+                                `<li class="studentList" onclick ="showSubmiterAnswer('${submiter[j]._id}','${testID}','${submiter[j].name}',this)">${submiterName}</li>`
+                        }
+                    }
+                }
+            }
+        }
+        let showSubmiter2 = function (testID, e) {
+            console.log("e = " + e);
+
+            nowTest = testID;
+            studentList.innerHTML = '';
+            let leftbox = document.getElementById('leftbox');
+            leftbox.innerHTML = '';
+            let testList = document.getElementById('testList');
+            console.log("testList.children.length = " + testList.children.length);
+
+            for (let i = 0; i < testList.children.length; i++) {
+                if (i == e) {
+                    console.log("match");
+                    console.log(testList.children[i]);
+                    testList.children[i].style.cssText = "background:rgb(193, 190, 190)";
+                } else {
+                    testList.children[i].style.cssText = "background:rgb(150, 216, 168)";
+                }
+            }
+            for (let i = 0; i < studentSubmits.length; i++) {
+                let submiterName = ''
+                for (let j = 0; j < submiter.length; j++) {
+                    if (submiter[j]._id == studentSubmits[i].writer) {
+                        if (studentSubmits[i].testID == testID) {
+                            submiterName = submiter[j].name;
+                            studentList.innerHTML +=
+                                `<li class="studentList" onclick ="showSubmiterAnswer('${submiter[j]._id}','${testID}','${submiter[j].name}',this)">${submiterName}</li>`
+                        }
+                    }
+                }
+            }
+        }
+
+        let showSubmiterAnswer = function (submiterID, testID, submiterName, e) {
+            nowStudent = submiterID;
+            nowSubmiterName = submiterName;
+            let studentList = document.getElementById('studentList');
+            for (let i = 0; i < studentList.children.length; i++) {
+                studentList.children[i].style.cssText = "background:white";
+            }
+            e.style.cssText = "background:rgb(194, 190, 190)";
+            console.log("-------------start--------------");
+            let leftbox = document.getElementById('leftbox');
+            let bightml = ''
+            let test;
+            for (let i = 0; i < studentSubmits.length; i++) {
+                if (studentSubmits[i].writer == submiterID) {
+                    if (studentSubmits[i].testID == testID) {
+                        test = studentSubmits[i];
+                    }
+                }
+            }
+            totalScore = 0;
+            if (test.score) {
+                getScore = parseInt(test.score);
+            } else {
+                getScore = 0;
+            }
+
+            for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
+                totalScore += parseInt(test.testQutionsAndAnswer[i].score);
+            }
+            console.log("totoal score = " + totalScore);
+            let msg = "未批閱"
+            let color = "warning"
+            if (test.isTeacherMarked) {
+                msg = "已批閱"
+                color = "success"
+            }
+
+            bightml +=
+                `
+            <div class="row">
+                <div class="col" style="padding:12px"><h5>答題者：${submiterName}</h5></div>
+                <div class="col">
+                    <p class="alert alert-${color} text-center" id = "status" role="alert">
+                    ${msg}
+                    </p>
+                </div>
+                
+                <div class="col text-right" style="padding:12px"><h5 id="scoreField">得分:</h5></div>
+            </div>
+            `;
+            for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
+                let qution = test.testQutionsAndAnswer[i];
+                console.log(qution);
+
+                let html =
+                    `
+                    <div class="qution" id="qution${i}">
+                    `
+                if (qution.type == 'MCQ') {
+                    let A = '';
+                    if (qution.userAnswer == 'A') {
+                        A = "checked";
+                    }
+                    let B = '';
+                    if (qution.userAnswer == 'B') {
+                        B = "checked";
+                    }
+                    let C = '';
+                    if (qution.userAnswer == 'C') {
+                        C = "checked";
+                    }
+                    let D = '';
+                    if (qution.userAnswer == 'D') {
+                        D = "checked";
+                    }
+                    let correctAnswer = '';
+                    if (qution.answerA.checked == true) {
+                        correctAnswer = 'A';
+                    }
+                    if (qution.answerB.checked == true) {
+                        correctAnswer = 'B';
+                    }
+                    if (qution.answerC.checked == true) {
+                        correctAnswer = 'C';
+                    }
+                    if (qution.answerD.checked == true) {
+                        correctAnswer = 'D';
+                    }
+                    if (test.isTeacherMarked) {
+                        if (test.markArray[i] == 'right') {
+                            html +=
+                                `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.title} （選擇題）
+                            </p>`
+                        } else {
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.title} （選擇題）
+                            </p>`
+                        }
+                    } else {
+                        //判斷答案是否正確
+                        if (qution.userAnswer == correctAnswer) {
+                            getScore += parseInt(qution.score);
+                            html +=
+                                `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.title} （選擇題）
+                            </p>`
+                        } else {
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.title} （選擇題）
+                            </p>`
+                        }
+                    }
+
+                    html +=
+                        `
+                    <p>學生答案:</p>
+                    <div>
+                        <div class="row">
+                            <div class="col-2"><input name="textmode" ${A} onclick="onAnswer('MCQ','A','${i}')" type="radio"> A:
+                                ${qution.answerA.text}
+                            </div>
+                            <div class="col-2"><input name="textmode" ${B} onclick="onAnswer('MCQ','B','${i}')" type="radio"> B:
+                                ${qution.answerB.text}
+                            </div>
+                            <div class="col-2"><input name="textmode" ${C} onclick="onAnswer('MCQ','C','${i}')" type="radio"> C:
+                                ${qution.answerC.text}
+                            </div>
+                            <div class="col-2"><input name="textmode" ${D} onclick="onAnswer('MCQ','D','${i}')" type="radio"> D:
+                                ${qution.answerD.text}
+                            </div>
+                        </div>
+                        <br />
+                        <p>正確答案：${correctAnswer}</p>
+                        <p>(配分:
+                            ${qution.score})</p>
+                    </div>
+                    `
+                }
+                if (qution.type == 'YNQ') {
+                    let yes = '';
+                    if (qution.userAnswer == 'yes') {
+                        yes = "checked";
+                    }
+                    let no = '';
+                    if (qution.userAnswer == 'no') {
+                        no = "checked";
+                    }
+                    if (test.isTeacherMarked) {
+                        if (test.markArray[i] == 'right') {
+                            html +=
+                                `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.title} （是非題）
+                            </p>`
+                        } else {
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.title} （是非題）
+                            </p>`
+                        }
+                    } else {
+                        if (qution.userAnswer == qution.answer) {
+                            getScore += parseInt(qution.score);
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.title} （是非題）
+                            </p>`
+                        } else {
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.title} （是非題）
+                            </p>`
+                        }
+                    }
+
+                    html +=
+                        `
+                <p>學生答案:</p>
+                <div>
+                    <div class="row">
+                        <div class="col-2"><input name="textmode1" ${yes} onclick="onAnswer('YNQ','yes','${i}')" type="radio"> yes</div>
+                        <div class="col-2"><input name="textmode1" ${no} onclick="onAnswer('YNQ','no','${i}')" type="radio"> no</div>
+                    </div>
+                    <br />
+                    <p>正確答案：${qution.answer}</p>
+                    <p>(配分:
+                        ${qution.score})</p>
+                </div>
+        `
+                }
+
+                if (qution.type == 'FBQ') {
+                    if (test.isTeacherMarked) {
+                        if (test.markArray[i] == 'right') {
+                            html +=
+                                `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.title} （填空題）
+                            </p>`
+                        } else {
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.title} （填空題)
+                            </p>`
+                        }
+                    } else {
+                        if (qution.userAnswer == qution.answer) {
+                            getScore += parseInt(qution.score);
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.title} （填空題)
+                            </p>`
+                        } else {
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;" id ="title${i}"class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.title} （填空題)
+                            </p>`
+                        }
+                    }
+
+                    html +=
+                        `
+                    <p>學生答案:</p>
+                    <div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="inputEmail3" class=" col-form-label">請輸入答案:</label>
+                                <input type="text" id='FBQanswer${i}' class="form-control" onkeyup="onAnswer('FBQ','null','${i}')" value = "${qution.userAnswer}">
+                            </div>
+
+                        </div>
+                       
+                        <p>正確答案：${qution.answer}</p>
+                        <p>(配分:
+                            ${qution.score})</p>
+                    </div>
+                    `
+                }
+
+                if (qution.type == 'PGQ') {
+                    if (qution.userAnswer == '' || qution.userAnswer == undefined) {
+                        qution.userAnswer = {
+                            scriptData: {
+                                language: '未填寫',
+                                script: '未填寫',
+                                input: '未填寫'
+
+                            },
+                            output: "未填寫"
+
+                        }
+
+                    }
+                    let languageValue = ''
+                    switch (qution.userAnswer.scriptData.language) {
+                        case 'python3':
+                            languageValue = 'python3'
+                            break;
+                        case 'c++':
+                            languageValue = 'cpp'
+                            break;
+
+                        case 'c':
+                            languageValue = 'c'
+                            break;
+                        case 'javascript':
+                            languageValue = 'javascript'
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (test.isTeacherMarked) {
+                        if (test.markArray[i] == 'right') {
+                            html +=
+                                `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.title} （程式題）
+                            </p>`
+                        } else {
+                            html +=
+                                `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.title} （程式題)
+                            </p>`
+                        }
+                    } else {
+                        html +=
+                            `
+                        <p style="font-size: 20px" id ="title${i}">題目:
+                            ${qution.title} （程式題）
+                        </p>`
+                    }
+                    html +=
+                        `
+                    <p>學生答案:</p>
+                    <div>
+                        <p>輸入說明:
+                                ${qution.inputDescription}
+                        </p>
+                        <p>輸出說明:
+                            ${qution.outputDescription}
+                        </p>
+                        <div class="row">
+                            <div class="col ">
+                                <pre>輸入範例：
+${qution.inputExample}
+                                </pre>
+                            </div>
+                            <div class="col ">
+                                <pre>輸出範例：
+${qution.outputExample}
+                                </pre>
+                            </div>
+                        </div>
+                        <div class="row" style="height: 20rem">
+                            <div class="col">
+                                <div class="md-form">
+                                    <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code${i}">${qution.userAnswer.scriptData.script}</textarea>
+                                </div>
+                                <div class="md-form">
+                                    <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input${i}">${qution.userAnswer.scriptData.input}</textarea>
+                                </div>
+                                <select id="language${i}" class="mt-1" >
+                                    <option value="${languageValue}">${qution.userAnswer.scriptData.language}</option>
+                                </select>
+                            </div>
+                            <div class="col" style="overflow:hidden">
+                                <div class="md-form">
+                                    <div class="md-textarea form-control" style="height: 90%;">
+                                        <pre id="output${i}" class="h-100">${qution.userAnswer.output}
+                                        </pre>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-1 float-right" onclick="compile(${i})">編譯</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>(配分:
+                                        ${qution.score})
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.title}','${qution.score}')">正確</button>
+                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.title}','${qution.score}')">不正確</button>
+                            </div>
+                        </div>
+
+                </div>
+                `
+                }
+                html += `</div>`
+                bightml += html;
+            }
+            bightml +=
+                `<div class="row">
+                <div class="col">
+                    <button class="btn btn-success float-right" onclick = saveMark("${submiterID}","${testID}","${test.testQutionsAndAnswer.length}")>儲存批閱結果</button>
+                </div>
+                </div>`
+            leftbox.innerHTML = bightml;
+            let scoreField = document.getElementById('scoreField');
+            if (test.isTeacherMarked) {
+                scoreField.innerHTML = `得分:${test.score}/${totalScore}`
+            } else {
+                scoreField.innerHTML = `得分:${getScore}/${totalScore}`
+            }
+
+        }
+
+        let saveMark = function (submiterID, testID, qutionlength) {
+            console.log(submiterID, testID, qutionlength);
+            let notMarkedQutionNumber = 0;
+            let markArray = []
+            for (let i = 0; i < qutionlength; i++) {
+                let title = document.getElementById('title' + i);
+                if (title.className == '') {
+                    notMarkedQutionNumber++;
+                    markArray[i] = 'notMarkyet'
+                }
+                if (title.className == 'bg-success p-1') {
+                    markArray[i] = 'right'
+                }
+                if (title.className == 'bg-danger p-1') {
+                    markArray[i] = 'wrong'
+                }
+            }
+            console.log(notMarkedQutionNumber);
+            console.log(markArray);
+            if (notMarkedQutionNumber > 0) {
+                alert('還有' + notMarkedQutionNumber + '題題目沒改完喔！')
+            } else {
+                let data = {
+                    markArray: markArray,
+                    score: getScore
+                }
+                $.ajax({
+                    url: '/class/saveMark/' + testID + '/' + submiterID,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    success: function (response) {
+                        alert('儲存成功');
+                        console.log("nowUnit = ");
+                        console.log(nowUnit);
+
+                        localStorage.setItem("nowUnit", nowUnit.outerHTML);
+                        localStorage.setItem("nowE", nowE);
+                        localStorage.setItem("nowSubmiterName", nowSubmiterName);
+                        localStorage.setItem("nowStudent", nowStudent);
+                        localStorage.setItem("nowTest", nowTest);
+
+                        location.reload();
+                    },
+                    error: function (err) {
+                        alert('錯誤訊息：' + err);
+                    }
+                });
+            }
+
+        }
+
+
+        let changeCorrection = function (isCorrect, qutionNumber, titletext, score) {
+            let title = document.getElementById('title' + qutionNumber);
+            if (isCorrect) {
+                title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
+                if (title.className == '' || title.className == "bg-danger p-1") {
+                    getScore += parseInt(score);
+                }
+                title.className = "bg-success p-1";
+                title.innerHTML = '';
+                title.innerHTML = `<i class="fas fa-check mr-1 pr-1 pl-1"style="width:2rem"></i>題目：` + titletext +
+                    ' (程式題)'
+            } else {
+                title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
+                if (title.className == "bg-success p-1") {
+                    getScore -= parseInt(score);
+                }
+                title.className = "bg-danger p-1";
+                title.innerHTML = '';
+                title.innerHTML = `<i class="fas fa-times mr-1  pl-2" style="width:2rem"></i>題目：` + titletext +
+                    ' (程式題)'
+            }
+            let scoreField = document.getElementById('scoreField');
+            scoreField.innerHTML = `得分:${getScore}/${totalScore}`
+
+        }
+        let compile = function (qutionNumber) {
+            console.log(qutionNumber);
+            let script = document.getElementById('code' + qutionNumber);
+            let input = document.getElementById('input' + qutionNumber);
+            let language = document.getElementById('language' + qutionNumber);
+            let output = document.getElementById('output' + qutionNumber);
+            var scriptData = {
+                input: input.value,
+                script: script.value,
+                language: language.value,
+                id: "001"
+            }
+            console.log(scriptData);
+
+            var socket = io();
+            socket.emit('script', scriptData);
+            output.innerHTML = "編譯中....\n";
+            socket.on('answer', function (obj) {
+                console.log(obj);
+                output.innerHTML = "輸出:\n" + obj.body.output;
+
+                //記錄到答案中
+                onAnswer('PGQ', {
+                    scriptData: scriptData,
+                    output: obj.body.output
+                }, qutionNumber);
+            });
+            //為了讓textarea - script 按下tab的時候不會自己切去另一個textarea
+            script.onkeydown = function (e) {
+                if (e.keyCode == 9) {
+                    insertAtCursor('    ');
+                    return false;
+                }
+            }
+        }
+
+
+        window.onload = function () {
+            nowUnit = localStorage.getItem("nowUnit");
+            nowE = localStorage.getItem("nowE");
+            nowSubmiterName = localStorage.getItem("nowSubmiterName");
+            nowStudent = localStorage.getItem("nowStudent");
+            nowTest = localStorage.getItem("nowTest");
+            console.log(nowUnit);
+
+            if (nowUnit != undefined && nowE != undefined && nowSubmiterName != undefined && nowStudent !=
+                undefined && nowTest != undefined) {
+                nowUnit = new DOMParser().parseFromString(nowUnit, "text/xml").firstChild;
+                // nowE = new DOMParser().parseFromString(nowE, "text/xml").firstChild;
+                nowUnitID = nowUnit.getAttribute('unitid');
+                nowUnitName = nowUnit.getAttribute('unitname');
+                showTestInUnit2(nowUnitID, nowUnitName);
+                console.log("nowE = ");
+
+                console.log(nowE);
+
+                showSubmiter2(nowTest, nowE);
+            }
+
+
+            let showDataBtn = document.getElementById('showDataBtn');
+            showDataBtn.onclick = function () {
+                let leftbox = document.getElementById('leftbox');
+                //先看有幾題 就要加多少個canvas進去
+                let testData; //這張考卷的資料        
+                for (let i = 0; i < tests.length; i++) {
+                    if (tests[i]._id == nowTest) {
+                        testData = tests[i]
+                    }
+                }
+                let qutionlength = testData.testQutions.length; //這張考卷有幾題
+                console.log(testData);
+
+                //再把所有有寫這份考卷並改過的考卷找進來
+                let studentAnswers = []; //這份考卷所有學生的回答
+                for (let i = 0; i < studentSubmits.length; i++) {
+                    if (studentSubmits[i].testID == nowTest && studentSubmits[i].isTeacherMarked == true) {
+                        studentAnswers.push(studentSubmits[i]);
+                    }
+                }
+                if (studentAnswers.length == 0) {
+                    alert('你還沒有改過任何一張考卷喔！')
+                }
+                sendforchatData = [];
+                class dataobject {
+                    constructor() {
+                        this.title = ''
+                        this.label = ''
+                        this.data = ''
+                    }
+                }
+                console.log(studentAnswers);
+                console.log(qutionlength);
+                //把題目放進去
+                for (let i = 0; i < qutionlength; i++) {
+                    console.log(testData.testQutions[i].title);
+                    sendforchatData[i] = new dataobject();
+                    sendforchatData[i].title = testData.testQutions[i].title;
+                }
+                //把統計的數字放到data
+                console.log("student submit data");
+
+                let b = [];
+                let eachQutionAnswers = [];
+                for (let i = 0; i < studentAnswers.length; i++) {
+                    console.log(studentAnswers[i]);
+                    for (let j = 0; j < studentAnswers[i].markArray.length; j++) {
+                        console.log(studentAnswers[i].markArray[j]);
+                        b.push(studentAnswers[j].markArray[i])
+                    }
+                    let right = 0;
+                    let wrong = 0;
+                    for (let k = 0; k < b.length; k++) {
+                        if (b[k] == 'right') {
+                            right += 1;
+                        }
+                        if (b[k] == "wrong") {
+                            wrong += 1;
+                        }
+                    }
+                    eachQutionAnswers[i] = [right, wrong];
+                    b = [];
+                }
+                console.log("eachQutionAnswers ==");
+                console.log(eachQutionAnswers);
+
+
+
+
+                //先清空leftbox
+                leftbox.innerHTML = '';
+                //加title
+                leftbox.innerHTML = '<h4 class ="text-center">測驗情形</h4>';
+                let ctx = [];
+                let myChart = []
+                for (let i = 0; i < qutionlength; i++) {
+                    leftbox.innerHTML +=
+                        `
+                        <div class="chart-container" style="position: relative; height:20vh; width:100%">
+                            <canvas id="myChart${i}"></canvas>
+                        </div>`;
+
+                }
+                for (let i = 0; i < qutionlength; i++) {
+                    console.log(testData[i]);
+
+                    ctx[i] = document.getElementById("myChart" + i).getContext('2d');
+                    myChart[i] = new Chart(ctx[i], {
+                        type: 'horizontalBar',
+                        data: {
+                            labels: [" 正確", " 錯誤"],
+                            datasets: [{
+                                label: sendforchatData[i].title,
+                                data: eachQutionAnswers[i],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        mirror: true,
+                                    }
+                                }],
+                                xAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        stepSize: 1
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                }
+
+
+
+            }
+        };
+    </script>
+
+
+    <% include layout/footer %>

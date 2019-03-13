@@ -1,11 +1,11 @@
 let mongoose = require('mongoose');
 
-let studentSubmitTestSchema = mongoose.Schema({
-    testName: {
+let studentSubmitHomeworkSchema = mongoose.Schema({
+    homeworkName: {
         type: String,
         require: true
     },
-    testID: {
+    homeworkID: {
         type: String,
         require: true
     },
@@ -33,4 +33,4 @@ let studentSubmitTestSchema = mongoose.Schema({
     }
 });
 
-let StudentSubmitTest = module.exports = mongoose.model('StudentSubmitTest', studentSubmitTestSchema, 'studentSubmitTest');
+let StudentSubmitHomework = module.exports = mongoose.model('StudentSubmitHomework', studentSubmitHomeworkSchema, 'studentSubmitHomework');

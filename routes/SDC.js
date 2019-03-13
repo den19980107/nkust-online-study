@@ -25,6 +25,8 @@ let studentCommentVideo = require('../model/studentCommentVideo');
 let studentCommentArticle = require('../model/studentCommentArticle');
 //bring student submit test model
 let studntSubmitTest = require('../model/studentSubmitTest');
+//bring student submit homework model
+let studntSubmitHomework = require('../model/studentSubmitHomework');
 //寄email的工具
 var nodemailer = require('nodemailer');
 router.get('/student/:sid/Take/class/:cid', function (req, res) {
@@ -177,7 +179,7 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', function (
 router.post('/submitTest', function (req, res) {
     let qutioninfo = req.body
     console.log(qutioninfo);
-    let newsubmit = studntSubmitTest();
+    let newsubmit = new studntSubmitTest();
     newsubmit.testName = qutioninfo.testName;
     newsubmit.testID = qutioninfo._id;
     newsubmit.writer = qutioninfo.writer;
@@ -191,4 +193,26 @@ router.post('/submitTest', function (req, res) {
         }
     })
 });
+
+//學生對作業進行填寫
+router.post('/submitHomework', function (req, res) {
+    let qutioninfo = req.body
+    console.log("homework!");
+
+    console.log(qutioninfo);
+    let newsubmit = new studntSubmitHomework();
+    newsubmit.homeworkName = qutioninfo.testName;
+    newsubmit.homeworkID = qutioninfo._id;
+    newsubmit.writer = qutioninfo.writer;
+    newsubmit.belongUnit = qutioninfo.belongUnit;
+    newsubmit.testQutionsAndAnswer = qutioninfo.testQutions
+    newsubmit.save(function (err) {
+        if (err) {
+            res.send('error');
+        } else {
+            res.send('200')
+        }
+    })
+});
+
 module.exports = router;

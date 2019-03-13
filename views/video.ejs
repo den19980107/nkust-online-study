@@ -62,18 +62,16 @@
         <div id="progress">
             <input type="range" id="slider" value="0" class="slider" style="width: 100%;">
         </div>
-        <div id="controler" style="position: relative;padding: 2px 10px;background: rgba(0,0,0,0.8)">
+        <div id="controler" style="padding: 2px 10px;background: rgba(0,0,0,0.8)">
             <i class="fas fa-play mr-2" style="color: white;" id="PlayPauseBtn" onclick="controlVideo(this)"></i>
-            <p class="mr-2" style="color:white;display:inline;" id="videoTime">00:00:00</p>
+            <p class="mr-2" style="color:white;display:inline-block;width: 5rem;margin: 0" id="videoTime">00:00:00</p>
             <i class="fas fa-volume-up mr-0" style="color: white;"></i>
             <input type="range">
-            <div style="position: absolute;right: 15px;top: 6px">
+            <div style="float: right;padding-top: 0.2rem">
                 <i class="fas fa-expand" style="color: white;" id="fullScreenBtn" onclick="playFullscreen()"></i>
             </div>
         </div>
-        <h5 class="pt-2">影片描述</h5>
-        <hr>
-        <p style="padding-left: 20px">....</p>
+
         <hr>
         <h5>留言</h5>
         <div id="reply" class="bg-white mt-4" style="padding: 50px;">

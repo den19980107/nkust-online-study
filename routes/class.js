@@ -22,8 +22,12 @@ let studentCommentChapter = require('../model/studentCommentChapter');
 let studentCommentVideo = require('../model/studentCommentVideo');
 //bring Test model
 let Test = require('../model/test');
+//bring Homework model
+let Homework = require('../model/homework');
 //bring student submit test model
 let studntSubmitTest = require('../model/studentSubmitTest');
+//bring student submit homework model
+let studntSubmitHomework = require('../model/studentSubmitHomework');
 const mongoose = require('mongoose');
 
 const config = require('../config/database'); //在我們的config file裡面可以設定要用的database URL
@@ -382,32 +386,58 @@ router.get('/:classID/showUnit/:unitID', function (req, res) {
                         if (err) {
                             console.log(err);
                         }
-                        studntSubmitTest.find({}, function (err, TestSubmitRecords) {
+                        Homework.find({
+                            belongUnit: req.params.unitID
+                        }, function (err, homeworks) {
                             if (err) {
                                 console.log(err);
                             }
-                            console.log(TestSubmitRecords);
-                            console.log(tests);
+                            console.log(homeworks);
 
-                            for (let i = 0; i < TestSubmitRecords.length; i++) {
-                                for (let j = 0; j < tests.length; j++) {
-                                    if (TestSubmitRecords[i].writer == req.user._id) {
-                                        if (TestSubmitRecords[i].testID == tests[j]._id) {
-                                            tests[j].isComplete = true
+                            studntSubmitTest.find({}, function (err, TestSubmitRecords) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                console.log(TestSubmitRecords);
+                                console.log(tests);
+                                console.log("start");
+                                for (let i = 0; i < TestSubmitRecords.length; i++) {
+                                    for (let j = 0; j < tests.length; j++) {
+                                        if (TestSubmitRecords[i].writer == req.user._id) {
+                                            if (TestSubmitRecords[i].testID == tests[j]._id) {
+                                                tests[j].isComplete = true
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            res.render('classManger', {
-                                id: req.params.id,
-                                classinfo: classinfo,
-                                units: units,
-                                chapters: chapters,
-                                unitName: selectUnit,
-                                unitID: selectUnitID,
-                                videos: videos,
-                                tests: tests
-                            });
+                                studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
+
+
+                                    for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
+                                        for (let j = 0; j < homeworks.length; j++) {
+                                            if (HomeworkSubmitRecords[i].writer == req.user._id) {
+                                                if (HomeworkSubmitRecords[i].homeworkID == homeworks[j]._id) {
+                                                    homeworks[j].isComplete = true
+                                                }
+                                            }
+                                        }
+                                    }
+                                    console.log(homeworks);
+
+                                    res.render('classManger', {
+                                        id: req.params.id,
+                                        classinfo: classinfo,
+                                        units: units,
+                                        chapters: chapters,
+                                        unitName: selectUnit,
+                                        unitID: selectUnitID,
+                                        videos: videos,
+                                        tests: tests,
+                                        homeworks: homeworks
+                                    });
+                                })
+                            })
+
                         })
 
                     })
@@ -665,6 +695,96 @@ router.get('/showTest/:testID', function (req, res) {
     })
 
 });
+
+//新增作業
+router.post('/addHomeWork/class/:cid/unit/:uid', function (req, res) {
+    console.log(req.body);
+    if (req.body.testName == '' || req.body.testName == undefined) {
+        res.status(500).send({
+            msg: '作業名稱不得為空'
+        });
+    } else {
+        let newHomeWork = new Homework();
+        newHomeWork.homeworkName = req.body.testName;
+        newHomeWork.testQutions = req.body.QuationList;
+        newHomeWork.belongUnit = req.body.belongUnit;
+        console.log(newHomeWork);
+        newHomeWork.save(function (err) {
+            if (err) {
+                console.log(err);
+            }
+            res.json({
+                success: 1
+            });
+        })
+
+    }
+});
+
+
+//顯示作業
+router.get('/showHomeWork/:homeworkID', function (req, res) {
+    let query = {
+        _id: req.params.homeworkID
+    }
+    Homework.findById(query, function (err, homework) {
+        if (err) {
+            console.log(error);
+        }
+        Unit.findById({
+            _id: homework.belongUnit
+        }, function (err, unit) {
+            Class.findById({
+                _id: unit.belongClass
+            }, function (err, classinfo) {
+                if (err) {
+                    console.log(err);
+                }
+                let isSubmited = false;
+                studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
+                    for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
+                        if (HomeworkSubmitRecords[i].writer == req.user._id) {
+                            if (HomeworkSubmitRecords[i].homeworkID == homework._id) {
+                                isSubmited = true
+                            }
+                        }
+                    }
+                    res.render('homework', {
+                        homework: homework,
+                        classinfo: classinfo,
+                        isSubmited: isSubmited
+                    });
+                })
+
+            })
+        });
+
+    })
+
+});
+
+//刪除作業
+router.delete('/deletehomework/:homeworkID', function (req, res) {
+    console.log(req.user._id);
+
+    if (!req.user._id) {
+        req.flash('danger', '請先登入');
+        res.redirect('/');
+    }
+
+    let query = {
+        _id: req.params.homeworkID
+    }
+    Homework.findById(req.params.homeworkID, function (err, test) {
+        Homework.remove(query, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            res.send('Success');
+        })
+
+    })
+})
 //批閱考卷
 router.get('/correctTestIn/:classID', function (req, res) {
     Class.findById(req.params.classID, function (err, classinfo) {
@@ -688,12 +808,83 @@ router.get('/correctTestIn/:classID', function (req, res) {
             console.log("query = " + query);
 
             Test.find(query, function (err, tests) {
-                console.log(tests);
+                if (err) {
+                    console.log(err);
+                }
+                studntSubmitTest.find(query, function (err, submits) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    let querytext = []
 
+                    for (let i = 0; i < submits.length; i++) {
+                        querytext.push(ObjectID(submits[i].writer).toString())
+                    }
+                    query = {
+                        _id: querytext
+                    }
+                    User.find(query, function (err, submiter) {
+                        if (err) {
+                            console.log(err);
+
+                        }
+                        res.render('sudentSubmitTests', {
+                            units: units,
+                            tests: tests,
+                            submits: submits,
+                            submiter: submiter
+                        });
+                    })
+
+                })
             })
         })
     })
 });
+
+//儲存成績
+router.post('/saveMark/:testID/:writerID', function (req, res) {
+    console.log(req.body);
+    studntSubmitTest.find({
+        writer: req.params.writerID
+    }, function (err, testinfo) {
+        for (let i = 0; i < testinfo.length; i++) {
+            if (testinfo[i].testID == req.params.testID) {
+                testinfo = testinfo[i];
+            }
+        }
+        console.log("writer = " + req.params.writerID);
+
+        console.log("-----------------");
+
+        console.log(testinfo);
+        console.log("-----------------");
+
+        let updatetestinfo = {};
+        updatetestinfo.testQutionsAndAnswer = testinfo.testQutionsAndAnswer
+        updatetestinfo.isTeacherMarked = true;
+        updatetestinfo.score = req.body.score.toString();
+        updatetestinfo.markArray = req.body.markArray;
+        updatetestinfo.testName = testinfo.testName;
+        updatetestinfo.testID = testinfo.testID;
+        updatetestinfo.writer = testinfo.writer;
+        updatetestinfo.belongUnit = testinfo.belongUnit;
+        console.log(updatetestinfo);
+        console.log("testinfoID = " + testinfo._id);
+
+        studntSubmitTest.update({
+            _id: testinfo._id
+        }, updatetestinfo, function (err) {
+            if (err) {
+                console.log("err");
+                res.status(500).send();
+            } else {
+                console.log("ok");
+                res.send('200');
+            }
+        })
+    });
+})
 
 //顯示所有有修這堂課的學生
 router.get('/showStudentIn/:classID', function (req, res) {

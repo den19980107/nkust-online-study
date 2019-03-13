@@ -1,0 +1,282 @@
+<% include layout/header %>
+<style>
+    .qution{
+        margin-bottom: 2rem;
+        padding: 20px;
+        border-radius:20px;
+        background-color:rgb(255, 255, 255);
+        border: 1px solid rgb(194, 190, 190);
+    }
+    .qution:hover {
+        box-shadow: 0px 0px 10px rgb(180, 198, 235);
+        border: 1px solid rgba(93, 143, 246, 1);
+        z-index: 2;
+        -webkit-transition: all 200ms ease-in;
+        -webkit-transform: scale(1.005);
+        -ms-transition: all 200ms ease-in;
+        -ms-transform: scale(1.005);
+        -moz-transition: all 200ms ease-in;
+        -moz-transform: scale(1.005);
+        transition: all 200ms ease-in;
+        transform: scale(1.005);
+    }
+</style>
+<%if(isSubmited){%>
+<h4>作業名稱:
+    <%=homework.testName%>(已提交過此作業)
+</h4>
+<%}else{%>
+<h4>作業名稱:
+    <%=homework.homeworkName%>
+</h4>
+<%}%>
+
+<hr>
+<div class="col-md-12">
+    <%let i = 0%>
+    <%homework.testQutions.forEach(function(qution){%>
+    <%i++%>
+    <div class="qution" id="qution<%=i%>">
+
+        <%if(qution.type=='MCQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （選擇題）
+        </p>
+        <div>
+            <div class="row">
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','A','<%=i%>')" type="radio"> A:
+                    <%=qution.answerA.text%>
+                </div>
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','B','<%=i%>')" type="radio"> B:
+                    <%=qution.answerB.text%>
+                </div>
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','C','<%=i%>')" type="radio"> C:
+                    <%=qution.answerC.text%>
+                </div>
+                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','D','<%=i%>')" type="radio"> D:
+                    <%=qution.answerD.text%>
+                </div>
+            </div>
+            <br />
+            <p>(配分:
+                <%=qution.score%>)</p>
+        </div>
+
+        <%}%>
+
+        <%if(qution.type=='YNQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （是非題）
+        </p>
+        <div>
+            <div class="row">
+                <div class="col-2"><input name="textmode1" onclick="onAnswer('YNQ','yes','<%=i%>')" type="radio"> yes</div>
+                <div class="col-2"><input name="textmode1" onclick="onAnswer('YNQ','no','<%=i%>')" type="radio"> no</div>
+            </div>
+            <br />
+            <p>(配分:
+                <%=qution.score%>)</p>
+        </div>
+        <%}%>
+
+        <%if(qution.type=='FBQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （填空題）
+        </p>
+        <div>
+            <div class="form-group row">
+                <div class="col">
+                    <label for="inputEmail3" class=" col-form-label">請輸入答案:</label>
+                    <input type="text" id='FBQanswer<%=i%>' class="form-control" onkeyup="onAnswer('FBQ','null','<%=i%>')">
+                </div>
+
+            </div>
+            <p>(配分:
+                <%=qution.score%>)</p>
+        </div>
+        <%}%>
+
+        <%if(qution.type=='PGQ'){%>
+        <p style="font-size: 20px">題目:
+            <%=qution.title%> （程式題）
+        </p>
+        <div>
+            <p>輸入說明:
+                <%=qution.inputDescription%>
+            </p>
+            <p>輸出說明:
+                <%=qution.outputDescription%>
+            </p>
+            <div class="row">
+                <div class="col ">
+                    <pre>輸入範例：
+<%=qution.inputExample%>
+                    </pre>
+                </div>
+                <div class="col ">
+                    <pre>輸出範例：
+<%=qution.outputExample%>
+                    </pre>
+                </div>
+            </div>
+            <div class="row" style="height: 20rem">
+                <div class="col">
+                    <div class="md-form">
+                        <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code<%=i%>"></textarea>
+                    </div>
+                    <div class="md-form">
+                        <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input<%=i%>"></textarea>
+                    </div>
+                    <select id="language<%=i%>" class="mt-1">
+                        <option value="cpp">c++</option>
+                        <option value="c">c</option>
+                        <option value="javascript">javascript</option>
+                        <option value="python3">python</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <div class="md-form">
+                        <div class="md-textarea form-control" style="height: 90%;">
+                            <pre id="output<%=i%>"></pre>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-1 float-right" onclick="compile(<%=i%>)">編譯</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>(配分:
+                        <%=qution.score%>)
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <%}%>
+    </div>
+
+    <%})%>
+    <%if(user.permission == 'student'){%>
+    <%if(isSubmited == false){%>
+    <button class="btn btn-primary float-right" onclick="finishTest()">送出</button>
+    <%}%>
+
+    <%}%>
+</div>
+
+
+
+
+</div>
+<script>
+    let answerArray = [];
+    let onAnswer = function (qutionType, answer, qutionNumber) {
+        console.log(qutionType + ' ' + answer + ' ' + qutionNumber);
+        if (qutionType == 'MCQ') {
+            answerArray[qutionNumber - 1] = answer
+        }
+        if (qutionType == 'YNQ') {
+            answerArray[qutionNumber - 1] = answer
+        }
+        if (qutionType == 'FBQ') {
+            let answerText = document.getElementById('FBQanswer' + qutionNumber).value;
+            answerArray[qutionNumber - 1] = answerText
+        }
+        if (qutionType == 'PGQ') {
+            answerArray[qutionNumber - 1] = answer
+        }
+        console.log(answerArray);
+
+    }
+
+    let compile = function (qutionNumber) {
+        console.log(qutionNumber);
+        let script = document.getElementById('code' + qutionNumber);
+        let input = document.getElementById('input' + qutionNumber);
+        let language = document.getElementById('language' + qutionNumber);
+        let output = document.getElementById('output' + qutionNumber);
+        var scriptData = {
+            input: input.value,
+            script: script.value,
+            language: language.value,
+            id: "001"
+        }
+        console.log(scriptData);
+
+        var socket = io();
+        socket.emit('script', scriptData);
+        output.innerHTML = "編譯中....\n";
+        socket.on('answer', function (obj) {
+            console.log(obj);
+            output.innerHTML = "輸出:\n" + obj.body.output;
+
+            //記錄到答案中
+            onAnswer('PGQ', {
+                scriptData: scriptData,
+                output: obj.body.output
+            }, qutionNumber);
+        });
+        //為了讓textarea - script 按下tab的時候不會自己切去另一個textarea
+        script.onkeydown = function (e) {
+            if (e.keyCode == 9) {
+                insertAtCursor('    ');
+                return false;
+            }
+        }
+    }
+
+    let setCanTab = function (script) {
+        script.onkeydown = function (e) {
+            if (e.keyCode == 9) {
+                insertAtCursor2('    ', script);
+                return false;
+            }
+        }
+    }
+
+    function insertAtCursor2(myValue, field) {
+        myField = field;
+        //IE support
+        if (document.selection) {
+            myField.focus();
+            sel = document.selection.createRange();
+            sel.text = myValue;
+        }
+        //MOZILLA and others
+        else if (myField.selectionStart || myField.selectionStart == '0') {
+            var startPos = myField.selectionStart;
+            var endPos = myField.selectionEnd;
+            myField.value = myField.value.substring(0, startPos) +
+                myValue +
+                myField.value.substring(endPos, myField.value.length);
+            myField.selectionStart = startPos + myValue.length;
+            myField.selectionEnd = startPos + myValue.length;
+        } else {
+            myField.value += myValue;
+        }
+    }
+    let finishTest = function () {
+        let qutions = <%- JSON.stringify(homework) %>
+        for (let i = 0; i < qutions.testQutions.length; i++) {
+            qutions.testQutions[i].userAnswer = answerArray[i]
+        }
+        qutions.writer = "<%=user._id%>"
+        console.log(qutions);
+        $.ajax({
+            url: '/SDC/submitHomework',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(qutions),
+            dataType: 'json',
+            error: function (xhr) {
+                alert('發生錯誤');
+            },
+            success: function (response) {
+                alert('填寫作業成功');
+                window.location = "/class/<%=classinfo._id%>/showUnit/<%=homework.belongUnit%>"
+            }
+        })
+    }
+</script>
+
+<% include layout/footer %>

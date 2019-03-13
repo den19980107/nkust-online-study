@@ -51,7 +51,7 @@
 
 </style>
 <div class="row">
-    <div class="col-4">
+    <div class="col-3">
         <div>
             <div style="display: flex;justify-content: space-between">
                 <h5 class="float-left">單元總覽</h5>
@@ -143,7 +143,7 @@
                     <%chapters.forEach(function(chapter){%>
                     <div class="alert alert-warning alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
                         role="alert">
-                        <p style="padding: 0;margin: 0 " onclick="showChapter('<%=chapter._id%>')">
+                        <p style="padding: 0;margin: 0;word-wrap: break-word " onclick="showChapter('<%=chapter._id%>')">
                             <%=chapter.chapterName%>
                         </p>
                         <%if(classinfo.teacher == user._id){%>
@@ -193,8 +193,8 @@
                                             name="body"></textarea>
                                     </div>
                                     <br>
-                                    <input id="addNewChapterbtn" type="submit" class="btn btn-primary float-right"
-                                        value="新增">
+                                    <input id="addNewChapterbtn" type="submit" onclick="this.style.visibility = 'hidden'"
+                                        class="btn btn-primary float-right" value="新增">
                                 </form>
 
                                 <div id="example1" class="taggle_list"></div>
@@ -333,9 +333,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <div class="progress mt-1" id="uploadProgressBar">
-                                                    <div id="uploadPersent" class="progress-bar " role="progressbar"
-                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress mt-1" id="uploadProgressBar" style="background: none">
+                                                    <div id="uploadPersent" style="display: none" class="progress-bar "
+                                                        role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                                        aria-valuemax="100">
                                                         <p id="persentText" class="mt-3 px-1">0%</p>
                                                     </div>
                                                 </div>
@@ -397,7 +398,7 @@
                 </div>
                 <br>
                 <%if(user._id == classinfo.teacher){%>
-                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal">新增</button>
+                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal" onclick="TestModel()">新增</button>
                 <!-- Modal -->
                 <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -411,7 +412,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">測驗名稱：</label>
+                                    <label for="inputPassword" class="col-sm-2 col-form-label" id="testnameLabel">測驗名稱：</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="testName" placeholder="請輸入測驗名稱">
                                     </div>
@@ -575,10 +576,42 @@
             <div class="col-lg-3 col-sm-12">
                 <button class="btn btn-primary w-100">作業</button>
                 <hr>
-                <div style="height: 300px;overflow-y: scroll;"></div>
+                <div style="height: 300px;overflow-y: scroll;">
+                    <%if(typeof homeworks !="undefined" ){%>
+                    <%homeworks.forEach(function(homework){%>
+                    <%if(homework.isComplete){%>
+                    <div class="alert alert-info alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
+                        role="alert">
+                        <p style="padding: 0;margin: 0 " onclick="showHomework('<%=homework._id%>')">
+                            <%=homework.homeworkName%>
+                        </p>
+                        <%if(classinfo.teacher == user._id){%>
+                        <a class="close" style="padding: 12px;">
+                            <span class="delete-homework" id="<%=homework._id%>" aria-hidden="true">&times;</span>
+                        </a>
+                        <%}%>
+                    </div>
+                    <%}else{%>
+                    <div class="alert alert-warning alert-dismissible fade show " style="padding-right: 40px;padding-left: 10px;"
+                        role="alert">
+                        <p style="padding: 0;margin: 0 " onclick="showHomework('<%=homework._id%>')">
+                            <%=homework.homeworkName%>
+                        </p>
+                        <%if(classinfo.teacher == user._id){%>
+                        <a class="close" style="padding: 12px;">
+                            <span class="delete-homework" id="<%=homework._id%>" aria-hidden="true">&times;</span>
+                        </a>
+                        <%}%>
+
+                    </div>
+                    <%}%>
+
+                    <%})%>
+                    <%}%>
+                </div>
                 <br>
                 <%if(user._id == classinfo.teacher){%>
-                <button class="btn btn-secondary w-100">新增</button>
+                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal" onclick="HomeWorkModel()">新增</button>
                 <%}%>
             </div>
         </div>
@@ -607,10 +640,35 @@
             }
 
         })
+
     }
 </script>
 <%}%>
 <script>
+    let TestORHomeWorkMode = ""
+    let HomeWorkModel = function () {
+        let exampleModalLabel = document.getElementById('exampleModalLabel');
+        exampleModalLabel.innerHTML = "新增作業";
+        let testnameLabel = document.getElementById('testnameLabel');
+        testnameLabel.innerHTML = "作業名稱";
+        let testName = document.getElementById('testName');
+        testName.placeholder = "請輸入作業名稱";
+        TestORHomeWorkMode = "HomeWork";
+        console.log(TestORHomeWorkMode);
+
+    }
+    let TestModel = function () {
+        let exampleModalLabel = document.getElementById('exampleModalLabel');
+        exampleModalLabel.innerHTML = "新增測驗"
+        let testnameLabel = document.getElementById('testnameLabel');
+        testnameLabel.innerHTML = "測驗名稱";
+        let testName = document.getElementById('testName');
+        testName.placeholder = "請輸入測驗名稱";
+        TestORHomeWorkMode = "Test"
+        console.log(TestORHomeWorkMode);
+
+    }
+
     function createNewUnit() {
         let unitName = document.getElementById('unitName');
         window.location = '/class/<%=classinfo._id%>/addUnit/' + unitName.value;
@@ -735,6 +793,30 @@
             }
 
         })
+        //刪除測驗
+        $('.delete-homework').on('click', function (e) {
+            result = window.confirm("你確定要刪除這個作業嗎？");
+            if (result == true) {
+                $target = $(e.target);
+                const id = $target.attr('id');
+                const unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/class/deletehomework/' + id,
+                    success: function (response) {
+                        window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
+                        alert('刪除成功!');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+
+            }
+
+        })
+
 
         //點擊已新增的講義列表中的一個講義 秀出講義的內容
         showChapter = function (chapterID) {
@@ -751,6 +833,12 @@
         //點擊已新增的講義列表中的一個測驗 秀出測驗的內容
         showTest = function (testID) {
             let path = '/class/showTest/' + testID;
+            window.location = path;
+        }
+
+        //點擊已新增的作業列表中的一個作業 秀出作業內容
+        showHomework = function (homeworkID) {
+            let path = '/class/showHomeWork/' + homeworkID;
             window.location = path;
         }
         let uploadvideoURLbutton = document.getElementById('upload-videoURL-button');
@@ -770,21 +858,30 @@
                 url = videoURL.substring(pos + 8, end);
                 console.log("url=" + url);
             }
+            let verifyYoutubeUrl = 'https://www.youtube.com/';
+            let verifyYoutube = verifyYoutubeUrl.indexOf(verifyYoutubeUrl);
+            console.log("verifyYoutube" + verifyYoutube);
 
-            $.ajax({
-                type: 'POST',
-                url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' +
-                    videoname +
-                    '/' + url,
-                success: function (response) {
-                    window.location = '/class/' + "<%=classinfo._id%>/showUnit/" + unitID.innerText
-                        .replace(/\s/g, '');
-                    alert('新增成功!');
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
+            if (verifyYoutube > 0) { //如果是youtube的網址
+                $.ajax({
+                    type: 'POST',
+                    url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' +
+                        videoname +
+                        '/' + url,
+                    success: function (response) {
+                        window.location = '/class/' + "<%=classinfo._id%>/showUnit/" + unitID.innerText
+                            .replace(/\s/g, '');
+                        alert('新增成功!');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+                alert('您輸入的網址不是youtube的影片！')
+            }
+
+
         }
 
     }
@@ -1227,23 +1324,42 @@
             QuationList: QuationList,
             belongUnit: unitID
         }
-
         //TODO
         //傳到伺服器存起來
-        $.ajax({
-            url: '/class/addTest/class/<%=classinfo._id%>/unit/' + unitID,
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(testinfo),
-            dataType: 'json',
-            success: function (response) {
-                alert('新增成功');
-                window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
-            },
-            error: function (err) {
-                alert('錯誤訊息：' + err.responseJSON.msg);
-            }
-        });
+        if (TestORHomeWorkMode == "Test") {
+            $.ajax({
+                url: '/class/addTest/class/<%=classinfo._id%>/unit/' + unitID,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(testinfo),
+                dataType: 'json',
+                success: function (response) {
+                    alert('新增成功');
+                    window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err.responseJSON.msg);
+                }
+            });
+        }
+        if (TestORHomeWorkMode == "HomeWork") {
+            console.log("homework mode");
+            $.ajax({
+                url: '/class/addHomeWork/class/<%=classinfo._id%>/unit/' + unitID,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(testinfo),
+                dataType: 'json',
+                success: function (response) {
+                    alert('新增成功');
+                    window.location.href = '/class/<%=classinfo._id%>/showUnit/' + unitID;
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err.responseJSON.msg);
+                }
+            });
+        }
+
     }
 </script>
 

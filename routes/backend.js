@@ -14,7 +14,8 @@ let Video = require('../model/video');
 let Videobehavior = require('../model/videobehavior');
 //bring codeqution model
 let CodeQution = require('../model/codeQution');
-
+//bring studentTakeCourse model
+let StudentTakeCourse = require('../model/StudentTakeCourse');
 router.get('/', function (req, res) {
     if (req.user.permission != "admin") {
         req.flash('danger', '您不是管理員');
@@ -40,13 +41,19 @@ router.get('/', function (req, res) {
                         if (err) {
                             console.log(err);
                         }
-                        res.render('backend', {
-                            users: users,
-                            classes: classes,
-                            units: units,
-                            chapters: chapters,
-                            videos: videos
-                        });
+                        StudentTakeCourse.find({}, function (err, stc) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            res.render('backend', {
+                                users: users,
+                                classes: classes,
+                                units: units,
+                                chapters: chapters,
+                                videos: videos,
+                                stc: stc
+                            });
+                        })
                     })
                 })
             });
