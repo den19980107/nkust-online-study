@@ -14,7 +14,7 @@ module.exports = function (passport) {
             if (err) throw err;
             if (!user) {
                 return done(null, false, {
-                    message: 'No User found'
+                    message: '找不到此使用者'
                 });
             }
 

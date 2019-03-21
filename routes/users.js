@@ -135,11 +135,23 @@ router.get('/login', function (req, res) {
 
 //Login process
 router.post('/login', function (req, res, next) {
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/users/login',
-        failureFlash: true
-    })(req, res, next);
+    console.log(req.body);
+    req.checkBody('username', '帳號未填寫').notEmpty();
+    req.checkBody('password', '密碼未填寫').notEmpty();
+    let errors = req.validationErrors();
+    console.log(errors);
+    if (errors) {
+        res.render('login', {
+            errors: errors,
+            user: ''
+        })
+    } else {
+        passport.authenticate('local', {
+            successRedirect: '/',
+            failureRedirect: '/users/login',
+            failureFlash: true
+        })(req, res, next);
+    }
 });
 
 //User info 
