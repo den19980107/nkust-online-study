@@ -21,6 +21,10 @@ let articleSchema = mongoose.Schema({
     belongClass: {
         type: String,
         require: true
+    },
+    postTime: {
+        type: String,
+        require: true
     }
 });
 

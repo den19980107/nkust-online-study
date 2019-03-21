@@ -12,7 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 </head>
 
-<body class="bg-light">
+<body class="bg-white">
     <style>
         .container {
             max-width: 1200px;    
@@ -21,8 +21,11 @@
             outline: none !important;
             box-shadow: none;
         }
+        .navbar{
+            box-shadow: 0px 3px 3px rgb(247, 247, 247);
+        }
     </style>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white" style="position: fixed;top: 0px;z-index: 3;width: 100%">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white navbar" style="position: fixed;top: 0px;z-index: 3;width: 100%">
         <a class="navbar-brand" href="/"><img src="/img/logo.png" class="img-fluid" style="height: 30px"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,10 +71,11 @@
                         <div class="dropdown-menu ">
                             <a class="dropdown-item text-center" href="/users/userinfo">個人資料</a>
                             <%if(user.permission == "teacher"){%>
-                            <a class="dropdown-item text-center" href="/users/myclass">開課清單</a>
+                            <a class="dropdown-item text-center" href="/users/myclass">個人開課清單</a>
                             <%}%>
                             <%if(user.permission == "student"){%>
-                            <a class="dropdown-item text-center" href="/users/myclass">修課清單</a>
+                            <a class="dropdown-item text-center" href="/users/myclass">個人修課清單</a>
+                            <a class="dropdown-item text-center" href="/users/mynote">我的筆記</a>
                             <%}%>
 
                         </div>
@@ -82,10 +86,10 @@
                 </li>
                 <%}else{%>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/register">註冊<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/users/register" id="registeLink">註冊<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/login">登入</a>
+                    <a class="nav-link" href="/users/login" id="singinLink">登入</a>
                 </li>
                 <%}%>
 

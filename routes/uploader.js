@@ -60,6 +60,7 @@ router.post('/', upload.any(), function (req, res) {
     var msg = "";
     res.send(`<script type="text/javascript">
     window.parent.CKEDITOR.tools.callFunction("1", "${fileUrl}", "上傳成功");
+    console.log("sendback");
     </script>`);
 
 });

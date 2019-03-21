@@ -46,16 +46,58 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+    .myinput {
+        width: 32%;
+        padding: .375rem .25rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-image: none;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        display: inline;
+    }
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.0/css/all.css">
+<div class="row">
+    <div class="col">
+        <h3>課程資訊</h3>
+    </div>
+</div>
+<hr>
+<%let thisAssisten%>
+<%for(let i = 0;i < thisClassStudents.length;i++){%>
+<%if(thisClassStudents[i].studentID==user._id){%>
+<%thisAssisten = thisClassStudents[i] %>
+<%}%>
+<%}%>
 <div class="row">
     <div class="col-lg-9 col-sm-12">
         <div class="row">
             <div class="col-lg-6 col-sm-12">
-                <div class="row container mb-2">
-                    <h5>
-                        課程封面照片：
-                    </h5>
+                <div class="row container m-0 p-0 mb-2">
+                    <div id="titleDIV" style="display: flex;justify-content:start;height: 36px;" class="w-100">
+                        <h5 class="scrollText" id="title" style="display: inline-block;">
+                            課程名稱：
+                            <%=classinfo.className%>
+                        </h5>
+                        <%if(user._id == classinfo.teacher){%>
+                        <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                            onclick="updateClassInfo('title')"></i>
+                        <%}%>
+
+                        <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                        <%if(thisClassStudents[i].studentID==user._id){%>
+                        <%if(thisClassStudents[i].permission[3]=='A'){%>
+                        <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                            onclick="updateClassInfo('title')"></i>
+                        <%}%>
+                        <%}%>
+                        <%}%>
+                    </div>
                 </div>
                 <%if(img){%>
                 <%if(img.isImage) {%>
@@ -72,38 +114,51 @@
                 <p>no class image</p>
                 <%}%>
             </div>
-            <div class="col-lg-6 col-sm-12 mb-0">
-                <div class="row mb-0">
-                    <div class="col-lg-7 col-sm-12 mb-2">
-                        <h5 class="float-left scrollText " style="width: 100%;overflow: hidden;">
-                            課程名稱：
-                            <%=classinfo.className%>
-                        </h5>
+            <div class="col-lg-6 col-sm-12">
+                <div class="row container m-0 p-0 mb-2">
+                    <div id="outlineDIV" class="w-100" style="display: flex;justify-content: space-between;height: 36px;">
+                        <h5 class=" scrollText " style="display: inline-block">
+                            課程簡介:
+                            <%if(user._id == classinfo.teacher){%>
+                            <i class="fas fa-pen ml-1" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                                onclick="updateClassInfo('outline')"></i>
+                            <%}%>
 
-                    </div>
-                    <div class="col-lg-5 col-sm-12 mb-2">
-                        <p class="mb-0">指導老師:
-                            <%=teacher.name%>
-                        </p>
+                            <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                            <%if(thisClassStudents[i].studentID==user._id){%>
+                            <%if(thisClassStudents[i].permission[3]=='A'){%>
+                            <i class="fas fa-pen ml-1" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                                onclick="updateClassInfo('outline')"></i>
+                            <%}%>
+                            <%}%>
+                            <%}%>
+                        </h5>
                     </div>
                 </div>
-
-
                 <div class="md-form">
-                    <textarea type="text" id="outline" name="outline" class="md-textarea form-control " style="resize: none;height: 15rem;"><%=classinfo.outline%></textarea>
+                    <textarea readonly type="text" id="outline" name="outline" class="md-textarea form-control " style="resize: none;height: 15rem;"
+                        onfocusout="cancelUpdate('outline')"><%=classinfo.outline%></textarea>
                 </div>
             </div>
         </div>
         <br>
         <div class="row mb-2">
             <div class="col">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <nav class="navbar navbar-expand-lg navbar-light  pl-0 pr-0" style="box-shadow:none">
                     <a class="navbar-brand mr-auto" href="#">課程單元與教材</a>
                     <form class="form-inline my-2 my-lg-0">
                         <%if(user.permission =='teacher'){%>
                         <%if(user.id == classinfo.teacher){%>
                         <a href="/class/classManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
                         </a>
+                        <%}%>
+                        <%}%>
+                        <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                        <%if(thisClassStudents[i].studentID==user._id){%>
+                        <%if(thisClassStudents[i].permission[0]=='A'){%>
+                        <a href="/class/classManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
+                        </a>
+                        <%}%>
                         <%}%>
                         <%}%>
                     </form>
@@ -121,45 +176,114 @@
         </div>
     </div>
     <div class="col-lg-3 col-sm-12">
-        <h5>課程人數：
+        <h5 id="classStudentNumber">課程人數：
             <%=thisClassStudents.length%>
         </h5>
         <ul class="list-group">
             <div id="classtimelist">
                 <li class="list-group-item  text-center  list-group-item-action active">上課時間</li>
+
             </div>
 
             <li class="list-group-item  text-center  list-group-item-action active">上課地點</li>
             <li class="list-group-item list-group-item-action" style="line-height: 24px;">
                 <%if(!classinfo.classRoom){%>
                 未設定
+                <%if(user._id == classinfo.teacher){%>
+                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('classRoom')"></i>
+                <%}%>
+                <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                <%if(thisClassStudents[i].studentID==user._id){%>
+                <%if(thisClassStudents[i].permission[3]=='A'){%>
+                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('classRoom')"></i>
+                <%}%>
+                <%}%>
+                <%}%>
+
+
                 <%}else{%>
                 <%=classinfo.classRoom%>
+                <%if(user._id == classinfo.teacher){%>
+                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('classRoom')"></i>
+                <%}%>
+                <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                <%if(thisClassStudents[i].studentID==user._id){%>
+                <%if(thisClassStudents[i].permission[3]=='A'){%>
+                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('classRoom')"></i>
+                <%}%>
+                <%}%>
+                <%}%>
+
                 <%}%>
             </li>
             <li class="list-group-item  text-center  list-group-item-action active">學分數</li>
             <li class="list-group-item list-group-item-action" style="line-height: 24px;">
                 <%=classinfo.credit%>
+                <%if(user._id == classinfo.teacher){%>
+                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('credit')"></i>
+                <%}%>
+                <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                <%if(thisClassStudents[i].studentID==user._id){%>
+                <%if(thisClassStudents[i].permission[3]=='A'){%>
+                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('credit')"></i>
+                <%}%>
+                <%}%>
+                <%}%>
+
             </li>
         </ul>
         <br>
+        <%let isTeacher = false%>
+        <%if(user._id == classinfo.teacher){%>
+        <%isTeacher = true%>
+        <%}else{%>
+        <script>
+            let thisAssisten =<%-JSON.stringify(thisAssisten)%>
+        </script>
+        <%}%>
         <script>
             let data = "<%=classinfo.classTime%>";
+            let isTeacher = "<%=isTeacher%>"
+            console.log(isTeacher);
             let classtime = [];
             classtime = data.split(',');
             let classtimelist = document.getElementById('classtimelist');
+        
+            
             if (data.length == 0) {
                 let li = document.createElement('li');
                 li.className = "list-group-item list-group-item-action";
                 li.style.cssText = "line-height:24px";
                 li.innerHTML = '未設定';
+                
+                if (isTeacher == "true"||thisAssisten.permission[3]=="A") {
+                    console.log(0);
+                    
+                    li.innerHTML +=
+                        `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem"
+                    onclick="updateClassInfo('classTime')"></i>`
+                }
                 classtimelist.appendChild(li);
+
             } else {
                 for (let i = 0; i < classtime.length; i++) {
                     let li = document.createElement('li');
                     li.className = "list-group-item list-group-item-action";
                     li.style.cssText = "line-height:24px";
                     li.innerHTML = classtime[i];
+                    
+                    if(isTeacher == "true"||thisAssisten.permission[3]=="A") {
+                        console.log(1);
+                        li.innerHTML +=
+                            `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem;"
+                    onclick="updateClassInfo('classTime')"></i>`;
+                    }
                     classtimelist.appendChild(li);
                 }
             }
@@ -168,7 +292,7 @@
         <%if(user.permission == "teacher"){%>
         <%if(classinfo.teacher == user._id){%>
         <%if(classinfo.isLunched){%>
-        <button class="btn btn-info form-control mb-2">助教管理</button>
+        <a href="/class/showAssistantIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">助教管理</a>
         <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
         <a href="/class/correctTestIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">批閱測驗</a>
         <button class="btn btn-info form-control mb-2">學習狀況</button>
@@ -185,25 +309,64 @@
         <%}%>
         <%}%>
         <%if(user.permission == "student"){%>
+
+        <!--可以管理成員-->
+        <%for(let i = 0;i < thisClassStudents.length;i++){%>
+        <%if(thisClassStudents[i].studentID==user._id){%>
+        <%if(thisClassStudents[i].permission[1]=='A'){%>
+        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn form-control mb-2" style="color: white;background: rgb(228, 212, 122)">本班成員</a>
+        <%}%>
+        <%}%>
+        <%}%>
+
+        <!--可以管理批閱考卷-->
+        <%for(let i = 0;i < thisClassStudents.length;i++){%>
+        <%if(thisClassStudents[i].studentID==user._id){%>
+        <%if(thisClassStudents[i].permission[2]=='A'){%>
+        <a href="/class/correctTestIn/<%=classinfo.id%>" class="btn form-control mb-2" style="color: white;background: rgb(228, 212, 122)">批閱測驗</a>
+        <%}%>
+        <%}%>
+        <%}%>
+
+
         <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">討論區</a>
         <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
         <a href="/SDC/student/<%=user._id%>/Take/class/:<%=classinfo._id%>" id="takeClassBtn" class="btn btn-success form-control "
             style="color:white">參加此課程</a>
+        <a id="waitapprove" class="btn btn-warning form-control " style="color:white">等待教師審核中</a>
         <hr>
         <button id="quitClassBtn" class="btn btn-danger form-control " style="color:white ;display: none">退出此課程</button>
         <script>
             let thisClassStudents = <%- JSON.stringify(thisClassStudents)%>
-            let isin = false;
+            console.log(thisClassStudents);
+            let inclassStudentNumber = 0;
+            let isin = "NOT_IN";
             let takeClassBtn = document.getElementById('takeClassBtn');
             let quitClassBtn = document.getElementById('quitClassBtn');
+            let waitapprove = document.getElementById('waitapprove');
             for (let i = 0; i < thisClassStudents.length; i++) {
+                if (thisClassStudents[i].permission != "00000") { //計算有幾個在這個班上的學生已經審核過了
+                    inclassStudentNumber++;
+                }
                 if (thisClassStudents[i].studentID == "<%=user._id%>") {
-                    takeClassBtn.style.cssText = "display:none";
-                    isin = true;
+                    if (thisClassStudents[i].permission != "00000") { //已經正式成為學生了
+                        isin = "IS_IN";
+                        console.log("is in");
+                    }
+                    if (thisClassStudents[i].permission == "00000") { //等待老師批准中
+                        isin = "WAITTING_APPROVE";
+                        console.log("wait approve");
+
+                    }
                 }
             }
-            if (isin) {
+            let classStudentNumber = document.getElementById('classStudentNumber');
+            classStudentNumber.innerHTML = "課程人數：" + inclassStudentNumber
+
+            if (isin == "IS_IN") {
                 let unitlist = document.getElementById('unitlist');
+                waitapprove.style.cssText = "display:none";
+                takeClassBtn.style.cssText = "display:none";
                 for (let i = 0; i < unitlist.children.length; i++) {
                     unitlist.children[i].className = "list-group-item list-group-item-action unit";
                 }
@@ -216,24 +379,365 @@
 
                     }
                 }
-            } else {
+            } else if (isin == "WAITTING_APPROVE") {
+                takeClassBtn.style.cssText = "display:none";
+                waitapprove.style.cssText = "display:block"
+            } else if (isin == "NOT_IN") { //未申請過此課程
                 quitClassBtn.style.cssText = "display:none";
+                waitapprove.style.cssText = "display:none"
+                console.log("not Submmited");
             }
         </script>
         <%}%>
 
     </div>
+
+    <!-- 更改上課時間的modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="updateTimeModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">更改上課時間</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="selectedTime" style="margin-bottom: 10px;">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-sm-12 mb-4" style="justify-content: space-between;height: 2.5rem;">
+                            <select name="YourLocation" class="myinput h-100" id="weekdaySelector">
+                                　<option value="星期一">星期一</option>
+                                　<option value="星期二">星期二</option>
+                                　<option value="星期三">星期三</option>
+                                　<option value="星期四">星期四</option>
+                                　<option value="星期五">星期五</option>
+                                　<option value="星期六">星期六</option>
+                                　<option value="星期日">星期日</option>
+                            </select>
+                            <input class="myinput h-100" type="time" value="09:10" id="beginTime">
+                            <input class="myinput h-100" type="time" value="10:00" id="endTime">
+                        </div>
+                        <div class="col-lg-2 col-sm-12 " style="height: 2.5rem">
+                            <button type="button" class="btn btn-primary float-right h-100" style="width: 4rem" onclick="createNewClassTime()">新增</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="sendUpdate(event,'classTime')">儲存</button>
+                </div>
+                <input id="chooseClassTime" class="form-control" style="display: none"></input>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 更改上課地點的modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="updateClassRoomModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">更改上課地點</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="updateClassRoomText" value="<%=classinfo.classRoom%>">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="sendUpdate(event,'classRoom')">儲存</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 更改學分數的modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="updateCreditModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">更改學分數</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="number" min="0" class="form-control" id="updatecreditText" value="<%=classinfo.credit%>">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="sendUpdate(event,'credit')">儲存</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
 </div>
 <script>
     let deleteCourseBtn = document.getElementById('deleteCourse');
-    deleteCourseBtn.onclick = function () {
-        result = window.confirm("你確定要刪除課程嗎？");
-        if (result == true) {
-            window.location = "/class/deleteCourse/<%=classinfo._id%>";
-        } else {
+    if (deleteCourseBtn != null) {
+        deleteCourseBtn.onclick = function () {
+            result = window.confirm("你確定要刪除課程嗎？");
+            if (result == true) {
+                window.location = "/class/deleteCourse/<%=classinfo._id%>";
+            } else {
+
+            }
+
+        }
+    }
+
+
+    let titleText = ''
+    let isSet = false;
+    let updateClassInfo = function (info) {
+        nowEditPart = info;
+        if (info == 'title') {
+            let title = document.getElementById('title');
+            titleText = title.innerText.substr(5, title.innerText.length - 1);
+            let titleDIV = document.getElementById('titleDIV');
+            console.log(titleDIV);
+            titleDIV.innerHTML =
+                `<input value = "${titleText}" id="updateTitleText" class="form-control" onkeypress ="sendUpdate(event,'title')" onfocusout = "cancelUpdate('title')"/>`
+            document.getElementById('updateTitleText').focus();
+
+        }
+        if (info == 'outline') {
+            let outline = document.getElementById('outline');
+            let outlineDIV = document.getElementById('outlineDIV');
+            outlineDIV.innerHTML =
+                `<h5 class=" scrollText ">
+                            課程簡介：
+                            <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                                onclick="updateClassInfo('outline')"></i>
+                        </h5>
+                <button class="btn btn-primary float-right" style="padding-top:3px;padding-bottom:3px" onclick="sendUpdate(event,'outline')">儲存</button>`
+            outline.readOnly = false;
+            outline.focus();
+
+        }
+        if (info == "classTime") {
+            chooseClassTime = data.split(',');
+            $("#updateTimeModal").modal();
+            let weekday = document.getElementById('weekdaySelector');
+            let beginTime = document.getElementById('beginTime');
+            let endTime = document.getElementById('endTime');
+            let selectedTimeDiv = document.getElementById('selectedTime');
+
+            //如果chooseClassTime裡面有東西表示老師有設定過時間 就要先把它顯示出來
+            if (chooseClassTime.length != 0) {
+                console.log("有之前設定的時間");
+                if (isSet == false) {
+                    isSet = true;
+                    for (let i = 0; i < chooseClassTime.length; i++) {
+                        let div = document.createElement('div');
+                        div.className = "alert alert-warning alert-dismissible fade show";
+                        div.role = "alert";
+                        div.innerHTML = chooseClassTime[i];
+                        let btn = document.createElement('button');
+                        btn.type = "button";
+                        btn.className = "close";
+                        btn.setAttribute("data-dismiss", "alert");
+                        btn.setAttribute("aria-label", "Close");
+                        btn.setAttribute('index', i);
+                        btn.setAttribute('onclick', "deleteChooseTime(this)");
+
+                        let span = document.createElement('span');
+                        span.setAttribute("aria-hidden", "true");
+                        span.innerHTML = "&times;";
+                        btn.appendChild(span);
+                        div.appendChild(btn);
+                        //清空
+
+                        selectedTimeDiv.appendChild(div);
+                    }
+                }
+            } else {
+                selectedTimeDiv.innerHTML = '您還未選取上課時間'
+            }
+            //把開課時設定的時間加到array當中
+            chooseClassTime = []
+            for (let i = 0; i < classtime.length; i++) {
+                chooseClassTime.push(classtime[i]);
+            }
 
         }
 
+        if (info == 'classRoom') {
+            $("#updateClassRoomModal").modal();
+        }
+
+        if (info == 'credit') {
+            $("#updateCreditModal").modal();
+        }
+    }
+    let nowEditPart;
+    let sendUpdate = function (e, part) {
+        if (part == 'title') {
+            if (e.key == 'Enter') {
+                let titleDIV = document.getElementById('titleDIV');
+                let updateTitleText = document.getElementById('updateTitleText');
+                titleText = updateTitleText.value;
+                titleDIV.innerHTML = '';
+                titleDIV.innerHTML =
+                    `<h5 class="scrollText" id="title">
+                    課程名稱：${titleText}
+                </h5>
+                <%if(user._id == classinfo.teacher){%>
+                <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('title')"></i>
+                <%}%>`
+
+                //titleText update到db中
+                $.ajax({
+                    url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + titleText,
+                    type: 'POST'
+                });
+            }
+        }
+        if (part == 'outline') {
+            let outline = document.getElementById('outline').value;
+            console.log(outline);
+
+            //把outline update到db中
+            $.ajax({
+                url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + outline,
+                type: 'POST'
+            });
+
+        }
+        if (part == "classTime") {
+            console.log("classTime");
+            console.log(chooseClassTime);
+            //把classTime update到db中
+
+            $.ajax({
+                url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/sendData',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(chooseClassTime),
+                dataType: 'json',
+                success: function (response) {
+                    window.location = '/class/<%=classinfo._id%>'
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err);
+                }
+            });
+
+        }
+        if (part == "classRoom") {
+            let updateClassRoomText = document.getElementById('updateClassRoomText').value
+            console.log(updateClassRoomText);
+            //把classRoom update到db中
+            $.ajax({
+                url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + updateClassRoomText,
+                type: 'POST',
+                success: function (response) {
+                    window.location = '/class/<%=classinfo._id%>'
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err);
+                }
+            });
+        }
+        if (part == "credit") {
+            let updatecreditText = document.getElementById('updatecreditText').value
+            console.log(updatecreditText);
+            //把classRoom update到db中
+            $.ajax({
+                url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + updatecreditText,
+                type: 'POST',
+                success: function (response) {
+                    window.location = '/class/<%=classinfo._id%>'
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err);
+                }
+            });
+        }
+
+    }
+
+    let cancelUpdate = function (part) {
+        if (part == 'title') {
+            let titleDIV = document.getElementById('titleDIV');
+            let updateTitleText = document.getElementById('updateTitleText');
+            titleText = updateTitleText.value;
+            titleDIV.innerHTML =
+                `<h5 class="scrollText" id="title">
+                    課程名稱：${titleText}
+                </h5>
+                <%if(user._id == classinfo.teacher){%>
+                <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('title')"></i>
+                <%}%>`
+        }
+        if (part == 'outline') {
+            setTimeout(function () {
+                let outline = document.getElementById('outline');
+                let outlineDIV = document.getElementById('outlineDIV');
+                outlineDIV.innerHTML =
+                    `<h5 class=" scrollText ">
+                                課程簡介：
+                                <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                                    onclick="updateClassInfo('outline')"></i>
+                            </h5>
+                   `
+                outline.readOnly = true;
+            }, 100);
+        }
+    }
+    let chooseClassTime = [];
+    let chooseClassTimeLabel = document.getElementById('chooseClassTime');
+
+    function createNewClassTime() {
+        let weekday = document.getElementById('weekdaySelector');
+        let beginTime = document.getElementById('beginTime');
+        let endTime = document.getElementById('endTime');
+        let selectedTimeDiv = document.getElementById('selectedTime');
+
+        selectedTimeDiv.innerHTML = '';
+        chooseClassTime.push(weekday.value + ' ' + beginTime.value + '~' + endTime.value);
+        console.log(chooseClassTime);
+        chooseClassTimeLabel.innerHTML = chooseClassTime
+        chooseClassTimeLabel.value = chooseClassTime;
+        for (let i = 0; i < chooseClassTime.length; i++) {
+            let div = document.createElement('div');
+            div.className = "alert alert-warning alert-dismissible fade show";
+            div.role = "alert";
+            div.innerHTML = chooseClassTime[i];
+            let btn = document.createElement('button');
+            btn.type = "button";
+            btn.className = "close";
+            btn.setAttribute("data-dismiss", "alert");
+            btn.setAttribute("aria-label", "Close");
+            btn.setAttribute('index', i);
+            btn.setAttribute('onclick', "deleteChooseTime(this)");
+
+            let span = document.createElement('span');
+            span.setAttribute("aria-hidden", "true");
+            span.innerHTML = "&times;";
+            btn.appendChild(span);
+            div.appendChild(btn);
+            //清空
+
+            selectedTimeDiv.appendChild(div);
+        }
+    }
+
+    function deleteChooseTime(e) {
+        chooseClassTime.pop(parseInt(e.getAttribute("index")));
+        chooseClassTimeLabel.innerHTML = chooseClassTime
+        chooseClassTimeLabel.value = chooseClassTime;
     }
 </script>
 

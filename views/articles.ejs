@@ -99,12 +99,14 @@
                     <h5 class="mb-1">
                         <%=article.title%>
                     </h5>
-                    <small class="text-muted">3 days ago</small>
+                    <span class="text-muted">
+                        <%=article.postTime%></span>
                 </div>
                 <p class="mb-1">
                     <%=article.body%>
                 </p>
-                <small class="text-muted">1則回覆</small>
+                <small class="text-muted">
+                    <%=article.commentsNumber%>則回覆</small>
             </div>
             <div class="col-1">
                 <div class="row">
@@ -131,6 +133,7 @@
         </div>
     </a>
     <%})%>
+
 </div>
 <script>
     CKEDITOR.replace('DiscussDetail', {

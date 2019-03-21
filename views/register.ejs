@@ -62,15 +62,30 @@
     var hideForm = document.getElementById('hide');
     studentCheckbox.onclick = function () {
         if (studentCheckbox.checked) {
+            studentCheckbox.disabled = true
+        }
+        if (studentCheckbox.checked) {
             teacherCheckbox.checked = false;
+            teacherCheckbox.disabled = false
             hideForm.style.display = "block";
         }
     }
     teacherCheckbox.onclick = function () {
         if (teacherCheckbox.checked) {
+            teacherCheckbox.disabled = true
+        }
+        if (teacherCheckbox.checked) {
             studentCheckbox.checked = false;
+            studentCheckbox.disabled = false
             hideForm.style.display = "none";
         }
+    }
+    window.onload = function () {
+        studentCheckbox.checked = true
+        studentCheckbox.disabled = true
+        teacherCheckbox.checked = false;
+        teacherCheckbox.disabled = false
+        hideForm.style.display = "block";
     }
 </script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
@@ -78,5 +93,9 @@
 <!--執行程式碼-->
 <script>
     $("#remember_form").sisyphus();
+    window.onload = function () {
+        let registeLink = document.getElementById('registeLink')
+        registeLink.style.cssText = "display:none";
+    }
 </script>
 <% include layout/footer %>

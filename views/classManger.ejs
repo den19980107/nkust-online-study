@@ -50,12 +50,20 @@
     }
 
 </style>
+<%let isTA = false%>
+<%for(let i = 0;i < thisClassStudents.length;i++){%>
+<%if(thisClassStudents[i].studentID==user._id){%>
+<%if(thisClassStudents[i].permission[0]=='A'){%>
+<%isTA = true%>
+<%}%>
+<%}%>
+<%}%>
 <div class="row">
     <div class="col-3">
         <div>
             <div style="display: flex;justify-content: space-between">
                 <h5 class="float-left">單元總覽</h5>
-                <%if(user._id == classinfo.teacher){%>
+                <%if(user._id == classinfo.teacher || isTA){%>
                 <button type="button" class="btn-secondary mr-2" data-toggle="modal" data-target="#myModal">新增單元</button>
                 <%}%>
             </div>
@@ -109,7 +117,7 @@
                     <a href="/class/<%=classinfo._id%>/showUnit/<%=unit._id%>" class="text-dark " style="text-decoration: none;padding-top:20px;padding-bottom:20px;padding-right:60px ">
                         <%=unit.unitName%>
                     </a>
-                    <%if(user._id == classinfo.teacher){%>
+                    <%if(user._id == classinfo.teacher || isTA){%>
                     <a class=" close">
                         <span id="<%=unit._id%>" class="delete-unit" aria-hidden="true">&times;</span>
                     </a>
@@ -122,7 +130,7 @@
 
         </div>
     </div>
-    <div class="col bg-light">
+    <div class="col bg-white">
         <!-- 如果使用者有選取單元的話 -->
         <%if(typeof chapters !="undefined" ){%>
         <label class="m-0">
@@ -146,7 +154,7 @@
                         <p style="padding: 0;margin: 0;word-wrap: break-word " onclick="showChapter('<%=chapter._id%>')">
                             <%=chapter.chapterName%>
                         </p>
-                        <%if(classinfo.teacher == user._id){%>
+                        <%if(classinfo.teacher == user._id || isTA){%>
                         <a class="close" style="padding: 12px;">
                             <span class=" delete-chapter" id="<%=chapter._id%>" aria-hidden="true">&times;</span>
                         </a>
@@ -161,6 +169,13 @@
                 <br>
                 <%if(user._id == classinfo.teacher){%>
                 <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#addLecture">新增</button>
+                <%}%>
+                <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                <%if(thisClassStudents[i].studentID==user._id){%>
+                <%if(thisClassStudents[i].permission[0]=='A'){%>
+                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#addLecture">新增</button>
+                <%}%>
+                <%}%>
                 <%}%>
 
                 <!-- Modal -->
@@ -218,7 +233,7 @@
                         <p style="padding: 0;margin: 0 " onclick="showVideo('<%=video._id%>')">
                             <%=video.videoName%>
                         </p>
-                        <%if(classinfo.teacher == user._id){%>
+                        <%if(classinfo.teacher == user._id || isTA){%>
                         <a class="close" style="padding: 12px;">
                             <span class="delete-video" id="<%=video._id%>" aria-hidden="true">&times;</span>
                         </a>
@@ -229,10 +244,9 @@
                     <%}%>
                 </div>
                 <br>
-                <%if(user._id == classinfo.teacher){%>
+                <%if(user._id == classinfo.teacher || isTA){%>
                 <button class="btn btn-secondary w-100" id="newVideo" data-toggle="modal" data-target="#uploadVideoModal">新增</button>
                 <%}%>
-
                 <!-- Modal -->
                 <div class="modal fade" id="uploadVideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                     aria-hidden="true">
@@ -371,7 +385,7 @@
                         <p style="padding: 0;margin: 0 " onclick="showTest('<%=test._id%>')">
                             <%=test.testName%>
                         </p>
-                        <%if(classinfo.teacher == user._id){%>
+                        <%if(classinfo.teacher == user._id || isTA){%>
                         <a class="close" style="padding: 12px;">
                             <span class="delete-test" id="<%=test._id%>" aria-hidden="true">&times;</span>
                         </a>
@@ -383,7 +397,7 @@
                         <p style="padding: 0;margin: 0 " onclick="showTest('<%=test._id%>')">
                             <%=test.testName%>
                         </p>
-                        <%if(classinfo.teacher == user._id){%>
+                        <%if(classinfo.teacher == user._id || isTA){%>
                         <a class="close" style="padding: 12px;">
                             <span class="delete-test" id="<%=test._id%>" aria-hidden="true">&times;</span>
                         </a>
@@ -397,7 +411,7 @@
 
                 </div>
                 <br>
-                <%if(user._id == classinfo.teacher){%>
+                <%if(user._id == classinfo.teacher || isTA){%>
                 <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal" onclick="TestModel()">新增</button>
                 <!-- Modal -->
                 <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -585,7 +599,7 @@
                         <p style="padding: 0;margin: 0 " onclick="showHomework('<%=homework._id%>')">
                             <%=homework.homeworkName%>
                         </p>
-                        <%if(classinfo.teacher == user._id){%>
+                        <%if(classinfo.teacher == user._id || isTA){%>
                         <a class="close" style="padding: 12px;">
                             <span class="delete-homework" id="<%=homework._id%>" aria-hidden="true">&times;</span>
                         </a>
@@ -597,7 +611,7 @@
                         <p style="padding: 0;margin: 0 " onclick="showHomework('<%=homework._id%>')">
                             <%=homework.homeworkName%>
                         </p>
-                        <%if(classinfo.teacher == user._id){%>
+                        <%if(classinfo.teacher == user._id || isTA){%>
                         <a class="close" style="padding: 12px;">
                             <span class="delete-homework" id="<%=homework._id%>" aria-hidden="true">&times;</span>
                         </a>
@@ -610,7 +624,7 @@
                     <%}%>
                 </div>
                 <br>
-                <%if(user._id == classinfo.teacher){%>
+                <%if(user._id == classinfo.teacher || isTA){%>
                 <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal" onclick="HomeWorkModel()">新增</button>
                 <%}%>
             </div>

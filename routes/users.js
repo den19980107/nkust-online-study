@@ -18,6 +18,8 @@ let Chapter = require('../model/chapter');
 let Video = require('../model/video');
 //bring student take courese model
 let StudebtTakeCourse = require('../model/StudentTakeCourse');
+//bring note model
+let Note = require('../model/note');
 // Register Form
 router.get('/register', function (req, res) {
     res.render('register');
@@ -50,54 +52,79 @@ router.post('/register', function (req, res) {
     //     req.checkBody('department', '請輸入您的系別').notEmpty();
     //     req.checkBody('studentid', '請輸入您的學號').notEmpty();
     // }
-
-    let errors = req.validationErrors();
-
-    if (errors) {
-        res.render('register', {
-            user: false,
-            errors: errors
-        });
-    } else {
-        let newUser = new User({
-            name: name,
-            email: email,
-            username: username,
-            password: password,
-            schoolname: schoolname,
-            department: department,
-            studentid: studentid,
-            permission: permission
-        });
-        bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(newUser.password, salt, function (err, hash) {
-                if (err) {
-                    console.log(err);
-                }
-                newUser.password = hash;
-                newUser.save(function (err) {
-                    if (err) {
-                        console.log(err);
-                        return;
-                    } else {
-                        req.flash('success', '您現在已經註冊且可以使用此帳號密碼登入了！');
-                        res.redirect('/users/login'); //?
-                    }
+    User.find({
+        username: req.body.username
+    }, function (err, users) {
+        if (users.length != 0) {
+            let errors = req.validationErrors();
+            console.log(errors);
+            if (errors) {
+                errors.push({
+                    msg: "此帳號已有人使用"
                 });
+            } else {
+                errors = [{
+                    msg: "此帳號已有人使用"
+                }]
+            }
+
+            console.log(errors.length);
+            res.render('register', {
+                user: false,
+                errors: errors
             });
-        })
+        } else {
+            let errors = req.validationErrors();
+
+            if (errors) {
+                res.render('register', {
+                    user: false,
+                    errors: errors
+                });
+            } else {
+                let newUser = new User({
+                    name: name,
+                    email: email,
+                    username: username,
+                    password: password,
+                    schoolname: schoolname,
+                    department: department,
+                    studentid: studentid,
+                    permission: permission
+                });
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(newUser.password, salt, function (err, hash) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        newUser.password = hash;
+                        newUser.save(function (err) {
+                            if (err) {
+                                console.log(err);
+                                return;
+                            } else {
+                                req.flash('success', '您現在已經註冊且可以使用此帳號密碼登入了！');
+                                res.redirect('/users/login'); //?
+                            }
+                        });
+                    });
+                })
 
 
-        // newUser.save(function (err) {
-        //     if (err) {
-        //         console.log(err);
-        //         return;
-        //     } else {
-        //         req.flash('success', 'You are now registered and can log in');
-        //         res.redirect('/users/login'); //?
-        //     }
-        // });
-    }
+                // newUser.save(function (err) {
+                //     if (err) {
+                //         console.log(err);
+                //         return;
+                //     } else {
+                //         req.flash('success', 'You are now registered and can log in');
+                //         res.redirect('/users/login'); //?
+                //     }
+                // });
+            }
+        }
+    })
+
+
 });
 
 
@@ -190,7 +217,7 @@ router.get('/myclass', function (req, res) {
                     console.log(err);
                 }
                 res.render("myclass", {
-                    title: "修課清單",
+                    title: "個人修課清單",
                     classes: classesInfo
                 })
             })
@@ -205,10 +232,117 @@ router.get('/myclass', function (req, res) {
                 console.log(err);
             }
             res.render("myclass", {
-                title: "開課清單",
+                title: "個人開課清單",
                 classes: classes
             })
         })
     }
 });
+
+//顯示我的筆記
+router.get('/mynote', function (req, res) {
+    res.render('mynote');
+})
+//新增筆記
+router.post('/note/createNote', function (req, res) {
+    console.log(req.body);
+    let newNote = new Note();
+    newNote.title = req.body.title;
+    newNote.body = req.body.body;
+    var currentdate = new Date();
+    var datetime = currentdate.getDate() + "/" +
+        (currentdate.getMonth() + 1) + "/" +
+        currentdate.getFullYear() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    newNote.postTime = datetime
+    newNote.author = req.user;
+    newNote.author_id = req.user._id;
+    console.log(newNote);
+
+    newNote.save(function (err) {
+        if (err) {
+
+        } else {
+            Note.find({
+                author_id: req.user._id
+            }, function (err, notes) {
+                console.log(notes);
+                res.send(notes)
+            })
+        }
+    })
+
+});
+
+
+//取得我的所有筆記
+router.get('/note/getNote', function (req, res) {
+    Note.find({
+        author_id: req.user._id
+    }, function (err, notes) {
+        console.log(notes);
+        res.send(notes)
+    })
+});
+
+//取得我的一比筆記
+router.get('/note/getSigleNote/:noteID', function (req, res) {
+    console.log("asasddasasdad");
+    Note.findById(req.params.noteID, function (err, note) {
+        if (err) {
+            console.log(err);
+
+        }
+        console.log(note);
+        res.send(note)
+    })
+});
+
+//存存編輯中筆記
+router.post('/note/saveNote/:noteID', function (req, res) {
+    console.log(req.body);
+    Note.findById({
+        _id: req.params.noteID
+    }, function (err, note) {
+        let updateNote = {
+            title: req.body.title,
+            body: req.body.body,
+            postTime: note.postTime,
+            author: note.author,
+            author_id: note.author_id
+        }
+        Note.update({
+            _id: req.params.noteID
+        }, updateNote, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            console.log("saved");
+            res.send('200')
+        })
+    })
+
+});
+
+//刪除筆記
+router.delete('/note/deleteNote/:noteID', function (req, res) {
+    Note.remove({
+        _id: req.params.noteID
+    }, function (err) {
+        if (err) {
+            res.send(404);
+        } else {
+            Note.find({
+                author_id: req.user._id
+            }, function (err, notes) {
+                console.log(notes);
+                res.send(notes)
+            })
+        }
+    })
+})
+
+
 module.exports = router;

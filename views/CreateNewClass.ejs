@@ -78,7 +78,7 @@
 <div class="row">
     <div class="col-lg-9 col-sm-12">
         <form id="classinfoForm" method="POST" action="/class/CreateNewClass" enctype="multipart/form-data">
-            <h5>課程名稱</h5>
+            <h5>課程名稱 <small style="color: red">*</small></h5>
             <%if(locals.title){%>
             <input type="text" class="form-control" name="title" id="title" value="<%=title%>" style="margin-bottom: 10px;">
             <%}else{%>
@@ -124,7 +124,7 @@
                     <input class="myinput h-100" type="time" value="10:00" id="endTime">
                 </div>
                 <div class="col-lg-2 col-sm-12 " style="height: 2.5rem">
-                    <button type="button" class="btn btn-primary w-100 h-100" onclick="createNewClassTime()">新增</button>
+                    <button type="button" class="btn btn-primary float-right h-100" style="width: 6rem" onclick="createNewClassTime()">新增</button>
                 </div>
             </div>
             <h5>課程封面</h5>
@@ -149,7 +149,7 @@
                 <a href="#" class="btn btn-primary">查看課程</a>
             </div>
         </div> -->
-        <div class="card" style="width: 100%;margin-top: 20px">
+        <div class="card" style="width: 100%;">
 
 
             <div class="box">
@@ -170,7 +170,7 @@
     </div>
     <div class="col-lg-9 col-sm-12">
         <br>
-        <input type="submit" form="classinfoForm" class="btn btn-primary float-right submit" value="建立課程">
+        <input type="submit" form="classinfoForm" class="btn btn-primary float-right submit" style="width: 6rem" value="建立課程">
     </div>
 </div>
 

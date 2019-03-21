@@ -28,7 +28,62 @@ let studntSubmitTest = require('../model/studentSubmitTest');
 //bring student submit homework model
 let studntSubmitHomework = require('../model/studentSubmitHomework');
 //寄email的工具
-var nodemailer = require('nodemailer');
+// var nodemailer = require('nodemailer');
+
+
+//@v-1
+//學生選課
+// router.get('/student/:sid/Take/class/:cid', function (req, res) {
+//     console.log(req.params.cid);
+//     let classID = req.params.cid;
+//     let studentID = req.params.sid;
+//     classID = classID.replace(':', '');
+//     console.log(classID);
+//     let stc = new StudebtTakeCourse();
+//     stc.studentID = studentID;
+//     stc.classID = classID;
+//     stc.pridectGrade = "null";
+//     stc.permission = "null";
+//     stc.save(function (err) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         Class.findById({
+//             _id: classID
+//         }, function (err, classinfo) {
+//             if (err) {
+//                 console.log(err);
+//             }
+//             var transporter = nodemailer.createTransport({
+//                 service: 'gmail',
+//                 auth: {
+//                     user: 'nkust.online.study@gmail.com',
+//                     pass: 'kkc060500'
+//                 }
+//             });
+
+//             var mailOptions = {
+//                 from: 'nkust.online.study@gmail.com',
+//                 to: req.user.email,
+//                 subject: 'nkust線上學習平台',
+//                 text: '歡迎您加入[' + classinfo.className + ']課程!'
+//             };
+
+//             transporter.sendMail(mailOptions, function (error, info) {
+//                 if (error) {
+//                     console.log(error);
+//                 } else {
+//                     console.log('Email sent: ' + info.response);
+//                 }
+//             });
+
+
+//             res.redirect('/class/' + classID);
+//         })
+//     })
+// });
+
+//學生選課
 router.get('/student/:sid/Take/class/:cid', function (req, res) {
     console.log(req.params.cid);
     let classID = req.params.cid;
@@ -39,45 +94,17 @@ router.get('/student/:sid/Take/class/:cid', function (req, res) {
     stc.studentID = studentID;
     stc.classID = classID;
     stc.pridectGrade = "null";
-    stc.permission = "null";
+    stc.permission = "00000";
     stc.save(function (err) {
         if (err) {
             console.log(err);
         }
-        Class.findById({
-            _id: classID
-        }, function (err, classinfo) {
-            if (err) {
-                console.log(err);
-            }
-            var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'nkust.online.study@gmail.com',
-                    pass: 'kkc060500'
-                }
-            });
-
-            var mailOptions = {
-                from: 'nkust.online.study@gmail.com',
-                to: req.user.email,
-                subject: 'nkust線上學習平台',
-                text: '歡迎您加入[' + classinfo.className + ']課程!'
-            };
-
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            });
-
-
-            res.redirect('/class/' + classID);
-        })
+        res.redirect('/class/' + classID);
     })
 });
+
+
+
 router.get('/student/:sid/Quit/class/:cid', function (req, res) {
     console.log("quit");
     let wantQuitSTC;

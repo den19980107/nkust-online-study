@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+
 </head>
 <style>
     .nooutline:focus,.nooutline:active {
@@ -64,10 +65,12 @@
                         <div class="dropdown-menu ">
                             <a class="dropdown-item text-center" href="/users/userinfo">個人資料</a>
                             <%if(user.permission == "teacher"){%>
-                            <a class="dropdown-item text-center" href="/users/myclass">開課清單</a>
+                            <a class="dropdown-item text-center" href="/users/myclass">個人開課清單</a>
                             <%}%>
                             <%if(user.permission == "student"){%>
-                            <a class="dropdown-item text-center" href="/users/myclass">修課清單</a>
+                            <a class="dropdown-item text-center" href="/users/myclass">個人修課清單</a>
+                            <a class="dropdown-item text-center" href="/users/mynote">我的筆記</a>
+
                             <%}%>
                         </div>
                     </div>
@@ -88,9 +91,6 @@
 
         </div>
     </nav>
-    <br>
-    <br>
-    <br>
 
     <%- messages('message', locals) %>
     <!-- ejs 的if如果要確定他有沒有傳過來的話是要用typeof -->

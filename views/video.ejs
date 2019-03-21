@@ -1,7 +1,7 @@
 <% include layout/header %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossorigin="anonymous">
-
+<script src="/ckeditor/ckeditor.js"></script>
 <style>
     .slider {
     -webkit-appearance: none;
@@ -46,6 +46,66 @@
         animation-name: showCommentField;
         animation-duration: 0.7s;
     }
+    .p2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 1rem
+    }
+    .bottom-nav{
+        z-index: 3;
+    }
+    .note:hover{
+        z-index: 0;
+    }
+
+   /* spinner */
+   .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #4b545a;
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        z-index: 999;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+   /* spinner */
+   .center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    .vertical-center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        right: 3rem;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
     @keyframes showCommentField {
         from {border-bottom: 2px solid rgb(211, 206, 206);}
         to {border-bottom: 2px solid black;}
@@ -56,8 +116,7 @@
 </h3>
 <div class="row">
     <div class="col-8 ">
-
-        <div id="player">
+        <div id="player" class="w-100">
         </div>
         <div id="progress">
             <input type="range" id="slider" value="0" class="slider" style="width: 100%;">
@@ -73,8 +132,7 @@
         </div>
 
         <hr>
-        <h5>留言</h5>
-        <div id="reply" class="bg-white mt-4" style="padding: 50px;">
+        <div id="reply" class="bg-white mt-4">
             <h3 class="text-secondary">回覆</h3>
             <br>
             <div class="row" style="height: 50px">
@@ -140,7 +198,30 @@
 
 
     </div>
-    <div class="col pl-4">
+    <div class="col-4 pl-3">
+        <div style="border: 1px solid rgb(182, 182, 182);position: relative;" class="mb-2">
+            <div class="loader" id="loader"></div>
+            <div class="w-100 bg-light p-2" style="height: 3.6rem;position: absolute;top: 0px;border-bottom: 0.3pt rgb(201, 200, 200) solid">
+                <input id="title" class="center text-center" disabled style="border: none; background: none;font-size: 22px"
+                    value="筆記本"></input>
+                <i id="penicon" class="fas fa-pen vertical-center" style="display: none"></i>
+            </div>
+            <div class="list-group p-2 " id="noteList" style="margin-top: 3.6rem;height: 28rem;overflow-y: scroll">
+
+            </div>
+            <div id="noteView" style="display: none">
+                <textarea style="width: 100%;height: 100%;display: none;" id="note"></textarea>
+            </div>
+            <div class="bottom-nav">
+                <div class="w-100 bg-dark" style="height: 3rem;position: absolute;bottom: 0px;display: flex;justify-content: center">
+                </div>
+                <img src="/img/addbtn.png" onclick="createNewNote()" style="height: 3rem;position: absolute;bottom: 0.7rem;left: 50%;margin-left: -1.5rem">
+                <i class="fas fa-list fa-1x" onclick="showNoteList()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 25%;margin-left: -1.5rem"></i>
+                <i class="fas fa-save fa-1x" onclick="saveNote()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 75%;margin-left: 1rem"></i>
+            </div>
+
+
+        </div>
         <button class="form-control mb-2">單元內影片</button>
         <div class="mb-2" style="height: 180px; width: 100%;background: #ccc">
         </div>
@@ -156,6 +237,26 @@
 
 
 <script>
+    let notes = <%- JSON.stringify(notes) %>
+
+    notes.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        let postTimeA = a.postTime.split(" ");
+        let postTimeB = b.postTime.split(" ");
+        ymdA = postTimeA[0].split("/");
+        ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
+        ymdB = postTimeB[0].split("/");
+        ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
+        console.log(ymdA, ymdB);
+
+        return new Date(ymdA) - new Date(ymdB);
+    });
+    console.log(notes);
+
+
+
+
     // 2. This code loads the IFrame Player API code asynchronously.
     var tag = document.createElement('script');
 
@@ -219,7 +320,7 @@
     }
 
     //socket io
-    var socket = io();
+    //var socket = io();
 
     window.onload = function () {
 
@@ -277,6 +378,144 @@
             window.location = "/SDC/user/<%=user._id%>/comment/video/<%=video._id%>/body/" + replyInput.value;
         }
 
+
+        $.ajax({
+            url: '/users/note/getNote',
+            type: 'GET',
+            contentType: 'application/json',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                let noteList = document.getElementById('noteList');
+                noteList.innerHTML = '';
+                response.sort(function (a, b) {
+                    // Turn your strings into dates, and then subtract them
+                    // to get a value that is either negative, positive, or zero.
+                    let postTimeA = a.postTime.split(" ");
+                    let postTimeB = b.postTime.split(" ");
+                    ymdA = postTimeA[0].split("/");
+                    ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
+                    ymdB = postTimeB[0].split("/");
+                    ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
+                    console.log(ymdA, ymdB);
+
+                    return new Date(ymdA) - new Date(ymdB);
+                });
+                console.log(response);
+                for (let i = 0; i < response.length; i++) {
+                    let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
+                    noteList.innerHTML +=
+                        `
+                        <a onclick="showNote('${response[i]._id}')" class="list-group-item list-group-item-action mb-2 note">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    ${response[i].title}
+                                </h5>
+                                <small>
+                                        ${response[i].postTime}</small>
+                            </div>
+                            <p class="mb-1 p2">
+                                ${body}
+                            </p>
+                        </a>
+                        `
+                }
+
+                noteList.innerHTML +=
+                    `
+                        <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    
+                                </h5>
+                                <small>
+                                        
+                                    </small>
+                            </div>
+                            <p class="mb-1 p2">
+                               
+                            </p>
+                        </a>
+                        <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    
+                                </h5>
+                                <small>
+                                        
+                                    </small>
+                            </div>
+                            <p class="mb-1 p2">
+                               
+                            </p>
+                        </a>
+                    `
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+
+        CKEDITOR.replace('note', {
+            height: "21rem",
+            filebrowserUploadUrl: '/uploader',
+            //記得加下面那行  filebrowserUploadMethod: 'form'
+            filebrowserUploadMethod: 'form',
+            toolbar: [{
+                    name: 'forms',
+                    items: ['Checkbox']
+                },
+                {
+                    name: 'basicstyles',
+                    groups: ['basicstyles', 'cleanup'],
+                    items: ['Bold', 'Italic', 'Underline']
+                },
+                {
+                    name: 'paragraph',
+                    groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
+                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',
+                        'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight',
+                        'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'
+                    ]
+                },
+                {
+                    name: 'insert',
+                    items: ['Image']
+                },
+                '/',
+                {
+                    name: 'styles',
+                    items: ['Font', 'FontSize']
+                },
+                {
+                    name: 'colors',
+                    items: ['TextColor', 'BGColor']
+                },
+                {
+                    name: 'tools',
+                    items: ['Maximize']
+                }
+            ],
+            on: {
+                instanceReady: function (evt) {
+                    let cke_Detail = document.getElementById('cke_note');
+                    cke_Detail.style.cssText += "border:none"
+                    let cke_1_top = document.getElementById('cke_1_top');
+                    cke_1_top.style.cssText += "border:none"
+                    $(function () {
+                        cke_1_top.style.cssText = "margin-top:3.6rem"
+                    });
+                }
+            },
+        });
+
+
     }
 
     function controlVideo(e) {
@@ -326,12 +565,266 @@
         if (min < 10) {
             min = '0' + min
         }
-        console.log(videoTime);
+        //console.log(videoTime);
 
         videoTime.innerText = hr + ':' + min + ':' + sec
     }, 1000);
 
 
+    createNewNote = function () {
+        let note = {
+            title: "無標題",
+            body: ""
+        }
+        console.log(note);
+        $.ajax({
+            url: '/users/note/createNote',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(note),
+            dataType: 'json',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                console.log(response);
+
+                let noteList = document.getElementById('noteList');
+                noteList.innerHTML = '';
+                for (let i = 0; i < response.length; i++) {
+                    let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
+                    noteList.innerHTML +=
+                        `
+                        <a onclick="showNote('${response[i]._id}')" class="list-group-item list-group-item-action mb-2 note">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    ${response[i].title}
+                                </h5>
+                                <small>
+                                        ${response[i].postTime}</small>
+                            </div>
+                            <p class="mb-1 p2">
+                                ${body}
+                            </p>
+                        </a>
+                        `
+                }
+                noteList.innerHTML +=
+                    `
+                        <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    
+                                </h5>
+                                <small>
+                                        
+                                    </small>
+                            </div>
+                            <p class="mb-1 p2">
+                               
+                            </p>
+                        </a>
+                        <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    
+                                </h5>
+                                <small>
+                                        
+                                    </small>
+                            </div>
+                            <p class="mb-1 p2">
+                               
+                            </p>
+                        </a>
+                    `
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+    }
+
+
+    let showNote = function (noteID) {
+        console.log(noteID);
+        let note = document.getElementById('noteView');
+        note.style.cssText = "display:block"
+        let noteList = document.getElementById('noteList');
+        noteList.style.cssText = "display:none"
+
+        console.log(document.getElementById('note'));
+        CKEDITOR.instances.note.setData("");
+
+        nowWrittingNote = noteID
+        $.ajax({
+            url: '/users/note/getSigleNote/' + noteID,
+            type: 'GET',
+            contentType: 'application/json',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                var text = response.body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(
+                    /&amp;nbsp;/g, '');
+                CKEDITOR.instances.note.setData(text);
+                let title = document.getElementById('title')
+                title.value = response.title;
+                title.disabled = false;
+                let penicon = document.getElementById('penicon');
+                penicon.style.cssText = "display:block";
+
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+
+    }
+
+    let showNoteList = function () {
+        let note = document.getElementById('noteView');
+        let title = document.getElementById('title');
+        title.value = "筆記本"
+        title.disabled = true
+        console.log(note);
+        note.style.cssText = "display:none"
+        let noteList = document.getElementById('noteList');
+        noteList.style.cssText = 'margin-top: 3.6rem;height: 28rem;overflow-y: scroll'
+        noteList.innerHTML = ''
+        let penicon = document.getElementById('penicon');
+        penicon.style.cssText = "display:none";
+        $.ajax({
+            url: '/users/note/getNote',
+            type: 'GET',
+            contentType: 'application/json',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                let noteList = document.getElementById('noteList');
+                noteList.innerHTML = '';
+                response.sort(function (a, b) {
+                    // Turn your strings into dates, and then subtract them
+                    // to get a value that is either negative, positive, or zero.
+                    let postTimeA = a.postTime.split(" ");
+                    let postTimeB = b.postTime.split(" ");
+                    ymdA = postTimeA[0].split("/");
+                    ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
+                    ymdB = postTimeB[0].split("/");
+                    ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
+                    console.log(ymdA, ymdB);
+
+                    return new Date(ymdA) - new Date(ymdB);
+                });
+                console.log(response);
+                for (let i = 0; i < response.length; i++) {
+                    let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
+                    noteList.innerHTML +=
+                        `
+                        <a onclick="showNote('${response[i]._id}')" class="list-group-item list-group-item-action mb-2 note">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    ${response[i].title}
+                                </h5>
+                                <small>
+                                        ${response[i].postTime}</small>
+                            </div>
+                            <p class="mb-1 p2">
+                                ${body}
+                            </p>
+                        </a>
+                        `
+                }
+                noteList.innerHTML +=
+                    `
+                        <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    
+                                </h5>
+                                <small>
+                                        
+                                    </small>
+                            </div>
+                            <p class="mb-1 p2">
+                               
+                            </p>
+                        </a>
+                        <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    
+                                </h5>
+                                <small>
+                                        
+                                    </small>
+                            </div>
+                            <p class="mb-1 p2">
+                               
+                            </p>
+                        </a>
+                    `
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+    }
+    let saveNote = function () {
+        console.log("nowWrittingNote = " + nowWrittingNote);
+
+        if (nowWrittingNote != '') {
+            note = {
+                body: CKEDITOR.instances.note.getData(),
+                title: document.getElementById('title').value
+            }
+            console.log(note);
+
+
+            $.ajax({
+                url: '/users/note/saveNote/' + nowWrittingNote,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(note),
+                dataType: 'json',
+                beforeSend: function () {
+                    cansend = false
+                    let loader = document.getElementById('loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    alert('儲存成功');
+                    cansend = true
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err);
+                }
+            });
+
+        } else {
+            alert('您還沒有選擇筆記');
+        }
+    }
     window.onunload = function () {
         socket.emit('videoAction', {
             type: 'close'

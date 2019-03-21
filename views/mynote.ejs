@@ -1,0 +1,513 @@
+<% include layout/notfix-navbar %>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.css">
+<script src="/ckeditor/ckeditor.js"></script>
+
+<style>
+    .close:hover {
+        background: none;
+    }
+
+    .mybtn {
+        outline: none;
+        border: none;
+    }
+
+    .mybtn:hover {
+        outline: none;
+        border: none;
+    }
+
+    .mybtn:focus {
+        outline: none;
+        border: none;
+    }
+
+    .mybtn:active {
+        outline: none;
+        border: none;
+    }
+
+
+
+
+    /* Absolute Center Spinner */
+    .loading {
+        position: fixed;
+        z-index: 999;
+        height: 2em;
+        width: 2em;
+        overflow: show;
+        margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    /* Transparent Overlay */
+    .loading:before {
+        content: '';
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+
+        background: -webkit-radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+    }
+
+    /* :not(:required) hides these rules from IE9 and below */
+    .loading:not(:required) {
+        /* hide "loading..." text */
+        font: 0/0 a;
+        color: transparent;
+        text-shadow: none;
+        background-color: transparent;
+        border: 0;
+    }
+
+    .loading:not(:required):after {
+        content: '';
+        display: block;
+        font-size: 10px;
+        width: 1em;
+        height: 1em;
+        margin-top: -0.5em;
+        -webkit-animation: spinner 1500ms infinite linear;
+        -moz-animation: spinner 1500ms infinite linear;
+        -ms-animation: spinner 1500ms infinite linear;
+        -o-animation: spinner 1500ms infinite linear;
+        animation: spinner 1500ms infinite linear;
+        border-radius: 0.5em;
+        -webkit-box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+        box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+    }
+
+    /* Animation */
+
+    @-webkit-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @-moz-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @-o-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    .p2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 1rem
+    }
+</style>
+<div class="loading" id="loader"></div>
+<div class="row" style="height: 100%">
+    <div class="col-2 h-100" style="background: rgb(39, 39, 39);">
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col">
+                    <h5 style="color: white;display: inline-block" class="mr-auto">所有筆記</h5>
+                    <button class="close" onclick="createNewNote()">
+                        <i class="fas fa-plus-circle" style="display: inline-block;color: white;font-size: 1.8rem;line-height: 0.9;text-align: right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <p class="text-info" id="noteNumber">n個筆記</p>
+                    <hr style="border-color: rgb(187, 187, 187)">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3" id="tyle-1" style="overflow-y: scroll;height:90%">
+            <div class="col" id="noteList">
+
+            </div>
+        </div>
+    </div>
+    <div class="col h-100 bg-ligth">
+        <div style="width: 99%">
+            <div style="height: 2rem; width: 100%;background: rgb(248, 248, 248)">
+                <p id="postTime" class="p-1 pl-3" style="display: inline-block;color: rgb(119, 119, 119)"></p>
+                <p id="saving" class="p-1 pl-3" style="display:inline;color: rgb(119, 119, 119)"></p>
+                <a style="padding: 0.6rem" class="btn float-right mr-3 mybtn" id="dropdownMenu2" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="button" onclick="deleteNote()">刪除文章</button>
+                    <button class="dropdown-item" type="button" onclick="saveNote()">手動儲存</button>
+                    <button class="dropdown-item" type="button">複製內文</button>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+            <textarea id="Detail"></textarea>
+        </div>
+    </div>
+</div>
+<style>
+    .titleinput:focus {
+        outline-width: 0;
+    }
+
+    html,
+    body {
+        overflow: hidden;
+    }
+</style>
+<script>
+    CKEDITOR.replace('Detail', {
+        height: "91%",
+        width: "100%",
+        filebrowserUploadUrl: '/uploader',
+        //記得加下面那行  filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form',
+        on: {
+            instanceReady: function (evt) {
+                let cke_Detail = document.getElementById('cke_Detail');
+                cke_Detail.style.cssText += "border:none"
+                let cke_1_top = document.getElementById('cke_1_top');
+                cke_1_top.style.cssText += "border:none"
+                $(function () {
+                    var dynamic = '請選擇筆記';
+                    $('#cke_1_top').after(
+                        `<input class=" p-3 w-100 titleinput" id= "title" style="font-size:36px;font-weight: 200;color: rgb(180,180,180);border:none" placeholder="${dynamic}"></input>`
+                    );
+                });
+                CKEDITOR.instances.Detail.setReadOnly(true);
+            }
+        },
+    });
+    window.onload = function () {
+        $.ajax({
+            url: '/users/note/getNote',
+            type: 'GET',
+            contentType: 'application/json',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                console.log(response);
+                let noteNumber = document.getElementById('noteNumber');
+                noteNumber.innerText = `${response.length}個筆記`
+                let noteList = document.getElementById('noteList');
+                noteList.innerHTML = '';
+                for (let i = 0; i < response.length; i++) {
+                    let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
+                    noteList.innerHTML +=
+                        `
+                    <div class="row" style="border-top:1px solid rgb(119, 119, 119)" onclick="showNote('${response[i]._id}')">
+                        <div class="col" style="background: rgb(60, 60, 60)">
+                            <div class="container">
+                                <div class="row p-2 pb-1">
+                                    <h6 class="text-light" style="height: 1rem;">${response[i].title}</h6>
+                                </div>
+                                <div class="row p2 p-2" >
+                                    <p class="text-info" style="font-size: 14px;height: 4rem;">${body}</p>
+                                </div>
+                                <div class="row p-2">
+                                    <p class="text-info" style="font-size: 14px;height:1rem">${response[i].postTime}</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>`
+                }
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+    }
+    createNewNote = function () {
+        let note = {
+            title: "無標題",
+            body: ""
+        }
+        console.log(note);
+        $.ajax({
+            url: '/users/note/createNote',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(note),
+            dataType: 'json',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                console.log(response);
+                let noteNumber = document.getElementById('noteNumber');
+                noteNumber.innerText = `${response.length}個筆記`
+                let noteList = document.getElementById('noteList');
+                noteList.innerHTML = '';
+                for (let i = 0; i < response.length; i++) {
+                    let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
+                    noteList.innerHTML +=
+                        `
+                    <div class="row" style="border-top:1px solid rgb(119, 119, 119)" onclick="showNote('${response[i]._id}')">
+                        <div class="col" style="background: rgb(60, 60, 60)">
+                            <div class="container">
+                                <div class="row p-2 pb-1">
+                                    <h6 class="text-light" style="height: 1rem;">${response[i].title}</h6>
+                                </div>
+                                <div class="row p2 p-2" >
+                                    <p class="text-info" style="font-size: 14px;height: 4rem;">${body}</p>
+                                </div>
+                                <div class="row p-2">
+                                    <p class="text-info" style="font-size: 14px;height:1rem">${response[i].postTime}</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>`
+                }
+                showNote(response[0]._id);
+
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+
+    }
+    let nowWrittingNote = ''
+    let showNote = function (noteID) {
+        CKEDITOR.instances.Detail.setReadOnly(false);
+        nowWrittingNote = noteID
+        $.ajax({
+            url: '/users/note/getSigleNote/' + noteID,
+            type: 'GET',
+            contentType: 'application/json',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                console.log(response);
+                let title = document.getElementById('title');
+                console.log(title);
+                title.value = response.title
+                var text = response.body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(
+                    /&amp;nbsp;/g, '');
+                CKEDITOR.instances.Detail.setData(text);
+                let postTime = document.getElementById('postTime');
+                postTime.innerHTML = '發佈時間：' + response.postTime
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+
+    }
+    let cansend = true;
+    CKEDITOR.instances.Detail.on('change', function () {
+        if (nowWrittingNote != '') {
+            note = {
+                body: CKEDITOR.instances.Detail.getData(),
+                title: document.getElementById('title').value
+            }
+            if (cansend) {
+                $.ajax({
+                    url: '/users/note/saveNote/' + nowWrittingNote,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(note),
+                    dataType: 'json',
+                    beforeSend: function () {
+                        cansend = false;
+                        let saving = document.getElementById('saving');
+                        saving.innerText = "保存中..."
+                    },
+                    complete: function () {
+                        console.log("saved");
+                        let saving = document.getElementById('saving');
+                        saving.innerText = ""
+                    },
+                    success: function (response) {
+
+                        cansend = true
+                    },
+                    error: function (err) {
+                        alert('錯誤訊息：' + err);
+                    }
+                });
+            }
+        }
+
+
+    });
+    let saveNote = function () {
+        console.log("asd");
+
+        if (nowWrittingNote != '') {
+            note = {
+                body: CKEDITOR.instances.Detail.getData(),
+                title: document.getElementById('title').value
+            }
+
+            $.ajax({
+                url: '/users/note/saveNote/' + nowWrittingNote,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(note),
+                dataType: 'json',
+                beforeSend: function () {
+                    cansend = false;
+                },
+                complete: function () {
+                    console.log("saved");
+
+                },
+                success: function (response) {
+                    alert('儲存成功');
+                    cansend = true
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err);
+                }
+            });
+
+        } else {
+            alert('您還沒有選擇筆記');
+        }
+    }
+
+    let deleteNote = function () {
+
+
+        $.ajax({
+            url: '/users/note/deleteNote/' + nowWrittingNote,
+            type: 'DELETE',
+            beforeSend: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                alert('刪除成功');
+                let noteNumber = document.getElementById('noteNumber');
+                noteNumber.innerText = `${response.length}個筆記`
+                let noteList = document.getElementById('noteList');
+                noteList.innerHTML = '';
+                for (let i = 0; i < response.length; i++) {
+                    let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
+                    noteList.innerHTML +=
+                        `
+                    <div class="row" style="border-top:1px solid rgb(119, 119, 119)" onclick="showNote('${response[i]._id}')">
+                        <div class="col" style="background: rgb(60, 60, 60)">
+                            <div class="container">
+                                <div class="row p-2 pb-1">
+                                    <h6 class="text-light" style="height: 1rem;">${response[i].title}</h6>
+                                </div>
+                                <div class="row p2 p-2" >
+                                    <p class="text-info" style="font-size: 14px;height: 4rem;">${body}</p>
+                                </div>
+                                <div class="row p-2">
+                                    <p class="text-info" style="font-size: 14px;height:1rem">${response[i].postTime}</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>`
+                }
+                CKEDITOR.instances.Detail.setData("");
+                let title = document.getElementById('title');
+                console.log(title);
+                title.value = "請選擇筆記"
+                CKEDITOR.instances.Detail.setReadOnly(true);
+
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err);
+            }
+        });
+
+    }
+</script>
+
+
+<% include layout/nobottom-footer %>

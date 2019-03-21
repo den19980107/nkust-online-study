@@ -1,38 +1,121 @@
 <% include layout/header %>
-<h3>本班同學</h3>
+<style>
+  .banner a:hover {
+    color: #DDD;
+  }
+</style>
+<div>
+  <span style="font-size:30px;">本班同學</span>
+  <%temp = 0%>
+  <%users.forEach(function(userss){%>
+  <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
+  <button class="btn btn-primary btn-sm waitcheck" style="float:right">待審核名單</button>
+  <%}%>
+  <%temp++%>
+  <%})%>
+  <%if(classinfo.teacher == user._id){%>
+  <button class="btn btn-primary btn-sm waitcheck" style="float:right">待審核名單</button>
+  <%}%>
+</div>
 <table class="table">
-    <thead>
-        <tr>
-            <th class="text-center" scope="col">姓名</th>
-            <th class="text-center" scope="col">科系</th>
-            <th class="text-center" scope="col">學號</th>
-            <th class="text-center" scope="col">信箱</th>
-            <th class="text-center" scope="col">個人網頁</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        <%students.forEach(function(student){%>
-        <tr>
-            <td class="text-center">
-                <%=student.name%>
-            </td>
-            <td class="text-center">
-                <%=student.department%>
-            </td>
-            <td class="text-center">
-                <%=student.studentid%>
-            </td>
-            <td class="text-center">
-                <a href="mailto:<%=student.email%>">電子信箱Email</a>
-            </td>
-            <td class="text-center">
-                <a href="/class/<%=classID%>/showClassmateInfo/<%=student._id%>">個人網頁Personal WebPage</a>
-            </td>
-        </tr>
+  <thead>
+    <tr>
+      <th class="text-center" scope="col">姓名</th>
+      <th class="text-center" scope="col">科系</th>
+      <th class="text-center" scope="col">學號</th>
+      <th class="text-center" scope="col">信箱</th>
+      <th class="text-center" scope="col">個人網頁</th>
+      <th>
+        <%temp = 0%>
+        <%users.forEach(function(userss){%>
+        <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
+        <center>
+          <button class="btn btn-outline-danger btn-sm deleteclick" id="div">刪除</button>
+        </center>
+        <%}%>
+        <%temp++%>
         <%})%>
-    </tbody>
-</table>
+        <%if(classinfo.teacher == user._id){%>
+        <center>
+          <button class="btn btn-outline-danger btn-sm deleteclick" id="div">刪除</button>
+        </center>
+        <%}%>
+      </th>
 
+    </tr>
+  </thead>
+  <tbody>
+    <%temp = 0%>
+    <%users.forEach(function(user){%>
+    <%if(students[temp].permission !='00000'){%>
+    <tr>
+      <td class="text-center">
+        <%=user.name%>
+      </td>
+      <td class="text-center">
+        <%=user.department%>
+      </td>
+      <td class="text-center">
+        <%=user.studentid%>
+      </td>
+      <td class="text-center">
+        <a href="mailto:<%=user.email%>">電子信箱Email</a>
+      </td>
+      <td class="text-center">
+        <a href="/class/<%=classID%>/showClassmateInfo/<%=user._id%>">個人網頁Personal WebPage</a>
+      </td>
+      <td class="text-center" style="width:120px;">
+        <div class="text-danger deletehandler alert alert-dismissible" id="deleteStudent<%=temp%>" data-id="<%=user._id%>"
+          onclick="del(<%=temp%>)" style="display:none;margin:0px 5px;width:30px;">
+          <a aria-hidden="true" class="close" style="padding:0px;">&times;</a>
+        </div>
+      </td>
+    </tr>
+
+    <%}%>
+    <%temp++%>
+    <%})%>
+  </tbody>
+</table>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
+<script>
+  $(document).ready(function () {
+    $(".deleteclick").click(function () {
+      $(".deletehandler").toggle();
+      if ($("#div").hasClass('btn-outline-danger')) {
+        $(".btn-outline-danger").attr("class", "btn btn-danger btn-sm deleteclick ");
+      } else {
+        $(".btn-danger").attr("class", "btn btn-outline-danger btn-sm deleteclick");
+      }
+      return false;
+    })
+  });
+  $(document).click(function (event) {
+    //console.log("点击其他地方執行影藏");
+    var deletecancel = $(".deletehandler");
+    if (deletecancel.is(":visible") && (!deletecancel.is(event.target) && deletecancel.has(event.target).length ===
+        0)) {
+      deletecancel.hide();
+      $(".btn-danger").attr("class", "btn btn-outline-danger btn-sm deleteclick");
+    }
+  });
+</script>
+<script>
+  function del(num) {
+    var dataid = $('#deleteStudent' + num).data('id');
+    result = window.confirm("你確定要刪除這位學生嗎？");
+    if (result == true) {
+      window.location = "/class/deleteStudent/" + dataid + "/unit/<%=classID%>";
+    } else {}
+  }
+</script>
+<script>
+  //到待審核頁面
+  $(document).ready(function () {
+    $(".waitcheck").click(function () {
+      window.location = "/class/showStudentApproval/<%=classID%>";
+    })
+  });
+</script>
 
 <% include layout/footer %>

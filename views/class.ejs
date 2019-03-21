@@ -55,9 +55,16 @@
 
 </style>
 <div class="container ">
+    <div class="row">
+        <div class="col">
+            <h3>總開課清單</h3>
+        </div>
+    </div>
+    <hr>
     <div class="row" style="height: 2.5rem;">
         <div class="col mb-2" style="display: flex;justify-content: space-between">
-            <input class="form-control mr-sm-2 h-100" type=" search" id="searchClassName" placeholder="搜尋課程" aria-label="Search">
+            <input class="form-control mr-sm-2 h-100" type=" search" id="searchClassName" placeholder="欲搜尋課程名稱"
+                aria-label="Search">
             <button class="btn btn-outline-success h-100" onclick="searchClass()" type="button">搜尋</button>
         </div>
         <div class="col-sm-12 col-md-5 col-lg-3" style="display: flex;justify-content: space-between">
@@ -78,8 +85,7 @@
     </div>
 </div>
 <br>
-<br>
-<div class="album  bg-light">
+<div class="album ">
     <div class="container">
         <div class="row" id="classesContainer">
             <% for(var i=0; i<classes.length; i++) {%>

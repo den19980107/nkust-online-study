@@ -28,6 +28,11 @@ let Homework = require('../model/homework');
 let studntSubmitTest = require('../model/studentSubmitTest');
 //bring student submit homework model
 let studntSubmitHomework = require('../model/studentSubmitHomework');
+//bring note model 
+let Note = require('../model/note')
+//寄email的工具
+var nodemailer = require('nodemailer');
+
 const mongoose = require('mongoose');
 
 const config = require('../config/database'); //在我們的config file裡面可以設定要用的database URL
@@ -132,7 +137,7 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
     // req.checkBody('credit', '學分不得為空').notEmpty();
     // req.checkBody('classroom', '教室不得為空').notEmpty();
     // req.checkBody('chooseClassTime', '上課時間不得為空').notEmpty();
-    console.log(req.body.chooseClassTime);
+    console.log(req);
 
     let errors = req.validationErrors();
     if (errors) {
@@ -153,7 +158,11 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
         newclass.classTime = req.body.chooseClassTime;
         newclass.teacher = req.user._id;
         newclass.isLunched = false;
-        newclass.classImage = req.files[0].filename
+        if (req.files.length > 0) {
+            newclass.classImage = req.files[0].filename
+        } else {
+
+        }
         newclass.save(function (err) {
             if (err) {
                 console.log(err);
@@ -187,6 +196,7 @@ router.get('/:id', ensureAuthenticated, function (req, res) {
                         gfs.files.findOne({
                             filename: classinfo.classImage
                         }, (err, img) => {
+
                             if (!img || img.length === 0) {
                                 res.render('classDashboard', {
                                     id: req.params.id,
@@ -250,12 +260,20 @@ router.get('/classManager/:id', function (req, res) {
         Unit.find({
             belongClass: classinfo._id
         }, function (error2, units) {
-            res.render('classManger', {
-                id: req.params.id,
-                classinfo: classinfo,
-                units: units,
-                noSelectUnit: true
-            });
+            StudebtTakeCourse.find({
+                classID: req.params.id
+            }, function (err, thisClassStudents) {
+                if (err) {
+                    console.log(err);
+                }
+                res.render('classManger', {
+                    id: req.params.id,
+                    classinfo: classinfo,
+                    units: units,
+                    noSelectUnit: true,
+                    thisClassStudents: thisClassStudents
+                });
+            })
         })
 
     });
@@ -309,6 +327,108 @@ router.get('/LunchClass/:cid', function (req, res) {
         })
     })
 })
+
+//修改課程資訊
+router.post('/updateClassInfo/:classID/:part/:text', function (req, res) {
+    console.log(req.params.classID, req.params.part, req.params.text);
+    if (req.params.part == 'title') {
+        console.log("intitle");
+
+        var myquery = {
+            _id: ObjectID(req.params.classID)
+        };
+        var newvalues = {
+            $set: {
+                className: req.params.text
+            }
+        };
+        Class.updateOne(myquery, newvalues, function (err, res) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('update success');
+            }
+        });
+    }
+    if (req.params.part == 'outline') {
+        var myquery = {
+            _id: ObjectID(req.params.classID)
+        };
+        var newvalues = {
+            $set: {
+                outline: req.params.text
+            }
+        };
+        Class.updateOne(myquery, newvalues, function (err, res) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('update success');
+            }
+        });
+    }
+    if (req.params.part == 'classTime') {
+        console.log(req.body);
+
+        var myquery = {
+            _id: ObjectID(req.params.classID)
+        };
+        var newvalues = {
+            $set: {
+                classTime: req.body
+            }
+        };
+        Class.updateOne(myquery, newvalues, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('update success');
+                res.send('200')
+            }
+        });
+    }
+
+    if (req.params.part == "classRoom") {
+        var myquery = {
+            _id: ObjectID(req.params.classID)
+        };
+        var newvalues = {
+            $set: {
+                classRoom: req.params.text
+            }
+        };
+        Class.updateOne(myquery, newvalues, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('update success');
+                res.send('200')
+            }
+        });
+    }
+
+    if (req.params.part == "credit") {
+        var myquery = {
+            _id: ObjectID(req.params.classID)
+        };
+        var newvalues = {
+            $set: {
+                credit: req.params.text
+            }
+        };
+        Class.updateOne(myquery, newvalues, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('update success');
+                res.send('200')
+            }
+        });
+    }
+
+
+});
+
 
 //新增單元
 router.get('/:id/addUnit/:unitName', function (req, res) {
@@ -411,8 +531,6 @@ router.get('/:classID/showUnit/:unitID', function (req, res) {
                                     }
                                 }
                                 studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
-
-
                                     for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
                                         for (let j = 0; j < homeworks.length; j++) {
                                             if (HomeworkSubmitRecords[i].writer == req.user._id) {
@@ -422,19 +540,27 @@ router.get('/:classID/showUnit/:unitID', function (req, res) {
                                             }
                                         }
                                     }
-                                    console.log(homeworks);
-
-                                    res.render('classManger', {
-                                        id: req.params.id,
-                                        classinfo: classinfo,
-                                        units: units,
-                                        chapters: chapters,
-                                        unitName: selectUnit,
-                                        unitID: selectUnitID,
-                                        videos: videos,
-                                        tests: tests,
-                                        homeworks: homeworks
+                                    StudebtTakeCourse.find({
+                                        classID: req.params.classID
+                                    }, function (err, thisClassStudents) {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                        res.render('classManger', {
+                                            id: req.params.id,
+                                            classinfo: classinfo,
+                                            units: units,
+                                            chapters: chapters,
+                                            unitName: selectUnit,
+                                            unitID: selectUnitID,
+                                            videos: videos,
+                                            tests: tests,
+                                            homeworks: homeworks,
+                                            thisClassStudents: thisClassStudents
+                                        });
                                     });
+
+
                                 })
                             })
 
@@ -457,6 +583,8 @@ router.post('/unit/addLecture', function (req, res) {
         req.flash('danger', "講義標題與內容不得為空");
         res.redirect('/class/' + req.body.classID + '/showUnit/' + req.body.unitID);
     } else {
+        console.log(req.body.body);
+
         let chapter = new Chapter();
         chapter.chapterName = req.body.title;
         chapter.belongUnit = req.body.unitID;
@@ -594,11 +722,16 @@ router.get('/showVideo/:id', function (req, res) {
                     if (err) {
                         console.log(err);
                     }
-                    res.render('video', {
-                        video: video,
-                        comments: comments,
-                        classinfo: classinfo
-                    });
+                    Note.find({
+                        author_id: req.user._id
+                    }, function (err, notes) {
+                        res.render('video', {
+                            video: video,
+                            comments: comments,
+                            classinfo: classinfo,
+                            notes: notes
+                        });
+                    })
                 });
 
             })
@@ -886,37 +1019,83 @@ router.post('/saveMark/:testID/:writerID', function (req, res) {
     });
 })
 
-//顯示所有有修這堂課的學生
-router.get('/showStudentIn/:classID', function (req, res) {
 
-    StudebtTakeCourse.find({
-        classID: req.params.classID
-    }, function (err, students) {
-        if (err) {
-            console.log(err);
-        }
-        let findStudentInfoQuery = [];
-        for (let i = 0; i < students.length; i++) {
-            findStudentInfoQuery.push(ObjectID(students[i].studentID).toString());
-        }
-        let query = {
-            _id: findStudentInfoQuery
-        }
-        User.find({
-            _id: findStudentInfoQuery
-        }, function (err, users) {
+
+//@v-1
+// //顯示所有有修這堂課的學生
+// router.get('/showStudentIn/:classID', function (req, res) {
+
+//     StudebtTakeCourse.find({
+//         classID: req.params.classID
+//     }, function (err, students) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         let findStudentInfoQuery = [];
+//         for (let i = 0; i < students.length; i++) {
+//             findStudentInfoQuery.push(ObjectID(students[i].studentID).toString());
+//         }
+//         let query = {
+//             _id: findStudentInfoQuery
+//         }
+//         User.find({
+//             _id: findStudentInfoQuery
+//         }, function (err, users) {
+//             if (err) {
+//                 console.log(err);
+//             }
+//             res.render('showStudentInClass', {
+//                 classID: req.params.classID,
+//                 students: users
+//             })
+//         });
+
+//     })
+
+// });
+
+//顯示所有有修這堂課的學生
+router.get('/showStudentIn/:classID', ensureAuthenticated, function (req, res) {
+    Class.findById(req.params.classID, function (error, classinfo) {
+        StudebtTakeCourse.find({
+            classID: req.params.classID
+        }, function (err, students) {
             if (err) {
                 console.log(err);
             }
-            res.render('showStudentInClass', {
-                classID: req.params.classID,
-                students: users
-            })
-        });
+            let findStudentInfoQuery = [];
+            for (let i = 0; i < students.length; i++) {
+                findStudentInfoQuery.push(ObjectID(students[i].studentID).toString());
 
+            }
+            let query = {
+                _id: findStudentInfoQuery
+            }
+            User.find({
+                _id: findStudentInfoQuery
+            }, function (err, users) {
+                if (err) {
+                    console.log(err);
+                }
+                let find = [];
+                for (let j = 0; j < students.length; j++) {
+                    for (let z = 0; z < students.length; z++) {
+                        if (findStudentInfoQuery[j] == users[z]._id) {
+                            find.push(users[z]).toString();
+                        }
+                    }
+                }
+                res.render('showStudentInClass', {
+                    classID: req.params.classID,
+                    users: find,
+                    classinfo: classinfo,
+                    students: students
+                })
+            });
+        })
     })
-
 });
+
 //搜尋課程名稱
 router.get('/search/:className', function (req, res) {
     Class.find({}, function (err, classes) {
@@ -959,6 +1138,313 @@ router.get('/:id/showClassmateInfo/:sid', function (req, res) {
         })
     });
 })
+
+//-------------------new---------------------
+
+//顯示所有待審核名單
+router.get('/showStudentApproval/:classID', ensureAuthenticated, function (req, res) {
+    Class.findById(req.params.classID, function (error, classinfo) {
+        StudebtTakeCourse.find({
+            classID: req.params.classID
+        }, function (err, studentscheck) {
+            if (err) {
+                console.log(err);
+            }
+            let checkStudentInfoQuery = [];
+            for (let i = 0; i < studentscheck.length; i++) {
+                checkStudentInfoQuery.push(ObjectID(studentscheck[i].studentID).toString());
+            }
+            let query = {
+                _id: checkStudentInfoQuery
+            }
+            User.find({
+                _id: checkStudentInfoQuery
+            }, function (err, users) {
+                if (err) {
+                    console.log(err);
+                }
+                let find = [];
+                for (let j = 0; j < studentscheck.length; j++) {
+                    for (let z = 0; z < studentscheck.length; z++) {
+                        if (checkStudentInfoQuery[j] == users[z]._id) {
+                            find.push(users[z]).toString();
+                        }
+                    }
+                }
+                res.render('showWaitingapproval', {
+                    classID: req.params.classID,
+                    users: find,
+                    classinfo: classinfo,
+                    studentscheck: studentscheck
+                })
+            });
+        })
+    })
+});
+//刪除課程學生
+router.get('/deleteStudent/:id/unit/:classID', function (req, res) {
+    StudebtTakeCourse.find({
+        studentID: req.params.id,
+        classID: req.params.classID
+    }, function (err, stc) {
+        if (err) {
+            console.log(err);
+        }
+        StudebtTakeCourse.remove({
+            _id: stc[0]._id
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            req.flash('success', '刪除成功');
+            res.redirect('/class/showStudentIn/' + req.params.classID);
+        })
+    })
+})
+//批准待審核學生
+router.get('/checkStudent/:sid/unit/:classID', function (req, res) {
+    var string = req.params.sid;
+    let permission = "11111"
+    let sidarray = string.split(",");
+    for (let i = 0; sidarray.length > i; i++) {
+        StudebtTakeCourse.updateMany({
+            studentID: sidarray[i],
+            classID: req.params.classID
+        }, {
+            $set: {
+                permission: permission
+            }
+        }, {
+            w: 1
+        }, function (err, result) {
+            if (err) throw err;
+            console.log('Document Updated Successfully');
+            User.findById({
+                _id: sidarray[i]
+            }, function (err, student) {
+                if (err) {
+                    console.log(err);
+                }
+                Class.findById({
+                    _id: req.params.classID
+                }, function (err, classinfo) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    var transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'nkust.online.study@gmail.com',
+                            pass: 'kkc060500'
+                        }
+                    });
+                    console.log(student.email);
+                    var mailOptions = {
+                        from: 'nkust.online.study@gmail.com',
+                        to: student.email,
+                        subject: 'nkust線上學習平台',
+                        text: '歡迎您加入[' + classinfo.className + ']課程!'
+                    };
+
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('Email sent: ' + info.response);
+                        }
+                    });
+                });
+            });
+        });
+    }
+    res.redirect('/class/showStudentApproval/' + req.params.classID);
+})
+//-------------------new---------------------
+
+//----------------助教-----------------------
+//顯示所有有修這堂課的助教
+router.get('/showAssistantIn/:classID', ensureAuthenticated, function (req, res) {
+    Class.findById(req.params.classID, function (error, classinfo) {
+        User.find(function (err, users) {
+            if (err) {
+                console.log(err);
+            }
+            StudebtTakeCourse.find({
+                classID: req.params.classID
+            }, function (err, students) {
+                if (err) {
+                    console.log(err);
+                }
+                let findStudentInfoQuery = [];
+                for (let i = 0; i < students.length; i++) {
+                    findStudentInfoQuery.push(ObjectID(students[i].studentID).toString());
+                }
+                let query = {
+                    _id: findStudentInfoQuery
+                }
+                User.find({
+                    _id: findStudentInfoQuery
+                }, function (err, Assistants) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    let find = [];
+                    for (let j = 0; j < students.length; j++) {
+                        for (let z = 0; z < Assistants.length; z++) {
+                            if (findStudentInfoQuery[j] == Assistants[z]._id) {
+                                find.push(Assistants[z]).toString();
+                            }
+                        }
+                    }
+                    res.render('showAssistantInClass', {
+                        classID: req.params.classID,
+                        users: users,
+                        classinfo: classinfo,
+                        students: students,
+                        Assistants: find
+                    })
+                });
+            })
+        });
+    })
+});
+//加入助教
+router.get('/checkAssistant/:sid/unit/:classID', function (req, res) {
+    var string = req.params.sid;
+    let permission = "2222";
+    let sidarray = string.split(",");
+    for (let i = 0; sidarray.length > i; i++) {
+        StudebtTakeCourse.findOne({
+            studentID: sidarray[i],
+            classID: req.params.classID
+        }, function (err, students) {
+            if (students) {
+                StudebtTakeCourse.updateMany({
+                    studentID: sidarray[i],
+                    classID: req.params.classID
+                }, {
+                    $set: {
+                        permission: permission
+                    }
+                }, {
+                    w: 1
+                }, function (err, result) {
+                    if (err) throw err;
+                    console.log('Assistant Document Updated Successfully');
+                });
+            } else {
+                User.find({
+                    _id: sidarray[i]
+                }, function (err, stc) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log('Assistant Document Create Successfully');
+                    let newAssistant = new StudebtTakeCourse;
+                    newAssistant.studentID = sidarray[i];
+                    newAssistant.classID = req.params.classID;
+                    newAssistant.pridectGrade = "null";
+                    newAssistant.permission = "2222";
+                    newAssistant.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                })
+            }
+        })
+    }
+    res.redirect('/class/showAssistantIn/' + req.params.classID);
+})
+//刪除課程助教
+router.get('/deleteAssistant/:id/unit/:classID', function (req, res) {
+    StudebtTakeCourse.find({
+        studentID: req.params.id,
+        classID: req.params.classID
+    }, function (err, stc) {
+        if (err) {
+            console.log(err);
+        }
+        StudebtTakeCourse.remove({
+            _id: stc[0]._id
+        }, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            req.flash('success', '刪除成功');
+            res.redirect('/class/showAssistantIn/' + req.params.classID);
+        })
+    })
+})
+//助教權限設定
+router.get('/setAssistant/:id/unit/:classID/set/:mode', function (req, res) {
+    StudebtTakeCourse.find({
+        studentID: req.params.id,
+        classID: req.params.classID
+    }, function (err, stc) {
+        if (err) {
+            console.log(err);
+        }
+        if (stc[0].permission[req.params.mode] == '2') {
+            let setmode = "";
+            for (let i = 0; i < 4; i++) {
+                if (req.params.mode == i) {
+                    setmode = setmode + "A"
+                } else {
+                    setmode = setmode + stc[0].permission[i]
+                }
+            }
+            StudebtTakeCourse.updateMany({
+                studentID: req.params.id,
+                classID: req.params.classID
+            }, {
+                $set: {
+                    permission: setmode
+                }
+            }, {
+                w: 1
+            }, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Assistant Permission Updated Successfully');
+                }
+            });
+        } else {
+            let setmode = "";
+            for (let i = 0; i < 4; i++) {
+                if (req.params.mode == i) {
+                    setmode = setmode + "2"
+                } else {
+                    setmode = setmode + stc[0].permission[i]
+                }
+            }
+            StudebtTakeCourse.updateMany({
+                studentID: req.params.id,
+                classID: req.params.classID
+            }, {
+                $set: {
+                    permission: setmode
+                }
+            }, {
+                w: 1
+            }, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Assistant Permission Updated Successfully');
+                }
+            });
+        }
+        res.redirect('/class/showAssistantIn/' + req.params.classID);
+    })
+})
+//----------------助教-----------------------
+
+
+
+
+
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

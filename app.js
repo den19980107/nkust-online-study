@@ -246,7 +246,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
-        req.flash('danger', 'Please Login');
+        req.flash('danger', '請先登入！');
         res.redirect('/users/login');
     }
 }

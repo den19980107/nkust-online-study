@@ -30,6 +30,14 @@ router.post('/add/inClass/:classID', function (req, res) {
         article.author_id = req.user._id;
         article.body = req.body.body;
         article.belongClass = req.params.classID
+        var currentdate = new Date();
+        var datetime = currentdate.getDate() + "/" +
+            (currentdate.getMonth() + 1) + "/" +
+            currentdate.getFullYear() + " " +
+            currentdate.getHours() + ":" +
+            currentdate.getMinutes() + ":" +
+            currentdate.getSeconds();
+        article.postTime = datetime
         console.log(article);
 
         article.save(function (err) {
@@ -112,7 +120,7 @@ router.get('/:id/inClass/:classid', ensureAuthenticated, function (req, res) {
                     } else {
                         res.render('article', {
                             article: article,
-                            author: user.name,
+                            author: user,
                             belongclass: req.params.classid,
                             comments: articleComments,
                             classinfo: classinfo
@@ -139,6 +147,7 @@ router.get('/edit/:id/inClass/:classid', ensureAuthenticated, function (req, res
         if (err) {
             console.log(err);
         } else {
+
             if (article.author_id != req.user._id) {
                 req.flash('danger', '此文章不是您的');
                 res.redirect('/');
@@ -184,11 +193,28 @@ router.get('/inClass/:classid', function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render('articles', {
-                title: '討論區',
-                articles: articles,
-                belongclass: req.params.classid
-            });
+            studentCommentArticle.find({
+                belongClass: req.params.classID
+            }, function (err, sta) {
+
+                for (let i = 0; i < sta.length; i++) {
+                    for (let j = 0; j < articles.length; j++) {
+                        Object.assign(articles[j], {
+                            commentsNumber: 0
+                        });
+                        if (sta[i].articleID == articles[j]._id) {
+                            console.log("equl");
+
+                            articles[j].commentsNumber += 1
+                        }
+                    }
+                }
+                res.render('articles', {
+                    title: '討論區',
+                    articles: articles,
+                    belongclass: req.params.classid
+                });
+            })
         }
 
     });

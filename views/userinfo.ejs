@@ -6,9 +6,9 @@
         }
     }
 </style>
-<br>
-<div>
-    <h2>修改我的資料</h2>
+
+<div class="container ">
+    <h3>個人資料</h3>
     <hr>
     <form method="POST" action="/users/updateUserinfo">
 
@@ -44,8 +44,8 @@
                 <%}%>
             </div>
             <div class="col-lg-6 col-sm-12">
-                <h4>簡介</h4>
-                <span>讓其他人可以更認識您</span>
+                <h4>簡介<small style="font-size: 14px;color: gray"> 讓其他人可以更認識您</small></h4>
+
                 <div class="form-group">
                     <textarea name="userinfo" type="text" id="form7" class="md-textarea form-control" style="resize: none ;height:100%"><%=user.userInfo%>            
                     </textarea>
@@ -53,7 +53,7 @@
             </div>
             <div class="col-12">
                 <%if(authenticate){%>
-                <button type="submit" class="btn btn-primary float-right submit">更改</button>
+                <button type="submit" class="btn btn-primary float-right submit">儲存</button>
                 <%}%>
             </div>
         </div>

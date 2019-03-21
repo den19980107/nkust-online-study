@@ -1,5 +1,5 @@
 <% include layout/header %>
-<script src="https://cdn.ckeditor.com/4.11.2/standard-all/ckeditor.js"></script>
+<script src="/ckeditor/ckeditor.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossorigin="anonymous">
 
@@ -22,27 +22,33 @@
         to {border-bottom: 2px solid black;}
     }
 </style>
-<div class="container  p-4">
+<div class="container  p-4 ">
     <div class="row">
-        <div class="col-9">
+        <div class="col bg-white">
             <div id="mian" class="bg-white" style="padding-top: 50px;padding-bottom: 50px;">
-                <h1 id="Title">
-                    <%=article.title%>
-                </h1>
                 <div class="row">
                     <div class="col">
-                        <span id="PostDate" class="text-secondary">
-
-                        </span>
+                        <h1 id="Title">
+                            <%=article.title%>
+                        </h1>
                     </div>
+                </div>
+
+                <div class="row mt-2">
                     <div class="col">
-                        <span id="tags" class="text-warning"></span>
-                    </div>
+                        <a href="/class/<%=classinfo._id%>/showClassmateInfo/<%=author._id%>" style="color: rgb(70, 157, 227)"
+                            class="mr-2">
+                            <%=author.name%>
+                        </a>
+                        <%if(typeof(article.postTime)!=undefined){%>
+                        <span>
+                            <%=article.postTime%>
+                        </span>
+                        <%}%>
 
+                    </div>
                 </div>
                 <br>
-                <p style="padding-bottom: 1px">點擊文章來展開 <i class="fas fa-arrow-circle-down"></i>
-                </p>
                 <textarea style="display: none" id="hidedata">
                     <%=article.body%>
                 </textarea>
@@ -138,10 +144,6 @@
                     <div class="col">
                         <li style="width: 100%;list-style: none;margin-bottom: 20px;">
                             <div class="row">
-                                <div class="col-1">
-                                    <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid"
-                                        alt="Responsive image">
-                                </div>
                                 <div class="col-11">
                                     <div class="row">
                                         <%if(comment.userID == classinfo.teacher){%>
@@ -175,34 +177,15 @@
             </div>
 
         </div>
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid img-thumbnail" alt="Responsive image">
-                </div>
-                <div class="col">
-                    <h5 id="poster">
-                        <%=author%>
-                    </h5>
-                    <a href="#" class="badge badge-primary">個人網頁</a>
-                </div>
-            </div>
 
-            <div class="row pt-1">
-                <div class="col">
-                    <small id="posterIntroduction" class="text-secondary"></small>
-                </div>
-
-            </div>
-        </div>
     </div>
-
 
 </div>
 
 
 <script>
     let hidedata = document.getElementById('hidedata');
+
     CKEDITOR.replace('Detail', {
         height: 600,
         on: {
@@ -211,9 +194,7 @@
                 document.getElementById('cke_1_top').style.display = 'none';
             }
         },
-        extraPlugins: 'autogrow',
-        autoGrow_minHeight: 600,
-        autoGrow_bottomSpace: 50,
+        readOnly: true,
         removePlugins: 'resize'
     });
     var text = hidedata.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
