@@ -70,7 +70,7 @@
     </div>
 </div>
 <hr>
-<%let thisAssisten%>
+<%let thisAssisten = null%>
 <%for(let i = 0;i < thisClassStudents.length;i++){%>
 <%if(thisClassStudents[i].studentID==user._id){%>
 <%thisAssisten = thisClassStudents[i] %>
@@ -259,7 +259,7 @@
             let classtime = [];
             classtime = data.split(',');
             let classtimelist = document.getElementById('classtimelist');
-        
+            
             
             if (data.length == 0) {
                 let li = document.createElement('li');
@@ -267,7 +267,7 @@
                 li.style.cssText = "line-height:24px";
                 li.innerHTML = '未設定';
                 
-                if (isTeacher == "true"||thisAssisten.permission[3]=="A") {
+                if (isTeacher == "true"|| (thisAssisten != null && thisAssisten.permission[3]=="A")) {
                     console.log(0);
                     
                     li.innerHTML +=
@@ -283,7 +283,7 @@
                     li.style.cssText = "line-height:24px";
                     li.innerHTML = classtime[i];
                     
-                    if(isTeacher == "true"||thisAssisten.permission[3]=="A") {
+                    if(isTeacher == "true"||(thisAssisten != null && thisAssisten.permission[3]=="A")) {
                         console.log(1);
                         li.innerHTML +=
                             `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem;"

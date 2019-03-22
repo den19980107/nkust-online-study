@@ -61,31 +61,26 @@
     var teacherCheckbox = document.getElementById('teacher');
     var hideForm = document.getElementById('hide');
     studentCheckbox.onclick = function () {
-        if (studentCheckbox.checked) {
-            studentCheckbox.disabled = true
-        }
+        console.log(studentCheckbox.checked);
         if (studentCheckbox.checked) {
             teacherCheckbox.checked = false;
-            teacherCheckbox.disabled = false
             hideForm.style.display = "block";
+        } else {
+            if (!teacherCheckbox.checked) {
+                studentCheckbox.checked = true
+            }
         }
     }
     teacherCheckbox.onclick = function () {
-        if (teacherCheckbox.checked) {
-            teacherCheckbox.disabled = true
-        }
+        console.log(teacherCheckbox.checked);
         if (teacherCheckbox.checked) {
             studentCheckbox.checked = false;
-            studentCheckbox.disabled = false
             hideForm.style.display = "none";
+        } else {
+            if (!studentCheckbox.checked) {
+                teacherCheckbox.checked = true
+            }
         }
-    }
-    window.onload = function () {
-        studentCheckbox.checked = true
-        studentCheckbox.disabled = true
-        teacherCheckbox.checked = false;
-        teacherCheckbox.disabled = false
-        hideForm.style.display = "block";
     }
 </script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
