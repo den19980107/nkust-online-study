@@ -28,7 +28,7 @@ let Homework = require('../model/homework');
 let studntSubmitTest = require('../model/studentSubmitTest');
 //bring student submit homework model
 let studntSubmitHomework = require('../model/studentSubmitHomework');
-//bring note model 
+//bring note model
 let Note = require('../model/note')
 //寄email的工具
 var nodemailer = require('nodemailer');
@@ -44,7 +44,7 @@ const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
-//init gfs   
+//init gfs
 let gfs
 
 mongoose.connect(config.database);
@@ -1183,23 +1183,27 @@ router.get('/showStudentApproval/:classID', ensureAuthenticated, function (req, 
 });
 //刪除課程學生
 router.get('/deleteStudent/:id/unit/:classID', function (req, res) {
-    StudebtTakeCourse.find({
-        studentID: req.params.id,
-        classID: req.params.classID
-    }, function (err, stc) {
-        if (err) {
-            console.log(err);
-        }
-        StudebtTakeCourse.remove({
-            _id: stc[0]._id
-        }, function (err) {
+    var string = req.params.id;
+    let delsidarray = string.split(",");
+    for (let i = 0; delsidarray.length > i; i++) {
+        StudebtTakeCourse.find({
+            studentID: delsidarray[i],
+            classID: req.params.classID
+        }, function (err, stc) {
             if (err) {
                 console.log(err);
             }
-            req.flash('success', '刪除成功');
-            res.redirect('/class/showStudentIn/' + req.params.classID);
+            StudebtTakeCourse.remove({
+                _id: stc[0]._id
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            })
         })
-    })
+    }
+    req.flash('success', '刪除成功');
+    res.redirect('/class/showStudentIn/' + req.params.classID);
 })
 //批准待審核學生
 router.get('/checkStudent/:sid/unit/:classID', function (req, res) {
@@ -1358,23 +1362,28 @@ router.get('/checkAssistant/:sid/unit/:classID', function (req, res) {
 })
 //刪除課程助教
 router.get('/deleteAssistant/:id/unit/:classID', function (req, res) {
-    StudebtTakeCourse.find({
-        studentID: req.params.id,
-        classID: req.params.classID
-    }, function (err, stc) {
-        if (err) {
-            console.log(err);
-        }
-        StudebtTakeCourse.remove({
-            _id: stc[0]._id
-        }, function (err) {
+    var string = req.params.id;
+    let delsidarray = string.split(",");
+    for (let i = 0; delsidarray.length > i; i++) {
+        StudebtTakeCourse.updateMany({
+            studentID: delsidarray[i],
+            classID: req.params.classID
+        }, {
+            $set: {
+                permission: "11111"
+            }
+        }, {
+            w: 1
+        }, function (err, result) {
             if (err) {
                 console.log(err);
+            } else {
+                console.log('Assistant Permission Delete Successfully');
             }
-            req.flash('success', '刪除成功');
-            res.redirect('/class/showAssistantIn/' + req.params.classID);
         })
-    })
+    }
+    req.flash('success', '刪除成功');
+    res.redirect('/class/showAssistantIn/' + req.params.classID);
 })
 //助教權限設定
 router.get('/setAssistant/:id/unit/:classID/set/:mode', function (req, res) {
