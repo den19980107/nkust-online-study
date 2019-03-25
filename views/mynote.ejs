@@ -201,16 +201,16 @@
                 <p id="saving" class="p-1 pl-3" style="display:inline;color: rgb(119, 119, 119)"></p>
                 <a style="padding: 0.6rem" class="btn float-right mr-3 mybtn" id="dropdownMenu2" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <div class="dropdown-menu mr-4 text-center" aria-labelledby="dropdownMenu2">
                     <button class="dropdown-item" type="button" onclick="deleteNote()">刪除文章</button>
                     <button class="dropdown-item" type="button" onclick="saveNote()">手動儲存</button>
-                    <button class="dropdown-item" type="button">複製內文</button>
                 </div>
             </div>
             <div style="clear: both;"></div>
             <textarea id="Detail"></textarea>
         </div>
     </div>
+</div>
 </div>
 <style>
     .titleinput:focus {
@@ -380,46 +380,46 @@
         });
 
     }
-    let cansend = true;
-    CKEDITOR.instances.Detail.on('change', function () {
-        if (nowWrittingNote != '') {
-            note = {
-                body: CKEDITOR.instances.Detail.getData(),
-                title: document.getElementById('title').value
-            }
-            if (cansend) {
-                $.ajax({
-                    url: '/users/note/saveNote/' + nowWrittingNote,
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(note),
-                    dataType: 'json',
-                    beforeSend: function () {
-                        cansend = false;
-                        let saving = document.getElementById('saving');
-                        saving.innerText = "保存中..."
-                    },
-                    complete: function () {
-                        console.log("saved");
-                        let saving = document.getElementById('saving');
-                        saving.innerText = ""
-                    },
-                    success: function (response) {
+    //自動儲存功能
+    // let cansend = true;
+    // CKEDITOR.instances.Detail.on('change', function () {
+    //     if (nowWrittingNote != '') {
+    //         note = {
+    //             body: CKEDITOR.instances.Detail.getData(),
+    //             title: document.getElementById('title').value
+    //         }
+    //         if (cansend) {
+    //             $.ajax({
+    //                 url: '/users/note/saveNote/' + nowWrittingNote,
+    //                 type: 'POST',
+    //                 contentType: 'application/json',
+    //                 data: JSON.stringify(note),
+    //                 dataType: 'json',
+    //                 beforeSend: function () {
+    //                     cansend = false;
+    //                     let saving = document.getElementById('saving');
+    //                     saving.innerText = "保存中..."
+    //                 },
+    //                 complete: function () {
+    //                     console.log("saved");
+    //                     let saving = document.getElementById('saving');
+    //                     saving.innerText = ""
+    //                 },
+    //                 success: function (response) {
 
-                        cansend = true
-                    },
-                    error: function (err) {
-                        alert('錯誤訊息：' + err);
-                    }
-                });
-            }
-        }
+    //                     cansend = true
+    //                 },
+    //                 error: function (err) {
+    //                     alert('錯誤訊息：' + err.msg);
+    //                 }
+    //             });
+    //         }
+    //     }
 
 
-    });
+    // });
     let saveNote = function () {
-        console.log("asd");
-
+        console.log("nowWrittingNote" + nowWrittingNote);
         if (nowWrittingNote != '') {
             note = {
                 body: CKEDITOR.instances.Detail.getData(),
@@ -454,8 +454,6 @@
     }
 
     let deleteNote = function () {
-
-
         $.ajax({
             url: '/users/note/deleteNote/' + nowWrittingNote,
             type: 'DELETE',
@@ -502,7 +500,7 @@
 
             },
             error: function (err) {
-                alert('錯誤訊息：' + err);
+                alert('錯誤訊息：' + err.msg);
             }
         });
 

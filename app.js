@@ -102,7 +102,7 @@ io.on('connection', function (socket) {
                 });
             }
         }
-
+        console.log(videobehavior.videoActions);
     });
     socket.on("script", function (script) {
         //從伺服端拿到script的資訊

@@ -41,17 +41,18 @@ router.post('/register', function (req, res) {
     } else if (req.body.teacher) {
         permission = "teacher";
     }
+    console.log(permission);
+    if (permission == undefined) {
+        console.log("permission undefind");
+
+    }
     req.checkBody('name', '名字不得為空').notEmpty();
     req.checkBody('email', 'Email不得為空').notEmpty();
     req.checkBody('email', 'Email格式錯誤').isEmail();
     req.checkBody('username', '帳號不得為空').notEmpty();
     req.checkBody('password', '密碼不得為空').notEmpty();
     req.checkBody('password2', '密碼不相符合').equals(req.body.password);
-    // if (permission == "student") {
-    //     req.checkBody('schoolname', '請輸入您的學校名稱').notEmpty();
-    //     req.checkBody('department', '請輸入您的系別').notEmpty();
-    //     req.checkBody('studentid', '請輸入您的學號').notEmpty();
-    // }
+
     User.find({
         username: req.body.username
     }, function (err, users) {
@@ -67,6 +68,17 @@ router.post('/register', function (req, res) {
                     msg: "此帳號已有人使用"
                 }]
             }
+            if (permission == undefined) {
+                if (errors) {
+                    errors.push({
+                        msg: "請選擇身份"
+                    });
+                } else {
+                    errors = [{
+                        msg: "請選擇身份"
+                    }]
+                }
+            }
 
             console.log(errors.length);
             res.render('register', {
@@ -75,7 +87,17 @@ router.post('/register', function (req, res) {
             });
         } else {
             let errors = req.validationErrors();
-
+            if (permission == undefined) {
+                if (errors) {
+                    errors.push({
+                        msg: "請選擇身份"
+                    });
+                } else {
+                    errors = [{
+                        msg: "請選擇身份"
+                    }]
+                }
+            }
             if (errors) {
                 res.render('register', {
                     user: false,
@@ -314,7 +336,9 @@ router.get('/note/getSigleNote/:noteID', function (req, res) {
 
 //存存編輯中筆記
 router.post('/note/saveNote/:noteID', function (req, res) {
+    console.log("---------------save body---------------");
     console.log(req.body);
+    console.log("---------------save body---------------");
     Note.findById({
         _id: req.params.noteID
     }, function (err, note) {
@@ -340,7 +364,7 @@ router.post('/note/saveNote/:noteID', function (req, res) {
 
 //刪除筆記
 router.delete('/note/deleteNote/:noteID', function (req, res) {
-    Note.remove({
+    Note.deleteOne({
         _id: req.params.noteID
     }, function (err) {
         if (err) {
@@ -349,7 +373,9 @@ router.delete('/note/deleteNote/:noteID', function (req, res) {
             Note.find({
                 author_id: req.user._id
             }, function (err, notes) {
-                console.log(notes);
+                if (err) {
+                    console.log(err);
+                }
                 res.send(notes)
             })
         }
