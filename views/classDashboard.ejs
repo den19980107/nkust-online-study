@@ -193,6 +193,10 @@
         <ul class="list-group">
             <div id="classtimelist">
                 <li class="list-group-item  text-center  list-group-item-action active">上課時間
+                    <%if(user._id == classinfo.teacher){%>
+                    <i class="fas fa-pen ml-2 float-right" style="color: white;padding-top: 0.2rem;font-size: 16px;"
+                        onclick="updateClassInfo('classTime')"></i>
+                    <%}%>
                     <%for(let i = 0;i < thisClassStudents.length;i++){%>
                     <%if(thisClassStudents[i].studentID==user._id){%>
                     <%if(thisClassStudents[i].permission[3]=='A'){%>
