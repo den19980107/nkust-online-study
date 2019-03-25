@@ -123,16 +123,16 @@
                 <div class="row container m-0 p-0 mb-2">
                     <div id="outlineDIV" class="w-100" style="display: flex;justify-content: space-between;height: 36px;">
                         <h5 class=" scrollText " style="display: inline-block">
-                            課程說明:
+                            課程簡介：
                             <%if(user._id == classinfo.teacher){%>
-                            <i class="fas fa-pen ml-1" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                            <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
                                 onclick="updateClassInfo('outline')"></i>
                             <%}%>
 
                             <%for(let i = 0;i < thisClassStudents.length;i++){%>
                             <%if(thisClassStudents[i].studentID==user._id){%>
                             <%if(thisClassStudents[i].permission[3]=='A'){%>
-                            <i class="fas fa-pen ml-1" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                            <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
                                 onclick="updateClassInfo('outline')"></i>
                             <%}%>
                             <%}%>
@@ -181,66 +181,65 @@
         </div>
     </div>
     <div class="col-lg-3 col-sm-12">
+        <%let classStudentNumber = 0 %>
+        <%for(let i = 0;i< thisClassStudents.length;i++){%>
+        <%if(thisClassStudents[i].permission == "11111"){%>
+        <%classStudentNumber++%>
+        <%}%>
+        <%}%>
         <h5 id="classStudentNumber">課程人數：
-            <%=thisClassStudents.length%>
+            <%=classStudentNumber%>
         </h5>
         <ul class="list-group">
             <div id="classtimelist">
-                <li class="list-group-item  text-center  list-group-item-action active">上課時間</li>
-
+                <li class="list-group-item  text-center  list-group-item-action active">上課時間
+                    <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                    <%if(thisClassStudents[i].studentID==user._id){%>
+                    <%if(thisClassStudents[i].permission[3]=='A'){%>
+                    <i class="fas fa-pen ml-2 float-right" style="color: white;padding-top: 0.2rem;font-size: 16px;"
+                        onclick="updateClassInfo('classTime')"></i>
+                    <%}%>
+                    <%}%>
+                    <%}%>
+                </li>
             </div>
 
-            <li class="list-group-item  text-center  list-group-item-action active">上課地點</li>
+            <li class="list-group-item  text-center  list-group-item-action active">上課地點
+                <%if(user._id == classinfo.teacher){%>
+                <i class="fas fa-pen ml-2 float-right" style="color:white;padding-top: 0.2rem;font-size: 16px;" onclick="updateClassInfo('classRoom')"></i>
+                <%}%>
+                <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                <%if(thisClassStudents[i].studentID==user._id){%>
+                <%if(thisClassStudents[i].permission[3]=='A'){%>
+                <i class="fas fa-pen ml-2 float-right" style="color:white;padding-top: 0.2rem;font-size: 16px;" onclick="updateClassInfo('classRoom')"></i>
+                <%}%>
+                <%}%>
+                <%}%>
+
+            </li>
             <li class="list-group-item list-group-item-action" style="line-height: 24px;">
                 <%if(!classinfo.classRoom){%>
                 未設定
-                <%if(user._id == classinfo.teacher){%>
-                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
-                    onclick="updateClassInfo('classRoom')"></i>
-                <%}%>
-                <%for(let i = 0;i < thisClassStudents.length;i++){%>
-                <%if(thisClassStudents[i].studentID==user._id){%>
-                <%if(thisClassStudents[i].permission[3]=='A'){%>
-                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
-                    onclick="updateClassInfo('classRoom')"></i>
-                <%}%>
-                <%}%>
-                <%}%>
-
-
                 <%}else{%>
                 <%=classinfo.classRoom%>
-                <%if(user._id == classinfo.teacher){%>
-                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
-                    onclick="updateClassInfo('classRoom')"></i>
-                <%}%>
-                <%for(let i = 0;i < thisClassStudents.length;i++){%>
-                <%if(thisClassStudents[i].studentID==user._id){%>
-                <%if(thisClassStudents[i].permission[3]=='A'){%>
-                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
-                    onclick="updateClassInfo('classRoom')"></i>
-                <%}%>
-                <%}%>
-                <%}%>
-
                 <%}%>
             </li>
-            <li class="list-group-item  text-center  list-group-item-action active">學分數</li>
-            <li class="list-group-item list-group-item-action" style="line-height: 24px;">
-                <%=classinfo.credit%>
+            <li class="list-group-item  text-center  list-group-item-action active">學分數
                 <%if(user._id == classinfo.teacher){%>
-                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                <i class="fas fa-pen ml-2 float-right" style="color: white;padding-top: 0.2rem;font-size: 16px;"
                     onclick="updateClassInfo('credit')"></i>
                 <%}%>
                 <%for(let i = 0;i < thisClassStudents.length;i++){%>
                 <%if(thisClassStudents[i].studentID==user._id){%>
                 <%if(thisClassStudents[i].permission[3]=='A'){%>
-                <i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                <i class="fas fa-pen ml-2 float-right" style="color: white;padding-top: 0.2rem;font-size: 16px;"
                     onclick="updateClassInfo('credit')"></i>
                 <%}%>
                 <%}%>
                 <%}%>
-
+            </li>
+            <li class="list-group-item list-group-item-action" style="line-height: 24px;">
+                <%=classinfo.credit%>
             </li>
         </ul>
         <br>
@@ -267,13 +266,13 @@
                 li.style.cssText = "line-height:24px";
                 li.innerHTML = '未設定';
                 
-                if (isTeacher == "true"|| (thisAssisten != null && thisAssisten.permission[3]=="A")) {
-                    console.log(0);
+                // if (isTeacher == "true"|| (thisAssisten != null && thisAssisten.permission[3]=="A")) {
+                //     console.log(0);
                     
-                    li.innerHTML +=
-                        `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem"
-                    onclick="updateClassInfo('classTime')"></i>`
-                }
+                //     li.innerHTML +=
+                //         `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem"
+                //     onclick="updateClassInfo('classTime')"></i>`
+                // }
                 classtimelist.appendChild(li);
 
             } else {
@@ -283,12 +282,12 @@
                     li.style.cssText = "line-height:24px";
                     li.innerHTML = classtime[i];
                     
-                    if(isTeacher == "true"||(thisAssisten != null && thisAssisten.permission[3]=="A")) {
-                        console.log(1);
-                        li.innerHTML +=
-                            `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem;"
-                    onclick="updateClassInfo('classTime')"></i>`;
-                    }
+                    // if(isTeacher == "true"||(thisAssisten != null && thisAssisten.permission[3]=="A")) {
+                    //     console.log(1);
+                    //     li.innerHTML +=
+                    //         `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem;"
+                    // onclick="updateClassInfo('classTime')"></i>`;
+                    // }
                     classtimelist.appendChild(li);
                 }
             }

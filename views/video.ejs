@@ -105,29 +105,33 @@
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
     }
-
+    
     @keyframes showCommentField {
         from {border-bottom: 2px solid rgb(211, 206, 206);}
         to {border-bottom: 2px solid black;}
     }
-  </style>
+</style>
 <h3>
     <%=video.videoName%>
 </h3>
 <div class="row">
     <div class="col-8 ">
-        <div id="player" class="w-100">
-        </div>
-        <div id="progress">
-            <input type="range" id="slider" value="0" class="slider" style="width: 100%;">
-        </div>
-        <div id="controler" style="padding: 2px 10px;background: rgba(0,0,0,0.8)">
-            <i class="fas fa-play mr-2" style="color: white;" id="PlayPauseBtn" onclick="controlVideo(this)"></i>
-            <p class="mr-2" style="color:white;display:inline-block;width: 5rem;margin: 0" id="videoTime">00:00:00</p>
-            <i class="fas fa-volume-up mr-0" style="color: white;"></i>
-            <input type="range">
-            <div style="float: right;padding-top: 0.2rem">
-                <i class="fas fa-expand" style="color: white;" id="fullScreenBtn" onclick="playFullscreen()"></i>
+        <div id="video">
+            <div id="player" class="w-100">
+            </div>
+            <div id="myplayer">
+                <div id="progress">
+                    <input type="range" id="slider" value="0" class="slider" style="width: 100%;">
+                </div>
+                <div id="controler" style="padding: 2px 10px;background: rgba(0,0,0,0.8)">
+                    <i class="fas fa-play mr-2" style="color: white;" id="PlayPauseBtn" onclick="controlVideo(this)"></i>
+                    <p class="mr-2" style="color:white;display:inline-block;width: 5rem;margin: 0" id="videoTime">00:00:00</p>
+                    <i class="fas fa-volume-up mr-0" style="color: white;"></i>
+                    <input type="range" id="volume" onchange="controlVideo(this)">
+                    <div style="float: right;padding-top: 0.2rem">
+                        <i class="fas fa-expand" style="color: white;" id="fullScreenBtn" onclick="playFullscreen();controlVideo(this)"></i>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -278,19 +282,67 @@
             width: width,
             videoId: '<%=video.videoURL%>',
             events: {
-                'onReady': onPlayerReady
+                'onReady': onPlayerReady,
+                'onStateChange': yt.onPlayerStateChange
             },
             playerVars: {
                 autoplay: 0,
                 controls: 0,
                 disablekb: 1,
                 modestbranding: 1,
+                iv_load_policy: 3,
+                modestbranding: 1,
                 rel: 0,
-                showinfo: 0
+                showinfo: 0,
+                ecver: 2
+                // 'controls': 1, //控制列，0:隱藏，1:顯示(默認)
+                // 'fs': 0, //全屏按鈕，0:隱藏，1:顯示(默認)
+                // 'iv_load_policy': 3, //影片註釋，1:顯示(默認)，3:不顯示
+                // 'rel': 0, //顯示相關視頻，0:不顯示，1:顯示(默認)
+                // 'modestbranding': 1, //YouTube標籤，0:顯示(默認)，1:不顯示    
+                // 'playsinline': 1 //在iOS的播放器中全屏播放，0:全屏(默認)，1:內嵌
             }
         });
         console.log(document.getElementById('player'));
     }
+    var yt = yt || {};
+    let action = [];
+
+    yt = {
+        onPlayerStateChange: function (event) {
+            let play = "fas fa-play mr-2";
+            let pause = "fas fa-pause mr-2";
+            let PlayPauseBtn = document.getElementById('PlayPauseBtn');
+
+            // console.log(event.data);
+            if (event.data == 1) {
+                console.log("播放");
+                action.push("播放:" + parseInt(event.target.getCurrentTime()) / 60)
+                //console.table(action);
+                if (PlayPauseBtn.className == play) {
+                    PlayPauseBtn.className = pause;
+                    socket.emit('videoAction', {
+                        type: 'play',
+                        time: nowtime
+                    });
+                }
+            }
+            if (event.data == 2) {
+                console.log("暫停");
+                action.push("暫停:" + parseInt(nowtime) / 60)
+                //console.table(action);
+                if (PlayPauseBtn.className == pause) {
+                    PlayPauseBtn.className = play;
+                    socket.emit('videoAction', {
+                        type: 'pause',
+                        time: nowtime
+                    });
+                }
+            }
+        }
+    }
+
+
     let vtime = 0;
     let nowtime = 0;
     let slider = document.getElementById('slider');
@@ -300,6 +352,9 @@
         // event.target.playVideo();
         vtime = player.getDuration();
         slider.max = vtime;
+        let volume = document.getElementById('volume');
+        player.setVolume(volume.value)
+        player.seekTo(0);
         //網頁打開紀錄
         socket.emit('videoAction', {
             type: 'open',
@@ -307,6 +362,7 @@
             videoID: "<%=video._id%>",
             vtime: vtime
         });
+
     }
 
     // 5. The API calls this function when the player's state changes.
@@ -320,7 +376,7 @@
     }
 
     //socket io
-    //var socket = io();
+    var socket = io();
 
     window.onload = function () {
 
@@ -336,6 +392,8 @@
             console.log(slider.value);
             let beginTime = nowtime;
             player.seekTo(slider.value);
+            console.log("seek from:" + beginTime + " to:" + slider.value);
+
             socket.emit('videoAction', {
                 type: 'fastTurn',
                 beginTime: beginTime,
@@ -343,7 +401,6 @@
             });
             let play = "fas fa-play mr-2";
             let isplay = document.getElementById('PlayPauseBtn');
-            console.log(isplay);
 
             if (isplay.className != play) {
                 socket.emit('videoAction', {
@@ -527,28 +584,75 @@
         if (e.className == play) {
             PlayPauseBtn.className = pause;
             player.playVideo();
-            socket.emit('videoAction', {
-                type: 'play',
-                time: nowtime
-            });
+            // socket.emit('videoAction', {
+            //     type: 'play',
+            //     time: nowtime
+            // });
         } else if (e.className == pause) {
             PlayPauseBtn.className = play;
             player.pauseVideo();
-            socket.emit('videoAction', {
-                type: 'pause',
-                time: nowtime
-            });
+            // socket.emit('videoAction', {
+            //     type: 'pause',
+            //     time: nowtime
+            // });
         } else if (e.className == fullscreen) {
 
+        } else if (e.id = 'volume') {
+            console.log(e.value);
+            player.setVolume(e.value)
         }
-        console.log(e);
     }
 
+
+
+    //影片全螢幕時要做的事
+    let isFullScreen = false;
+    //當按下全螢幕按鈕 檢測室不是正在全螢幕
     function playFullscreen() {
-        let playerElement = document.getElementById('player');
-        var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
-        requestFullScreen.bind(playerElement)();
+        let video = document.getElementById('video');
+        let myplayer = document.getElementById('myplayer');
+
+        if (isFullScreen) { //是就讓取消全螢幕並調整控制條顯示方式
+            myplayer.style.cssText = "";
+            let iframe = document.getElementById('player');
+            iframe.className = "w-100";
+            closeFullscreen();
+        } else if (!isFullScreen) { //不是是就讓畫面全螢幕並調整控制條顯示方式
+            myplayer.style.cssText = "position:fixed;bottom:0px;width:100%";
+            var requestFullScreen = video.requestFullScreen || video.mozRequestFullScreen || video.webkitRequestFullScreen;
+            requestFullScreen.bind(video)();
+            let iframe = document.getElementById('player');
+            iframe.className = "w-100 h-100";
+        }
+        isFullScreen = !isFullScreen;
     }
+    //關閉全螢幕函式
+    function closeFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            /* IE/Edge */
+            document.msExitFullscreen();
+        }
+    }
+    //為了避免使用者用esc鍵離開全螢幕 而用下面的方式偵測全螢幕來調整控制條
+    document.onwebkitfullscreenchange = function (e) {
+        let video = document.getElementById('video');
+        let myplayer = document.getElementById('myplayer');
+        if (document.webkitIsFullScreen == false) {
+            myplayer.style.cssText = "";
+            let iframe = document.getElementById('player');
+            iframe.className = "w-100";
+        }
+    }
+
+
     let videoTime = document.getElementById('videoTime');
     setInterval(function () {
         nowtime = player.getCurrentTime();

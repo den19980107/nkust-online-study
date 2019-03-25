@@ -864,7 +864,7 @@
             var pos = videoURL.indexOf("watch?v=");
             var end = videoURL.indexOf("&");
             if (end = -1) {
-                end = videoURL.length - 1
+                end = videoURL.length
             }
             console.log(end);
 
@@ -876,7 +876,7 @@
             let verifyYoutube = verifyYoutubeUrl.indexOf(verifyYoutubeUrl);
             console.log("verifyYoutube" + verifyYoutube);
 
-            if (verifyYoutube > 0) { //如果是youtube的網址
+            if (verifyYoutube >= 0) { //如果是youtube的網址
                 $.ajax({
                     type: 'POST',
                     url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' +

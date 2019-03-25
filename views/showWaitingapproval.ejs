@@ -13,7 +13,7 @@
         <tr>
             <th>
                 <center>
-                    <button class="btn btn-success btn-sm" onclick="check()">批准</button>
+                    <button class="btn btn-success btn-sm" id="div" onclick="check()">批准</button>
                 </center>
             </th>
             <th class="text-center" scope="col">姓名</th>
@@ -67,7 +67,7 @@
         } else {
             result = window.confirm("你確定批准這些學生嗎？");
             if (result == true) {
-              window.location = "/class/checkstudent/" + c + "/unit/<%=classID%>"
+                window.location = "/class/checkstudent/" + c + "/unit/<%=classID%>"
             } else {}
         }
 

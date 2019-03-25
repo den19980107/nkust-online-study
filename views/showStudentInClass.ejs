@@ -20,27 +20,28 @@
 <table class="table">
   <thead>
     <tr>
+      <th class="text-center" scope="col">姓名</th>
+      <th class="text-center" scope="col">科系</th>
+      <th class="text-center" scope="col">學號</th>
+      <th class="text-center" scope="col">信箱</th>
+      <th class="text-center" scope="col">個人網頁</th>
       <th>
         <%temp = 0%>
         <%users.forEach(function(userss){%>
         <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
         <center>
-          <button class="btn btn-danger btn-sm" onclick="deleteclick()">刪除</button>
+          <button class="btn btn-outline-danger btn-sm deleteclick" id="div">刪除</button>
         </center>
         <%}%>
         <%temp++%>
         <%})%>
         <%if(classinfo.teacher == user._id){%>
         <center>
-          <button class="btn btn-danger btn-sm" onclick="deleteclick()">刪除</button>
+          <button class="btn btn-outline-danger btn-sm deleteclick" id="div">刪除</button>
         </center>
         <%}%>
       </th>
-      <th class="text-center" scope="col">姓名</th>
-      <th class="text-center" scope="col">科系</th>
-      <th class="text-center" scope="col">學號</th>
-      <th class="text-center" scope="col">信箱</th>
-      <th class="text-center" scope="col">個人網頁</th>
+
     </tr>
   </thead>
   <tbody>
@@ -48,11 +49,6 @@
     <%users.forEach(function(user){%>
     <%if(students[temp].permission !='00000'){%>
     <tr>
-      <td class="text-center" style="width:120px;">
-          <div class="text-danger" id="delStudent<%=temp%>" style="padding:8px">
-              <input type="checkbox" value="<%=students[temp].studentID%>">
-          </div>
-      </td>
       <td class="text-center">
         <%=user.name%>
       </td>
@@ -68,7 +64,14 @@
       <td class="text-center">
         <a href="/class/<%=classID%>/showClassmateInfo/<%=user._id%>">個人網頁Personal WebPage</a>
       </td>
+      <td class="text-center" style="width:120px;">
+        <div class="text-danger deletehandler alert alert-dismissible" id="deleteStudent<%=temp%>" data-id="<%=user._id%>"
+          onclick="del(<%=temp%>)" style="display:none;margin:0px 5px;width:30px;">
+          <a aria-hidden="true" class="close" style="padding:0px;">&times;</a>
+        </div>
+      </td>
     </tr>
+
     <%}%>
     <%temp++%>
     <%})%>
@@ -76,21 +79,34 @@
 </table>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
 <script>
-  function deleteclick() {
-      var del = [];
-      $("input[type=checkbox]:checked").each(function () {
-          del.push($(this).val());
-      });
-      console.log(del.length);
-      if (del.length == 0) {
-          alert('勾選學生後才能進行刪除');
+  $(document).ready(function () {
+    $(".deleteclick").click(function () {
+      $(".deletehandler").toggle();
+      if ($("#div").hasClass('btn-outline-danger')) {
+        $(".btn-outline-danger").attr("class", "btn btn-danger btn-sm deleteclick ");
       } else {
-          result = window.confirm("你確定刪除這些學生嗎？");
-          if (result == true) {
-            window.location = "/class/deleteStudent/" + del + "/unit/<%=classID%>"
-          } else {}
+        $(".btn-danger").attr("class", "btn btn-outline-danger btn-sm deleteclick");
       }
-
+      return false;
+    })
+  });
+  $(document).click(function (event) {
+    //console.log("点击其他地方執行影藏");
+    var deletecancel = $(".deletehandler");
+    if (deletecancel.is(":visible") && (!deletecancel.is(event.target) && deletecancel.has(event.target).length ===
+        0)) {
+      deletecancel.hide();
+      $(".btn-danger").attr("class", "btn btn-outline-danger btn-sm deleteclick");
+    }
+  });
+</script>
+<script>
+  function del(num) {
+    var dataid = $('#deleteStudent' + num).data('id');
+    result = window.confirm("你確定要刪除這位學生嗎？");
+    if (result == true) {
+      window.location = "/class/deleteStudent/" + dataid + "/unit/<%=classID%>";
+    } else {}
   }
 </script>
 <script>
