@@ -1048,16 +1048,16 @@
     function editQution(id){
       console.log(QuationList[id]);
       if(QuationList[id].type == "選擇題"){
-        editMCQ(QuationList[id]);
+        editMCQ(QuationList[id],id);
       }
       if(QuationList[id].type == "是非題"){
         editYNQ(QuationList[id],id);
       }
       if(QuationList[id].type == "填空題"){
-
+        editFBQ(QuationList[id],id);
       }
       if(QuationList[id].type == "程式題"){
-
+        editPGQ(QuationList[id],id);
       }
     }
 
