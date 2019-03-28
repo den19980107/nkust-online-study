@@ -47,7 +47,7 @@
 
 
 <div class="modal-footer p-0">
-    <input type="number" id="score" class="form-control" placeholder="請輸入配分">
+    <input type="number" id="FBQscore" class="form-control" placeholder="請輸入配分">
     <button type="button" class="btn btn-secondary" onclick="PGQcreateNewQution()">新增題目</button>
 </div>
 
@@ -61,11 +61,11 @@
     let outpute = document.getElementById('output-example');
     let inputts = document.getElementById('input-test');
     let outputts = document.getElementById('output-test');
-    let score = document.getElementById('score');
+    let score = document.getElementById('FBQscore');
 
     let answer = {
         type: '程式題',
-        title: title.value,
+        qutionName: title.value,
         inputDescription: inputd.value,
         outputDescription: outputd.value,
         inputExample: inpute.value,
