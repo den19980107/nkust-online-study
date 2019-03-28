@@ -794,7 +794,7 @@
     let FBQ = document.getElementById('FBQ');
     let PGQ = document.getElementById('PGQ');
     let changeTypeOfQution = function functionName(e) {
-
+      console.log("onchange");
       if(e.value == "選擇題"){
         MCQ.style.cssText = "display:block";
         YNQ.style.cssText = "display:none";
@@ -832,7 +832,6 @@
       let indexofQution = 0;
       QuationList.forEach(function(newQution){
         if (newQution.type == '選擇題') {
-
             // <div class="alert alert-warning alert-dismissible fade show" role="alert">
             //     <h5>題目類型：選擇題</h5>
             //     <h6>題目：我有10顆蘋果吃了兩顆請問還剩幾科</h6>
@@ -1049,15 +1048,19 @@
       console.log(QuationList[id]);
       if(QuationList[id].type == "選擇題"){
         editMCQ(QuationList[id],id);
+        changeTypeOfQution({value:"選擇題"})
       }
       if(QuationList[id].type == "是非題"){
         editYNQ(QuationList[id],id);
+        changeTypeOfQution({value:"是非題"})
       }
       if(QuationList[id].type == "填空題"){
         editFBQ(QuationList[id],id);
+        changeTypeOfQution({value:"填空題"})
       }
       if(QuationList[id].type == "程式題"){
         editPGQ(QuationList[id],id);
+        changeTypeOfQution({value:"程式題"})
       }
     }
 
