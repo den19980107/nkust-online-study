@@ -11,9 +11,10 @@
         background-clip: padding-box;
         border: 1px solid #ced4da;
         border-radius: .25rem;
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         display: inline;
     }
+
     body {
         padding-bottom: 20px;
     }
@@ -24,17 +25,20 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
     .clear {
         clear: left;
     }
-    .p2{
+
+    .p2 {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
-        margin-bottom: 1rem       
+        margin-bottom: 1rem
     }
+
     .card:hover {
         box-shadow: 0px 0px 30px #686666;
         z-index: 2;
@@ -47,28 +51,32 @@
         transition: all 200ms ease-in;
         transform: scale(1.01);
     }
+
     .box {
-    background:#ccc;
-    position:relative;
-    overflow:hidden;
-    margin: 0px;
+        background: #ccc;
+        position: relative;
+        overflow: hidden;
+        margin: 0px;
     }
+
     .box:after {
         padding-top: 56.25%;
-        content:"";
+        content: "";
         display: block;
     }
+
     .img {
-        position:absolute;
-        top:0;
-        bottom:0;
-        right:0;
-        left:0;
-        max-width:100%;
-        margin:auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        max-width: 100%;
+        margin: auto;
     }
+
     @media only screen and (max-width: 768px) {
-        .submit{
+        .submit {
             width: 100%
         }
     }
@@ -80,7 +88,8 @@
         <form id="classinfoForm" method="POST" action="/class/CreateNewClass" enctype="multipart/form-data">
             <h5>課程名稱 <small style="color: red">*</small></h5>
             <%if(locals.title){%>
-            <input type="text" class="form-control" name="title" id="title" value="<%=title%>" style="margin-bottom: 10px;">
+            <input type="text" class="form-control" name="title" id="title" value="<%=title%>"
+                style="margin-bottom: 10px;">
             <%}else{%>
             <input type="text" class="form-control" name="title" id="title" style="margin-bottom: 10px;">
             <%}%>
@@ -88,20 +97,24 @@
             <div class="md-form" style="margin-bottom: 10px;">
                 <!-- locals的功能等於typeof(xxx)就是有說定這個變數存不存在 -->
                 <%if(locals.outline){%>
-                <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10" style="resize: none"><%=outline%></textarea>
-                <%}else{%>
-                <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10" style="resize: none"></textarea>
-                <%}%>
+            <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10"
+                style="resize: none"><%=outline%></textarea>
+            <%}else{%>
+            <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10"
+                style="resize: none"></textarea>
+            <%}%>
             </div>
             <h5>課程學分數</h5>
             <%if(locals.credit){%>
-            <input type="number" value="<%=credit%>" class="form-control" name="credit" min="0" value="0" style="margin-bottom: 10px;">
+            <input type="number" value="<%=credit%>" class="form-control" name="credit" min="0" value="0"
+                style="margin-bottom: 10px;">
             <%}else{%>
             <input type="number" class="form-control" name="credit" min="0" value="0" style="margin-bottom: 10px;">
             <%}%>
             <h5>上課教室</h5>
             <%if(locals.classroom){%>
-            <input type="text" value="<%=classroom%>" class="form-control" name="classroom" style="margin-bottom: 10px;">
+            <input type="text" value="<%=classroom%>" class="form-control" name="classroom"
+                style="margin-bottom: 10px;">
             <%}else{%>
             <input type="text" class="form-control" name="classroom" style="margin-bottom: 10px;">
             <%}%>
@@ -135,7 +148,7 @@
         </form>
     </div>
     <div class="col-lg-3 col-sm-12">
-        <h5>預覽</h5>
+        <h5>預覽<small style="color: rgb(192, 189, 189)"> 此時課程尚未建立</small></h5>
         <!-- <div class="card mx-auto" style="width: 22rem;">
 
             <img class="card-img-top bg-light" style="height: 14rem">
@@ -197,7 +210,32 @@
         let endTime = document.getElementById('endTime');
         let selectedTimeDiv = document.getElementById('selectedTime');
         selectedTimeDiv.innerHTML = '';
-        chooseClassTime.push(weekday.value + ' ' + beginTime.value + '~' + endTime.value);
+        let beginTimeText,endTimeText;
+        if(parseInt(beginTime.value)<12){
+            beginTimeText ="上午"+beginTime.value 
+        }else if(parseInt(beginTime.value)>=12){
+            let h //時
+            let m //分鐘
+            h = parseInt(beginTime.value)-12;
+            if(h<10){
+                h = "0"+h
+            }
+            m =  beginTime.value.split(":")[1];
+            beginTimeText ="下午"+h+":"+m
+        }
+        if(parseInt(endTime.value)<12){
+            endTimeText ="上午"+endTime.value 
+        }else if(parseInt(endTime.value)>=12){
+            let h //時
+            let m //分鐘
+            h = parseInt(endTime.value)-12;
+            if(h<10){
+                h = "0"+h
+            }
+            m =  endTime.value.split(":")[1];
+            endTimeText ="下午"+h+":"+m
+        }
+        chooseClassTime.push(weekday.value + ' ' + beginTimeText+ '~' + endTimeText);
         console.log(chooseClassTime);
         chooseClassTimeLabel.innerHTML = chooseClassTime
         chooseClassTimeLabel.value = chooseClassTime;

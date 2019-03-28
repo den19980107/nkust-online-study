@@ -1,8 +1,8 @@
 <% include layout/header %>
 
-<h1>
+<h3>
     登入
-</h1>
+</h3>
 <form method="POST" action="/users/login">
     <div class="form-group">
         <label>帳號:</label>
@@ -15,9 +15,6 @@
     <input type="submit" class="btn btn-primary" value="登入">
 </form>
 <script>
-    window.onload = function () {
-        let singinLink = document.getElementById('singinLink')
-        singinLink.style.cssText = "display:none";
-    }
+    
 </script>
 <% include layout/footer %>

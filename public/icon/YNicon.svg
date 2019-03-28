@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="65px" viewBox="0 0 54 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(0.000000, 1.000000)">
+            <text id="Y" stroke="#000000" font-family="PingFangTC-Medium, PingFang TC" font-size="30" font-weight="400" letter-spacing="2.046664" fill="#000000">
+                <tspan x="1" y="32">Y</tspan>
+            </text>
+            <text id="N" stroke="#000000" font-family="PingFangTC-Medium, PingFang TC" font-size="30" font-weight="400" letter-spacing="2.046664" fill="#000000">
+                <tspan x="29" y="53">N</tspan>
+            </text>
+            <path d="M48.5,9.5 L1,54.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,65 @@
+
+  <div class="form-group row title">
+      <label class="col-sm-3 col-form-label">題目:</label>
+      <div class="col-sm-9 title-col">
+          <input type="text" id ="qutionName" class="form-control title-text" placeholder="請輸入題目" required="required">
+      </div>
+  </div>
+  <div class="form-group row">
+      <label class="col-sm-3 col-form-label">答案:</label>
+      <div class="col-sm-9" id="createDiv" >
+          <input type="text" id="0" class="form-control" placeholder="請輸入正確答案" style="margin:0px 0px 5px 0px" required="required">
+      </div>
+  </div>
+  <div class="form-group row" style = "display: flex;justify-content: flex-end;">
+    <button type="button" class="btn btn-outline-primary float-right" onclick="addElement()" style="margin-right: 1rem">新增正確答案</button>
+  </div>
+  <div class="modal-footer">
+      <input type="number" id="score" class="form-control" placeholder="請輸入配分" required="required">
+      <button type="button" class="btn btn-secondary" onclick="createNewQuestion()">新增題目</button>
+  </div>
+<script>
+  var length = 1;
+    function addElement () {
+        var newDiv = document.createElement("input");
+        newDiv.type="text";
+        newDiv.id=length;
+        newDiv.className="form-control";
+        newDiv.placeholder="請輸入正確答案";
+        newDiv.style="margin:0px 0px 5px 0px";
+        newDiv.required="required";
+        length += 1;
+        newDiv.innerHTML="";
+        var currentDiv = document.getElementById("createDiv");
+        currentDiv.appendChild(newDiv);
+    }
+    let createNewQuestion = function(){
+       let qutionName = document.getElementById("qutionName");
+       let score = document.getElementById("score");
+       let correctAnswers = [];
+       let i;
+       for(i=0;i<length;i++){
+           let answer = document.getElementById(i);
+           correctAnswers[i]=answer.value;
+       }
+       let question = {
+           type: "填空題",
+           qutionName: qutionName.value,
+           correctAnswers:correctAnswers,
+           studentAnswer:false,
+           score: score.value
+       }
+       console.log("------------檢查----------");
+       console.log(question);
+       updateCreatedQutionList(question);
+       var currentDiv = document.getElementById('createDiv');
+       qutionName.value = '';
+       score.value = '';
+       for(i=0;i<length;i++){
+           var removeElement = document.getElementById(i);
+           document.getElementById(i).value='';
+           if(i!=0) currentDiv.removeChild(removeElement);
+       }
+       length=1;
+   }
+</script>

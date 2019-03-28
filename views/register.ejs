@@ -1,14 +1,14 @@
 <% include layout/header %>
 <style>
     @media only screen and (max-width: 768px) {
-            .submit{
-                width: 100%
-            }
+        .submit {
+            width: 100%
         }
+    }
 </style>
-<h1>
+<h3>
     註冊
-</h1>
+</h3>
 <form method="POST" action="/users/register">
     <div id="remember_form">
         <div class="form-group">
@@ -88,9 +88,6 @@
 <!--執行程式碼-->
 <script>
     $("#remember_form").sisyphus();
-    window.onload = function () {
-        let registeLink = document.getElementById('registeLink')
-        registeLink.style.cssText = "display:none";
-    }
+  
 </script>
 <% include layout/footer %>

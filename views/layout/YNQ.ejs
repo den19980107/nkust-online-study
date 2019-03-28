@@ -1,0 +1,109 @@
+<div class="form-group row title">
+    <label class="col-sm-3 col-form-label">題目</label>
+    <div class="col-sm-9 title-col">
+        <input type="text" id ="YNQtitle" class="form-control title-text" placeholder="請輸入題目">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-3 col-form-label">答案</label>
+    <div class="col-sm-9" >
+        <input id ="YNQyes" style="margin-top:0.7rem" type="radio" onchange="check(this)" name="check" checked >  是</input>
+        <input id ="YNQno"class="ml-2" style="margin-top:0.7rem" onchange="check(this)"type="radio" name="check" >  否</input>
+    </div>
+</div>
+<div class="modal-footer p-0">
+    <input type="number" id="YNQscore" class="form-control" placeholder="請輸入配分">
+    <button type="button" id = "YNQaddQution" class="btn btn-secondary" onclick="YNQcreateNewQution()">新增題目</button>
+    <button type="button" id = "YNQeditQution" style="display:none" class="btn btn-secondary" onclick="YNQeditQution()">儲存變更</button>
+</div>
+<script>
+  let nowcheck = "yes";
+  let check = function(e){
+    let YNQyes = document.getElementById('YNQyes');
+    let YNQno = document.getElementById('YNQno');
+    if(e.id == "YNQyes"){
+      nowcheck = "yes";
+    }else if(e.id == "YNQno"){
+      nowcheck = "no";
+    }
+    console.log(nowcheck);
+  }
+  let YNQcreateNewQution = function(){
+    let title = document.getElementById('YNQtitle');
+    let YNQyes = document.getElementById('YNQyes');
+    let YNQno = document.getElementById('YNQno');
+    let correctAnswers = "";
+    let YNQscore = document.getElementById('YNQscore');
+    correctAnswers = nowcheck;
+    if(YNQscore.value == ""){
+      score = "未設定";
+    }else{
+      score = parseInt(YNQscore.value);
+    }
+    let test = {
+        type: "是非題",
+        qutionName: title.value,
+        correctAnswers: nowcheck,
+        score: score
+    }
+    updateCreatedQutionList(test);
+    title.value = "";
+    YNQscore.value = "";
+  }
+  let YNQeditQutionID = "";
+  let editYNQ = function(qutionData,id){
+    YNQeditQutionID = id;
+    let title = document.getElementById('YNQtitle');
+    let YNQyes = document.getElementById('YNQyes');
+    let YNQno = document.getElementById('YNQno');
+    let YNQscore = document.getElementById('YNQscore');
+    let YNQaddQution = document.getElementById('YNQaddQution');
+    let YNQeditQution = document.getElementById('YNQeditQution');
+    YNQaddQution.style.cssText = "display:none";
+    YNQeditQution.style.cssText = "display:block";
+    title.value = qutionData.qutionName;
+    if(qutionData.correctAnswers == "yes"){
+      console.log("inyes");
+      YNQyes.checked = true;
+      YNQno.checked = false;
+    }
+    if(qutionData.correctAnswers == "no"){
+      console.log("inno");
+      YNQyes.checked = false;
+      YNQno.checked = true;
+    }
+    if(qutionData.score == "未設定"){
+      YNQscore.value = "";
+    }else{
+      YNQscore.value = parseInt(qutionData.score);
+    }
+  }
+
+  let YNQeditQution = function(){
+    let title = document.getElementById('YNQtitle');
+    let YNQyes = document.getElementById('YNQyes');
+    let YNQno = document.getElementById('YNQno');
+    let YNQaddQution = document.getElementById('YNQaddQution');
+    let YNQeditQution = document.getElementById('YNQeditQution');
+    let correctAnswers = "";
+    let YNQscore = document.getElementById('YNQscore');
+    correctAnswers = nowcheck;
+    if(YNQscore.value == ""){
+      score = "未設定";
+    }else{
+      score = parseInt(YNQscore.value);
+    }
+    let test = {
+        type: "是非題",
+        qutionName: title.value,
+        correctAnswers: nowcheck,
+        score: score
+    }
+    QuationList[YNQeditQutionID] = test;
+    updateQutionList();
+    YNQaddQution.style.cssText = "display:block";
+    YNQeditQution.style.cssText = "display:none";
+    title.value = "";
+    YNQscore.value = "";
+  }
+</script>

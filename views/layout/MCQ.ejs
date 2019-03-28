@@ -1,0 +1,123 @@
+<style>
+  .input-border{
+      border-width: 0 0 1px 0;
+  }
+</style>
+<div class="container pb-2 pt-2" id="MCD">
+  <div class="form-group row title">
+      <label class="col-sm-2 col-form-label">題目：</label>
+      <div class="col-sm-10 title-col">
+          <input type="text" class="form-control title-text" placeholder="請輸入題目" id="question-value">
+      </div>
+  </div>
+  <div class="form-group row">
+      <label class="col-sm-2 col-form-label">答案：</label>
+  </div>
+  <div class="setanswer" style="height:auto">
+    <div class="form-group row answer1">
+        <div class="col-sm-1 answer1-check-col">
+            <input type="radio" onclick="checkAnswerCheck(1)" class="form-control" id="status1" data-id="111">
+        </div>
+        <div class="col-sm-10" >
+            <input type="text" class="form-control input-border" placeholder="請輸入選項內容" id="answer1-value">
+        </div>
+        <div class="col-sm-1 form-control" style="background: none;border: none">
+          <button class="close">
+              <span style="padding:0px;" onclick="Answerremove(1)">&times;</span>
+          </button>
+        </div>
+    </div>
+  </div>
+  <div>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <input type="radio" class="form-control" onclick="return false">
+        </div>
+        <div class="col-sm-10" style="padding:5px 15px">
+            <span style="width:120px;color:blue;cursor:context-menu;" onclick="addanswer()">新增選項</span>
+        </div>
+    </div>
+  </div>
+  <div class="form-group row">
+      <div class="col-sm-9" >
+          <input type="text" class="form-control" placeholder="請輸入配分" id="score-value">
+      </div>
+      <div class="col-sm-1" >
+          <button class="btn btn-secondary" onclick="createNewQution()">新增題目</button>
+      </div>
+  </div>
+</div>
+<script>
+let temp = 1
+function addanswer(){
+  temp +=1
+  $('.setanswer').append(`<div class="form-group row answer`+temp+`">
+      <div class="col-sm-1 answer`+temp+`-check-col">
+          <input type="radio" onclick="checkAnswerCheck(`+temp+`)" class="form-control" id="status`+temp+`" data-id="111">
+      </div>
+      <div class="col-sm-10" >
+          <input type="text" class="form-control input-border" placeholder="請輸入選項內容" id="answer`+temp+`-value">
+      </div>
+      <div class="col-sm-1 form-control" style="background: none;border: none">
+          <button class="close">
+              <span style="padding:0px;" onclick="Answerremove(`+temp+`)">&times;</span>
+          </button>
+      </div>
+  </div>`)
+}
+function checkAnswerCheck(e) {
+    let checkstatus = document.getElementById("status" + e)
+    let data = $("#status" + e).attr("data-id")
+    if(data == "111"){
+        checkstatus.checked = true
+        $("#status" + e).attr("data-id", "222")
+    }else{
+        checkstatus.checked = false
+        $("#status" + e).attr("data-id", "111")
+    }
+}
+function Answerremove(del){
+    $(".answer" + del).remove();
+}
+function createNewQution(){
+    //if (MCQ.checked) {
+      let qutionName = document.getElementById('question-value')
+      let selection = []
+      for(let i = 1 ; i <= temp ; i++){
+        if(document.getElementById("answer"+i+"-value")!=null){
+          let selectanswer =  document.getElementById("answer"+i+"-value")
+          selection.push(selectanswer.value)
+        }
+      }
+      let correctAnswers = []
+      for(let j = 1 ; j <= temp ; j++){
+        if(document.getElementById("answer"+j+"-value")!=null){
+          let data = $("#status" + j).attr("data-id")
+          if(data == "222"){
+            let selectanswer =  document.getElementById("answer"+j+"-value")
+            correctAnswers.push(selectanswer.value)
+          }
+        }
+      }
+      let score = document.getElementById('score-value')
+      let answer = {
+          type: '選擇題',
+          qutionName: qutionName.value,
+          selection:  selection,
+          correctAnswers: correctAnswers,
+          score: score.value
+      }
+      console.log(answer)
+      updateCreatedQutionList(answer);
+      //還原
+      document.getElementById("score-value").value = ""
+      document.getElementById("answer1-value").value = ""
+      document.getElementById("status1").checked = false
+      $("#status1").attr("data-id", "111")
+      for(let i = temp;i > 1 ; i--){
+        $(".answer" + i).remove();
+      }
+      temp = 1
+    //}
+}
+</script>

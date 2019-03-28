@@ -60,7 +60,7 @@
         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
         display: inline;
     }
-    
+
 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.0/css/all.css">
@@ -187,10 +187,14 @@
         <%classStudentNumber++%>
         <%}%>
         <%}%>
-        <h5 id="classStudentNumber">課程人數：
+        <h5 id="classStudentNumber" style = "height:36px">課程人數：
             <%=classStudentNumber%>
         </h5>
         <ul class="list-group">
+            <li class="list-group-item  text-center  list-group-item-action active">授課教師
+            </li>
+            <li class="list-group-item list-group-item-action" style="line-height: 24px;"><%=teacher.name%></li>
+
             <div id="classtimelist">
                 <li class="list-group-item  text-center  list-group-item-action active">上課時間
                     <%if(user._id == classinfo.teacher){%>
@@ -262,17 +266,17 @@
             let classtime = [];
             classtime = data.split(',');
             let classtimelist = document.getElementById('classtimelist');
-            
-            
+
+
             if (data.length == 0) {
                 let li = document.createElement('li');
                 li.className = "list-group-item list-group-item-action";
                 li.style.cssText = "line-height:24px";
                 li.innerHTML = '未設定';
-                
+
                 // if (isTeacher == "true"|| (thisAssisten != null && thisAssisten.permission[3]=="A")) {
                 //     console.log(0);
-                    
+
                 //     li.innerHTML +=
                 //         `<i class="fas fa-pen ml-2 float-right" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;margin-right:-0.15rem"
                 //     onclick="updateClassInfo('classTime')"></i>`
@@ -285,7 +289,7 @@
                     li.className = "list-group-item list-group-item-action";
                     li.style.cssText = "line-height:24px";
                     li.innerHTML = classtime[i];
-                    
+
                     // if(isTeacher == "true"||(thisAssisten != null && thisAssisten.permission[3]=="A")) {
                     //     console.log(1);
                     //     li.innerHTML +=
