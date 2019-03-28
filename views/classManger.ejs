@@ -421,7 +421,7 @@
                     <div class="modal-dialog" style="width: 70%;max-width: 70%;" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLongTitle">新增測驗</h5>
+                              <h5 class="modal-title" id="TestORHomeWork">新增測驗</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                               </button>
@@ -430,9 +430,9 @@
                               <div class="row pr-3" style="height:75%">
                                       <div class="col-5 h-100">
                                           <div class="form-group row mb-0" style="height:10%">
-                                              <label for="staticEmail" class="col-sm-3 col-form-label">測驗名稱</label>
+                                              <label for="staticEmail" id="testName" class="col-sm-3 col-form-label">測驗名稱</label>
                                               <div class="col-sm-9">
-                                                  <input class="form-control" type="text" placeholder="請輸入測驗名稱">
+                                                  <input class="form-control"id="testNameinput" type="text" placeholder="請輸入測驗名稱">
                                               </div>
                                           </div>
                                           <div class="form-group row mb-0"style="height:10%">
@@ -549,25 +549,27 @@
 <script>
     let TestORHomeWorkMode = ""
     let HomeWorkModel = function () {
-        // let exampleModalLabel = document.getElementById('exampleModalLabel');
-        // exampleModalLabel.innerHTML = "新增作業";
-        // let testnameLabel = document.getElementById('testnameLabel');
-        // testnameLabel.innerHTML = "作業名稱";
-        // let testName = document.getElementById('testName');
-        // testName.placeholder = "請輸入作業名稱";
-        // TestORHomeWorkMode = "HomeWork";
-        // console.log(TestORHomeWorkMode);
+      console.log("home");
+        let exampleModalLabel = document.getElementById('TestORHomeWork');
+        exampleModalLabel.innerHTML = "新增作業";
+        let testnameLabel = document.getElementById('testName');
+        testnameLabel.innerHTML = "作業名稱";
+        let testName = document.getElementById('testNameinput');
+        testName.placeholder = "請輸入作業名稱";
+        TestORHomeWorkMode = "HomeWork";
+        console.log(TestORHomeWorkMode);
 
     }
     let TestModel = function () {
-        // let exampleModalLabel = document.getElementById('exampleModalLabel');
-        // exampleModalLabel.innerHTML = "新增測驗"
-        // let testnameLabel = document.getElementById('testnameLabel');
-        // testnameLabel.innerHTML = "測驗名稱";
-        // let testName = document.getElementById('testName');
-        // testName.placeholder = "請輸入測驗名稱";
-        // TestORHomeWorkMode = "Test"
-        // console.log(TestORHomeWorkMode);
+      console.log("asd");
+        let exampleModalLabel = document.getElementById('TestORHomeWork');
+        exampleModalLabel.innerHTML = "新增測驗"
+        let testnameLabel = document.getElementById('testName');
+        testnameLabel.innerHTML = "測驗名稱";
+        let testName = document.getElementById('testNameinput');
+        testName.placeholder = "請輸入測驗名稱";
+        TestORHomeWorkMode = "Test"
+        console.log(TestORHomeWorkMode);
 
     }
 
@@ -965,8 +967,7 @@
               p.appendChild(input)
             }
             let p3 = document.createElement('p');
-            let score = document.getElementById('score');
-            p3.innerText = '配分：' + score.value;
+            p3.innerText = '配分：' + newQution.score;
             let btn = document.createElement('button');
             btn.className = 'close';
             btn.setAttribute("data-dismiss", "alert");
@@ -1008,7 +1009,7 @@
             let h5 = document.createElement('h5');
             h5.innerText = "題目類型：程式題";
             let h6 = document.createElement('h6');
-            h6.innerText = `題目：${newQution.title}`;
+            h6.innerText = `題目：${newQution.qutionName}`;
             let p1 = document.createElement('p');
             p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
             let p2 = document.createElement('p');
@@ -1019,8 +1020,7 @@
             p4.innerHTML = `輸出範例：\n${newQution.outputExample}`;
             let btn = document.createElement('button');
             let p5 = document.createElement('p');
-            let score = document.getElementById('score');
-            p5.innerText = '配分：' + score.value;
+            p5.innerText = '配分：' + newQution.score;
             btn.className = 'close';
             // btn.attributes = 'data-dismiss="alert" aria-label="Close" qutionID=' + QuationList.length - 1;
             btn.setAttribute("data-dismiss", "alert");
@@ -1068,7 +1068,7 @@
 
     function saveQutionList() {
         QuationList = QuationList.filter(list => list != '');
-        let testName = document.getElementById('testName');
+        let testName = document.getElementById('testNameinput');
         let unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
 
         let testinfo = {

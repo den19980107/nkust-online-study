@@ -32,62 +32,57 @@
 <%}%>
 
 <hr>
+
 <div class="col-md-12">
     <%let i = 0%>
     <%test.testQutions.forEach(function(qution){%>
     <%i++%>
     <div class="qution" id="qution<%=i%>">
 
-        <%if(qution.type=='MCQ'){%>
+        <%if(qution.type=='選擇題'){%>
         <p style="font-size: 20px">題目:
-            <%=qution.title%> （選擇題）
+            <%=qution.qutionName%> （選擇題）
         </p>
         <div>
             <div class="row">
-                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','A','<%=i%>')" type="radio"> A:
-                    <%=qution.answerA.text%>
-                </div>
-                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','B','<%=i%>')" type="radio"> B:
-                    <%=qution.answerB.text%>
-                </div>
-                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','C','<%=i%>')" type="radio"> C:
-                    <%=qution.answerC.text%>
-                </div>
-                <div class="col-2"><input name="textmode" onclick="onAnswer('MCQ','D','<%=i%>')" type="radio"> D:
-                    <%=qution.answerD.text%>
-                </div>
+                <%let MCQindex = 0%>
+                <%qution.selection.forEach(function(selection){%>
+                  <div class="col-2"><input class="radioClick" onclick="onAnswer('MCQ','<%=i%>','<%=MCQindex%>')" type="radio">
+                      <%=selection%>
+                  </div>
+                <%MCQindex+=1%>
+                <%})%>
+
             </div>
             <br />
-            <p>(配分:
-                <%=qution.score%>)</p>
+            <p>(配分:<%=qution.score%>)</p>
         </div>
 
         <%}%>
 
-        <%if(qution.type=='YNQ'){%>
+        <%if(qution.type=='是非題'){%>
         <p style="font-size: 20px">題目:
-            <%=qution.title%> （是非題）
+            <%=qution.qutionName%> （是非題）
         </p>
         <div>
             <div class="row">
-                <div class="col-2"><input name="textmode1" onclick="onAnswer('YNQ','yes','<%=i%>')" type="radio"> yes</div>
-                <div class="col-2"><input name="textmode1" onclick="onAnswer('YNQ','no','<%=i%>')" type="radio"> no</div>
+                <div class="col-2"><input class="radioClick" name="textmode1" onclick="onAnswer('YNQ','<%=i%>','yes')" type="radio"> 是</div>
+                <div class="col-2"><input class="radioClick" name="textmode1" onclick="onAnswer('YNQ','<%=i%>','no')" type="radio"> 否</div>
             </div>
             <br />
-            <p>(配分:
-                <%=qution.score%>)</p>
+            <p>(配分:<%=qution.score%>)</p>
         </div>
         <%}%>
 
-        <%if(qution.type=='FBQ'){%>
+        <%if(qution.type=='填空題'){%>
         <p style="font-size: 20px">題目:
-            <%=qution.title%> （填空題）
+            <%=qution.qutionName%> （填空題）
         </p>
         <div>
             <div class="form-group row">
                 <div class="col">
                     <label for="inputEmail3" class=" col-form-label">請輸入答案:</label>
-                    <input type="text" id='FBQanswer<%=i%>' class="form-control" onkeyup="onAnswer('FBQ','null','<%=i%>')">
+                    <input type="text" id='FBQanswer<%=i%>' class="form-control" onkeyup="onAnswer('FBQ','<%=i%>','null')">
                 </div>
 
             </div>
@@ -96,9 +91,9 @@
         </div>
         <%}%>
 
-        <%if(qution.type=='PGQ'){%>
+        <%if(qution.type=='程式題'){%>
         <p style="font-size: 20px">題目:
-            <%=qution.title%> （程式題）
+            <%=qution.qutionName%>（程式題）
         </p>
         <div>
             <p>輸入說明:
@@ -140,13 +135,12 @@
                             <pre id="output<%=i%>"></pre>
                         </div>
                     </div>
-                    <button class="btn btn-primary mt-1 float-right" onclick="compile(<%=i%>)">編譯</button>
+                    <button class="btn btn-primary mt-1 float-right" onclick="onAnswer('PGQ','<%=i%>','null');compile(<%=i%>);">編譯</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <p>(配分:
-                        <%=qution.score%>)
+                    <p>(配分:<%=qution.score%>)
                     </p>
                 </div>
             </div>
@@ -168,22 +162,59 @@
 
 
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script>
     let answerArray = [];
-    let onAnswer = function (qutionType, answer, qutionNumber) {
-        console.log(qutionType + ' ' + answer + ' ' + qutionNumber);
+    $('input[type=radio]').click(function(){
+        if (this.previous) {
+            this.checked = false;
+        }
+        this.previous = this.checked;
+    });
+    let onAnswer = function (qutionType, qutionNumber, answer) {
+        console.log(qutionType,answer,qutionNumber);
+        // console.log(qutionType + ' ' + answer + ' ' + qutionNumber);
         if (qutionType == 'MCQ') {
-            answerArray[qutionNumber - 1] = answer
+            console.log(qutionNumber);
+            if(answerArray[qutionNumber-1]==undefined){
+              answerArray[qutionNumber-1] = {studentAnswer:[]}
+              answerArray[qutionNumber-1].studentAnswer[answer]="1"
+            }else{
+              if(answerArray[qutionNumber-1].studentAnswer[answer]==="1"){
+                  answerArray[qutionNumber-1].studentAnswer[answer]="0";
+              }else{
+                  answerArray[qutionNumber-1].studentAnswer[answer]="1";
+              }
+            }
         }
         if (qutionType == 'YNQ') {
-            answerArray[qutionNumber - 1] = answer
+          if(answerArray[qutionNumber-1]==undefined){
+            answerArray[qutionNumber-1] = {studentAnswer:""}
+            answerArray[qutionNumber-1].studentAnswer=answer
+          }else{
+            answerArray[qutionNumber-1].studentAnswer=answer
+          }
         }
         if (qutionType == 'FBQ') {
-            let answerText = document.getElementById('FBQanswer' + qutionNumber).value;
-            answerArray[qutionNumber - 1] = answerText
+          let answerText = document.getElementById('FBQanswer'+qutionNumber).value;
+          if(answerArray[qutionNumber-1]==undefined){
+            answerArray[qutionNumber-1] = {studentAnswer:""}
+            answerArray[qutionNumber-1].studentAnswer=answerText
+          }else{
+            answerArray[qutionNumber-1].studentAnswer=answerText
+          }
         }
         if (qutionType == 'PGQ') {
-            answerArray[qutionNumber - 1] = answer
+          let code = document.getElementById('code'+qutionNumber).value;
+          let language =document.getElementById('language'+qutionNumber).value;
+          if(answerArray[qutionNumber-1]==undefined){
+            answerArray[qutionNumber-1] = {studentAnswer:"",language:""}
+            answerArray[qutionNumber-1].studentAnswer=code
+            answerArray[qutionNumber-1].language = language
+          }else{
+            answerArray[qutionNumber-1].studentAnswer=code;
+            answerArray[qutionNumber-1].language = language
+          }
         }
         console.log(answerArray);
 
@@ -201,7 +232,6 @@
             language: language.value,
             id: "001"
         }
-        console.log(scriptData);
 
         var socket = io();
         socket.emit('script', scriptData);
@@ -210,11 +240,11 @@
             console.log(obj);
             output.innerHTML = "輸出:\n" + obj.body.output;
 
-            //記錄到答案中
-            onAnswer('PGQ', {
-                scriptData: scriptData,
-                output: obj.body.output
-            }, qutionNumber);
+            // //記錄到答案中
+            // onAnswer('PGQ', {
+            //     scriptData: scriptData,
+            //     output: obj.body.output
+            // }, qutionNumber);
         });
         //為了讓textarea - script 按下tab的時候不會自己切去另一個textarea
         script.onkeydown = function (e) {
@@ -258,7 +288,12 @@
     let finishTest = function () {
         let qutions = <%- JSON.stringify(test) %>
         for (let i = 0; i < qutions.testQutions.length; i++) {
-            qutions.testQutions[i].userAnswer = answerArray[i]
+            if(qutions.testQutions[i].type=="程式題"){
+                qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
+                qutions.testQutions[i].language = answerArray[i].language
+            }else{
+                qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
+            }
         }
         qutions.writer = "<%=user._id%>"
         console.log(qutions);

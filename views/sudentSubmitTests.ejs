@@ -67,13 +67,13 @@
         list-style: none;
         margin-bottom: 0.6rem
     }
-    
+
     .studentUl{
         width: 100%;
         padding: 0;
         height: 30rem;
         overflow-y: scroll;
-    }   
+    }
     .qution{
         margin-bottom: 2rem;
         padding: 20px;
@@ -325,7 +325,7 @@
                     ${msg}
                     </p>
                 </div>
-                
+
                 <div class="col text-right" style="padding:12px"><h5 id="scoreField">得分:</h5></div>
             </div>
             `;
@@ -337,36 +337,8 @@
                     `
                     <div class="qution" id="qution${i}">
                     `
-                if (qution.type == 'MCQ') {
-                    let A = '';
-                    if (qution.userAnswer == 'A') {
-                        A = "checked";
-                    }
-                    let B = '';
-                    if (qution.userAnswer == 'B') {
-                        B = "checked";
-                    }
-                    let C = '';
-                    if (qution.userAnswer == 'C') {
-                        C = "checked";
-                    }
-                    let D = '';
-                    if (qution.userAnswer == 'D') {
-                        D = "checked";
-                    }
-                    let correctAnswer = '';
-                    if (qution.answerA.checked == true) {
-                        correctAnswer = 'A';
-                    }
-                    if (qution.answerB.checked == true) {
-                        correctAnswer = 'B';
-                    }
-                    if (qution.answerC.checked == true) {
-                        correctAnswer = 'C';
-                    }
-                    if (qution.answerD.checked == true) {
-                        correctAnswer = 'D';
-                    }
+                if (qution.type == '選擇題') {
+
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
@@ -383,20 +355,48 @@
                         }
                     } else {
                         //判斷答案是否正確
-                        if (qution.userAnswer == correctAnswer) {
+                        let studentAnswers = [];
+                        for(let i = 0;i<qution.studentAnswer.length;i++){
+                          if(qution.studentAnswer[i]=="1"){
+                            studentAnswers = qution.selection[i];
+                          }
+                        }
+                        let isCorrect = true;
+                        for(let i =0;i<qution.correctAnswers.length;i++){
+                          if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
+                            isCorrect=false;
+                          }
+                        }
+                        if (isCorrect) {
                             getScore += parseInt(qution.score);
                             html +=
                                 `
                             <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
-                                ${qution.title} （選擇題）
+                                ${qution.qutionName} （選擇題）
                             </p>`
                         } else {
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
-                                ${qution.title} （選擇題）
+                                ${qution.qutionName} （選擇題）
                             </p>`
                         }
+                    }
+                    let selection = "";
+                    for(let i = 0;i<qution.selection.length;i++){
+                      if(qution.studentAnswer[i]=="1"){
+                        selection+=`
+                        <div class="col-2"><input  checked type="radio">
+                          ${qution.selection[i]}
+                        </div>
+                        `
+                      }else{
+                        selection+=`
+                        <div class="col-2"><input  type="radio">
+                          ${qution.selection[i]}
+                        </div>
+                        `
+                      }
                     }
 
                     html +=
@@ -404,33 +404,22 @@
                     <p>學生答案:</p>
                     <div>
                         <div class="row">
-                            <div class="col-2"><input name="textmode" ${A} onclick="onAnswer('MCQ','A','${i}')" type="radio"> A:
-                                ${qution.answerA.text}
-                            </div>
-                            <div class="col-2"><input name="textmode" ${B} onclick="onAnswer('MCQ','B','${i}')" type="radio"> B:
-                                ${qution.answerB.text}
-                            </div>
-                            <div class="col-2"><input name="textmode" ${C} onclick="onAnswer('MCQ','C','${i}')" type="radio"> C:
-                                ${qution.answerC.text}
-                            </div>
-                            <div class="col-2"><input name="textmode" ${D} onclick="onAnswer('MCQ','D','${i}')" type="radio"> D:
-                                ${qution.answerD.text}
-                            </div>
+                            ${selection}
                         </div>
                         <br />
-                        <p>正確答案：${correctAnswer}</p>
+                        <p>正確答案：${qution.correctAnswers}</p>
                         <p>(配分:
                             ${qution.score})</p>
                     </div>
                     `
                 }
-                if (qution.type == 'YNQ') {
+                if (qution.type == '是非題') {
                     let yes = '';
-                    if (qution.userAnswer == 'yes') {
+                    if (qution.studentAnswer == 'yes') {
                         yes = "checked";
                     }
                     let no = '';
-                    if (qution.userAnswer == 'no') {
+                    if (qution.studentAnswer == 'no') {
                         no = "checked";
                     }
                     if (test.isTeacherMarked) {
@@ -438,28 +427,28 @@
                             html +=
                                 `
                             <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
-                                ${qution.title} （是非題）
+                                ${qution.qutionName} （是非題）
                             </p>`
                         } else {
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
-                                ${qution.title} （是非題）
+                                ${qution.qutionName} （是非題）
                             </p>`
                         }
                     } else {
-                        if (qution.userAnswer == qution.answer) {
+                        if (qution.studentAnswer == qution.correctAnswers) {
                             getScore += parseInt(qution.score);
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
-                                ${qution.title} （是非題）
+                                ${qution.qutionName} （是非題）
                             </p>`
                         } else {
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
-                                ${qution.title} （是非題）
+                                ${qution.qutionName} （是非題）
                             </p>`
                         }
                     }
@@ -473,41 +462,47 @@
                         <div class="col-2"><input name="textmode1" ${no} onclick="onAnswer('YNQ','no','${i}')" type="radio"> no</div>
                     </div>
                     <br />
-                    <p>正確答案：${qution.answer}</p>
+                    <p>正確答案：${qution.correctAnswers}</p>
                     <p>(配分:
                         ${qution.score})</p>
                 </div>
         `
                 }
 
-                if (qution.type == 'FBQ') {
+                if (qution.type == '填空題') {
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
                                 `
                             <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
-                                ${qution.title} （填空題）
+                                ${qution.qutionName} （填空題）
                             </p>`
                         } else {
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
-                                ${qution.title} （填空題)
+                                ${qution.qutionName} （填空題)
                             </p>`
                         }
                     } else {
-                        if (qution.userAnswer == qution.answer) {
+                        let isCorrect = false;
+                        for(let i = 0;i<qution.correctAnswers.length;i++){
+                          if(qution.studentAnswer == qution.correctAnswers[i]){
+                            isCorrect = true;
+                          }
+                        }
+                        if (isCorrect) {
                             getScore += parseInt(qution.score);
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
-                                ${qution.title} （填空題)
+                                ${qution.qutionName} （填空題)
                             </p>`
                         } else {
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;" id ="title${i}"class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
-                                ${qution.title} （填空題)
+                                ${qution.qutionName} （填空題)
                             </p>`
                         }
                     }
@@ -518,20 +513,19 @@
                     <div>
                         <div class="form-group row">
                             <div class="col">
-                                <label for="inputEmail3" class=" col-form-label">請輸入答案:</label>
-                                <input type="text" id='FBQanswer${i}' class="form-control" onkeyup="onAnswer('FBQ','null','${i}')" value = "${qution.userAnswer}">
+                                <input type="text" id='FBQanswer${i}' class="form-control" onkeyup="onAnswer('FBQ','null','${i}')" value = "${qution.studentAnswer}">
                             </div>
 
                         </div>
-                       
-                        <p>正確答案：${qution.answer}</p>
+
+                        <p>正確答案：${qution.correctAnswers}</p>
                         <p>(配分:
                             ${qution.score})</p>
                     </div>
                     `
                 }
 
-                if (qution.type == 'PGQ') {
+                if (qution.type == '程式題') {
                     if (qution.userAnswer == '' || qution.userAnswer == undefined) {
                         qution.userAnswer = {
                             scriptData: {
@@ -569,20 +563,20 @@
                             html +=
                                 `
                             <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
-                                ${qution.title} （程式題）
+                                ${qution.qutionName} （程式題）
                             </p>`
                         } else {
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
-                                ${qution.title} （程式題)
+                                ${qution.qutionName} （程式題)
                             </p>`
                         }
                     } else {
                         html +=
                             `
                         <p style="font-size: 20px" id ="title${i}">題目:
-                            ${qution.title} （程式題）
+                            ${qution.qutionName} （程式題）
                         </p>`
                     }
                     html +=
@@ -808,7 +802,7 @@ ${qution.outputExample}
             showDataBtn.onclick = function () {
                 let leftbox = document.getElementById('leftbox');
                 //先看有幾題 就要加多少個canvas進去
-                let testData; //這張考卷的資料        
+                let testData; //這張考卷的資料
                 for (let i = 0; i < tests.length; i++) {
                     if (tests[i]._id == nowTest) {
                         testData = tests[i]
