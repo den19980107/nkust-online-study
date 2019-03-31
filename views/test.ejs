@@ -26,14 +26,90 @@
     <%=test.testName%>(已提交過此測驗)
 </h4>
 <%}else{%>
-<h4>考卷名稱:
-    <%=test.testName%>
-</h4>
-<%}%>
+<div style="display: flex;justify-content:space-between;height: 3rem;">
+    <h4 style="width: 33%;line-height: 3rem">考卷名稱:
+            <%=test.testName%>
+    </h4>
+    <p id = "ToppublicTime"  style="width: 33%;line-height: 3rem;text-align: center"></p>
+    <div style="width: 33%;">
+        <%if(user._id == classinfo.teacher){%>
+            <button class="btn btn-secondary " data-toggle="modal" style="float: right;margin-top: 0.5rem" data-target="#uploadTestModal" onclick="EditTest()">編輯考卷</button>
+                <!-- Modal -->
+                <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" style="width: 70%;max-width: 70%;" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="TestORHomeWork">新增測驗</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                            <div class="modal-body">
+                              <div class="row pr-3" style="height:75%">
+                                      <div class="col-5 h-100">
+                                            <div class="form-group row mb-0" style="height:7%">
+                                                <label for="staticEmail" id="testName" class="col-sm-3 col-form-label">測驗名稱</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control"id="testNameinput" type="text" placeholder="請輸入測驗名稱">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-0"style="height:7%">
+                                                    <label for="staticEmail" class="col-sm-3 col-form-label">公開時間</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="datetime-local" class="form-control" onchange="setEndTime(this)" id="publicTime">
+                                                    </div>
+                                            </div>
+                                            <div class="form-group row mb-0"style="height:7%">
+                                                    <label for="staticEmail" class="col-sm-3 col-form-label "  >結束時間</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="datetime-local" class="form-control" id="EndpublicTime">
+                                                    </div>
+                                            </div>
+                                            <div class="form-group row mb-0"style="height:7%">
+                                                <label for="staticEmail" class="col-sm-3 col-form-label">題目類別</label>
+                                                <div class="col-sm-9">
+                                                    <select id="inputState" class="form-control" onchange="changeTypeOfQution(this)">
+                                                        <option selected>選擇題</option>
+                                                        <option>是非題</option>
+                                                        <option>填空題</option>
+                                                        <option>程式題</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control" style="height: 72%;overflow-y:scroll;border:1px solid #ccc;padding:1rem">
+                                                <div id= "MCQ">
+                                                    <%include layout/MCQ %>
+                                                </div>
+                                                <div id= "YNQ" style = "display:none">
+                                                    <%include layout/YNQ %>
+                                                </div>
+                                                <div id= "FBQ" style = "display:none">
+                                                    <%include layout/FBQ %>
+                                                </div>
+                                                <div id= "PGQ" style = "display:none">
+                                                    <%include layout/PGQ %>
+                                                </div>
+                                            </div>
+                                      </div>
+                                      <div class="col-7 h-100" style = "background:rgba(239, 235, 247, 1);overflow-y:scroll" id = "QuationList">
 
+                                      </div>
+                                  </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="saveQutionList()">儲存題目</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <%}%>
+    </div>
+</div>
+<%}%>
 <hr>
 
-<div class="col-md-12">
+<div class="col-md-12" id="questionList">
     <%let i = 0%>
     <%test.testQutions.forEach(function(qution){%>
     <%i++%>
@@ -157,11 +233,9 @@
 
     <%}%>
 </div>
-
-
-
-
 </div>
+<!-- 把出考卷的程式碼分出來放在setTest -->
+<script src="/js/setTest.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script>
     let answerArray = [];
@@ -240,7 +314,7 @@
             console.log(obj);
             output.innerHTML = "輸出:\n" + obj.body.output;
 
-            // //記錄到答案中
+            //記錄到答案中
             // onAnswer('PGQ', {
             //     scriptData: scriptData,
             //     output: obj.body.output
@@ -312,6 +386,176 @@
             }
         })
     }
+    let Test = <%- JSON.stringify(test) %>;
+    let user = <%- JSON.stringify(user) %>;
+    let classinfo = <%- JSON.stringify(classinfo)%>;
+    if(user._id == classinfo.teacher){
+        console.log("isTeacher");
+        let questionList = document.getElementById('questionList');
+        //設定測驗發佈時間最早為今天
+        let today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        let hh = today.getHours();
+        let minute = today.getMinutes();
+        if(minute<10){
+            minute="0"+minute
+        }
+        if(dd<10){
+                dd='0'+dd
+            } 
+            if(mm<10){
+                mm='0'+mm
+        } 
+        today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
+        document.getElementById("publicTime").setAttribute("min",today);
+        document.getElementById("publicTime").value = today
+        document.getElementById("EndpublicTime").setAttribute("min",today)
+        document.getElementById("EndpublicTime").value = today
+    }
+    let EditTest = function(){
+            console.log(Test)
+            let testNameinput = document.getElementById('testNameinput');
+            testNameinput.value = Test.testName
+            QuationList = Test.testQutions;
+            updateQutionList();
+    }
+    //當使用者選擇發佈時間時 要將結束時間設定成發佈時間之後
+    let setEndTime = function(startTime){
+            console.log(startTime.value);
+            document.getElementById("EndpublicTime").setAttribute("min",startTime.value)
+            document.getElementById("EndpublicTime").value = startTime.value
+    }
+    window.onload = function(){
+        if(Test.isPublic==false){
+            let nowTime = new Date();
+            let endTime = new Date(Test.EndpublicTime);
+            console.log(endTime-nowTime);
+            
+            if((endTime-nowTime)/1000>0){
+                console.log("ispublic")
+                let ispublic = countTime("beforePublic");
+                let publicTimeCounter = setInterval(function(){
+                    if(ispublic == true ){
+                        clearInterval(publicTimeCounter)
+                    }else{
+                        ispublic = countTime("beforePublic");
+                    }
+                },1000)
+            }else{
+                countTime("END")
+            }
+        }else{
+            if(Test.isPublic==true){
+                let isEnd = countTime("onpublic");
+                let publicTimeCounter = setInterval(function(){
+                    if(isEnd == true){
+                        clearInterval(publicTimeCounter)
+                        console.log("asd");
+                        
+                        $.ajax({
+                            url: '/class/EndpublicTest/'+Test._id,
+                            type: 'POST',
+                            success: function (response) {
+                                console.log(response);
+                                window.location = "/class/showTest/"+Test._id;
+                            },
+                            error: function (err) {
+                                alert('錯誤訊息：' + err.responseJSON.msg);
+                            }
+                        });
+                    }else{
+                        isEnd = countTime("onpublic");
+                    }    
+                },1000)
+            }
+        }
+    }
+    let countTime = function(state){
+        if(state == "beforePublic"){
+            if(user.permission == "student"){
+                questionList.style.cssText="display:none";
+            }
+            console.log("beforePublic");
+            let nowTime = new Date();
+            let publicTimeText = document.getElementById('ToppublicTime');
+            let publicTime = new Date(Test.publicTime);
+            let totoalSec = (publicTime-nowTime)/1000;
+            let hr =  Math.floor(totoalSec/3600);
+            totoalSec = Math.floor(totoalSec % 3600);
+            let mm = Math.floor(totoalSec/60);
+            totoalSec = Math.floor(totoalSec%60);
+            let ss = Math.floor(totoalSec);
+            publicTimeText.innerHTML = "距離開放時間還剩下："+ hr +"小時 "+ mm + "分鐘 "+ss+"秒 "
+            if(totoalSec<0){
+                publicTimeText.innerHTML = "時間計算中..."
+                if(Test.isPublic==false){
+                    $.ajax({
+                        url: '/class/publicTest/'+Test._id,
+                        type: 'POST',
+                        success: function (response) {
+                            console.log(response);
+                            window.location = "/class/showTest/"+Test._id;
+                        },
+                        error: function (err) {
+                            alert('錯誤訊息：' + err.responseJSON.msg);
+                        }
+                    });
+                }
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(state == "onpublic"){
+            console.log("onpublic");
+            if(user.permission == "student"){
+                questionList.style.cssText="display:block";
+            }
+            let publicTimeText = document.getElementById('ToppublicTime');
+            let nowTime = new Date();
+            let endTime = new Date(Test.EndpublicTime);
+            let totoalSec = (endTime-nowTime)/1000;
+            let hr =  Math.floor(totoalSec/3600);
+            totoalSec = Math.floor(totoalSec % 3600);
+            let mm = Math.floor(totoalSec/60);
+            totoalSec = Math.floor(totoalSec%60);
+            let ss = Math.floor(totoalSec);
+            publicTimeText.innerHTML = "距離結束時間還剩下："+ hr +"小時 "+ mm + "分鐘 "+ss+"秒 "
+            if(totoalSec<0){
+                console.log("isEND");
+                publicTimeText.innerHTML = "時間計算中..."
+                return true;
+            }else{
+                return false;
+            }
+        }
+        if(state == "END"){
+            if(user.permission == "student"){
+                questionList.style.cssText="display:none";
+            }
+            let publicTimeText = document.getElementById('ToppublicTime');
+            publicTimeText.innerHTML = "測驗開放時間已結束"
+        }
+    }
+    let publicTest = function(){
+        console.log('/class/publicTest/'+Test._id);
+        
+        $.ajax({
+            url: '/class/publicTest/'+Test._id,
+            type: 'POST',
+            success: function (response) {
+                console.log(response);
+                alert('開放成功');
+                window.location = "/class/showTest/"+Test._id;
+            },
+            error: function (err) {
+                alert('錯誤訊息：' + err.responseJSON.msg);
+            }
+        });
+    }
+
 </script>
 
 <% include layout/footer %>
