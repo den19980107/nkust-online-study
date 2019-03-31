@@ -356,11 +356,14 @@
                         let studentAnswers = [];
                         for(let i = 0;i<qution.studentAnswer.length;i++){
                           if(qution.studentAnswer[i]=="1"){
-                            studentAnswers.push(qution.selection[i]);
+                            studentAnswers.push(qution.correctAnswers[i]);
                             console.log(studentAnswers);
                           }
                         }
                         let isCorrect = true;
+                        if(qution.studentAnswer.length!=qution.correctAnswers.length){
+                            isCorrect=false;
+                        }
                         for(let i =0;i<qution.correctAnswers.length;i++){
                             console.log(studentAnswers.indexOf(qution.correctAnswers[i]));
                             if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
