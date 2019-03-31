@@ -1,3 +1,4 @@
 
 config/database.js
 .DS_Store
+views/.DS_Store

@@ -429,37 +429,49 @@
                             <div class="modal-body">
                               <div class="row pr-3" style="height:75%">
                                       <div class="col-5 h-100">
-                                          <div class="form-group row mb-0" style="height:10%">
-                                              <label for="staticEmail" id="testName" class="col-sm-3 col-form-label">測驗名稱</label>
-                                              <div class="col-sm-9">
-                                                  <input class="form-control"id="testNameinput" type="text" placeholder="請輸入測驗名稱">
-                                              </div>
-                                          </div>
-                                          <div class="form-group row mb-0"style="height:10%">
-                                              <label for="staticEmail" class="col-sm-3 col-form-label">題目類別</label>
-                                              <div class="col-sm-9">
-                                                  <select id="inputState" class="form-control" onchange="changeTypeOfQution(this)">
-                                                      <option selected>選擇題</option>
-                                                      <option>是非題</option>
-                                                      <option>填空題</option>
-                                                      <option>程式題</option>
-                                                  </select>
-                                              </div>
-                                          </div>
-                                          <div class="control" style="height: 80%;overflow-y:scroll;border:1px solid #ccc;padding:1rem">
-                                              <div id= "MCQ">
-                                                <%include layout/MCQ %>
-                                              </div>
-                                              <div id= "YNQ" style = "display:none">
-                                                <%include layout/YNQ %>
-                                              </div>
-                                              <div id= "FBQ" style = "display:none">
-                                                <%include layout/FBQ %>
-                                              </div>
-                                              <div id= "PGQ" style = "display:none">
-                                                <%include layout/PGQ %>
-                                              </div>
-                                          </div>
+                                            <div class="form-group row mb-0" style="height:7%">
+                                                <label for="staticEmail" id="testName" class="col-sm-3 col-form-label">測驗名稱</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control"id="testNameinput" type="text" placeholder="請輸入測驗名稱">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-0"style="height:7%">
+                                                    <label for="staticEmail" class="col-sm-3 col-form-label">公開時間</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="datetime-local" class="form-control" onchange="setEndTime(this)" id="publicTime">
+                                                    </div>
+                                            </div>
+                                            <div class="form-group row mb-0"style="height:7%">
+                                                    <label for="staticEmail" class="col-sm-3 col-form-label "  >結束時間</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="datetime-local" class="form-control" id="EndpublicTime">
+                                                    </div>
+                                            </div>
+                                            <div class="form-group row mb-0"style="height:7%">
+                                                <label for="staticEmail" class="col-sm-3 col-form-label">題目類別</label>
+                                                <div class="col-sm-9">
+                                                    <select id="inputState" class="form-control" onchange="changeTypeOfQution(this)">
+                                                        <option selected>選擇題</option>
+                                                        <option>是非題</option>
+                                                        <option>填空題</option>
+                                                        <option>程式題</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control" style="height: 72%;overflow-y:scroll;border:1px solid #ccc;padding:1rem">
+                                                <div id= "MCQ">
+                                                    <%include layout/MCQ %>
+                                                </div>
+                                                <div id= "YNQ" style = "display:none">
+                                                    <%include layout/YNQ %>
+                                                </div>
+                                                <div id= "FBQ" style = "display:none">
+                                                    <%include layout/FBQ %>
+                                                </div>
+                                                <div id= "PGQ" style = "display:none">
+                                                    <%include layout/PGQ %>
+                                                </div>
+                                            </div>
                                       </div>
                                       <div class="col-7 h-100" style = "background:rgba(239, 235, 247, 1);overflow-y:scroll" id = "QuationList">
 
@@ -520,6 +532,7 @@
         <%}%>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <%if (locals.noSelectUnit) {%>
 <script>
     console.log("<%=noSelectUnit%>");
@@ -1068,17 +1081,55 @@
         QuationList[id] = '';
         console.log(QuationList);
     }
-
+    //設定測驗發佈時間最早為今天
+    let today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    let hh = today.getHours();
+    let minute = today.getMinutes();
+    if(minute<10){
+        minute="0"+minute
+    }
+    if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+    } 
+    today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
+    document.getElementById("publicTime").setAttribute("min",today);
+    document.getElementById("publicTime").value = today
+    document.getElementById("EndpublicTime").setAttribute("min",today)
+    document.getElementById("EndpublicTime").value = today
+    
+    //當使用者選擇發佈時間時 要將結束時間設定成發佈時間之後
+    let setEndTime = function(startTime){
+        console.log(startTime.value);
+        document.getElementById("EndpublicTime").setAttribute("min",startTime.value)
+        document.getElementById("EndpublicTime").value = startTime.value
+    }
+    
     function saveQutionList() {
         QuationList = QuationList.filter(list => list != '');
         let testName = document.getElementById('testNameinput');
         let unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
-
+        let publicTime =new Date(document.getElementById('publicTime').value);
+        let EndpublicTime = new Date(document.getElementById('EndpublicTime').value)
+        // let today = new Date();
+        // var timeDiff = (publicTime.getTime() - today.getTime())/1000;
+        // console.log(timeDiff);
+        
         let testinfo = {
             testName: testName.value,
             QuationList: QuationList,
-            belongUnit: unitID
+            belongUnit: unitID,
+            publicTime:publicTime,
+            EndpublicTime:EndpublicTime,
+            isPublic:false
         }
+        console.log(testinfo);
+        
         //TODO
         //傳到伺服器存起來
         if (TestORHomeWorkMode == "Test") {
@@ -1119,7 +1170,6 @@
 </script>
 
 <script src="/js/uploadVideo.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
     onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
