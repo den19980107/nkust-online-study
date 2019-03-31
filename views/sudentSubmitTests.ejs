@@ -604,13 +604,13 @@ ${qution.outputExample}
                         <div class="row" style="height: 20rem">
                             <div class="col">
                                 <div class="md-form">
-                                    <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code${i}">${qution.userAnswer.scriptData.script}</textarea>
+                                    <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code${i}">${qution.studentAnswer}</textarea>
                                 </div>
                                 <div class="md-form">
-                                    <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input${i}">${qution.userAnswer.scriptData.input}</textarea>
+                                    <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input${i}"></textarea>
                                 </div>
                                 <select id="language${i}" class="mt-1" >
-                                    <option value="${languageValue}">${qution.userAnswer.scriptData.language}</option>
+                                    <option value="${qution.language}">${qution.language}</option>
                                 </select>
                             </div>
                             <div class="col" style="overflow:hidden">
@@ -743,7 +743,7 @@ ${qution.outputExample}
             let script = document.getElementById('code' + qutionNumber);
             let input = document.getElementById('input' + qutionNumber);
             let language = document.getElementById('language' + qutionNumber);
-            let output = document.getElementById('output' + qutionNumber);
+            let output = document.getElementById('output' + qutionNumber);  
             var scriptData = {
                 input: input.value,
                 script: script.value,
@@ -760,10 +760,10 @@ ${qution.outputExample}
                 output.innerHTML = "輸出:\n" + obj.body.output;
 
                 //記錄到答案中
-                onAnswer('PGQ', {
-                    scriptData: scriptData,
-                    output: obj.body.output
-                }, qutionNumber);
+                // onAnswer('PGQ', {
+                //     scriptData: scriptData,
+                //     output: obj.body.output
+                // }, qutionNumber);
             });
             //為了讓textarea - script 按下tab的時候不會自己切去另一個textarea
             script.onkeydown = function (e) {
