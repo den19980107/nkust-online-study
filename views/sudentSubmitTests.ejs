@@ -331,14 +331,12 @@
             `;
             for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
                 let qution = test.testQutionsAndAnswer[i];
-                console.log(qution);
 
                 let html =
                     `
                     <div class="qution" id="qution${i}">
                     `
-                if (qution.type == '選擇題') {
-
+                if (qution.type == '選擇題') {  
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
@@ -354,18 +352,20 @@
                             </p>`
                         }
                     } else {
-                        //判斷答案是否正確
+                        //判斷答案是否正確  
                         let studentAnswers = [];
                         for(let i = 0;i<qution.studentAnswer.length;i++){
                           if(qution.studentAnswer[i]=="1"){
-                            studentAnswers = qution.selection[i];
+                            studentAnswers.push(qution.selection[i]);
+                            console.log(studentAnswers);
                           }
                         }
                         let isCorrect = true;
                         for(let i =0;i<qution.correctAnswers.length;i++){
-                          if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
-                            isCorrect=false;
-                          }
+                            console.log(studentAnswers.indexOf(qution.correctAnswers[i]));
+                            if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
+                                isCorrect=false;
+                            }
                         }
                         if (isCorrect) {
                             getScore += parseInt(qution.score);
@@ -458,8 +458,8 @@
                 <p>學生答案:</p>
                 <div>
                     <div class="row">
-                        <div class="col-2"><input name="textmode1" ${yes} onclick="onAnswer('YNQ','yes','${i}')" type="radio"> yes</div>
-                        <div class="col-2"><input name="textmode1" ${no} onclick="onAnswer('YNQ','no','${i}')" type="radio"> no</div>
+                        <div class="col-2"><input name="textmode${i}" ${yes} onclick="onAnswer('YNQ','yes','${i}')" type="radio"> yes</div>
+                        <div class="col-2"><input name="textmode${i}" ${no} onclick="onAnswer('YNQ','no','${i}')" type="radio"> no</div>
                     </div>
                     <br />
                     <p>正確答案：${qution.correctAnswers}</p>
