@@ -12,6 +12,16 @@ let testSchema = mongoose.Schema({
     testQutions: {
         type: Array,
         require: true
+    },
+    publicTime:{
+        type:Date
+    },
+    EndpublicTime:{
+        type:Date
+    },
+    isPublic:{
+        type:Boolean,
+        require:true
     }
 });
 
