@@ -125,7 +125,7 @@ router.post('/register', function (req, res) {
                                 console.log(err);
                                 return;
                             } else {
-                                req.flash('success', '您現在已經註冊且可以使用此帳號密碼登入了！');
+                                req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
                                 res.redirect('/users/login'); //?
                             }
                         });
