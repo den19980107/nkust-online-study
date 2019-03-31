@@ -212,6 +212,8 @@ router.post('/submitTest', function (req, res) {
     newsubmit.writer = qutioninfo.writer;
     newsubmit.belongUnit = qutioninfo.belongUnit;
     newsubmit.testQutionsAndAnswer = qutioninfo.testQutions
+    console.log(newsubmit);
+    
     newsubmit.save(function (err) {
         if (err) {
             res.send('error');
