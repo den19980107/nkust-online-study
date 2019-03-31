@@ -1,4 +1,6 @@
 <% include layout/header %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <style>
   .banner a:hover {
     color: #DDD;
@@ -20,27 +22,57 @@
 <table class="table">
   <thead>
     <tr>
-      <th>
+      <th style="padding:8px 0px" width="120">
         <%temp = 0%>
         <%users.forEach(function(userss){%>
         <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
-        <center>
-          <button class="btn btn-danger btn-sm" onclick="deleteclick()">刪除</button>
-        </center>
+        <div class="row">
+          <div>
+            <div style="width:41px" id="nodelbutton"></div>
+            <button class="btn div-left" onclick="deleteclick()" style="padding:5px 13px 0 8px;display:none" id="yesdelbutton"><i class="fa fa-trash"></i></button>
+          </div>
+          <div style="padding:5px;">
+            <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
+          </div>
+          <div class="dropdown" style="padding:9px 0 0">
+            <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-angle-down"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 4rem;padding:0px">
+              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allselect('c')">全選</a>
+              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allnotselect('c')">全不選</a>
+            </div>
+          </div>
+        </div>
         <%}%>
         <%temp++%>
         <%})%>
         <%if(classinfo.teacher == user._id){%>
-        <center>
-          <button class="btn btn-danger btn-sm" onclick="deleteclick()">刪除</button>
-        </center>
+        <div class="row">
+          <div>
+            <div style="width:41px" id="nodelbutton"></div>
+            <button class="btn div-left" onclick="deleteclick()" style="padding:5px 13px 0 8px;display:none" id="yesdelbutton"><i class="fa fa-trash"></i></button>
+          </div>
+          <div style="padding:5px;">
+            <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
+          </div>
+          <div class="dropdown" style="padding:9px 0 0">
+            <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-angle-down"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 4rem;padding:0px">
+              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allselect('c')">全選</a>
+              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allnotselect('c')">全不選</a>
+            </div>
+          </div>
+        </div>
         <%}%>
       </th>
-      <th class="text-center" scope="col">姓名</th>
-      <th class="text-center" scope="col">科系</th>
-      <th class="text-center" scope="col">學號</th>
-      <th class="text-center" scope="col">信箱</th>
-      <th class="text-center" scope="col">個人網頁</th>
+      <th class="text-center" scope="col" width="150">姓名</th>
+      <th class="text-center" scope="col" width="400">科系</th>
+      <th class="text-center" scope="col" width="300">學號</th>
+      <th class="text-center" scope="col" width="300">信箱</th>
+      <th class="text-center" scope="col" width="500">個人網頁</th>
     </tr>
   </thead>
   <tbody>
@@ -48,9 +80,9 @@
     <%users.forEach(function(user){%>
     <%if(students[temp].permission !='00000'){%>
     <tr>
-      <td class="text-center" style="width:120px;">
-          <div class="text-danger" id="delStudent<%=temp%>" style="padding:8px">
-              <input type="checkbox" value="<%=students[temp].studentID%>">
+      <td class="text-center">
+          <div class="text-danger" id="delStudent<%=temp%>" style="padding:0px">
+              <input type="checkbox" value="<%=students[temp].studentID%>" name="c" style="zoom: 2" onclick="showdelbutton()">
           </div>
       </td>
       <td class="text-center">
@@ -79,9 +111,11 @@
   function deleteclick() {
       var del = [];
       $("input[type=checkbox]:checked").each(function () {
-          del.push($(this).val());
+          if($(this).val()!="on"){
+            del.push($(this).val());
+          }
       });
-      console.log(del.length);
+      console.log(del);
       if (del.length == 0) {
           alert('勾選學生後才能進行刪除');
       } else {
@@ -90,16 +124,72 @@
             window.location = "/class/deleteStudent/" + del + "/unit/<%=classID%>"
           } else {}
       }
-
   }
-</script>
-<script>
   //到待審核頁面
   $(document).ready(function () {
     $(".waitcheck").click(function () {
       window.location = "/class/showStudentApproval/<%=classID%>";
     })
   });
+  //全選
+  function check_all(obj,cName) {
+    var checkboxs = document.getElementsByName(cName);
+    for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = obj.checked;}
+    var show = [];
+    $("input[type=checkbox]:checked").each(function () {
+        if($(this).val()!="on"){
+          show.push($(this).val());
+        }
+    });
+    if(show.length != 0){
+      document.getElementById("nodelbutton").style = "width:41px;display:none;"
+      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:auto;"
+    }else{
+      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:none;"
+      document.getElementById("nodelbutton").style = "width:41px;display:auto;"
+    }
+  }
+  function showdelbutton(){
+    var show = [];
+    $("input[type=checkbox]:checked").each(function () {
+        if($(this).val()!="on"){
+          show.push($(this).val());
+        }
+    });
+    if(show.length != 0){
+      document.getElementById("nodelbutton").style = "width:41px;display:none;"
+      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:auto;"
+    }else{
+      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:none;"
+      document.getElementById("nodelbutton").style = "width:41px;display:auto;"
+    }
+    var unCheckedBoxs = [];
+    $("input[type=checkbox]").not("input:checked").each(function () {
+        if($(this).val()!="on"){
+          unCheckedBoxs.push($(this).val());
+        }
+    });
+    if(unCheckedBoxs.length != 0){
+        document.getElementById("allstatus").checked = false
+    }else{
+        document.getElementById("allstatus").checked = true
+    }
+  }
+  function allselect(cName){
+    var checkboxs = document.getElementsByName(cName);
+    for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = true}
+    document.getElementById("allstatus").checked = true
+    document.getElementById("nodelbutton").style = "width:41px;display:none;"
+    document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:auto;"
+  }
+  function allnotselect(cName){
+    var checkboxs = document.getElementsByName(cName);
+    for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = false}
+    document.getElementById("allstatus").checked = false
+    document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:none;"
+    document.getElementById("nodelbutton").style = "width:41px;display:auto;"
+  }
 </script>
+
 
 <% include layout/footer %>

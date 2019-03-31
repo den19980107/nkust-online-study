@@ -11,16 +11,16 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th width="120">
                 <center>
                     <button class="btn btn-success btn-sm" onclick="check()">批准</button>
                 </center>
             </th>
-            <th class="text-center" scope="col">姓名</th>
-            <th class="text-center" scope="col">科系</th>
-            <th class="text-center" scope="col">學號</th>
-            <th class="text-center" scope="col">信箱</th>
-            <th class="text-center" scope="col">個人網頁</th>
+            <th class="text-center" scope="col" width="150">姓名</th>
+            <th class="text-center" scope="col" width="400">科系</th>
+            <th class="text-center" scope="col" width="300">學號</th>
+            <th class="text-center" scope="col" width="300">信箱</th>
+            <th class="text-center" scope="col" width="500">個人網頁</th>
         </tr>
     </thead>
     <tbody>
@@ -29,8 +29,8 @@
         <%if(studentscheck[temp].permission =='00000'){%>
         <tr>
             <td class="text-center" style="width:120px;">
-                <div class="text-danger" id="checkStudent<%=temp%>" style="padding:8px">
-                    <input type="checkbox" value="<%=studentscheck[temp].studentID%>">
+                <div class="text-danger" id="checkStudent<%=temp%>" style="padding:0px">
+                    <input type="checkbox" value="<%=studentscheck[temp].studentID%>" style="zoom: 2">
                 </div>
             </td>
             <td class="text-center">
