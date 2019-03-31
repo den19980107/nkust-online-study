@@ -48,7 +48,8 @@
 
 <div class="modal-footer p-0">
     <input type="number" id="FBQscore" class="form-control" placeholder="請輸入配分">
-    <button type="button" class="btn btn-secondary" onclick="PGQcreateNewQution()">新增題目</button>
+    <button type="button" id = "PGQaddQution" class="btn btn-secondary" onclick="PGQcreateNewQution()">新增題目</button>
+    <button type="button" id = "PGQeditQution" style="display:none" class="btn btn-secondary" onclick="PGQeditQution()">儲存變更</button>
 </div>
 
 <script>
@@ -64,7 +65,7 @@
     let score = document.getElementById('FBQscore');
 
     let answer = {
-        type: '程式題',
+        type: "程式題",
         qutionName: title.value,
         inputDescription: inputd.value,
         outputDescription: outputd.value,
@@ -87,6 +88,73 @@
     outputts.value = '';
     score.value = '';
   }
-
-
+  let PGQeditQutionID = "";
+  let editPGQ = function(qutionData,id){
+    PGQeditQutionID = id;
+    let title = document.getElementById('PGQtitle');
+    let PGQinputd = document.getElementById('input-description');
+    let PGQoutputd = document.getElementById('output-description');
+    let PGQinpute = document.getElementById('input-example');
+    let PGQoutpute = document.getElementById('output-example');
+    let PGQinputts = document.getElementById('input-test');
+    let PGQoutputts = document.getElementById('output-test');
+    let PGQscore = document.getElementById('FBQscore');
+    let PGQaddQution = document.getElementById('PGQaddQution');
+    let PGQeditQution = document.getElementById('PGQeditQution');
+    PGQaddQution.style.cssText = "display:none";
+    PGQeditQution.style.cssText = "display:block";
+    title.value = qutionData.qutionName;
+    PGQinputd.value = qutionData.inputDescription;
+    PGQoutputd.value = qutionData.outputDescription;
+    PGQinpute.value = qutionData.inputExample;
+    PGQoutpute.value = qutionData.outputExample;
+    PGQinputts.value = qutionData.intputTest;
+    PGQoutputts.value = qutionData.outputTest;
+    if(qutionData.score == "未設定"){
+      PGQscore.value = "";
+    }else{
+      PGQscore.value = parseInt(qutionData.score);
+    }
+  }
+  let PGQeditQution = function(){
+    let title = document.getElementById('PGQtitle');
+    let PGQinputd = document.getElementById('input-description');
+    let PGQoutputd = document.getElementById('output-description');
+    let PGQinpute = document.getElementById('input-example');
+    let PGQoutpute = document.getElementById('output-example');
+    let PGQinputts = document.getElementById('input-test');
+    let PGQoutputts = document.getElementById('output-test');
+    let PGQscore = document.getElementById('FBQscore');
+    let PGQaddQution = document.getElementById('PGQaddQution');
+    let PGQeditQution = document.getElementById('PGQeditQution');
+    if(PGQscore.value == ""){
+      score = "未設定";
+    }else{
+      score = parseInt(PGQscore.value);
+    }
+    let answer = {
+        type: "程式題",
+        qutionName: title.value,
+        inputDescription: PGQinputd.value,
+        outputDescription: PGQoutputd.value,
+        inputExample: PGQinpute.value,
+        outputExample: PGQoutpute.value,
+        intputTest: PGQinputts.value,
+        outputTest: PGQoutputts.value,
+        score: PGQscore.value,
+        answer: false
+    }
+    QuationList[PGQeditQutionID] = answer;
+    updateQutionList();
+    PGQaddQution.style.cssText = "display:block";
+    PGQeditQution.style.cssText = "display:none";
+    title.value = "";
+    PGQinputd.value = "";
+    PGQoutputd.value = "";
+    PGQinpute.value = "";
+    PGQoutpute.value = "";
+    PGQinputts.value = "";
+    PGQoutputts.value = "";
+    PGQscore.value = "";
+  }
 </script>
