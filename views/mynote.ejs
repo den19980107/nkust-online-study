@@ -455,27 +455,28 @@
     }
 
     let deleteNote = function () {
-        $.ajax({
-            url: '/users/note/deleteNote/' + nowWrittingNote,
-            type: 'DELETE',
-            beforeSend: function () {
-                let loader = document.getElementById('loader');
-                loader.style.display = "block"
-            },
-            complete: function () {
-                let loader = document.getElementById('loader');
-                loader.style.display = "none"
-            },
-            success: function (response) {
-                alert('刪除成功');
-                let noteNumber = document.getElementById('noteNumber');
-                noteNumber.innerText = `${response.length}個筆記`
-                let noteList = document.getElementById('noteList');
-                noteList.innerHTML = '';
-                for (let i = 0; i < response.length; i++) {
-                    let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
-                    noteList.innerHTML +=
-                        `
+        if (nowWrittingNote != '') {
+            $.ajax({
+                url: '/users/note/deleteNote/' + nowWrittingNote,
+                type: 'DELETE',
+                beforeSend: function () {
+                    let loader = document.getElementById('loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    alert('刪除成功');
+                    let noteNumber = document.getElementById('noteNumber');
+                    noteNumber.innerText = `${response.length}個筆記`
+                    let noteList = document.getElementById('noteList');
+                    noteList.innerHTML = '';
+                    for (let i = 0; i < response.length; i++) {
+                        let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
+                        noteList.innerHTML +=
+                            `
                     <div class="row" style="border-top:1px solid rgb(119, 119, 119)" onclick="showNote('${response[i]._id}')">
                         <div class="col" style="background: rgb(60, 60, 60)">
                             <div class="container">
@@ -492,19 +493,21 @@
                             
                         </div>
                     </div>`
+                    }
+                    CKEDITOR.instances.Detail.setData("");
+                    let title = document.getElementById('title');
+                    console.log(title);
+                    title.value = "請選擇筆記"
+                    CKEDITOR.instances.Detail.setReadOnly(true);
+
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err.msg);
                 }
-                CKEDITOR.instances.Detail.setData("");
-                let title = document.getElementById('title');
-                console.log(title);
-                title.value = "請選擇筆記"
-                CKEDITOR.instances.Detail.setReadOnly(true);
-
-            },
-            error: function (err) {
-                alert('錯誤訊息：' + err.msg);
-            }
-        });
-
+            });
+        } else {
+            alert("您還沒有選擇筆記")
+        }
     }
 </script>
 
