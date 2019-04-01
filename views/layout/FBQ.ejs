@@ -1,65 +1,225 @@
-
-  <div class="form-group row title">
-      <label class="col-sm-3 col-form-label">題目:</label>
-      <div class="col-sm-9 title-col">
-          <input type="text" id ="qutionName" class="form-control title-text" placeholder="請輸入題目" required="required">
-      </div>
-  </div>
-  <div class="form-group row">
-      <label class="col-sm-3 col-form-label">答案:</label>
-      <div class="col-sm-9" id="createDiv" >
-          <input type="text" id="0" class="form-control" placeholder="請輸入正確答案" style="margin:0px 0px 5px 0px" required="required">
-      </div>
-  </div>
-  <div class="form-group row" style = "display: flex;justify-content: flex-end;">
-    <button type="button" class="btn btn-outline-primary float-right" onclick="addElement()" style="margin-right: 1rem">新增正確答案</button>
-  </div>
-  <div class="modal-footer">
-      <input type="number" id="score" class="form-control" placeholder="請輸入配分" required="required">
-      <button type="button" class="btn btn-secondary" onclick="createNewQuestion()">新增題目</button>
-  </div>
-<script>
-  var length = 1;
-    function addElement () {
-        var newDiv = document.createElement("input");
-        newDiv.type="text";
-        newDiv.id=length;
-        newDiv.className="form-control";
-        newDiv.placeholder="請輸入正確答案";
-        newDiv.style="margin:0px 0px 5px 0px";
-        newDiv.required="required";
-        length += 1;
-        newDiv.innerHTML="";
-        var currentDiv = document.getElementById("createDiv");
-        currentDiv.appendChild(newDiv);
-    }
-    let createNewQuestion = function(){
-       let qutionName = document.getElementById("qutionName");
-       let score = document.getElementById("score");
-       let correctAnswers = [];
-       let i;
-       for(i=0;i<length;i++){
-           let answer = document.getElementById(i);
-           correctAnswers[i]=answer.value;
+<div class="form-group row title">
+        <label class="col-sm-2 col-form-label">題目</label>
+        <div class="col-sm-10 title-col">
+            <input type="text" id ="FBQqutionName" class="form-control title-text" placeholder="請輸入題目" required="required">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">答案</label>
+        <div  class="col-sm-10" id="createDiv" role="alert">
+          <div class="input-delete" id="inputclose-0">
+            <input type="text" id="inputanswer-0" class="col-sm-11 form-control"  placeholder="請輸入正確答案" style="margin:0px 0px 5px 0px; display:inline-block;" required="required">
+          </div>
+        </div>
+  
+    </div>
+    <div class="form-group row" style = "display: flex;justify-content: flex-end;">
+      <button type="button" class="btn btn-outline-primary float-right" onclick="addElement()" style="margin-right:1rem">新增正確答案</button>
+    </div>
+    <div class="modal-footer">
+        <input type="number" id="FBQscore" class="form-control" placeholder="請輸入配分" required="required">
+        <button type="button" id = "FBQaddQution" class="btn btn-secondary" onclick="createNewQuestion()">新增題目</button>
+        <button type="button" id = "FBQeditQution" style="display:none" class="btn btn-secondary" onclick="FBQeditQuestion()">儲存變更</button>
+    </div>
+  <script>
+      var length = 1;
+      var maxid = 1;
+      // Create a "close" button and append it to each list item
+      var myNodelist=document.getElementsByClassName("input-delete");
+      var i;
+      for(i=0;i<myNodelist.length;i++){
+        var span=document.createElement("span");
+        var txt = document.createTextNode("\u00D7");
+        span.className="close col-sm-1";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
+      }
+  
+      // Click on a close button to hide the current list item
+      var close=document.getElementsByClassName("close");
+      for(i=0;i<close.length;i++){
+        close[i].onclick=function(){
+          if(close.length >1){
+            var div=this.parentElement;
+            let currentDiv = document.getElementById("createDiv");
+            currentDiv.removeChild(div);
+            length -= 1;
+          }
+        }
+      }
+  
+      function addElement () {
+          let div = document.createElement("div");
+          div.className="input-delete";
+          div.id = "inputclose-"+length;
+          let newDiv = document.createElement("input");
+          newDiv.type="text";
+          newDiv.id="inputanswer-"+length;
+          newDiv.className="col-sm-11 form-control";
+          newDiv.placeholder="請輸入正確答案";
+          newDiv.style="margin:0px 0px 5px 0px; display:inline-block;";
+          newDiv.required="required";
+          newDiv.innerHTML="";
+          div.appendChild(newDiv);
+          let currentDiv = document.getElementById("createDiv");
+          currentDiv.appendChild(div);
+          var span = document.createElement("span");
+          var txt = document.createTextNode("\u00D7");
+          span.className = "close col-sm-1";
+          span.appendChild(txt);
+          div.appendChild(span);
+          for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+              if(close.length > 1){
+                let div = this.parentElement;
+                currentDiv.removeChild(div);
+              }
+  
+            }
+          }
+          length += 1;
+          maxid=length;
+      }
+      let createNewQuestion = function(){
+         let FBQqutionName = document.getElementById("FBQqutionName");
+         let FBQscore = document.getElementById("FBQscore");
+         let FBQcorrectAnswers = [];
+         let FBQlength=length;
+         let j=0;
+         for(i=0;i<maxid;i++){
+             let FBQanswer = document.getElementById("inputanswer-"+i);
+             if(FBQanswer!=null){
+                 FBQcorrectAnswers[j]=FBQanswer.value;
+                 j++;
+             }
+         }
+         let question = {
+             type: "填空題",
+             qutionName: FBQqutionName.value,
+             correctAnswers:FBQcorrectAnswers,
+             studentAnswer:false,
+             score: FBQscore.value
+         }
+         console.log("------------檢查----------");
+         console.log(question);
+         updateCreatedQutionList(question);
+         let currentDiv = document.getElementById('createDiv');
+         FBQqutionName.value = '';
+         FBQscore.value = '';
+         for(i=0;i<maxid;i++){
+             let currentDiv = document.getElementById("createDiv");
+             let removeElement = document.getElementById("inputclose-"+i);
+             if(removeElement != null){
+                 document.getElementById("inputanswer-"+i).value='';
+                 currentDiv.removeChild(removeElement);
+             }
+         }
+         length=0;
+         addElement();
+         maxid=length;
+     }
+     let editFBQ = function(qutionData,id){
+         FBQeditQutionID = id;
+         let FBQqutionName = document.getElementById('FBQqutionName');
+         let FBQscore = document.getElementById('FBQscore');
+         let FBQlength = qutionData.correctAnswers.length;
+         let FBQaddQution = document.getElementById('FBQaddQution');
+         let FBQeditQution = document.getElementById('FBQeditQution');
+         FBQaddQution.style.cssText = "display:none";
+         FBQeditQution.style.cssText = "display:block";
+         FBQqutionName.value = qutionData.qutionName;
+         for(i=0;i<maxid;i++){
+             let currentDiv = document.getElementById("createDiv");
+             let removeElement = document.getElementById("inputclose-"+i);
+             if(removeElement != null){
+                 document.getElementById("inputanswer-"+i).value='';
+                 currentDiv.removeChild(removeElement);
+             }
+         }
+         length=0;
+         maxid=length;
+         for(i = 0;i < FBQlength;i++){
+               let parentDiv = document.createElement("div");
+               parentDiv.class="input-delete";
+               parentDiv.id="inputclose-"+i;
+               let newDiv = document.createElement("input");
+               newDiv.type="text";
+               newDiv.id="inputanswer-"+length;
+               newDiv.className="col-sm-11 form-control";
+               newDiv.style="margin:0px 0px 5px 0px; display:inline-block;";
+               newDiv.required="required";
+               newDiv.innerHTML="";
+               parentDiv.appendChild(newDiv);
+               let currentDiv = document.getElementById("createDiv");
+               var span = document.createElement("span");
+               var txt = document.createTextNode("\u00D7");
+               span.className = "close col-sm-1";
+               span.appendChild(txt);
+               parentDiv.appendChild(span);
+               currentDiv.appendChild(parentDiv);
+               length += 1;
+               maxid=length;
+         }
+         for(i =0;i<FBQlength;i++){
+           let FBQcorrectAnswer = document.getElementById("inputanswer-"+i);
+           FBQcorrectAnswer.value = qutionData.correctAnswers[i];
+         }
+         if(qutionData.score == "未設定"){
+           FBQscore.value = "";
+         }else{
+           FBQscore.value = parseInt(qutionData.score);
+         }
+         for (i = 0; i < close.length; i++) {
+           close[i].onclick = function() {
+             if(close.length > 1){
+               let currentDiv = document.getElementById("createDiv");
+               let div = this.parentElement;
+               currentDiv.removeChild(div);
+               length -= 1;
+             }
+           }
+         }
+     }
+  
+     let FBQeditQuestion = function(){
+       let FBQqutionName = document.getElementById("FBQqutionName");
+       let FBQscore = document.getElementById("FBQscore");
+       let FBQcorrectAnswers = [];
+       let FBQaddQution = document.getElementById('FBQaddQution');
+       let FBQeditQution = document.getElementById('FBQeditQution');
+       let currentDiv = document.getElementById('createDiv');
+       let FBQlength = length;
+       let j=0;
+       for(i=0;i<maxid;i++){
+           let FBQanswer = document.getElementById("inputanswer-"+i);
+           if(FBQanswer!=null){
+               FBQcorrectAnswers[j]=FBQanswer.value;
+               j++;
+           }
        }
        let question = {
            type: "填空題",
-           qutionName: qutionName.value,
-           correctAnswers:correctAnswers,
+           qutionName: FBQqutionName.value,
+           correctAnswers:FBQcorrectAnswers,
            studentAnswer:false,
-           score: score.value
+           score: FBQscore.value
        }
-       console.log("------------檢查----------");
-       console.log(question);
-       updateCreatedQutionList(question);
-       var currentDiv = document.getElementById('createDiv');
-       qutionName.value = '';
-       score.value = '';
-       for(i=0;i<length;i++){
-           var removeElement = document.getElementById(i);
-           document.getElementById(i).value='';
-           if(i!=0) currentDiv.removeChild(removeElement);
+       QuationList[FBQeditQutionID] = question;
+       updateQutionList();
+       FBQaddQution.style.cssText = "display:block";
+       FBQeditQution.style.cssText = "display:none";
+       FBQqutionName.value = '';
+       FBQscore.value = '';
+       for(i=0;i<maxid;i++){
+           let currentDiv = document.getElementById("createDiv");
+           let removeElement = document.getElementById("inputclose-"+i);
+           if(removeElement != null){
+               document.getElementById("inputanswer-"+i).value='';
+               currentDiv.removeChild(removeElement);
+           }
        }
-       length=1;
-   }
-</script>
+       length=0;
+       addElement();
+       maxid=length;
+     }
+  </script>
