@@ -22,18 +22,18 @@
     }
 </style>
 <%if(isSubmited){%>
-<h4>考卷名稱:
+<h4>測驗名稱:
     <%=test.testName%>(已提交過此測驗)
 </h4>
 <%}else{%>
 <div style="display: flex;justify-content:space-between;height: 3rem;">
-    <h4 style="width: 33%;line-height: 3rem">考卷名稱:
+    <h4 style="width: 33%;line-height: 3rem">測驗名稱:
             <%=test.testName%>
     </h4>
     <p id = "ToppublicTime"  style="width: 33%;line-height: 3rem;text-align: center"></p>
     <div style="width: 33%;">
         <%if(user._id == classinfo.teacher){%>
-            <button class="btn btn-secondary " data-toggle="modal" style="float: right;margin-top: 0.5rem" data-target="#uploadTestModal" onclick="EditTest()">編輯考卷</button>
+            <button class="btn btn-secondary " data-toggle="modal" style="float: right;margin-top: 0.5rem" data-target="#uploadTestModal" onclick="EditTest()">編輯測驗</button>
                 <!-- Modal -->
                 <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
