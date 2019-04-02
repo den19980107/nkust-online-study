@@ -158,7 +158,7 @@
                         </p>
                         <%if(classinfo.teacher == user._id || isTA){%>
                         <a class="close" style="padding: 12px;">
-                            <span class=" delete-chapter" id="<%=chapter._id%>" aria-hidden="true">&times;</span>
+                            <span class=" delete-chapter" id="<%=chapter._id%>" aria-hidnde="true">&times;</span>
                         </a>
                         <%}%>
 
@@ -1082,21 +1082,49 @@
         console.log(QuationList);
     }
     //設定測驗發佈時間最早為今天
-    let today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
-    let hh = today.getHours();
-    let minute = today.getMinutes();
-    if(minute<10){
-        minute="0"+minute
+    let today = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+    console.log("today = ",today);
+    let split = today.split(" ");
+    let ymd = split[0];
+    let hm = split[1];
+    console.log("hm = ",hm);
+    ymd = ymd.split("/");
+    console.log("ymd = ",ymd);
+    let yyyy = ymd[0];
+    let mm = ymd[1];
+    if(parseInt(mm)<10){
+        mm = "0"+mm
     }
-    if(dd<10){
-            dd='0'+dd
-        } 
-        if(mm<10){
-            mm='0'+mm
-    } 
+    let dd = ymd[2];
+    if(parseInt(dd)<10){
+        dd = "0"+dd
+    }
+    console.log("yyyy = ",yyyy," mm = ",mm," dd = ",dd);
+    console.log("hm = ",hm);
+    let hh = "";
+    let minute = "";
+    if(hm.indexOf("上午")!=-1){
+        hm = hm.split(":");
+        hh = hm[0].replace("上午","");
+        if(parseInt(hh)<10){
+            hh = "0"+hh
+        }
+        minute = hm[1];
+        if(parseInt(minute)<10){
+            minute = "0"+minute
+        }
+    }else if(hm.indexOf("下午")!=-1){
+        hm = hm.split(":");
+        hh = hm[0].replace("下午","");
+        if(parseInt(hh)<10){
+            hh = "0"+hh
+        }
+        minute = hm[1];
+        minute = hm[1];
+        if(parseInt(minute)<10){
+            minute = "0"+minute
+        }
+    }
     today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
     document.getElementById("publicTime").setAttribute("min",today);
     document.getElementById("publicTime").value = today

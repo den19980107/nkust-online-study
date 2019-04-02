@@ -22,18 +22,18 @@
     }
 </style>
 <%if(isSubmited){%>
-<h4>測驗名稱:
+<h4>考卷名稱:
     <%=test.testName%>(已提交過此測驗)
 </h4>
 <%}else{%>
 <div style="display: flex;justify-content:space-between;height: 3rem;">
-    <h4 style="width: 33%;line-height: 3rem">測驗名稱:
+    <h4 style="width: 33%;line-height: 3rem">考卷名稱:
             <%=test.testName%>
     </h4>
     <p id = "ToppublicTime"  style="width: 33%;line-height: 3rem;text-align: center"></p>
     <div style="width: 33%;">
         <%if(user._id == classinfo.teacher){%>
-            <button class="btn btn-secondary " data-toggle="modal" style="float: right;margin-top: 0.5rem" data-target="#uploadTestModal" onclick="EditTest()">編輯測驗</button>
+            <button class="btn btn-secondary " data-toggle="modal" style="float: right;margin-top: 0.5rem" data-target="#uploadTestModal" onclick="EditTest()">編輯考卷</button>
                 <!-- Modal -->
                 <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -392,23 +392,53 @@
     if(user._id == classinfo.teacher){
         console.log("isTeacher");
         let questionList = document.getElementById('questionList');
-        //設定測驗發佈時間最早為今天
-        let today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        let hh = today.getHours();
-        let minute = today.getMinutes();
-        if(minute<10){
-            minute="0"+minute
+        
+        let today = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+        console.log("today = ",today);
+        let split = today.split(" ");
+        let ymd = split[0];
+        let hm = split[1];
+        console.log("hm = ",hm);
+        ymd = ymd.split("/");
+        console.log("ymd = ",ymd);
+        let yyyy = ymd[0];
+        let mm = ymd[1];
+        if(parseInt(mm)<10){
+            mm = "0"+mm
         }
-        if(dd<10){
-                dd='0'+dd
-            } 
-            if(mm<10){
-                mm='0'+mm
-        } 
+        let dd = ymd[2];
+        if(parseInt(dd)<10){
+            dd = "0"+dd
+        }
+        console.log("yyyy = ",yyyy," mm = ",mm," dd = ",dd);
+        console.log("hm = ",hm);
+        let hh = "";
+        let minute = "";
+        if(hm.indexOf("上午")!=-1){
+            hm = hm.split(":");
+            hh = hm[0].replace("上午","");
+            if(parseInt(hh)<10){
+                hh = "0"+hh
+            }
+            minute = hm[1];
+            if(parseInt(minute)<10){
+                minute = "0"+minute
+            }
+        }else if(hm.indexOf("下午")!=-1){
+            hm = hm.split(":");
+            hh = hm[0].replace("下午","");
+            if(parseInt(hh)<10){
+                hh = "0"+hh
+            }
+            minute = hm[1];
+            minute = hm[1];
+            if(parseInt(minute)<10){
+                minute = "0"+minute
+            }
+        }
         today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
+        console.log(today);
+        
         document.getElementById("publicTime").setAttribute("min",today);
         document.getElementById("publicTime").value = today
         document.getElementById("EndpublicTime").setAttribute("min",today)
