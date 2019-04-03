@@ -879,7 +879,7 @@ router.post('/EndpublicTest/:testID',function(req,res){
 //更改測驗
 router.post('/saveTest/:testID',function(req,res){
   console.log(req.body);
-  
+
   let query = {
     _id:ObjectID(req.params.testID)
   }
@@ -905,7 +905,7 @@ router.post('/saveTest/:testID',function(req,res){
       });
     }
   })
-  
+
 })
 
 //新增作業
@@ -1261,24 +1261,28 @@ router.get('/showStudentApproval/:classID', ensureAuthenticated, function(req, r
   })
 });
 //刪除課程學生
-router.get('/deleteStudent/:id/unit/:classID', function(req, res) {
-  StudebtTakeCourse.find({
-    studentID: req.params.id,
-    classID: req.params.classID
-  }, function(err, stc) {
-    if (err) {
-      console.log(err);
+router.get('/deleteStudent/:id/unit/:classID', function (req, res) {
+    var string = req.params.id;
+    let delsidarray = string.split(",");
+    for (let i = 0; delsidarray.length > i; i++) {
+        StudebtTakeCourse.find({
+            studentID: delsidarray[i],
+            classID: req.params.classID
+        }, function (err, stc) {
+            if (err) {
+                console.log(err);
+            }
+            StudebtTakeCourse.remove({
+                _id: stc[0]._id
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            })
+        })
     }
-    StudebtTakeCourse.remove({
-      _id: stc[0]._id
-    }, function(err) {
-      if (err) {
-        console.log(err);
-      }
-      req.flash('success', '刪除成功');
-      res.redirect('/class/showStudentIn/' + req.params.classID);
-    })
-  })
+    req.flash('success', '刪除成功');
+    res.redirect('/class/showStudentIn/' + req.params.classID);
 })
 //批准待審核學生
 router.get('/checkStudent/:sid/unit/:classID', function(req, res) {
@@ -1436,24 +1440,29 @@ router.get('/checkAssistant/:sid/unit/:classID', function(req, res) {
   res.redirect('/class/showAssistantIn/' + req.params.classID);
 })
 //刪除課程助教
-router.get('/deleteAssistant/:id/unit/:classID', function(req, res) {
-  StudebtTakeCourse.find({
-    studentID: req.params.id,
-    classID: req.params.classID
-  }, function(err, stc) {
-    if (err) {
-      console.log(err);
+router.get('/deleteAssistant/:id/unit/:classID', function (req, res) {
+    var string = req.params.id;
+    let delsidarray = string.split(",");
+    for (let i = 0; delsidarray.length > i; i++) {
+        StudebtTakeCourse.updateMany({
+            studentID: delsidarray[i],
+            classID: req.params.classID
+        }, {
+            $set: {
+                permission: "11111"
+            }
+        }, {
+            w: 1
+        }, function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Assistant Permission Delete Successfully');
+            }
+        })
     }
-    StudebtTakeCourse.remove({
-      _id: stc[0]._id
-    }, function(err) {
-      if (err) {
-        console.log(err);
-      }
-      req.flash('success', '刪除成功');
-      res.redirect('/class/showAssistantIn/' + req.params.classID);
-    })
-  })
+    req.flash('success', '刪除成功');
+    res.redirect('/class/showAssistantIn/' + req.params.classID);
 })
 //助教權限設定
 router.get('/setAssistant/:id/unit/:classID/set/:mode', function(req, res) {
