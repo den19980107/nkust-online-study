@@ -28,8 +28,7 @@
         <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
         <div class="row">
           <div>
-            <div style="width:41px" id="nodelbutton"></div>
-            <button class="btn div-left" onclick="deleteclick()" style="padding:5px 13px 0 8px;display:none" id="yesdelbutton"><i class="fa fa-trash"></i></button>
+            <button class="btn div-left" onclick="deleteclick()" style="padding:5px 13px 0 8px"><i class="fa fa-trash"></i></button>
           </div>
           <div style="padding:5px;">
             <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
@@ -50,8 +49,7 @@
         <%if(classinfo.teacher == user._id){%>
         <div class="row">
           <div>
-            <div style="width:41px" id="nodelbutton"></div>
-            <button class="btn div-left" onclick="deleteclick()" style="padding:5px 13px 0 8px;display:none" id="yesdelbutton"><i class="fa fa-trash"></i></button>
+            <button class="btn div-left" onclick="deleteclick()" style="padding:5px 13px 0 8px"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;" id="selectstatus"></i></button>
           </div>
           <div style="padding:5px;">
             <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
@@ -135,35 +133,15 @@
   function check_all(obj,cName) {
     var checkboxs = document.getElementsByName(cName);
     for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = obj.checked;}
-    var show = [];
-    $("input[type=checkbox]:checked").each(function () {
-        if($(this).val()!="on"){
-          show.push($(this).val());
-        }
-    });
-    if(show.length != 0){
-      document.getElementById("nodelbutton").style = "width:41px;display:none;"
-      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:auto;"
+    if(obj.checked){
+      document.getElementById("selectstatus").style = ""
     }else{
-      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:none;"
-      document.getElementById("nodelbutton").style = "width:41px;display:auto;"
+      document.getElementById("selectstatus").style = "opacity: 0.4;cursor: not-allowed;"
     }
   }
   function showdelbutton(){
-    var show = [];
-    $("input[type=checkbox]:checked").each(function () {
-        if($(this).val()!="on"){
-          show.push($(this).val());
-        }
-    });
-    if(show.length != 0){
-      document.getElementById("nodelbutton").style = "width:41px;display:none;"
-      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:auto;"
-    }else{
-      document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:none;"
-      document.getElementById("nodelbutton").style = "width:41px;display:auto;"
-    }
     var unCheckedBoxs = [];
+    var onCheckedBoxs = [];
     $("input[type=checkbox]").not("input:checked").each(function () {
         if($(this).val()!="on"){
           unCheckedBoxs.push($(this).val());
@@ -174,20 +152,29 @@
     }else{
         document.getElementById("allstatus").checked = true
     }
+    $("input[type=checkbox]:checked").each(function () {
+        if($(this).val()!="on"){
+          onCheckedBoxs.push($(this).val());
+        }
+    });
+    if(onCheckedBoxs.length != 0){
+        document.getElementById("selectstatus").style = ""
+    }else{
+        document.getElementById("selectstatus").style = "opacity: 0.4;cursor: not-allowed;"
+    }
   }
+  //dropdown狀態
   function allselect(cName){
     var checkboxs = document.getElementsByName(cName);
     for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = true}
     document.getElementById("allstatus").checked = true
-    document.getElementById("nodelbutton").style = "width:41px;display:none;"
-    document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:auto;"
+    document.getElementById("selectstatus").style = ""
   }
   function allnotselect(cName){
     var checkboxs = document.getElementsByName(cName);
     for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = false}
     document.getElementById("allstatus").checked = false
-    document.getElementById("yesdelbutton").style = "padding:5px 13px 0 8px;display:none;"
-    document.getElementById("nodelbutton").style = "width:41px;display:auto;"
+    document.getElementById("selectstatus").style = "opacity: 0.4;cursor: not-allowed;"
   }
 </script>
 

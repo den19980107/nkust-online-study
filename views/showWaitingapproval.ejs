@@ -1,4 +1,5 @@
 <% include layout/header %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <style>
     .banner a:hover{
       color:#DDD;
@@ -11,16 +12,30 @@
 <table class="table">
     <thead>
         <tr>
-            <th width="120">
-                <center>
+            <th width="160" style="padding:12px 0">
+              <div class="row" style="padding:0 0 0 17px ">
+                <div>
                     <button class="btn btn-success btn-sm" onclick="check()">批准</button>
-                </center>
+                </div>
+                <div style="padding:8px 0 8px 8px;">
+                  <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
+                </div>
+                <div class="dropdown" style="padding:9px 0 0">
+                  <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-angle-down"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 4rem;padding:0px">
+                    <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allselect('c')">全選</a>
+                    <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allnotselect('c')">全不選</a>
+                  </div>
+                </div>
+              </div>
             </th>
-            <th class="text-center" scope="col" width="150">姓名</th>
-            <th class="text-center" scope="col" width="400">科系</th>
-            <th class="text-center" scope="col" width="300">學號</th>
-            <th class="text-center" scope="col" width="300">信箱</th>
-            <th class="text-center" scope="col" width="500">個人網頁</th>
+            <th class="text-center" scope="col" width="150" style="padding:0 0 21px;" valign="left">姓名</th>
+            <th class="text-center" scope="col" width="400" style="padding:0 0 21px">科系</th>
+            <th class="text-center" scope="col" width="300" style="padding:0 0 21px">學號</th>
+            <th class="text-center" scope="col" width="300" style="padding:0 0 21px">信箱</th>
+            <th class="text-center" scope="col" width="500" style="padding:0 0 21px">個人網頁</th>
         </tr>
     </thead>
     <tbody>
@@ -28,9 +43,9 @@
         <%users.forEach(function(user){%>
         <%if(studentscheck[temp].permission =='00000'){%>
         <tr>
-            <td class="text-center" style="width:120px;">
+            <td style="width:120px;" align="right">
                 <div class="text-danger" id="checkStudent<%=temp%>" style="padding:0px">
-                    <input type="checkbox" value="<%=studentscheck[temp].studentID%>" style="zoom: 2">
+                    <input type="checkbox" value="<%=studentscheck[temp].studentID%>" style="zoom: 2" name="c" onclick="showselect()">
                 </div>
             </td>
             <td class="text-center">
@@ -59,7 +74,9 @@
     function check() {
         var c = [];
         $("input[type=checkbox]:checked").each(function () {
-            c.push($(this).val());
+            if($(this).val()!="on"){
+              c.push($(this).val());
+            }
         });
         console.log(c.length);
         if (c.length == 0) {
@@ -72,14 +89,41 @@
         }
 
     }
-</script>
-<script>
     //到學生清單
     $(document).ready(function () {
         $(".returnshow").click(function () {
             window.location = "/class/showStudentIn/<%=classID%>";
         })
     });
+    //全選
+    function check_all(obj,cName) {
+      var checkboxs = document.getElementsByName(cName);
+      for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = obj.checked;}
+    }
+    function showselect(){
+      var unCheckedBoxs = [];
+      $("input[type=checkbox]").not("input:checked").each(function () {
+          if($(this).val()!="on"){
+            unCheckedBoxs.push($(this).val());
+          }
+      });
+      if(unCheckedBoxs.length != 0){
+          document.getElementById("allstatus").checked = false
+      }else{
+          document.getElementById("allstatus").checked = true
+      }
+    }
+    //dropdown狀態
+    function allselect(cName){
+      var checkboxs = document.getElementsByName(cName);
+      for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = true}
+      document.getElementById("allstatus").checked = true
+    }
+    function allnotselect(cName){
+      var checkboxs = document.getElementsByName(cName);
+      for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = false}
+      document.getElementById("allstatus").checked = false
+    }
 </script>
 
 <% include layout/footer %>
