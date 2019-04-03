@@ -3,22 +3,22 @@
       border-width: 0 0 1px 0;
   }
 </style>
-<div class="container pb-2 pt-2" id="MCQ" style="display:flex:justify-content:start">
+<div class="container pb-2 pt-2" id="MCQ" style="display:flex:justify-content:start;padding:0px">
   <div class="form-group row title">
-      <label >題目</label>
-
-          <input type="text" class="form-control title-text" placeholder="請輸入題目" id="MCQquestion-value">
-
+      <label class="col-sm-2 col-form-label" style="padding:10px 0 0 15px;">題目</label>
+      <div class="col-sm-9 title-col">
+          <input type="text" id ="MCQquestion-value" class="form-control title-text" placeholder="請輸入題目">
+      </div>
   </div>
   <div class="form-group row">
-      <label class="col-sm-2 col-form-label">答案</label>
+      <label class="col-sm-4 col-form-label">答案</label>
   </div>
-  <div class="MCQsetanswer" style="height:auto">
+  <div class="MCQsetanswer" style="height:auto;padding:0 15px">
     <div class="form-group row MCQanswer1">
-        <div class="col-sm-1">
+        <div class="col-sm-1" style="padding:0px">
             <input type="radio" onclick="MCQcheckAnswerCheck(1)" class="form-control" id="MCQstatus1" data-id="111">
         </div>
-        <div class="col-sm-10" >
+        <div class="col-sm-9" >
             <input type="text" class="form-control input-border" placeholder="請輸入選項內容" id="MCQanswer1-value">
         </div>
         <div class="col-sm-1 form-control" style="background: none;border: none">
@@ -28,9 +28,9 @@
         </div>
     </div>
   </div>
-  <div>
+  <div style="padding:0 15px">
     <div class="form-group row">
-        <div class="col-sm-1">
+        <div class="col-sm-1" style="padding:0px">
             <input type="radio" class="form-control" onclick="return false">
         </div>
         <div class="col-sm-10" style="padding:5px 15px">
@@ -38,14 +38,10 @@
         </div>
     </div>
   </div>
-  <div class="form-group row">
-      <div class="col-sm-9" >
-          <input type="text" class="form-control" placeholder="請輸入配分" id="MCQscore-value">
-      </div>
-      <div class="col-sm-1" >
-          <button class="btn btn-secondary" onclick="MCQcreateNewQution()" id="MCQButtonAdd">新增題目</button>
-          <button class="btn btn-secondary" onclick="MCQSaveQution()" id="MCQButtonSave" style="display:none;">儲存題目</button>
-      </div>
+  <div class="modal-footer p-0">
+    <input type="number" min="0" class="form-control" placeholder="請輸入配分" id="MCQscore-value">
+    <button class="btn btn-secondary" onclick="MCQcreateNewQution()" id="MCQButtonAdd">新增題目</button>
+    <button class="btn btn-secondary" onclick="MCQSaveQution()" id="MCQButtonSave" style="display:none;">儲存題目</button>
   </div>
 </div>
 <script>
@@ -53,10 +49,10 @@ let temp = 1
 function MCQaddanswer(){
   temp +=1
   $('.MCQsetanswer').append(`<div class="form-group row MCQanswer`+temp+`">
-      <div class="col-sm-1">
+      <div class="col-sm-1" style="padding:0px">
           <input type="radio" onclick="MCQcheckAnswerCheck(`+temp+`)" class="form-control" id="MCQstatus`+temp+`" data-id="111">
       </div>
-      <div class="col-sm-10" >
+      <div class="col-sm-9" >
           <input type="text" class="form-control input-border" placeholder="請輸入選項內容" id="MCQanswer`+temp+`-value">
       </div>
       <div class="col-sm-1 form-control" style="background: none;border: none">
@@ -193,6 +189,16 @@ function MCQSaveQution(){
     }
     temp = 0
     MCQaddanswer()
-
+}
+//阻止輸入
+// Select your input element.
+var number = document.getElementById('MCQscore-value');
+// Listen for input event on numInput.
+number.onkeydown = function(e) {
+    if(!((e.keyCode > 95 && e.keyCode < 106)
+      || (e.keyCode > 47 && e.keyCode < 58)
+      || e.keyCode == 8)) {
+        return false;
+    }
 }
 </script>
