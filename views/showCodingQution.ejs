@@ -457,15 +457,7 @@
                 socket.emit('script', scriptData);
                 socket.on('answer', function (obj) {
                     let output = obj.body.output.substring(0, obj.body.output.length - 1)
-                    if (`
-            $ {
-                output
-            }
-            ` != `
-            $ {
-                testData[i].output
-            }
-            `) {
+                    if (output != testData[i].output) {
                         isRight = false;
                         if (obj.body.memory == null && obj.body.cpuTime == null) { //表示編譯錯誤
                             record.status = "Compile Error";
