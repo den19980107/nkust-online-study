@@ -10,20 +10,12 @@ let codeQutionSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    description: {
+    body: {
         type: String,
         require: true
     },
-    exInput: {
-        type: String,
-        require: true
-    },
-    exoutput: {
-        type: String,
-        require: true
-    },
-    url: {
-        type: String,
+    testData: {
+        type: Array,
         require: true
     }
 });

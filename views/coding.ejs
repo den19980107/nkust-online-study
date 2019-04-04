@@ -4,16 +4,17 @@
         display: flex;
         justify-content: space-between;
     }
-    .noHoverStyle:hover{
+
+    .noHoverStyle:hover {
         outline: none;
         text-shadow: none;
     }
-    .noHoverStyle{
+
+    .noHoverStyle {
         outline: none;
         text-shadow: none;
         border: 1px rgb(104, 103, 103) solid;
         padding: 0 .8em
-
     }
 </style>
 <div class="row">
@@ -23,45 +24,21 @@
         </section>
         <div style="margin-top: 2em;">
             <h5>分類</h5>
-            <div class="Category">
+            <div class="Category mb-5">
                 <button class="btn btn-primary" style="width: 10em;height: 5em;">演算法</button>
                 <button class="btn btn-secondary" style="width: 10em;height: 5em;">資料結構</button>
                 <button class="btn btn-success" style="width: 10em;height: 5em;">圖形理論</button>
                 <button class="btn btn-info" style="width: 10em;height: 5em;">組合優化</button>
-                <button class="btn" style="width: 10em;height: 5em;background: rgb(71, 189, 134);color: white">動態規劃</button>
+                <button class="btn"
+                    style="width: 10em;height: 5em;background: rgb(71, 189, 134);color: white">動態規劃</button>
             </div>
-            <hr>
-            <div class="search" style="margin-top: 2em;">
-                <form action="" class="form Category">
-                    <input type="text" class="noHoverStyle" style="width: 50%;border-radius: 20px">
-                    <div>
-                        <span>難易度:</span>
-                        <select name="" id="">
-                            <option value="volvo">簡單</option>
-                            <option value="saab">普通</option>
-                            <option value="mercedes">困難</option>
-                        </select>
-                    </div>
-                    <div>
-                        <span>解題狀態:</span>
-                        <select name="" id="">
-                            <option value="volvo">還沒解過</option>
-                            <option value="saab">以後要解</option>
-                            <option value="mercedes">解決了</option>
-                        </select>
-                    </div>
-                    <div>
-                        <span>標籤:</span>
-                        <select name="" id="">
-                            <option value="volvo">簡單</option>
-                            <option value="saab">普通</option>
-                            <option value="mercedes">困難</option>
-                        </select>
-                    </div>
-                </form>
-
+            <div class="mb-2" style="display: flex">
+                <input type="text" style="flex: 8">
+                <input type="submit" class="btn btn-primary" value="搜尋" style="flex: 1;margin-left: 1rem">
+                <a href="/coding/createNewCodingQution" class="btn btn-success"
+                    style="flex: 1;margin-left: 1rem">新增題目</a>
             </div>
-            <div class="topic" style="margin-top: 2em;">
+            <div class="topic">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -76,7 +53,7 @@
                                 <%=i%>
                             </th>
                             <td>
-                                <%=qutions[i].title%>
+                                <a href="/coding/showCodingQution/<%=qutions[i]._id%>"><%=qutions[i].title%></a>
                             </td>
                         </tr>
                         <%}%>
@@ -95,5 +72,11 @@
         </div>
     </div>
 </div>
+<script>
+    let showQution = function(id){
+        console.log(id);
+        window.location = "/coding/showCodingQution/"+id
+    }
+</script>
 
 <% include layout/footer %>

@@ -1,0 +1,79 @@
+<% include layout/header %>
+<h3>詳細提交紀錄</h3>
+<hr>
+<div style="display: flex;justify-content: space-around ;height: 5rem;border: 1px solid rgb(224, 224, 224)">
+    <div style="height: 100%;display: flex;align-items: center;justify-content: center;padding: 1rem">
+        cpu執行時間：<%=record.runtime%>
+    </div>
+    <div style="height: 100%;display: flex;align-items: center;justify-content: center;padding: 1rem">
+        編譯結果：
+        <%if(record.status == "Accepted"){%>
+        <span style="color: rgb(6, 185, 6);font-weight: 500"><%=record.status%></span>
+        <%}%>
+            <%if(record.status == "Wrong Answer"){%>
+        <span style="color: rgb(255, 92, 92);font-weight: 500"><%=record.status%></span>
+        <%}%>
+                <%if(record.status == "Compile Error"){%>
+        <span style="color: rgb(207, 207, 123);font-weight: 500"><%=record.status%></span>
+        <%}%>
+    </div>
+    <div style="height: 100%;display: flex;align-items: center;justify-content: center;padding: 1rem">
+            提交時間：<%=record.submitTime%>
+    </div>
+    <div style="height: 100%;display: flex;align-items: center;justify-content: center;padding: 1rem">
+        記憶題佔用：<%=record.memory%>
+    </div>
+    <div style="height: 100%;display: flex;align-items: center;justify-content: center;padding: 1rem">
+        語言：<%=record.language%>
+    </div>
+</div>
+<div class="mt-3 mb-2" style="display: flex;">
+    <div style="display: flex;justify-content: start;align-items: center;font-size: 20px;font-weight: 600;flex: 1;">
+        提交的程式碼
+    </div>
+    <div style="display: flex;justify-content: end;align-items: center;">
+        <button class="btn btn-primary" onclick="editCode()">編輯程式碼</button>
+    </div>
+
+</div>
+<div style="height: 50%">
+    <pre id="editor" style="border: 1px solid rgb(179, 179, 179);height: 100%"></pre>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/clouds");
+    editor.session.setMode("ace/mode/<%=record.language%>");
+    let script = `<%=record.script%>`
+    script = script.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "'");
+    editor.session.setValue(script)
+    document.getElementById('editor').style.fontSize = '16px';
+
+    let editCode = function () {
+        let script = editor.getValue();
+        let data = {
+            qutionID: "<%=record.codingQutionID%>",
+            script: script,
+            language: "<%=record.language%>"
+        }
+        post("/coding/editQution", data);
+    }
+
+    function post(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            // alert(opt.name)
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+</script>
+<% include layout/footer %>

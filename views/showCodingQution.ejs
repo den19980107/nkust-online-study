@@ -1,0 +1,511 @@
+<% include layout/header %>
+<style>
+    .languageBtn {
+        border: none;
+        border-radius: 5px;
+        background: rgb(250, 250, 250);
+        color: rgb(92, 112, 123);
+        box-sizing: border-box;
+        border: 1px solid rgba(0, 0, 0, 0);
+    }
+
+    .languageBtn:hover {
+        border: 1px solid black;
+    }
+
+    .languageBtn:focus {
+        outline: 0
+    }
+
+    #editor {
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .console {
+        padding: 1rem;
+        width: 100%;
+        resize: none;
+        border: 1px solid rgb(221, 221, 221);
+        border-top: none;
+    }
+
+    .console:focus {
+        outline: 0;
+    }
+
+
+    /* loader */
+    /* Absolute Center Spinner */
+    .loading {
+        position: fixed;
+        z-index: 1001;
+        height: 2em;
+        width: 2em;
+        overflow: show;
+        margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    /* Transparent Overlay */
+    .loading:before {
+        content: '';
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+
+        background: -webkit-radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+    }
+
+    /* :not(:required) hides these rules from IE9 and below */
+    .loading:not(:required) {
+        /* hide "loading..." text */
+        font: 0/0 a;
+        color: transparent;
+        text-shadow: none;
+        background-color: transparent;
+        border: 0;
+    }
+
+    .loading:not(:required):after {
+        content: '';
+        display: block;
+        font-size: 10px;
+        width: 1em;
+        height: 1em;
+        margin-top: -0.5em;
+        -webkit-animation: spinner 1500ms infinite linear;
+        -moz-animation: spinner 1500ms infinite linear;
+        -ms-animation: spinner 1500ms infinite linear;
+        -o-animation: spinner 1500ms infinite linear;
+        animation: spinner 1500ms infinite linear;
+        border-radius: 0.5em;
+        -webkit-box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+        box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+    }
+
+    /* Animation */
+
+    @-webkit-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @-moz-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @-o-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<div class="loading" id="loader"></div>
+<h3>程式練習</h3>
+<hr>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">系統提示</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>答案正確！</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">系統提示</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">答案錯誤，輸出內容如下：</p>
+                <textarea id="errorMsg"
+                    style="width: 100%;height: 10rem;resize: none;border: 1px solid rgb(221, 221, 221);border-radius: 5px;padding: 1rem"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display: flex;justify-content: space-between">
+    <div class="qution" style="width: 49%">
+        <ul class="nav nav-tabs" id="tabNav">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="changeTab('discription')" id="discriptionTab">說明</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeTab('submitRecord')" id="submitRecordTab">提交紀錄</a>
+            </li>
+        </ul>
+        <div class="mt-2" id="discription">
+            <h5>題目名稱：<%=qutionData.title%></h5>
+            <textarea id="Detail" style="display: block;width: 100%;"></textarea>
+        </div>
+        <div class="mt-2" id="submitRecord" style="display: none">
+            <h5>提交紀錄</h5>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">提交時間</th>
+                        <th scope="col">狀態</th>
+                        <th scope="col">執行時間</th>
+                        <th scope="col">記憶體</th>
+                        <th scope="col">語言</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%submitRecord.forEach(function(record){%>
+                    <tr>
+                        <td><%=record.submitTime%></td>
+                        <td><a href="/coding/showCodingDetail/<%=record._id%>"><%=record.status%></a></td>
+                        <td><%=record.runtime%></td>
+                        <td><%=record.memory%></td>
+                        <td><%=record.language%></td>
+                    </tr>
+                    <%})%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="translater" style="width: 49%">
+        <div id="languageNav">
+            <select class="languageBtn" id="language" onchange="changeLanguage()">
+                <option value="cpp">C++</option>
+                <option value="java">Java</option>
+                <option value="python3">Python3</option>
+            </select>
+        </div>
+        <div id="translaterDiv" style="height: 80%;" class="mt-2">
+            <h5>編輯器</h5>
+            <div style="position: relative;">
+                <pre id="editor" style="border: 1px solid rgb(179, 179, 179);"></pre>
+                <!-- <div id="console"
+                    style="width: 100%;height: 3rem;background: rgb(213, 248, 210);border: 1px solid rgb(179, 179, 179);position: absolute;bottom: 0px;z-index: 999;display: flex;justify-content: start">
+                </div> -->
+                <div class="accordion" id="accordionExample"
+                    style="width: 100%;background: rgb(213, 248, 210);border: 1px solid rgb(179, 179, 179);position: absolute;bottom: 0px;z-index: 999;display: flex;justify-content: start">
+                    <div class="card w-100">
+                        <div class="card-header w-100" id="headingOne">
+                            <h2 class="mb-0">
+                                <button id="console" class="btn btn-link dropdown-toggle" type="button"
+                                    data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                    aria-controls="collapseOne" style="color:rgb(49, 49, 49)">
+                                    主控台
+                                </button>
+                                <button class="btn btn-info float-right" style="background: rgb(73, 90, 99)"
+                                    onclick="submit()" type="button">
+                                    提交
+                                </button>
+                                <button class="btn btn-info float-right  mr-2" onclick="compile()" type="button">
+                                    編譯
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordionExample" style="z-index: 999">
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="tabNav">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="inputTab" onclick="changeTab('input')">輸入</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="outputTab" onclick="changeTab('output')">結果</a>
+                                    </li>
+                                </ul>
+                                <textarea class="console" rows="10" id="input"></textarea>
+                                <textarea class="console" rows="10" style="display: none" id="output"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js"></script>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/clouds");
+    editor.session.setMode("ace/mode/c_cpp");
+    document.getElementById('editor').style.fontSize = '16px';
+    let body = `<%=qutionData.body%>`
+    body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "'");
+    let Detail = CKEDITOR.replace('Detail', {
+        height: "100px",
+        on: {
+            instanceReady: function (evt) {
+                let cke_1_bottom = document.getElementById('cke_1_bottom');
+                cke_1_bottom.style.cssText = "display:none"
+                let cke_inner = document.getElementsByClassName("cke_inner")[0];
+                Detail.resize($("#translaterDiv").width(), $("#translaterDiv").height());
+                let languageNav = document.getElementById('languageNav');
+                let tabNav = document.getElementById('tabNav');
+                let select = document.getElementById('language');
+                languageNav.style.height = tabNav.clientHeight
+                select.style.cssText = "height:100%"
+                Detail.setData(body)
+            }
+        },
+        readOnly: true,
+        removePlugins: 'resize'
+    });
+
+    window.onload = function () {
+            let fromEditScript = `<%if(locals.script){%><%=script%><%}%>`;
+        let fromEditLanguage = `<%if(locals.language){%><%=language%><%}%>`;
+        console.log(fromEditScript);
+        fromEditScript = fromEditScript.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#39;/g, "'");
+        let loader = document.getElementById('loader');
+        loader.style.display = "none";
+        console.log(fromEditScript);
+        console.log(fromEditLanguage);
+        if (fromEditScript != "" && fromEditLanguage !== "") {
+            editor.session.setValue(fromEditScript);
+            let language = document.getElementById('language');
+            language.value = fromEditLanguage
+            changeLanguage();
+        }
+
+    }
+
+    let changeTab = function (type) {
+        let discriptionTab = document.getElementById('discriptionTab');
+        let submitRecordTab = document.getElementById('submitRecordTab');
+        let discriptionDiv = document.getElementById('discription');
+        let submitRecordDiv = document.getElementById('submitRecord');
+        let input = document.getElementById('input');
+        let output = document.getElementById('output');
+        let inputTab = document.getElementById('inputTab');
+        let outputTab = document.getElementById('outputTab');
+        console.log(input, output, inputTab, outputTab);
+
+        if (type == "discription") {
+            discriptionTab.className = "nav-link active"
+            submitRecordTab.className = "nav-link "
+            discriptionDiv.style.display = "block";
+            submitRecordDiv.style.display = "none"
+        }
+        if (type == "submitRecord") {
+            discriptionTab.className = "nav-link"
+            submitRecordTab.className = "nav-link active"
+            discriptionDiv.style.display = "none";
+            submitRecordDiv.style.display = "block"
+        }
+        if (type == "input") {
+            inputTab.className = "nav-link active"
+            outputTab.className = "nav-link"
+            input.style.display = "block";
+            output.style.display = "none"
+        }
+        if (type == "output") {
+            inputTab.className = "nav-link"
+            outputTab.className = "nav-link active"
+            input.style.display = "none";
+            output.style.display = "block"
+        }
+
+    }
+
+    let changeLanguage = function () {
+        let language = $('#language').val();
+        console.log(language);
+
+        if (language == "python3") {
+            editor.session.setMode("ace/mode/python");
+        }
+        if (language == "cpp") {
+            editor.session.setMode("ace/mode/c_cpp");
+        }
+        if (language == "java") {
+            editor.session.setMode("ace/mode/java");
+        }
+    }
+    let compile = function () {
+        $('#collapseOne').collapse("show")
+        let script = editor.getValue();
+        let language = $('#language').val();
+        let input = document.getElementById('input').value;
+        let output = document.getElementById('output');
+        let scriptData = {
+            input: input,
+            script: script,
+            language: language,
+            id: "001"
+        }
+        var socket = io();
+        socket.emit('script', scriptData);
+        output.innerHTML = "編譯中....\n";
+        changeTab("output");
+        socket.on('answer', function (obj) {
+            console.log(obj);
+            output.innerHTML = obj.body.output;
+        });
+    }
+
+    let submit = function () {
+        if (confirm('確定要提交媽？提交過後的資訊將會被儲存在提交紀錄中')) {
+            let testData = <%- JSON.stringify(testData) %>
+            console.log(testData);
+            let loader = document.getElementById('loader');
+            loader.style.display = "block"
+            let userid = "<%user._id%>"
+            let isRight = true;
+            let record = {
+                submitTime: new Date().toLocaleString('zh-TW', {
+                    timeZone: 'Asia/Taipei'
+                }),
+                status: "",
+                runtime: "",
+                memory: "",
+                language: "",
+                script: "",
+                submiterID: "<%=user._id%>",
+                codingQutionID: "<%=qutionData._id%>"
+            };
+            for (let i = 0; i < testData.length; i++) {
+                let script = editor.getValue();
+                let language = $('#language').val();
+                record.language = language;
+                record.script = script;
+
+                let scriptData = {
+                    input: testData[i].input,
+                    script: script,
+                    language: language,
+                    id: userid
+                }
+                var socket = io();
+                socket.emit('script', scriptData);
+                socket.on('answer', function (obj) {
+                    let output = obj.body.output.substring(0, obj.body.output.length - 1)
+                    if (output != testData[i].output) {
+                        isRight = false;
+                        if (obj.body.memory == null && obj.body.cpuTime == null) { //表示編譯錯誤
+                            record.status = "Compile Error";
+                            record.runtime = obj.body.cpuTime
+                            record.memory = obj.body.memory
+                        } else {
+                            record.status = "Wrong Answer"
+                            record.runtime = obj.body.cpuTime
+                            record.memory = obj.body.memory
+                        }
+                    }
+                    if (i == testData.length - 1) { //全部測資跑完時
+                        loader.style.display = "none";
+                        if (isRight) {
+                            record.status = "Accepted";
+                            record.runtime = obj.body.cpuTime
+                            record.memory = obj.body.memory
+                        }
+                        //將記錄送到伺服器
+                        $.ajax({
+                            url: '/coding/saveRecord',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(record),
+                            dataType: 'json',
+                            error: function (xhr) {
+                                alert('發生錯誤');
+                            },
+                            success: function (response) {
+                                if (isRight) {
+                                    $('#successModal').modal('show');
+                                } else {
+                                    let errorMsg = document.getElementById('errorMsg')
+                                    errorMsg.value = output
+                                    $('#errorModal').modal('show');
+                                }
+                            }
+                        })
+                    }
+                    console.log(isRight);
+
+
+                });
+            }
+
+        } else {
+
+        }
+    }
+</script>
+<% include layout/footer %>
