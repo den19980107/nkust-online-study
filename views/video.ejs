@@ -203,6 +203,7 @@
 
     </div>
     <div class="col-4 pl-3">
+        <%if(user.permission == "student"){%>
         <div style="border: 1px solid rgb(182, 182, 182);position: relative;" class="mb-2">
             <div class="loader" id="loader"></div>
             <div class="w-100 bg-light p-2" style="height: 3.6rem;position: absolute;top: 0px;border-bottom: 0.3pt rgb(201, 200, 200) solid">
@@ -223,9 +224,8 @@
                 <i class="fas fa-list fa-1x" onclick="showNoteList()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 25%;margin-left: -1.5rem"></i>
                 <i class="fas fa-save fa-1x" onclick="saveNote()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 75%;margin-left: 1rem"></i>
             </div>
-
-
         </div>
+        <%}%>
         <button class="form-control mb-2">單元內影片</button>
         <div class="mb-2" style="height: 180px; width: 100%;background: #ccc">
         </div>

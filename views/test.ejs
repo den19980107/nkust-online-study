@@ -107,8 +107,7 @@
 </div>
 <%}%>
 <hr>
-
-<div class="col-md-12" id="questionList">
+<div class="col-md-12" id="questionList" style="style:<%if(test.isPublic == false){%>none<%}%> ">
     <%let i = 0%>
     <%test.testQutions.forEach(function(qution){%>
     <%i++%>
@@ -521,10 +520,10 @@
         if(Test.isPublic==false){
             let nowTime = new Date();
             let endTime = new Date(Test.EndpublicTime);
-            console.log(endTime-nowTime);
+            //console.log(endTime-nowTime);
 
             if((endTime-nowTime)/1000>0){
-                console.log("ispublic")
+                //console.log("ispublic")
                 let ispublic = countTime("beforePublic");
                 let publicTimeCounter = setInterval(function(){
                     if(ispublic == true ){
@@ -567,7 +566,7 @@
             if(user.permission == "student"){
                 questionList.style.cssText="display:none";
             }
-            console.log("beforePublic");
+            //console.log("beforePublic");
             let nowTime = new Date();
             let publicTimeText = document.getElementById('ToppublicTime');
             let publicTime = new Date(Test.publicTime);

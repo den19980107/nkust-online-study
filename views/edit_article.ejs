@@ -1,18 +1,26 @@
 <% include layout/header %>
 <h1>
-    <%=title%>
+    編輯文章
 </h1>
 
 <form method="POST" action="/articles/edit/<%=article._id%>/inClass/<%=belongclass%>">
     <div class="form-group">
-        <label>Title:</label>
+        <label>標題:</label>
         <input type="text" class="form-control" name="title" value="<%=article.title%>">
     </div>
     <div class="form-group">
-        <label>Body:</label>
-        <textarea name="body" class="form-control" rows="20"><%=article.body%></textarea>
+        <label>內容:</label>
+        <textarea id = "Detail" name="body" class="form-control" rows="20"><%=article.body%></textarea>
     </div>
     <input type="submit" class="btn btn-primary" value="Edit">
 </form>
-
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('Detail', {
+        height: 400,
+        filebrowserUploadUrl: '/uploader',
+        //記得加下面那行  filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form',
+    });
+</script>
 <% include layout/footer %>

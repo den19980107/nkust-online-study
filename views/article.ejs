@@ -25,7 +25,7 @@
 <div class="container  p-4 ">
     <div class="row">
         <div class="col bg-white">
-            <div id="mian" class="bg-white" style="padding-top: 50px;padding-bottom: 50px;">
+            <div id="mian" class="bg-white" style="padding-bottom: 50px;">
                 <div class="row">
                     <div class="col">
                         <h1 id="Title">
@@ -56,64 +56,21 @@
                     <%=article.body%>
                 </p>
                 <br>
-                <button id="likeBtn" class="btn btn-primary">Like</button>
-                <span id="likenumber">0</span>
+                <!-- <button id="likeBtn" class="btn btn-primary">Like</button> -->
+                <!--<span id="likenumber">0</span> -->
                 <div class="float-right">
                     <%if(user){%>
                     <%if(user.id == article.author_id){%>
-                    <a href="/articles/edit/<%=article._id%>/inClass/<%=belongclass%>" class="btn btn-success">Edit</a>
-                    <a href="#" class="btn btn-danger delete-article" data-id="<%=article._id%>" data-classid="<%=belongclass%>">Delete</a>
+                    <a href="/articles/edit/<%=article._id%>/inClass/<%=belongclass%>" class="btn btn-success">編輯文章</a>
+                    <a href="#" class="btn btn-danger delete-article" data-id="<%=article._id%>" data-classid="<%=belongclass%>">刪除文章</a>
                     <%}%>
                     <%}%>
                 </div>
 
 
             </div>
-            <div id="relate" class="bg-white mt-4" style="padding: 50px;">
-                <h3 class="text-secondary">相關文章</h3>
-                <div class="row">
-                    <div class="col">
-                        <div class="card" style="width: 100%;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up
-                                    the bulk of the card's content.</p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 100%;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up
-                                    the bulk of the card's content.</p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 100%;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up
-                                    the bulk of the card's content.</p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="reply" class="bg-white mt-4" style="padding: 50px;">
+            
+            <div id="reply" class="bg-white mt-4" style="padding-top: 50px;">
                 <h3 class="text-secondary">回覆</h3>
                 <br>
                 <div class="row" style="height: 50px">
@@ -145,7 +102,7 @@
                         <li style="width: 100%;list-style: none;margin-bottom: 20px;">
                             <div class="row">
                                 <div class="col-11">
-                                    <div class="row">
+                                    <div style="display:flex">
                                         <%if(comment.userID == classinfo.teacher){%>
                                         <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
                                             <%=comment.userName%>老師回復：
@@ -160,7 +117,7 @@
                                             <%=comment.commentTime%>
                                         </p>
                                     </div>
-                                    <div class="row">
+                                    <div class="">
                                         <p style="width: 100%;word-wrap:break-word;padding-right: 5px;">
                                             <%=comment.body%>
                                         </p>
