@@ -30,6 +30,9 @@ let studentSubmitTestSchema = mongoose.Schema({
     },
     score: {
         type: String
+    },
+    obtainscore: {
+        type: String
     }
 });
 
