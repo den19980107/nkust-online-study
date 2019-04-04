@@ -28,56 +28,58 @@
       box-shadow: 0px 3px 3px rgb(247, 247, 247);
     }
   </style>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white navbar" style="position: fixed;top: 0px;z-index: 3;width: 100%">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white navbar"
+    style="position: fixed;top: 0px;z-index: 1000;width: 100%">
     <a class="navbar-brand" href="/"><img src="/img/logo.png" class="img-fluid" style="height: 30px"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <%if(user){%>
-          <li class="nav-item">
-            <a class="nav-link" href="/">首頁<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/class">總開課清單</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/coding">程式練習區</a>
-          </li>
-          <%}%>
+        <li class="nav-item">
+          <a class="nav-link" href="/">首頁<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/class">總開課清單</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/coding">程式練習區</a>
+        </li>
+        <%}%>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <%if(user){%>
-          <%if(user.permission == "admin"){%>
-            <li class="nav-item">
-              <a class="nav-link" href="/backend">
-                        後台
-                    </a>
-            </li>
-            <%}%>
+        <%if(user.permission == "admin"){%>
+        <li class="nav-item">
+          <a class="nav-link" href="/backend">
+            後台
+          </a>
+        </li>
+        <%}%>
               <%if(user.permission == "teacher"){%>
-                <li class="nav-item">
-                  <a class="nav-link" href="/class/CreateNewClass">
-                        建立課程
-                    </a>
-                </li>
-                <%}%>
+        <li class="nav-item">
+          <a class="nav-link" href="/class/CreateNewClass">
+            建立課程
+          </a>
+        </li>
+        <%}%>
                   <li class="nav-item">
                     <div class="btn-group">
                       <button type="button" class="btn dropdown-toggle nooutline" style="color: rgb(130, 130, 130)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <%=user.username%>
-                </button>
-                      <div class="dropdown-menu ">
-                        <a class="dropdown-item text-center" href="/users/userinfo">個人資料</a>
-                        <%if(user.permission == "teacher"){%>
-                          <a class="dropdown-item text-center" href="/users/myclass">個人開課清單</a>
-                          <%}%>
+        </button>
+        <div class="dropdown-menu ">
+          <a class="dropdown-item text-center" href="/users/userinfo">個人資料</a>
+          <%if(user.permission == "teacher"){%>
+          <a class="dropdown-item text-center" href="/users/myclass">個人開課清單</a>
+          <%}%>
                             <%if(user.permission == "student"){%>
-                              <a class="dropdown-item text-center" href="/users/myclass">個人修課清單</a>
-                              <a class="dropdown-item text-center" href="/users/mynote">我的筆記</a>
-                              <%}%>
+          <a class="dropdown-item text-center" href="/users/myclass">個人修課清單</a>
+          <a class="dropdown-item text-center" href="/users/mynote">我的筆記</a>
+          <%}%>
 
                       </div>
                     </div>
@@ -86,14 +88,13 @@
                     <a class="nav-link" href="/users/logout">登出</a>
                   </li>
                   <%}else{%>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/users/register" id="registeLink">註冊會員<span
-                                class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/users/login" id="singinLink">登入平台</a>
-                    </li>
-                    <%}%>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/register" id="registeLink">註冊會員<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/login" id="singinLink">登入平台</a>
+          </li>
+          <%}%>
 
       </ul>
 
@@ -105,11 +106,11 @@
 
   <div class="container">
     <%- messages('message', locals) %>
-      <!-- ejs 的if如果要確定他有沒有傳過來的話是要用typeof -->
-      <% if(typeof errors !== 'undefined') { %>
-        <%errors.forEach(function(error){%>
+          <!-- ejs 的if如果要確定他有沒有傳過來的話是要用typeof -->
+          <% if(typeof errors !== 'undefined') { %>
+          <%errors.forEach(function(error){%>
           <div class="alert alert-danger">
             <%=error.msg%>
           </div>
           <%})%>
-            <%}%>
+          <%}%>
