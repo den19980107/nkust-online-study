@@ -5,8 +5,44 @@ let CodeQution = require('../model/codeQution');
 let CodingSubmitRecord = require('../model/codingSubmitRecord')
 router.get('/', function (req, res) {
     CodeQution.find({}, function (err, qutions) {
-        res.render('coding', {
-            qutions: qutions
+        CodingSubmitRecord.find({}, function (err, submitRecord) {
+            console.log(qutions.length);
+            console.log(submitRecord.length);
+            for (let i = 0; i < qutions.length; i++) {
+                qutions[i].submitTime = 0;
+                qutions[i].acceptTime = 0;
+                qutions[i].isWritten = "Not";
+            }
+            console.log(submitRecord);
+            console.log(req.user._id);
+
+            for (let i = 0; i < qutions.length; i++) {
+                for (let j = 0; j < submitRecord.length; j++) {
+                    if (qutions[i]._id == submitRecord[j].codingQutionID) {
+                        qutions[i].submitTime += 1;
+                        if (submitRecord[j].status == "Accepted") {
+                            qutions[i].acceptTime += 1;
+                        }
+                        if (submitRecord[j].submiterID == req.user._id) {
+                            if (submitRecord[j].status == "Accepted") {
+                                if (qutions[i].isWritten == "Not" || qutions[i].isWritten == "Wrong") {
+                                    qutions[i].isWritten = "Right"
+                                }
+                            }
+                            if (submitRecord[j].status == "Wrong Answer" || submitRecord[j].status == "Compile Error") {
+                                if (qutions[i].isWritten != "Right") {
+                                    qutions[i].isWritten = "Wrong"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            res.render('coding', {
+                qutions: qutions,
+                submitRecord: submitRecord
+            })
         })
     })
 });
@@ -24,7 +60,6 @@ router.post('/addQution', function (req, res) {
     newQuestion.body = req.body.body;
     newQuestion.testData = req.body.testData;
     console.log(req.body.testData);
-
     newQuestion.save(function (err) {
         if (err) {
             res.send('{"error" : "新增失敗", "status" : 500}');

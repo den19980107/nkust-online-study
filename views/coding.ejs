@@ -17,6 +17,8 @@
         padding: 0 .8em
     }
 </style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <div class="row">
     <div class="col-9">
         <section style="width: 100%;height: auto%;background: #ccc">
@@ -42,18 +44,53 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th scope="col" style="width: 3%;"></th>
                             <th scope="col">#</th>
-                            <th scope="col">題目</th>
+                            <th scope="col" style="width: 63%;">題目</th>
+                            <th scope="col">正確率</th>
+                            <th scope="col">難易度</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%for(let i = 0;i<qutions.length;i++){%>
                         <tr>
                             <th scope="row">
+                                <%if(qutions[i].isWritten == "Right"){%>
+                                <i class="fas fa-check" style="color: rgb(82, 164, 81)"></i>
+                                <%}%>
+                                <%if(qutions[i].isWritten == "Wrong"){%>
+                                <i class="fas fa-times" style="color: rgb(220, 68, 74)"></i>
+                                <%}%>
+                            </th>
+                            <th scope="row">
                                 <%=i%>
                             </th>
                             <td>
                                 <a href="/coding/showCodingQution/<%=qutions[i]._id%>"><%=qutions[i].title%></a>
+                            </td>
+                            <td>
+                                <%if(qutions[i].submitTime == 0){%>
+                                沒有提交紀錄
+                                <%}else{%>
+                                <%=Math.floor((qutions[i].acceptTime/qutions[i].submitTime) * 100)%>
+                                %
+                                <%}%>
+                            </td>
+                            <td>
+                                <%if(qutions[i].submitTime == 0){%>
+                                沒有提交紀錄
+                                <%}else{%>
+                                <%if(Math.floor((qutions[i].acceptTime/qutions[i].submitTime) * 100)>60){%>
+                                <span class="badge badge-success"
+                                    style="color: rgb(245, 245, 245);font-size: 12px">簡單</span>
+                                <%}else if(Math.floor((qutions[i].acceptTime/qutions[i].submitTime) * 100)>30){%>
+                                <span class="badge badge-warning"
+                                    style="color: rgb(245, 245, 245);font-size: 12px">普通</span>
+                                <%}else{%>
+                                <span class="badge badge-danger"
+                                    style="color: rgb(245, 245, 245);font-size: 12px">困難</span>
+                                <%}%>
+                                <%}%>
                             </td>
                         </tr>
                         <%}%>
@@ -73,9 +110,9 @@
     </div>
 </div>
 <script>
-    let showQution = function(id){
+    let showQution = function (id) {
         console.log(id);
-        window.location = "/coding/showCodingQution/"+id
+        window.location = "/coding/showCodingQution/" + id
     }
 </script>
 
