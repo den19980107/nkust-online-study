@@ -211,9 +211,10 @@ router.post('/submitTest', function (req, res) {
     newsubmit.testID = qutioninfo._id;
     newsubmit.writer = qutioninfo.writer;
     newsubmit.belongUnit = qutioninfo.belongUnit;
-    newsubmit.testQutionsAndAnswer = qutioninfo.testQutions
+    newsubmit.testQutionsAndAnswer = qutioninfo.testQutions;
+    newsubmit.obtainscore = qutioninfo.obtainscore;
     console.log(newsubmit);
-    
+
     newsubmit.save(function (err) {
         if (err) {
             res.send('error');
