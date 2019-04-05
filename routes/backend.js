@@ -16,7 +16,9 @@ let Videobehavior = require('../model/videobehavior');
 let CodeQution = require('../model/codeQution');
 //bring studentTakeCourse model
 let StudentTakeCourse = require('../model/StudentTakeCourse');
-router.get('/', function (req, res) {
+
+//進入後台
+router.get('/', ensureAuthenticated, function (req, res) {
     if (req.user.permission != "admin") {
         req.flash('danger', '您不是管理員');
         res.redirect('/');
@@ -62,7 +64,7 @@ router.get('/', function (req, res) {
 
 });
 
-router.get('/videoBehavior/:id', function (req, res) {
+router.get('/videoBehavior/:id', ensureAuthenticated, function (req, res) {
     let videoID = req.params.id;
     let query1 = {
         _id: videoID
@@ -93,10 +95,10 @@ router.get('/videoBehavior/:id', function (req, res) {
     });
 });
 
-router.get('/uploadCodeQution', function (req, res) {
+router.get('/uploadCodeQution', ensureAuthenticated, function (req, res) {
     res.render('uploadCodeingQution')
 })
-router.post('/uploadCodeQution', function (req, res) {
+router.post('/uploadCodeQution', ensureAuthenticated, function (req, res) {
     //TODO 把題目存進資料庫
     console.log(req.body);
     let newQution = CodeQution();
@@ -113,4 +115,14 @@ router.post('/uploadCodeQution', function (req, res) {
         res.redirect('/backend/uploadCodeQution');
     })
 })
+
+//Access Control
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash('danger', '請先登入');
+        res.redirect('/users/login');
+    }
+}
 module.exports = router;

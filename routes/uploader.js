@@ -51,7 +51,7 @@ const upload = multer({
 });
 
 //上傳照片到教材
-router.post('/', upload.any(), function (req, res) {
+router.post('/', ensureAuthenticated, upload.any(), function (req, res) {
     console.log(req.url);
 
     console.log("/uploader/image/" + req.files[0].filename);
@@ -66,7 +66,7 @@ router.post('/', upload.any(), function (req, res) {
 });
 
 //@顯示照片的route
-router.get('/image/:imageName', (req, res) => {
+router.get('/image/:imageName', ensureAuthenticated, (req, res) => {
     gfs.files.findOne({
         filename: req.params.imageName
     }, (err, img) => {
@@ -87,5 +87,13 @@ router.get('/image/:imageName', (req, res) => {
         }
     });
 })
-
+//Access Control
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash('danger', '請先登入');
+        res.redirect('/users/login');
+    }
+}
 module.exports = router;

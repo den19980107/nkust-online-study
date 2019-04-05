@@ -3,7 +3,7 @@ const router = express.Router();
 //bring codeqution model
 let CodeQution = require('../model/codeQution');
 let CodingSubmitRecord = require('../model/codingSubmitRecord')
-router.get('/', function (req, res) {
+router.get('/', ensureAuthenticated, function (req, res) {
     CodeQution.find({}, function (err, qutions) {
         CodingSubmitRecord.find({}, function (err, submitRecord) {
             console.log(qutions.length);
@@ -38,22 +38,26 @@ router.get('/', function (req, res) {
                     }
                 }
             }
-
-            res.render('coding', {
-                qutions: qutions,
-                submitRecord: submitRecord
+            CodingSubmitRecord.find({
+                submiterID: req.user._id
+            }, function (err, myRecord) {
+                res.render('coding', {
+                    qutions: qutions,
+                    submitRecord: submitRecord,
+                    myRecord: myRecord
+                })
             })
         })
     })
 });
 
 //到新增題目頁面
-router.get('/createNewCodingQution', function (req, res) {
+router.get('/createNewCodingQution', ensureAuthenticated, function (req, res) {
     res.render('createNewCodingQution');
 })
 
 //新增題目
-router.post('/addQution', function (req, res) {
+router.post('/addQution', ensureAuthenticated, function (req, res) {
     console.log(req.body);
     let newQuestion = new CodeQution();
     newQuestion.title = req.body.title;
@@ -71,7 +75,7 @@ router.post('/addQution', function (req, res) {
 
 
 //顯示題目
-router.get('/showCodingQution/:qutionID', function (req, res) {
+router.get('/showCodingQution/:qutionID', ensureAuthenticated, function (req, res) {
 
     CodeQution.findById(req.params.qutionID, function (err, qutionData) {
         if (err) {
@@ -95,7 +99,7 @@ router.get('/showCodingQution/:qutionID', function (req, res) {
 })
 
 //儲存使用者提交紀錄
-router.post('/saveRecord', function (req, res) {
+router.post('/saveRecord', ensureAuthenticated, function (req, res) {
     let newRecord = new CodingSubmitRecord();
     newRecord.codingQutionID = req.body.codingQutionID
     newRecord.submiterID = req.body.submiterID
@@ -118,7 +122,7 @@ router.post('/saveRecord', function (req, res) {
 
 
 //查看詳細提交紀錄
-router.get('/showCodingDetail/:recordID', function (req, res) {
+router.get('/showCodingDetail/:recordID', ensureAuthenticated, function (req, res) {
     CodingSubmitRecord.findById(req.params.recordID, function (err, record) {
         if (err) {
             console.log(err);
@@ -132,7 +136,7 @@ router.get('/showCodingDetail/:recordID', function (req, res) {
 
 
 //編輯已提交過的題目
-router.post('/editQution', function (req, res) {
+router.post('/editQution', ensureAuthenticated, function (req, res) {
     console.log(req.body.qutionID);
     CodeQution.findById(req.body.qutionID, function (err, qutionData) {
         if (err) {
@@ -162,4 +166,14 @@ router.post('/editQution', function (req, res) {
         })
     })
 })
+
+//Access Control
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash('danger', '請先登入');
+        res.redirect('/users/login');
+    }
+}
 module.exports = router;

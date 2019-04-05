@@ -84,7 +84,7 @@ let studntSubmitHomework = require('../model/studentSubmitHomework');
 // });
 
 //學生選課
-router.get('/student/:sid/Take/class/:cid', function (req, res) {
+router.get('/student/:sid/Take/class/:cid', ensureAuthenticated, function (req, res) {
     console.log(req.params.cid);
     let classID = req.params.cid;
     let studentID = req.params.sid;
@@ -105,7 +105,7 @@ router.get('/student/:sid/Take/class/:cid', function (req, res) {
 
 
 
-router.get('/student/:sid/Quit/class/:cid', function (req, res) {
+router.get('/student/:sid/Quit/class/:cid', ensureAuthenticated, function (req, res) {
     console.log("quit");
     let wantQuitSTC;
     let classID = req.params.cid;
@@ -131,7 +131,7 @@ router.get('/student/:sid/Quit/class/:cid', function (req, res) {
     })
 });
 //使用者對文章留言
-router.get('/user/:uid/comment/chapter/:cid/body/:body', function (req, res) {
+router.get('/user/:uid/comment/chapter/:cid/body/:body', ensureAuthenticated, function (req, res) {
     let userID = req.params.uid;
     let chapterID = req.params.cid;
     let body = req.params.body;
@@ -152,7 +152,7 @@ router.get('/user/:uid/comment/chapter/:cid/body/:body', function (req, res) {
 });
 
 //使用者對影片留言
-router.get('/user/:uid/comment/video/:vid/body/:body', function (req, res) {
+router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, function (req, res) {
     let userID = req.params.uid;
     let videoID = req.params.vid;
     let body = req.params.body;
@@ -178,7 +178,7 @@ router.get('/user/:uid/comment/video/:vid/body/:body', function (req, res) {
 
 //使用者對文章留言
 // /user/<%=user._id%>/comment/article/<%=article._id%>/body/
-router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', function (req, res) {
+router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuthenticated, function (req, res) {
     let userID = req.params.uid;
     let articleID = req.params.aid;
     let body = req.params.body;
@@ -203,7 +203,7 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', function (
 });
 
 //學生對測驗進行填寫
-router.post('/submitTest', function (req, res) {
+router.post('/submitTest', ensureAuthenticated, function (req, res) {
     let qutioninfo = req.body
     console.log(qutioninfo);
     let newsubmit = new studntSubmitTest();
@@ -225,7 +225,7 @@ router.post('/submitTest', function (req, res) {
 });
 
 //學生對作業進行填寫
-router.post('/submitHomework', function (req, res) {
+router.post('/submitHomework', ensureAuthenticated, function (req, res) {
     let qutioninfo = req.body
     console.log("homework!");
 
@@ -244,5 +244,13 @@ router.post('/submitHomework', function (req, res) {
         }
     })
 });
-
+//Access Control
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash('danger', '請先登入');
+        res.redirect('/users/login');
+    }
+}
 module.exports = router;

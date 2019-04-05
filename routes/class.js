@@ -52,7 +52,7 @@ let db = mongoose.connection;
 
 
 //check connection
-db.once('open', function() {
+db.once('open', function () {
   console.log("connect to mongodb");
 
   //init Stream
@@ -85,8 +85,8 @@ const upload = multer({
   storage
 });
 
-router.get('/', ensureAuthenticated, function(req, res) {
-  Class.find({}, function(err, classes) {
+router.get('/', ensureAuthenticated, function (req, res) {
+  Class.find({}, function (err, classes) {
     if (err) {
       console.log(err);
     } else {
@@ -120,7 +120,7 @@ router.get('/', ensureAuthenticated, function(req, res) {
 });
 
 //顯示新增課程介面
-router.get('/CreateNewClass', ensureAuthenticated, function(req, res) {
+router.get('/CreateNewClass', ensureAuthenticated, function (req, res) {
   //確定進入此網址的事不是老師
   if (req.user.permission == "teacher") {
     res.render('CreateNewClass')
@@ -131,7 +131,7 @@ router.get('/CreateNewClass', ensureAuthenticated, function(req, res) {
 });
 
 //新增課程資料
-router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function(req, res) {
+router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req, res) {
   req.checkBody('title', '課程名稱不得為空').notEmpty();
   // req.checkBody('outline', '課程大綱不得為空').notEmpty();
   // req.checkBody('credit', '學分不得為空').notEmpty();
@@ -163,7 +163,7 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function(req, 
     } else {
 
     }
-    newclass.save(function(err) {
+    newclass.save(function (err) {
       if (err) {
         console.log(err);
         return;
@@ -178,19 +178,19 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function(req, 
 });
 
 //查看課程內容
-router.get('/:id', ensureAuthenticated, function(req, res) {
+router.get('/:id', ensureAuthenticated, function (req, res) {
   console.log("in");
-  Class.findById(req.params.id, function(error, classinfo) {
-    User.findById(classinfo.teacher, function(error2, teacher) {
+  Class.findById(req.params.id, function (error, classinfo) {
+    User.findById(classinfo.teacher, function (error2, teacher) {
       Unit.find({
         belongClass: classinfo._id
-      }, function(error3, units) {
+      }, function (error3, units) {
         if (error3) {
           console.log(error3);
         } else {
           StudebtTakeCourse.find({
             classID: classinfo._id
-          }, function(error4, thisClassStudents) {
+          }, function (error4, thisClassStudents) {
             if (error4) {
               console.log(error4);
             }
@@ -233,7 +233,7 @@ router.get('/:id', ensureAuthenticated, function(req, res) {
   });
 });
 //@顯示照片的route
-router.get('/image/:imageName', (req, res) => {
+router.get('/image/:imageName', ensureAuthenticated, (req, res) => {
   gfs.files.findOne({
     filename: req.params.imageName
   }, (err, img) => {
@@ -256,14 +256,14 @@ router.get('/image/:imageName', (req, res) => {
 })
 
 //管理課程內容
-router.get('/classManager/:id', function(req, res) {
-  Class.findById(req.params.id, function(error, classinfo) {
+router.get('/classManager/:id', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.id, function (error, classinfo) {
     Unit.find({
       belongClass: classinfo._id
-    }, function(error2, units) {
+    }, function (error2, units) {
       StudebtTakeCourse.find({
         classID: req.params.id
-      }, function(err, thisClassStudents) {
+      }, function (err, thisClassStudents) {
         if (err) {
           console.log(err);
         }
@@ -282,13 +282,13 @@ router.get('/classManager/:id', function(req, res) {
 
 
 //刪除課程
-router.get('/deleteCourse/:id', function(req, res) {
-  Class.findById(req.params.id, function(error, classinfo) {
+router.get('/deleteCourse/:id', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.id, function (error, classinfo) {
     let query = {
       _id: req.params.id
     }
     if (classinfo.teacher == req.user.id) { //確認課程的創立人是否等於發出要求的使用者
-      Class.remove(query, function(err) {
+      Class.remove(query, function (err) {
         if (err) {
           console.log(err);
         }
@@ -304,8 +304,8 @@ router.get('/deleteCourse/:id', function(req, res) {
 
 })
 //上架課程
-router.get('/LunchClass/:cid', function(req, res) {
-  Class.findById(req.params.cid, function(err, classinfo) {
+router.get('/LunchClass/:cid', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.cid, function (err, classinfo) {
     let updateClass = {}
     updateClass.className = classinfo.className
     updateClass.credit = classinfo.credit
@@ -319,7 +319,7 @@ router.get('/LunchClass/:cid', function(req, res) {
     }
     console.log(updateClass);
 
-    Class.update(query, updateClass, function(err) {
+    Class.update(query, updateClass, function (err) {
       if (err) {
         console.log(err);
       }
@@ -330,7 +330,7 @@ router.get('/LunchClass/:cid', function(req, res) {
 })
 
 //修改課程資訊
-router.post('/updateClassInfo/:classID/:part/:text', function(req, res) {
+router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, function (req, res) {
   console.log(req.params.classID, req.params.part, req.params.text);
   if (req.params.part == 'title') {
     console.log("intitle");
@@ -343,7 +343,7 @@ router.post('/updateClassInfo/:classID/:part/:text', function(req, res) {
         className: req.params.text
       }
     };
-    Class.updateOne(myquery, newvalues, function(err, res) {
+    Class.updateOne(myquery, newvalues, function (err, res) {
       if (err) {
         console.log(err);
       } else {
@@ -360,7 +360,7 @@ router.post('/updateClassInfo/:classID/:part/:text', function(req, res) {
         outline: req.params.text
       }
     };
-    Class.updateOne(myquery, newvalues, function(err, res) {
+    Class.updateOne(myquery, newvalues, function (err, res) {
       if (err) {
         console.log(err);
       } else {
@@ -379,7 +379,7 @@ router.post('/updateClassInfo/:classID/:part/:text', function(req, res) {
         classTime: req.body
       }
     };
-    Class.updateOne(myquery, newvalues, function(err) {
+    Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
       } else {
@@ -398,7 +398,7 @@ router.post('/updateClassInfo/:classID/:part/:text', function(req, res) {
         classRoom: req.params.text
       }
     };
-    Class.updateOne(myquery, newvalues, function(err) {
+    Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
       } else {
@@ -417,7 +417,7 @@ router.post('/updateClassInfo/:classID/:part/:text', function(req, res) {
         credit: req.params.text
       }
     };
-    Class.updateOne(myquery, newvalues, function(err) {
+    Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
       } else {
@@ -432,14 +432,14 @@ router.post('/updateClassInfo/:classID/:part/:text', function(req, res) {
 
 
 //新增單元
-router.get('/:id/addUnit/:unitName', function(req, res) {
+router.get('/:id/addUnit/:unitName', ensureAuthenticated, function (req, res) {
   //確認是否登入
   if (!req.user._id) {
     res.status(500).send();
   }
   let classId = req.params.id;
 
-  Class.findById(classId, function(err, classinfo) {
+  Class.findById(classId, function (err, classinfo) {
     if (err) {
       console.log(err);
     }
@@ -451,7 +451,7 @@ router.get('/:id/addUnit/:unitName', function(req, res) {
       newUnit.unitName = req.params.unitName;
       newUnit.belongClass = classId;
       console.log(newUnit);
-      newUnit.save(function(err) {
+      newUnit.save(function (err) {
         if (err) {
           console.log(err);
         } else {
@@ -466,11 +466,11 @@ router.get('/:id/addUnit/:unitName', function(req, res) {
 });
 
 //刪除單元
-router.get('/classManager/:classID/deleteUnit/:UnitID', function(req, res) {
+router.get('/classManager/:classID/deleteUnit/:UnitID', ensureAuthenticated, function (req, res) {
   let query = {
     _id: ObjectID(req.params.UnitID)
   }
-  Unit.remove(query, function(error, unit) {
+  Unit.remove(query, function (error, unit) {
     if (error) {
       console.log(error);
     } else {
@@ -482,11 +482,11 @@ router.get('/classManager/:classID/deleteUnit/:UnitID', function(req, res) {
 })
 
 //顯示單元內容
-router.get('/:classID/showUnit/:unitID', function(req, res) {
-  Class.findById(req.params.classID, function(error, classinfo) {
+router.get('/:classID/showUnit/:unitID', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.classID, function (error, classinfo) {
     Unit.find({
       belongClass: classinfo._id
-    }, function(error2, units) {
+    }, function (error2, units) {
       let selectUnit = "";
       let selectUnitID = "";
       for (let i = 0; i < units.length; i++) {
@@ -497,25 +497,25 @@ router.get('/:classID/showUnit/:unitID', function(req, res) {
       }
       Chapter.find({
         belongUnit: req.params.unitID
-      }, function(error3, chapters) {
+      }, function (error3, chapters) {
         Video.find({
           belongUnit: req.params.unitID
-        }, function(error4, videos) {
+        }, function (error4, videos) {
           Test.find({
             belongUnit: req.params.unitID
-          }, function(err, tests) {
+          }, function (err, tests) {
             if (err) {
               console.log(err);
             }
             Homework.find({
               belongUnit: req.params.unitID
-            }, function(err, homeworks) {
+            }, function (err, homeworks) {
               if (err) {
                 console.log(err);
               }
               console.log(homeworks);
 
-              studntSubmitTest.find({}, function(err, TestSubmitRecords) {
+              studntSubmitTest.find({}, function (err, TestSubmitRecords) {
                 if (err) {
                   console.log(err);
                 }
@@ -531,7 +531,7 @@ router.get('/:classID/showUnit/:unitID', function(req, res) {
                     }
                   }
                 }
-                studntSubmitHomework.find({}, function(err, HomeworkSubmitRecords) {
+                studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
                   for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
                     for (let j = 0; j < homeworks.length; j++) {
                       if (HomeworkSubmitRecords[i].writer == req.user._id) {
@@ -543,7 +543,7 @@ router.get('/:classID/showUnit/:unitID', function(req, res) {
                   }
                   StudebtTakeCourse.find({
                     classID: req.params.classID
-                  }, function(err, thisClassStudents) {
+                  }, function (err, thisClassStudents) {
                     if (err) {
                       console.log(err);
                     }
@@ -576,7 +576,7 @@ router.get('/:classID/showUnit/:unitID', function(req, res) {
 })
 
 //新增講義
-router.post('/unit/addLecture', function(req, res) {
+router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
   req.checkBody('title', '講義標題不得為空').notEmpty();
   req.checkBody('body', '講義內容不得為空').notEmpty();
   let errors = req.validationErrors();
@@ -590,7 +590,7 @@ router.post('/unit/addLecture', function(req, res) {
     chapter.chapterName = req.body.title;
     chapter.belongUnit = req.body.unitID;
     chapter.body = req.body.body;
-    chapter.save(function(err) {
+    chapter.save(function (err) {
       if (err) {
         console.log(err);
       } else {
@@ -603,7 +603,7 @@ router.post('/unit/addLecture', function(req, res) {
 })
 
 //刪除講義
-router.delete('/deletechapter/:chapterID', function(req, res) {
+router.delete('/deletechapter/:chapterID', ensureAuthenticated, function (req, res) {
   if (!req.user._id) {
     res.status(500).send();
   }
@@ -612,9 +612,9 @@ router.delete('/deletechapter/:chapterID', function(req, res) {
     _id: req.params.chapterID
   }
 
-  Chapter.findById(req.params.chapterID, function(err, article) {
+  Chapter.findById(req.params.chapterID, function (err, article) {
 
-    Chapter.remove(query, function(err) {
+    Chapter.remove(query, function (err) {
       if (err) {
         console.log(err);
       }
@@ -625,25 +625,25 @@ router.delete('/deletechapter/:chapterID', function(req, res) {
 })
 
 //顯示講義內容
-router.get('/showChapter/:id', function(req, res) {
+router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
   let query = {
     _id: req.params.id
   }
-  Chapter.findById(query, function(err, chapter) {
+  Chapter.findById(query, function (err, chapter) {
     if (err) {
       console.log(error);
     }
     studentCommentChapter.find({
       chapterID: chapter._id
-    }, function(err, comments) {
+    }, function (err, comments) {
       if (err) {
         console.log(err);
       }
-      Unit.findById(chapter.belongUnit, function(err, unit) {
+      Unit.findById(chapter.belongUnit, function (err, unit) {
         if (err) {
           console.log(err);
         }
-        Class.findById(unit.belongClass, function(err, classinfo) {
+        Class.findById(unit.belongClass, function (err, classinfo) {
           res.render('chapter', {
             chapter: chapter,
             comments: comments,
@@ -658,7 +658,7 @@ router.get('/showChapter/:id', function(req, res) {
 });
 
 //新增影片
-router.post('/:unitID/addvideo/:videoName/:videoURLid', function(req, res) {
+router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, function (req, res) {
   let newVideo = new Video();
   newVideo.videoName = req.params.videoName;
   newVideo.videoURL = req.params.videoURLid;
@@ -666,7 +666,7 @@ router.post('/:unitID/addvideo/:videoName/:videoURLid', function(req, res) {
   newVideo.vtime = "";
   console.log(newVideo);
 
-  newVideo.save(function(err) {
+  newVideo.save(function (err) {
     if (err) {
       res.send('error');
     } else {
@@ -676,7 +676,7 @@ router.post('/:unitID/addvideo/:videoName/:videoURLid', function(req, res) {
 });
 
 //刪除影片
-router.delete('/deletevideo/:videoID', function(req, res) {
+router.delete('/deletevideo/:videoID', ensureAuthenticated, function (req, res) {
   console.log(req.user._id);
 
   if (!req.user._id) {
@@ -687,9 +687,9 @@ router.delete('/deletevideo/:videoID', function(req, res) {
   let query = {
     _id: req.params.videoID
   }
-  Video.findById(req.params.videoID, function(err, article) {
+  Video.findById(req.params.videoID, function (err, article) {
 
-    Video.remove(query, function(err) {
+    Video.remove(query, function (err) {
       if (err) {
         console.log(err);
       }
@@ -700,32 +700,32 @@ router.delete('/deletevideo/:videoID', function(req, res) {
 });
 
 //顯示影片內容
-router.get('/showVideo/:id', function(req, res) {
+router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
   let query = {
     _id: req.params.id
   }
-  Video.findById(query, function(err, video) {
+  Video.findById(query, function (err, video) {
     if (err) {
       console.log(error);
     }
     Unit.findById({
       _id: video.belongUnit
-    }, function(err, unit) {
+    }, function (err, unit) {
       Class.findById({
         _id: unit.belongClass
-      }, function(err, classinfo) {
+      }, function (err, classinfo) {
         if (err) {
           console.log(err);
         }
         studentCommentVideo.find({
           videoID: video._id
-        }, function(err, comments) {
+        }, function (err, comments) {
           if (err) {
             console.log(err);
           }
           Note.find({
             author_id: req.user._id
-          }, function(err, notes) {
+          }, function (err, notes) {
             res.render('video', {
               video: video,
               comments: comments,
@@ -742,7 +742,7 @@ router.get('/showVideo/:id', function(req, res) {
 });
 
 //新增測驗
-router.post('/addTest/class/:cid/unit/:uid', function(req, res) {
+router.post('/addTest/class/:cid/unit/:uid', ensureAuthenticated, function (req, res) {
   console.log(req.body);
   if (req.body.testName == '' || req.body.testName == undefined) {
     res.status(500).send({
@@ -757,7 +757,7 @@ router.post('/addTest/class/:cid/unit/:uid', function(req, res) {
     newTest.publicTime = req.body.publicTime;
     newTest.EndpublicTime = req.body.EndpublicTime;
     console.log(newTest);
-    newTest.save(function(err) {
+    newTest.save(function (err) {
       if (err) {
         console.log(err);
       }
@@ -770,7 +770,7 @@ router.post('/addTest/class/:cid/unit/:uid', function(req, res) {
 });
 
 //刪除測驗
-router.delete('/deletetest/:testID', function(req, res) {
+router.delete('/deletetest/:testID', ensureAuthenticated, function (req, res) {
   console.log(req.user._id);
 
   if (!req.user._id) {
@@ -781,8 +781,8 @@ router.delete('/deletetest/:testID', function(req, res) {
   let query = {
     _id: req.params.testID
   }
-  Test.findById(req.params.testID, function(err, test) {
-    Test.remove(query, function(err) {
+  Test.findById(req.params.testID, function (err, test) {
+    Test.remove(query, function (err) {
       if (err) {
         console.log(err);
       }
@@ -793,25 +793,25 @@ router.delete('/deletetest/:testID', function(req, res) {
 })
 
 //顯示測驗
-router.get('/showTest/:testID', function(req, res) {
+router.get('/showTest/:testID', ensureAuthenticated, function (req, res) {
   let query = {
     _id: req.params.testID
   }
-  Test.findById(query, function(err, test) {
+  Test.findById(query, function (err, test) {
     if (err) {
       console.log(error);
     }
     Unit.findById({
       _id: test.belongUnit
-    }, function(err, unit) {
+    }, function (err, unit) {
       Class.findById({
         _id: unit.belongClass
-      }, function(err, classinfo) {
+      }, function (err, classinfo) {
         if (err) {
           console.log(err);
         }
         let isSubmited = false;
-        studntSubmitTest.find({}, function(err, TestSubmitRecords) {
+        studntSubmitTest.find({}, function (err, TestSubmitRecords) {
           for (let i = 0; i < TestSubmitRecords.length; i++) {
             if (TestSubmitRecords[i].writer == req.user._id) {
               if (TestSubmitRecords[i].testID == test._id) {
@@ -833,7 +833,7 @@ router.get('/showTest/:testID', function(req, res) {
 
 });
 //開放測驗
-router.post('/publicTest/:testID',function(req,res){
+router.post('/publicTest/:testID', ensureAuthenticated, function (req, res) {
   var myquery = {
     _id: ObjectID(req.params.testID)
   };
@@ -842,7 +842,7 @@ router.post('/publicTest/:testID',function(req,res){
       isPublic: true
     }
   };
-  Test.updateOne(myquery, newvalues, function(err) {
+  Test.updateOne(myquery, newvalues, function (err) {
     if (err) {
       console.log(err);
     } else {
@@ -855,7 +855,7 @@ router.post('/publicTest/:testID',function(req,res){
 })
 
 //關閉測驗
-router.post('/EndpublicTest/:testID',function(req,res){
+router.post('/EndpublicTest/:testID', ensureAuthenticated, function (req, res) {
   var myquery = {
     _id: ObjectID(req.params.testID)
   };
@@ -864,7 +864,7 @@ router.post('/EndpublicTest/:testID',function(req,res){
       isPublic: false
     }
   };
-  Test.updateOne(myquery, newvalues, function(err) {
+  Test.updateOne(myquery, newvalues, function (err) {
     if (err) {
       console.log(err);
     } else {
@@ -877,28 +877,28 @@ router.post('/EndpublicTest/:testID',function(req,res){
 })
 
 //更改測驗
-router.post('/saveTest/:testID',function(req,res){
+router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
   console.log(req.body);
 
   let query = {
-    _id:ObjectID(req.params.testID)
+    _id: ObjectID(req.params.testID)
   }
   var newvalues = {
     $set: {
-      testName:req.body.testName,
-      publicTime:req.body.publicTime,
-      EndpublicTime:req.body.EndpublicTime,
-      testQutions:req.body.QuationList
+      testName: req.body.testName,
+      publicTime: req.body.publicTime,
+      EndpublicTime: req.body.EndpublicTime,
+      testQutions: req.body.QuationList
     }
   }
-  Test.findById(query,function(err,testinfo){
+  Test.findById(query, function (err, testinfo) {
     console.log("testinfo = ");
     console.log(testinfo)
   })
-  Test.updateOne(query,newvalues,function(err){
-    if(err){
+  Test.updateOne(query, newvalues, function (err) {
+    if (err) {
       console.log(err);
-    }else{
+    } else {
       console.log('update success');
       res.json({
         success: 1
@@ -909,7 +909,7 @@ router.post('/saveTest/:testID',function(req,res){
 })
 
 //新增作業
-router.post('/addHomeWork/class/:cid/unit/:uid', function(req, res) {
+router.post('/addHomeWork/class/:cid/unit/:uid', ensureAuthenticated, function (req, res) {
   console.log(req.body);
   if (req.body.testName == '' || req.body.testName == undefined) {
     res.status(500).send({
@@ -921,7 +921,7 @@ router.post('/addHomeWork/class/:cid/unit/:uid', function(req, res) {
     newHomeWork.testQutions = req.body.QuationList;
     newHomeWork.belongUnit = req.body.belongUnit;
     console.log(newHomeWork);
-    newHomeWork.save(function(err) {
+    newHomeWork.save(function (err) {
       if (err) {
         console.log(err);
       }
@@ -935,25 +935,25 @@ router.post('/addHomeWork/class/:cid/unit/:uid', function(req, res) {
 
 
 //顯示作業
-router.get('/showHomeWork/:homeworkID', function(req, res) {
+router.get('/showHomeWork/:homeworkID', ensureAuthenticated, function (req, res) {
   let query = {
     _id: req.params.homeworkID
   }
-  Homework.findById(query, function(err, homework) {
+  Homework.findById(query, function (err, homework) {
     if (err) {
       console.log(error);
     }
     Unit.findById({
       _id: homework.belongUnit
-    }, function(err, unit) {
+    }, function (err, unit) {
       Class.findById({
         _id: unit.belongClass
-      }, function(err, classinfo) {
+      }, function (err, classinfo) {
         if (err) {
           console.log(err);
         }
         let isSubmited = false;
-        studntSubmitHomework.find({}, function(err, HomeworkSubmitRecords) {
+        studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
           for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
             if (HomeworkSubmitRecords[i].writer == req.user._id) {
               if (HomeworkSubmitRecords[i].homeworkID == homework._id) {
@@ -976,7 +976,7 @@ router.get('/showHomeWork/:homeworkID', function(req, res) {
 });
 
 //刪除作業
-router.delete('/deletehomework/:homeworkID', function(req, res) {
+router.delete('/deletehomework/:homeworkID', ensureAuthenticated, function (req, res) {
   console.log(req.user._id);
 
   if (!req.user._id) {
@@ -987,8 +987,8 @@ router.delete('/deletehomework/:homeworkID', function(req, res) {
   let query = {
     _id: req.params.homeworkID
   }
-  Homework.findById(req.params.homeworkID, function(err, test) {
-    Homework.remove(query, function(err) {
+  Homework.findById(req.params.homeworkID, function (err, test) {
+    Homework.remove(query, function (err) {
       if (err) {
         console.log(err);
       }
@@ -998,14 +998,14 @@ router.delete('/deletehomework/:homeworkID', function(req, res) {
   })
 })
 //批閱考卷
-router.get('/correctTestIn/:classID', function(req, res) {
-  Class.findById(req.params.classID, function(err, classinfo) {
+router.get('/correctTestIn/:classID', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.classID, function (err, classinfo) {
     if (err) {
       console.log(err);
     }
     Unit.find({
       belongClass: classinfo._id
-    }, function(err, units) {
+    }, function (err, units) {
       if (err) {
         console.log(err);
       }
@@ -1019,11 +1019,11 @@ router.get('/correctTestIn/:classID', function(req, res) {
       }
       console.log("query = " + query);
 
-      Test.find(query, function(err, tests) {
+      Test.find(query, function (err, tests) {
         if (err) {
           console.log(err);
         }
-        studntSubmitTest.find(query, function(err, submits) {
+        studntSubmitTest.find(query, function (err, submits) {
           if (err) {
             console.log(err);
           }
@@ -1035,7 +1035,7 @@ router.get('/correctTestIn/:classID', function(req, res) {
           query = {
             _id: querytext
           }
-          User.find(query, function(err, submiter) {
+          User.find(query, function (err, submiter) {
             if (err) {
               console.log(err);
 
@@ -1055,11 +1055,11 @@ router.get('/correctTestIn/:classID', function(req, res) {
 });
 
 //儲存成績
-router.post('/saveMark/:testID/:writerID', function(req, res) {
+router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, res) {
   console.log(req.body);
   studntSubmitTest.find({
     writer: req.params.writerID
-  }, function(err, testinfo) {
+  }, function (err, testinfo) {
     for (let i = 0; i < testinfo.length; i++) {
       if (testinfo[i].testID == req.params.testID) {
         testinfo = testinfo[i];
@@ -1086,7 +1086,7 @@ router.post('/saveMark/:testID/:writerID', function(req, res) {
 
     studntSubmitTest.update({
       _id: testinfo._id
-    }, updatetestinfo, function(err) {
+    }, updatetestinfo, function (err) {
       if (err) {
         console.log("err");
         res.status(500).send();
@@ -1134,11 +1134,11 @@ router.post('/saveMark/:testID/:writerID', function(req, res) {
 // });
 
 //顯示所有有修這堂課的學生
-router.get('/showStudentIn/:classID', ensureAuthenticated, function(req, res) {
-  Class.findById(req.params.classID, function(error, classinfo) {
+router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.classID, function (error, classinfo) {
     StudebtTakeCourse.find({
       classID: req.params.classID
-    }, function(err, students) {
+    }, function (err, students) {
       if (err) {
         console.log(err);
       }
@@ -1152,7 +1152,7 @@ router.get('/showStudentIn/:classID', ensureAuthenticated, function(req, res) {
       }
       User.find({
         _id: findStudentInfoQuery
-      }, function(err, users) {
+      }, function (err, users) {
         if (err) {
           console.log(err);
         }
@@ -1176,8 +1176,8 @@ router.get('/showStudentIn/:classID', ensureAuthenticated, function(req, res) {
 });
 
 //搜尋課程名稱
-router.get('/search/:className', function(req, res) {
-  Class.find({}, function(err, classes) {
+router.get('/search/:className', ensureAuthenticated, function (req, res) {
+  Class.find({}, function (err, classes) {
     if (err) {
       console.log(err);
     } else {
@@ -1203,12 +1203,12 @@ router.get('/search/:className', function(req, res) {
 })
 
 //看課程內同學的個人頁面
-router.get('/:id/showClassmateInfo/:sid', function(req, res) {
+router.get('/:id/showClassmateInfo/:sid', ensureAuthenticated, function (req, res) {
   console.log(req.params.sid);
 
   User.findById({
     _id: req.params.sid
-  }, function(err, student) {
+  }, function (err, student) {
     console.log(student);
 
     res.render('userinfo', {
@@ -1221,11 +1221,11 @@ router.get('/:id/showClassmateInfo/:sid', function(req, res) {
 //-------------------new---------------------
 
 //顯示所有待審核名單
-router.get('/showStudentApproval/:classID', ensureAuthenticated, function(req, res) {
-  Class.findById(req.params.classID, function(error, classinfo) {
+router.get('/showStudentApproval/:classID', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.classID, function (error, classinfo) {
     StudebtTakeCourse.find({
       classID: req.params.classID
-    }, function(err, studentscheck) {
+    }, function (err, studentscheck) {
       if (err) {
         console.log(err);
       }
@@ -1238,7 +1238,7 @@ router.get('/showStudentApproval/:classID', ensureAuthenticated, function(req, r
       }
       User.find({
         _id: checkStudentInfoQuery
-      }, function(err, users) {
+      }, function (err, users) {
         if (err) {
           console.log(err);
         }
@@ -1261,31 +1261,31 @@ router.get('/showStudentApproval/:classID', ensureAuthenticated, function(req, r
   })
 });
 //刪除課程學生
-router.get('/deleteStudent/:id/unit/:classID', function (req, res) {
-    var string = req.params.id;
-    let delsidarray = string.split(",");
-    for (let i = 0; delsidarray.length > i; i++) {
-        StudebtTakeCourse.find({
-            studentID: delsidarray[i],
-            classID: req.params.classID
-        }, function (err, stc) {
-            if (err) {
-                console.log(err);
-            }
-            StudebtTakeCourse.remove({
-                _id: stc[0]._id
-            }, function (err) {
-                if (err) {
-                    console.log(err);
-                }
-            })
-        })
-    }
-    req.flash('success', '刪除成功');
-    res.redirect('/class/showStudentIn/' + req.params.classID);
+router.get('/deleteStudent/:id/unit/:classID', ensureAuthenticated, function (req, res) {
+  var string = req.params.id;
+  let delsidarray = string.split(",");
+  for (let i = 0; delsidarray.length > i; i++) {
+    StudebtTakeCourse.find({
+      studentID: delsidarray[i],
+      classID: req.params.classID
+    }, function (err, stc) {
+      if (err) {
+        console.log(err);
+      }
+      StudebtTakeCourse.remove({
+        _id: stc[0]._id
+      }, function (err) {
+        if (err) {
+          console.log(err);
+        }
+      })
+    })
+  }
+  req.flash('success', '刪除成功');
+  res.redirect('/class/showStudentIn/' + req.params.classID);
 })
 //批准待審核學生
-router.get('/checkStudent/:sid/unit/:classID', function(req, res) {
+router.get('/checkStudent/:sid/unit/:classID', ensureAuthenticated, function (req, res) {
   var string = req.params.sid;
   let permission = "11111"
   let sidarray = string.split(",");
@@ -1299,18 +1299,18 @@ router.get('/checkStudent/:sid/unit/:classID', function(req, res) {
       }
     }, {
       w: 1
-    }, function(err, result) {
+    }, function (err, result) {
       if (err) throw err;
       console.log('Document Updated Successfully');
       User.findById({
         _id: sidarray[i]
-      }, function(err, student) {
+      }, function (err, student) {
         if (err) {
           console.log(err);
         }
         Class.findById({
           _id: req.params.classID
-        }, function(err, classinfo) {
+        }, function (err, classinfo) {
           if (err) {
             console.log(err);
           }
@@ -1329,7 +1329,7 @@ router.get('/checkStudent/:sid/unit/:classID', function(req, res) {
             text: '歡迎您加入[' + classinfo.className + ']課程!'
           };
 
-          transporter.sendMail(mailOptions, function(error, info) {
+          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error);
             } else {
@@ -1346,15 +1346,15 @@ router.get('/checkStudent/:sid/unit/:classID', function(req, res) {
 
 //----------------助教-----------------------
 //顯示所有有修這堂課的助教
-router.get('/showAssistantIn/:classID', ensureAuthenticated, function(req, res) {
-  Class.findById(req.params.classID, function(error, classinfo) {
-    User.find(function(err, users) {
+router.get('/showAssistantIn/:classID', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.classID, function (error, classinfo) {
+    User.find(function (err, users) {
       if (err) {
         console.log(err);
       }
       StudebtTakeCourse.find({
         classID: req.params.classID
-      }, function(err, students) {
+      }, function (err, students) {
         if (err) {
           console.log(err);
         }
@@ -1367,7 +1367,7 @@ router.get('/showAssistantIn/:classID', ensureAuthenticated, function(req, res) 
         }
         User.find({
           _id: findStudentInfoQuery
-        }, function(err, Assistants) {
+        }, function (err, Assistants) {
           if (err) {
             console.log(err);
           }
@@ -1392,7 +1392,7 @@ router.get('/showAssistantIn/:classID', ensureAuthenticated, function(req, res) 
   })
 });
 //加入助教
-router.get('/checkAssistant/:sid/unit/:classID', function(req, res) {
+router.get('/checkAssistant/:sid/unit/:classID', ensureAuthenticated, function (req, res) {
   var string = req.params.sid;
   let permission = "2222";
   let sidarray = string.split(",");
@@ -1400,7 +1400,7 @@ router.get('/checkAssistant/:sid/unit/:classID', function(req, res) {
     StudebtTakeCourse.findOne({
       studentID: sidarray[i],
       classID: req.params.classID
-    }, function(err, students) {
+    }, function (err, students) {
       if (students) {
         StudebtTakeCourse.updateMany({
           studentID: sidarray[i],
@@ -1411,14 +1411,14 @@ router.get('/checkAssistant/:sid/unit/:classID', function(req, res) {
           }
         }, {
           w: 1
-        }, function(err, result) {
+        }, function (err, result) {
           if (err) throw err;
           console.log('Assistant Document Updated Successfully');
         });
       } else {
         User.find({
           _id: sidarray[i]
-        }, function(err, stc) {
+        }, function (err, stc) {
           if (err) {
             console.log(err);
           }
@@ -1428,7 +1428,7 @@ router.get('/checkAssistant/:sid/unit/:classID', function(req, res) {
           newAssistant.classID = req.params.classID;
           newAssistant.pridectGrade = "null";
           newAssistant.permission = "2222";
-          newAssistant.save(function(err) {
+          newAssistant.save(function (err) {
             if (err) {
               console.log(err);
             }
@@ -1440,36 +1440,36 @@ router.get('/checkAssistant/:sid/unit/:classID', function(req, res) {
   res.redirect('/class/showAssistantIn/' + req.params.classID);
 })
 //刪除課程助教
-router.get('/deleteAssistant/:id/unit/:classID', function (req, res) {
-    var string = req.params.id;
-    let delsidarray = string.split(",");
-    for (let i = 0; delsidarray.length > i; i++) {
-        StudebtTakeCourse.updateMany({
-            studentID: delsidarray[i],
-            classID: req.params.classID
-        }, {
-            $set: {
-                permission: "11111"
-            }
-        }, {
-            w: 1
-        }, function (err, result) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Assistant Permission Delete Successfully');
-            }
-        })
-    }
-    req.flash('success', '刪除成功');
-    res.redirect('/class/showAssistantIn/' + req.params.classID);
+router.get('/deleteAssistant/:id/unit/:classID', ensureAuthenticated, function (req, res) {
+  var string = req.params.id;
+  let delsidarray = string.split(",");
+  for (let i = 0; delsidarray.length > i; i++) {
+    StudebtTakeCourse.updateMany({
+      studentID: delsidarray[i],
+      classID: req.params.classID
+    }, {
+      $set: {
+        permission: "11111"
+      }
+    }, {
+      w: 1
+    }, function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Assistant Permission Delete Successfully');
+      }
+    })
+  }
+  req.flash('success', '刪除成功');
+  res.redirect('/class/showAssistantIn/' + req.params.classID);
 })
 //助教權限設定
-router.get('/setAssistant/:id/unit/:classID/set/:mode', function(req, res) {
+router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, function (req, res) {
   StudebtTakeCourse.find({
     studentID: req.params.id,
     classID: req.params.classID
-  }, function(err, stc) {
+  }, function (err, stc) {
     if (err) {
       console.log(err);
     }
@@ -1491,7 +1491,7 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', function(req, res) {
         }
       }, {
         w: 1
-      }, function(err, result) {
+      }, function (err, result) {
         if (err) {
           console.log(err);
         } else {
@@ -1516,7 +1516,7 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', function(req, res) {
         }
       }, {
         w: 1
-      }, function(err, result) {
+      }, function (err, result) {
         if (err) {
           console.log(err);
         } else {

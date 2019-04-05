@@ -21,7 +21,7 @@ let StudebtTakeCourse = require('../model/StudentTakeCourse');
 //bring note model
 let Note = require('../model/note');
 // Register Form
-router.get('/register', function (req, res) {
+router.get('/register', ensureAuthenticated, function (req, res) {
     res.render('register');
 });
 
@@ -177,7 +177,7 @@ router.post('/login', function (req, res, next) {
 });
 
 //User info 
-router.get('/userinfo', function (req, res) {
+router.get('/userinfo', ensureAuthenticated, function (req, res) {
     res.render('userinfo', {
         authenticate: true
     });
@@ -192,7 +192,7 @@ router.get('/logout', function (req, res) {
 });
 
 //update user info
-router.post('/updateUserinfo', function (req, res) {
+router.post('/updateUserinfo', ensureAuthenticated, function (req, res) {
     console.log(req.body);
 
     let query = {
@@ -231,7 +231,7 @@ router.post('/updateUserinfo', function (req, res) {
 });
 
 //顯示我選的課
-router.get('/myclass', function (req, res) {
+router.get('/myclass', ensureAuthenticated, function (req, res) {
     if (req.user.permission == "student") {
         StudebtTakeCourse.find({
             studentID: req.user._id
@@ -274,11 +274,11 @@ router.get('/myclass', function (req, res) {
 });
 
 //顯示我的筆記
-router.get('/mynote', function (req, res) {
+router.get('/mynote', ensureAuthenticated, function (req, res) {
     res.render('mynote');
 })
 //新增筆記
-router.post('/note/createNote', function (req, res) {
+router.post('/note/createNote', ensureAuthenticated, function (req, res) {
     console.log(req.body);
     let newNote = new Note();
     newNote.title = req.body.title;
@@ -312,7 +312,7 @@ router.post('/note/createNote', function (req, res) {
 
 
 //取得我的所有筆記
-router.get('/note/getNote', function (req, res) {
+router.get('/note/getNote', ensureAuthenticated, function (req, res) {
     Note.find({
         author_id: req.user._id
     }, function (err, notes) {
@@ -335,7 +335,7 @@ router.get('/note/getSigleNote/:noteID', function (req, res) {
 });
 
 //存存編輯中筆記
-router.post('/note/saveNote/:noteID', function (req, res) {
+router.post('/note/saveNote/:noteID', ensureAuthenticated, function (req, res) {
     console.log("---------------save body---------------");
     console.log(req.body);
     console.log("---------------save body---------------");
@@ -363,7 +363,7 @@ router.post('/note/saveNote/:noteID', function (req, res) {
 });
 
 //刪除筆記
-router.delete('/note/deleteNote/:noteID', function (req, res) {
+router.delete('/note/deleteNote/:noteID', ensureAuthenticated, function (req, res) {
     Note.deleteOne({
         _id: req.params.noteID
     }, function (err) {
@@ -382,5 +382,13 @@ router.delete('/note/deleteNote/:noteID', function (req, res) {
     })
 })
 
-
+//Access Control
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash('danger', '請先登入');
+        res.redirect('/users/login');
+    }
+}
 module.exports = router;
