@@ -14,6 +14,8 @@ let Unit = require('../model/unit');
 let Chapter = require('../model/chapter');
 //bring Video model
 let Video = require('../model/video');
+//bring Videobehavior model
+let Videobehavior = require('../model/videobehavior');
 //bring student take courese model
 let StudebtTakeCourse = require('../model/StudentTakeCourse');
 //bring student comment chapter model
@@ -1529,7 +1531,85 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
 })
 //----------------助教-----------------------
 
+//查看影片觀看情形
+router.get('/showVideoSituation/:classID',ensureAuthenticated,function(req,res){
+  Class.findById(req.params.classID, function (err, classinfo) {
+    if (err) {
+      console.log(err);
+    }
+    Unit.find({
+      belongClass: classinfo._id
+    }, function (err, units) {
+      if (err) {
+        console.log(err);
+      }
+      let querytext = []
 
+      for (let i = 0; i < units.length; i++) {
+        querytext.push(ObjectID(units[i]._id).toString())
+      }
+      query = {
+        belongUnit: querytext
+      }
+      console.log("query = " + query);
+
+      Video.find(query, function (err, videos) {
+        if (err) {
+          console.log(err);
+        }
+        querytext = []
+        for (let i = 0; i < videos.length; i++) {
+          querytext.push(ObjectID(videos[i]._id).toString())
+        }
+        query = {
+          videoID: querytext
+        }
+        Videobehavior.find(query, function (err, behaviors) {
+          if (err) {
+            console.log(err);
+          }
+          querytext = []
+
+          for (let i = 0; i < behaviors.length; i++) {
+            querytext.push(ObjectID(behaviors[i].watcherID).toString())
+          }
+          query = {
+            _id: querytext
+          }
+          User.find(query, function (err, watcher) {
+            if (err) {
+              console.log(err);
+
+            }
+            console.log(watcher);
+            
+            res.render('showVideoSituation', {
+              classinfo:classinfo,
+              units: units,
+              videos: videos,
+              behaviors: behaviors,
+              watcher: watcher
+            });
+          })
+
+        })
+      })
+    })
+  })
+})
+
+
+//查看影片分析
+router.get('/videoAnalytics/:videoID',ensureAuthenticated,function(req,res){
+  Video.findById(req.params.videoID,function(err,videoinfo){
+    Unit.findById(videoinfo.belongUnit,function(err,unit){
+      res.render('videoAnalytics',{
+        videoinfo:videoinfo,
+        unit:unit
+      })
+    })
+  })
+})
 
 
 

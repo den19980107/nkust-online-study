@@ -1,0 +1,220 @@
+<% include layout/navbar %>
+<style>
+    html, body {
+        height: 100%;
+    }
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .chapterList{
+        list-style: none;
+    }
+    .chapter{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
+    .chapter a {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 100%;
+        padding: 1rem
+    }
+    .chapter a:hover{
+        background: rgb(224, 224, 224)
+    }
+    .chapter a:focus{
+        border-left: 4px solid rgb(199, 45, 39);
+        outline: none
+    }
+
+
+
+
+
+
+
+
+/* meterial loader */
+.linear-activity {
+    overflow: hidden;
+    width: 50%;
+    height: 4px;
+    background-color: #B3E5FC;
+    margin: 20px auto;
+}
+
+.determinate {
+    position: relative;
+    max-width: 100%;
+    height: 100%;
+    -webkit-transition: width 500ms ease-out 1s;
+       -moz-transition: width 500ms ease-out 1s;
+         -o-transition: width 500ms ease-out 1s;
+            transition: width 500ms ease-out 1s;
+    background-color: #03A9F4;
+}
+
+.indeterminate {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.indeterminate:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    background-color: #03A9F4;
+    animation: indeterminate_first 1.5s infinite ease-out;
+}
+
+.indeterminate:after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    background-color: #4FC3F7;
+    animation: indeterminate_second 1.5s infinite ease-in;
+}
+
+@keyframes indeterminate_first {
+    0% {
+        left: -100%;
+        width: 100%;
+    }
+    100% {
+        left: 100%;
+        width: 10%;
+    }
+}
+
+@keyframes indeterminate_second {
+    0% {
+        left: -150%;
+        width: 100%;
+    }
+    100% {
+        left: 100%;
+        width: 10%;
+    }
+}
+/* end of meterial loader */
+
+.table{
+    width: 100%
+}
+.table tr{
+    border: none
+}
+.table tr:hover{
+    background: rgb(224, 224, 224)
+}
+.table tr th{
+    border: none
+}
+
+.videoName{
+    color: black;
+}
+.videoName:hover{
+    color: rgb(62, 113, 209);
+}
+
+</style>
+<div id ="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
+    <div class="indeterminate"></div>
+</div>
+<div class="row w-100 h-100">
+    <div class="col-2 h-100 chapterDiv" style="border-right: 1px solid rgb(229, 229, 229)">
+        <table class="table">
+            <tr>
+                <th>單元</th>
+            </tr>
+        </table>
+        <ul class="chapterList">
+            <%let i = 0%>
+            <%units.forEach(function(unit){%>
+            <li class="chapter">
+                <a href="#" id="unit<%=i%>" onclick="showVideoInChapter('<%=unit._id%>')"><%=unit.unitName%></a>
+            </li>
+            <%i++%>
+            <%})%>
+        </ul>
+    </div>
+    
+    <div class="col h-100 videos">
+        <table class="table" id= "videoTable">
+            
+        </table>
+    </div>
+</div>
+<!-- <p><%=classinfo%></p>
+<p><%=units%></p>
+<p><%=videos%></p>
+<p><%=behaviors%></p>
+<p><%=watcher%></p> -->
+
+<script>
+window.onload = function(){
+    let unit0 = document.getElementById('unit0');
+    if(unit0!=null){
+        unit0.click();
+        unit0.focus();
+    }
+}
+let showVideoInChapter = function(unitID){
+    $.ajax({
+        url: '/api/getVideoInUnit/'+unitID,
+        type: 'GET',
+        beforeSend: function () {
+            let loader = document.getElementById('line-loader');
+            loader.style.display = "block"
+        },
+        complete: function () {
+            let loader = document.getElementById('line-loader');
+            loader.style.display = "none"
+        },
+        error: function (error) {
+            alert(error.error);
+        },
+        success: function (response) {
+            response = JSON.parse(response);
+            console.log(response.videos)
+            let videoTable = document.getElementById('videoTable');
+            videoTable.innerHTML =`
+            <tr>
+                <th>影片</th>
+                <th>日期</th>
+                <th>觀看次數</th>
+                <th>留言數</th>
+            </tr>
+            `
+            for(let i = 0;i<response.videos.length;i++){
+                videoTable.innerHTML+=`
+                    <tr onclick="window.location='/class/videoAnalytics/${response.videos[i]._id}'">
+                    <td>
+                        <div style="display:flex">
+                            <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/0.jpg" style="width:8.8rem;height:5rem"></img>
+                            <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
+                        </div>
+                    </td>
+                    <td>日期</td>
+                    <td>${response.videos[i].watchTime}</td>
+                    <td>${response.videos[i].comments.length}</td>
+                    </tr>
+                `
+            }
+        }
+    })
+}
+
+</script>
+
+<% include layout/nobottom-footer %>

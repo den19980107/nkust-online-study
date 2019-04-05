@@ -93,7 +93,7 @@ io.on('connection', function (socket) {
             }
 
             if (obj.type == "close") {
-                videobehavior.videoActions.push("0:0:0");
+                videobehavior.videoActions.push("close:"+obj.time+":"+obj.time );
                 videobehavior.save(function (err) {
                     if (err) {
                         console.log(err);
@@ -228,6 +228,7 @@ let backend = require('./routes/backend');
 let SDC = require('./routes/SDC');
 let coding = require('./routes/coding');
 let uploader = require('./routes/uploader');
+let API = require('./routes/API');
 app.use('/articles', articles);
 app.use('/users', users);
 app.use('/class', Class);
@@ -235,6 +236,7 @@ app.use('/backend', backend);
 app.use('/SDC', SDC);
 app.use('/coding', coding);
 app.use('/uploader', uploader);
+app.use('/api', API);
 //start server
 server.listen(port, function () {
     console.log("Server started on port" + port);

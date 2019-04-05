@@ -308,6 +308,10 @@
     var yt = yt || {};
     let action = [];
 
+    let vtime = 0;
+    let nowtime = 0;
+    let slider = document.getElementById('slider');
+
     yt = {
         onPlayerStateChange: function (event) {
             let play = "fas fa-play mr-2";
@@ -316,36 +320,32 @@
 
             // console.log(event.data);
             if (event.data == 1) {
-                console.log("播放");
+                console.log("播放"+Math.floor(slider.value));
+                socket.emit('videoAction', {
+                        type: 'play',
+                        time: Math.floor(slider.value)
+                });
                 action.push("播放:" + parseInt(event.target.getCurrentTime()) / 60)
                 //console.table(action);
                 if (PlayPauseBtn.className == play) {
                     PlayPauseBtn.className = pause;
-                    socket.emit('videoAction', {
-                        type: 'play',
-                        time: nowtime
-                    });
                 }
             }
             if (event.data == 2) {
-                console.log("暫停");
+                console.log("暫停"+Math.floor(slider.value));
                 action.push("暫停:" + parseInt(nowtime) / 60)
                 //console.table(action);
                 if (PlayPauseBtn.className == pause) {
                     PlayPauseBtn.className = play;
-                    socket.emit('videoAction', {
-                        type: 'pause',
-                        time: nowtime
-                    });
                 }
+                socket.emit('videoAction', {
+                        type: 'pause',
+                        time: Math.floor(slider.value)
+                });
             }
         }
     }
 
-
-    let vtime = 0;
-    let nowtime = 0;
-    let slider = document.getElementById('slider');
 
     // 4. The API will call this function when the video player is ready.
     function onPlayerReady(event) {
@@ -388,26 +388,28 @@
         });
 
 
-        slider.onchange = function () {
+        slider.onchange = function () { 
             console.log(slider.value);
+            console.log(nowtime);
+            
             let beginTime = nowtime;
             player.seekTo(slider.value);
-            console.log("seek from:" + beginTime + " to:" + slider.value);
+            console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
 
             socket.emit('videoAction', {
                 type: 'fastTurn',
-                beginTime: beginTime,
-                endTime: slider.value
+                beginTime: Math.floor(beginTime),
+                endTime: Math.floor(slider.value)
             });
             let play = "fas fa-play mr-2";
             let isplay = document.getElementById('PlayPauseBtn');
 
-            if (isplay.className != play) {
-                socket.emit('videoAction', {
-                    type: 'play',
-                    time: nowtime
-                });
-            }
+            // if (isplay.className != play) {
+            //     socket.emit('videoAction', {
+            //         type: 'play',
+            //         time: Math.floor(slider.value)
+            //     });
+            // }
 
         }
 
@@ -931,7 +933,8 @@
     }
     window.onunload = function () {
         socket.emit('videoAction', {
-            type: 'close'
+            type: 'close',
+            time: Math.floor(slider.value)
         });
     }
 </script>
