@@ -429,28 +429,22 @@
                             <div class="modal-body">
                               <div class="row pr-3" style="height:75%">
                                       <div class="col-5 h-100">
-                                            <div class="form-group row mb-0" style="height:7%">
-                                                <label for="staticEmail" id="testName" class="col-sm-3 col-form-label">測驗名稱</label>
-                                                <div class="col-sm-9">
-                                                    <input class="form-control"id="testNameinput" type="text" placeholder="請輸入測驗名稱">
+                                            <div style="display:flex;flex-direction:column;justify-content: space-between;height:30%;padding-bottom:1rem">
+                                                <div style="display:flex">
+                                                    <label for="staticEmail" id="testName" class="col-form-label" style="width:20%;white-space:nowrap">測驗名稱</label>
+                                                    <input class="form-control"id="testNameinput" type="text" style="width:80%" placeholder="請輸入測驗名稱">
                                                 </div>
-                                            </div>
-                                            <div class="form-group row mb-0"style="height:7%">
-                                                    <label for="staticEmail" class="col-sm-3 col-form-label">公開時間</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="datetime-local" class="form-control" onchange="setEndTime(this)" id="publicTime">
-                                                    </div>
-                                            </div>
-                                            <div class="form-group row mb-0"style="height:7%">
-                                                    <label for="staticEmail" class="col-sm-3 col-form-label "  >結束時間</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="datetime-local" class="form-control" id="EndpublicTime">
-                                                    </div>
-                                            </div>
-                                            <div class="form-group row mb-0"style="height:7%">
-                                                <label for="staticEmail" class="col-sm-3 col-form-label">題目類別</label>
-                                                <div class="col-sm-9">
-                                                    <select id="inputState" class="form-control" onchange="changeTypeOfQution(this)">
+                                                <div style="display:flex">
+                                                        <label for="staticEmail" class="col-form-label" style="width:20%;white-space:nowrap">公開時間</label>
+                                                        <input type="datetime-local" class="form-control"style="width:80%" onchange="setEndTime(this)" id="publicTime">
+                                                </div>
+                                                <div style="display:flex">
+                                                        <label for="staticEmail" class="col-form-label "style="width:20%;white-space:nowrap" >結束時間</label>                                                
+                                                        <input type="datetime-local" class="form-control"style="width:80%"id="EndpublicTime">                                    
+                                                </div>
+                                                <div style="display:flex">
+                                                    <label for="staticEmail" class="col-form-label" style="width:20%;white-space:nowrap">題目類別</label>
+                                                    <select id="inputState" class="form-control" style="width:80%"onchange="changeTypeOfQution(this)">
                                                         <option selected>選擇題</option>
                                                         <option>是非題</option>
                                                         <option>填空題</option>
@@ -458,7 +452,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="control" style="height: 72%;overflow-y:scroll;border:1px solid #ccc;padding:1rem">
+                                            <div class="control" style="height: 70%;overflow-y:scroll;border:1px solid #ccc;padding:1rem">
                                                 <div id= "MCQ">
                                                     <%include layout/MCQ %>
                                                 </div>

@@ -21,10 +21,7 @@
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <div class="row">
     <div class="col-9">
-        <section style="width: 100%;height: auto%;background: #ccc">
-            <img src="/img/程式區招牌.png" class="img-fluid">
-        </section>
-        <div style="margin-top: 2em;">
+        <div>
             <h5>分類</h5>
             <div class="Category mb-5">
                 <button class="btn btn-primary" style="width: 10em;height: 5em;">演算法</button>
@@ -37,8 +34,10 @@
             <div class="mb-2" style="display: flex">
                 <input type="text" style="flex: 8">
                 <input type="submit" class="btn btn-primary" value="搜尋" style="flex: 1;margin-left: 1rem">
-                <a href="/coding/createNewCodingQution" class="btn btn-success"
+                <%if(user.permission == "teacher"){%>
+                    <a href="/coding/createNewCodingQution" class="btn btn-success"
                     style="flex: 1;margin-left: 1rem">新增題目</a>
+                <%}%>
             </div>
             <div class="topic">
                 <table class="table table-striped">
@@ -100,19 +99,129 @@
             </div>
         </div>
     </div>
-    <div class="col">
+    <div class="col-3">
         <div style="width: 100%">
             <div>
-                <h5>你的活動紀錄</h5>
-                <canvas id="myChart" style="width: 100%;height:300px;background: #cccccc"></canvas>
+                <h5>你的解題情況</h5>
+                <div style="width: 100%;height: 18rem;border: 1px solid rgb(235, 235, 235);border-radius: 5px">
+                    <canvas id="myChart" style="width: 100%;height: 15rem;"></canvas>
+                    <div style="width: 100%;height: 3rem;display: flex;justify-content: space-around">
+                        <p id = "finish" style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(70, 120, 178)"></p>
+                        <p id = "notfinish"  style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(97, 158, 85)"></p>
+                        <p id = "last"  style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(224, 184, 104)"></p>
+                    </div>
+                </div>
+                <h5 class="mt-4">最近提交紀錄</h5>
+                <div class="mt-2"style="width: 100%;height: 18rem;" id = "submitRecord">
+                
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
     let showQution = function (id) {
         console.log(id);
         window.location = "/coding/showCodingQution/" + id
+    }
+    let myRecord = <%-JSON.stringify(myRecord)%>
+    let qutions = <%-JSON.stringify(qutions)%>
+    let totalRight = 0;
+    for (let i = 0; i < qutions.length; i++) {
+        qutions[i].isWritten = "Not";
+        qutions[i].acceptTime = 0;
+    }
+    for (let i = 0; i < qutions.length; i++) {  
+        for (let j = 0; j < myRecord.length; j++) {
+            if (qutions[i]._id == myRecord[j].codingQutionID) {
+                qutions[i].submitTime += 1;
+                if (myRecord[j].status == "Accepted") {
+                    qutions[i].acceptTime += 1;
+                }
+                
+                if (myRecord[j].status == "Accepted") {    
+                    if (qutions[i].isWritten == "Not" || qutions[i].isWritten == "Wrong") {
+                        qutions[i].isWritten = "Right"
+                    }
+                }
+                if (myRecord[j].status == "Wrong Answer" || myRecord[j].status == "Compile Error") {
+                    if (qutions[i].isWritten != "Right") {
+                        qutions[i].isWritten = "Wrong"
+                    }
+                }
+                
+            }
+        }
+    }
+    for(let i = 0 ;i<qutions.length;i++){
+        if(qutions[i].isWritten == "Right"){
+            totalRight +=1
+        }
+    }
+
+    let finish = document.getElementById('finish');
+    let notfinish = document.getElementById('notfinish');
+    let last = document.getElementById('last');
+    console.log(finish,notfinish,last);
+    
+    finish.innerHTML = "已完成："+totalRight;
+    notfinish.innerHTML = "未完成："+ qutions.length;
+    last.innerHTML = "待解決："+ (qutions.length - totalRight);
+    console.log("totalRight = ",totalRight);
+    console.log("totalQuestion = ",qutions.length);
+
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    let data = {
+        datasets: [{
+            data: [totalRight, qutions.length-totalRight],
+            backgroundColor: ['rgb(100, 201, 99)','rgb(223, 100, 106)',]
+        }]
+    };
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            title: {
+                display: true,
+                text: '解題情況'
+            }
+        }
+    });
+
+
+
+    //提交紀錄
+    let submitRecord = []
+    for(let i = 0;i<myRecord.length;i++){
+        for(let j = 0 ;j<qutions.length;j++){
+            if(myRecord[i].codingQutionID == qutions[j]._id){
+                let data = {
+                    submitTime:myRecord[i].submitTime,
+                    title:qutions[j].title,
+                    id:qutions[j]._id
+                }
+                submitRecord.push(data)
+            }
+        }
+    }
+    let submitRecordDiv = document.getElementById('submitRecord')
+    for(let i = submitRecord.length-1;i>=0;i--){
+        if(i<submitRecord.length-4){//最多顯示四筆
+            break
+        }
+        submitRecordDiv.innerHTML += `
+        <div class="card mt-2">
+            <div class="card-header">
+                ${submitRecord[i].submitTime}
+            </div>
+            <div class="card-body pt-2 pb-2">
+                <a href="/coding/showCodingQution/${submitRecord[i].id}" class="card-text">${submitRecord[i].title}</a>
+            </div>
+        </div>
+        `
     }
 </script>
 

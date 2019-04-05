@@ -306,7 +306,7 @@
     editor.session.setMode("ace/mode/c_cpp");
     document.getElementById('editor').style.fontSize = '16px';
     let body = `<%=qutionData.body%>`
-    body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "'");
+    body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "'").replace(/&#39;/g, "'");
     let Detail = CKEDITOR.replace('Detail', {
         height: "100px",
         on: {
@@ -489,7 +489,7 @@
                                     $('#successModal').modal('show');
                                 } else {
                                     let errorMsg = document.getElementById('errorMsg')
-                                    errorMsg.value = output
+                                    //errorMsg.value = output
                                     $('#errorModal').modal('show');
                                 }
                             }

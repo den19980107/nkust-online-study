@@ -45,7 +45,7 @@
     editor.setTheme("ace/theme/clouds");
     editor.session.setMode("ace/mode/<%=record.language%>");
     let script = `<%=record.script%>`
-    script = script.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "'");
+    script = script.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "'").replace(/&#39;/g, "'");
     editor.session.setValue(script)
     document.getElementById('editor').style.fontSize = '16px';
 
