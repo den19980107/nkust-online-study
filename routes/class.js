@@ -666,6 +666,7 @@ router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, fun
   newVideo.videoURL = req.params.videoURLid;
   newVideo.belongUnit = req.params.unitID;
   newVideo.vtime = "";
+  newVideo.postTime =  new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
   console.log(newVideo);
 
   newVideo.save(function (err) {
