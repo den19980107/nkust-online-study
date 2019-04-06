@@ -411,18 +411,40 @@
                   if(obj.body.output == qution.outputTest){
                       isCorrect = true
                       qution.isCorrect = isCorrect
+                      delay(2000).then(function(){
+                        if(i==qutions.testQutions.length-1){
+                            answermodifyend(qutions)
+                        }
+                      });
                   }else{
                       qution.isCorrect = isCorrect
+                      delay(2000).then(function(){
+                        if(i==qutions.testQutions.length-1){
+                            answermodifyend(qutions)
+                        }
+                      });
                   }
               });
-            }
-            if(i==qutions.testQutions.length-1){
-                answermodifyend(qutions)
+            }else{
+              delay(3000).then(function(){
+                if(i==qutions.testQutions.length-1){
+                    answermodifyend(qutions)
+                }
+              });
             }
         }
     }
+    var delay = function(s){
+      return new Promise(function(resolve,reject){
+        console.log("3s");
+        setTimeout(resolve,s);
+      });
+    };
+
     let answermodifyend = function(qutions){
       let obtainscore = 0
+      console.log(qutions);
+      console.log("到");
       for(let i=0;i < qutions.testQutions.length;i++){
           if(qutions.testQutions[i].isCorrect == true){
               obtainscore += Number(qutions.testQutions[i].score);
@@ -452,7 +474,6 @@
     if(user._id == classinfo.teacher){
         console.log("isTeacher");
         let questionList = document.getElementById('questionList');
-
         let today = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
         console.log("today = ",today);
         let split = today.split(" ");
@@ -498,7 +519,6 @@
         }
         today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
         console.log(today);
-
         document.getElementById("publicTime").setAttribute("min",today);
         document.getElementById("publicTime").value = today
         document.getElementById("EndpublicTime").setAttribute("min",today)
@@ -522,7 +542,6 @@
             let nowTime = new Date();
             let endTime = new Date(Test.EndpublicTime);
             //console.log(endTime-nowTime);
-
             if((endTime-nowTime)/1000>0){
                 //console.log("ispublic")
                 let ispublic = countTime("beforePublic");
@@ -543,7 +562,6 @@
                     if(isEnd == true){
                         clearInterval(publicTimeCounter)
                         console.log("asd");
-
                         $.ajax({
                             url: '/class/EndpublicTest/'+Test._id,
                             type: 'POST',
@@ -631,7 +649,6 @@
     }
     let publicTest = function(){
         console.log('/class/publicTest/'+Test._id);
-
         $.ajax({
             url: '/class/publicTest/'+Test._id,
             type: 'POST',
