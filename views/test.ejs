@@ -411,12 +411,13 @@
                   if(obj.body.output == qution.outputTest){
                       isCorrect = true
                       qution.isCorrect = isCorrect
-                      answermodifyend(qutions)
                   }else{
                       qution.isCorrect = isCorrect
-                      answermodifyend(qutions)
                   }
               });
+            }
+            if(i==qutions.testQutions.length-1){
+                answermodifyend(qutions)
             }
         }
     }
