@@ -508,9 +508,15 @@ function defineRequest() {
             tr.appendChild(tdURL);
             uploadVideoList.appendChild(tr);
             let classID = document.getElementById('classID').innerText.replace(/\s/g, '');
+            let Date1 = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+            
             $.ajax({
                 type: 'POST',
                 url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' + videoName.textContent + '/' + uploadResponse.id,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({date:Date1}),
+                dataType: 'json',
                 success: function (response) {
                     window.location = '/class/' + classID + '/showUnit/' + unitID.innerText.replace(/\s/g, '');
                     alert('新增成功!');

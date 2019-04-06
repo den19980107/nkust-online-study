@@ -197,6 +197,10 @@ let showVideoInChapter = function(unitID){
             </tr>
             `
             for(let i = 0;i<response.videos.length;i++){
+                let date = "undefind";
+                if(response.videos[i].postTime!=undefined){
+                    date = response.videos[i].postTime
+                }
                 videoTable.innerHTML+=`
                     <tr onclick="window.location='/class/videoAnalytics/${response.videos[i]._id}'">
                     <td>
@@ -205,7 +209,7 @@ let showVideoInChapter = function(unitID){
                             <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
                         </div>
                     </td>
-                    <td>日期</td>
+                    <td>${date}</td>
                     <td>${response.videos[i].watchTime}</td>
                     <td>${response.videos[i].comments.length}</td>
                     </tr>

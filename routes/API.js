@@ -40,6 +40,8 @@ router.get('/getVideoInUnit/:unitID',function(req,res){
         if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}');
         } else {
+            console.log(videos);
+            
             studentCommentVideo.find({},function(err,comments){
                 if (err) {
                     res.send('{"error" : "要求失敗", "status" : 500}');
@@ -73,6 +75,7 @@ function append(videos,comments,behaviors) {
             videoName: videos[i].videoName,
             videoURL: videos[i].videoURL,
             vtime: videos[i].vtime,
+            postTime:videos[i].postTime,
             _id:ObjectID(videos[i]._id).toString(),
             comments:[],
             watchTime:0

@@ -772,6 +772,7 @@
             let verifyYoutubeUrl = 'https://www.youtube.com/';
             let verifyYoutube = verifyYoutubeUrl.indexOf(verifyYoutubeUrl);
             console.log("verifyYoutube" + verifyYoutube);
+            let Date1 = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
 
             if (verifyYoutube >= 0) { //如果是youtube的網址
                 $.ajax({
@@ -779,10 +780,15 @@
                     url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' +
                         videoname +
                         '/' + url,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({date:Date1}),
+                    dataType: 'json',
                     success: function (response) {
+                        console.log(response);
+                        alert('新增成功!');
                         window.location = '/class/' + "<%=classinfo._id%>/showUnit/" + unitID.innerText
                             .replace(/\s/g, '');
-                        alert('新增成功!');
                     },
                     error: function (err) {
                         console.log(err);

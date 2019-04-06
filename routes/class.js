@@ -661,20 +661,22 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
 
 //新增影片
 router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, function (req, res) {
+  console.log(req.body.date);
+  
   let newVideo = new Video();
   newVideo.videoName = req.params.videoName;
   newVideo.videoURL = req.params.videoURLid;
   newVideo.belongUnit = req.params.unitID;
   newVideo.vtime = "";
-  newVideo.postTime =  new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+  newVideo.postTime = req.body.date
   console.log(newVideo);
 
   newVideo.save(function (err) {
     if (err) {
-      res.send('error');
-    } else {
-      res.send('success');
+      console.log(err);
     }
+    res.send('200');
+    
   });
 });
 
