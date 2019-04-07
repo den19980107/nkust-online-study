@@ -22,7 +22,14 @@ let testSchema = mongoose.Schema({
     isPublic:{
         type:Boolean,
         require:true
+    },publishScoreNow:{
+        type:Boolean,
+        require:true
+    },canCheckQuestionAndAnswer:{
+        type:Boolean,
+        require:true
     }
+
 });
 
 let Test = module.exports = mongoose.model('Test', testSchema, 'test');
