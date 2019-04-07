@@ -21,7 +21,7 @@ let StudebtTakeCourse = require('../model/StudentTakeCourse');
 //bring note model
 let Note = require('../model/note');
 // Register Form
-router.get('/register', ensureAuthenticated, function (req, res) {
+router.get('/register', function (req, res) {
     res.render('register');
 });
 
