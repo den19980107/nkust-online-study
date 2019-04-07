@@ -12,15 +12,15 @@
 <table class="table">
     <thead>
         <tr>
-            <th width="8.5%" style="padding:12px 0">
+            <th width="8.5%" style="padding:12px 0;position:relative;">
               <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
-                <div>
+                <div style="position:absolute;left:5%;top:50%;transform: translate(-50%, -50%);">
                     <button class="btn btn-success btn-sm" onclick="check()">批准</button>
                 </div>
-                <div style="padding:8px 0 8px 8px;display:flex;">
+                <div style="position:absolute;left:50%;top:50%;transform: translate(-50%, -50%);">
                   <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
                 </div>
-                <div class="dropdown" style="display:flex;">
+                <div class="dropdown" style="position:absolute;left:70%;top:50%;transform: translate(-50%, -50%);">
                   <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-angle-down"></i>
                   </button>

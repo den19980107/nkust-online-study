@@ -22,18 +22,18 @@
 <table class="table">
   <thead>
     <tr>
-      <th style="padding:8px 0px" width="5.5%">
+      <th style="padding:8px 0px;position:relative;" width="5.5%">
         <%temp = 0%>
         <%users.forEach(function(userss){%>
         <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
         <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
-          <div style="display:flex;">
+          <div style="position:absolute;left:10%;top:50%;transform: translate(-50%, -50%);">
             <button class="btn div-left" onclick="deleteclick()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
           </div>
-          <div style="display:flex;">
+          <div style="position:absolute;left:50%;top:50%;transform: translate(-50%, -50%);">
             <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
           </div>
-          <div class="dropdown" style="display:flex;">
+          <div class="dropdown" style="position:absolute;left:80%;top:50%;transform: translate(-50%, -50%);">
             <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-angle-down"></i>
             </button>
@@ -48,13 +48,13 @@
         <%})%>
         <%if(classinfo.teacher == user._id){%>
         <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
-          <div style="display:flex;">
+          <div style="position:absolute;left:10%;top:50%;transform: translate(-50%, -50%);">
             <button class="btn div-left" onclick="deleteclick()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
           </div>
-          <div style="display:flex;">
+          <div style="position:absolute;left:50%;top:50%;transform: translate(-50%, -50%);">
             <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
           </div>
-          <div class="dropdown" style="display:flex;">
+          <div class="dropdown" style="position:absolute;left:80%;top:50%;transform: translate(-50%, -50%);">
             <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-angle-down"></i>
             </button>
