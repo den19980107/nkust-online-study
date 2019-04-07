@@ -761,6 +761,8 @@ router.post('/addTest/class/:cid/unit/:uid', ensureAuthenticated, function (req,
     newTest.isPublic = req.body.isPublic;
     newTest.publicTime = req.body.publicTime;
     newTest.EndpublicTime = req.body.EndpublicTime;
+    newTest.publishScoreNow = req.body.publpublishScoreNowicTime;
+    newTest.canCheckQuestionAndAnswer = req.body.canCheckQuestionAndAnswer;
     console.log(newTest);
     newTest.save(function (err) {
       if (err) {

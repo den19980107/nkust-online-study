@@ -175,6 +175,7 @@
 
     var ctx = document.getElementById('myChart').getContext('2d');
     let data = {
+        labels:['已完成','未完成'],
         datasets: [{
             data: [totalRight, qutions.length-totalRight],
             backgroundColor: ['rgb(100, 201, 99)','rgb(223, 100, 106)',]
