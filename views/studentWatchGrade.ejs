@@ -1,0 +1,380 @@
+<% include layout/header %>
+<style media="screen">
+    pre {
+        font-size: 1rem;
+    }
+
+    .qution {
+        margin-bottom: 2rem;
+        padding: 20px;
+        border-radius: 20px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(194, 190, 190);
+    }
+
+    .qution:hover {
+        box-shadow: 0px 0px 10px rgb(180, 198, 235);
+        border: 1px solid rgba(93, 143, 246, 1);
+        z-index: 2;
+        -webkit-transition: all 200ms ease-in;
+        -webkit-transform: scale(1.005);
+        -ms-transition: all 200ms ease-in;
+        -ms-transform: scale(1.005);
+        -moz-transition: all 200ms ease-in;
+        -moz-transform: scale(1.005);
+        transition: all 200ms ease-in;
+        transform: scale(1.005);
+    }
+
+    .space {
+        display: flex;
+        margin-bottom: 1rem
+    }
+</style>
+<script>
+    var units = <%- JSON.stringify(units) %>;
+    var tests = <%- JSON.stringify(tests) %>;
+</script>
+<div>
+    <span style="font-size:30px;">測驗成績</span>
+    <hr>
+</div>
+<div class="row">
+    <!-- 左邊的匡 -->
+    <div class="col-3">
+        <div class="row">
+            <div class="dropdown w-100">
+                <div class="space">
+                    <label class="col-sm-4 col-form-label">選擇單元</label>
+                    <div class="col-sm-8">
+                        <select id="selectUnit" class="form-control" onchange="onchangeUnit(this.value)">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="space">
+                    <label class="col-sm-4 col-form-label">選擇測驗</label>
+                    <div class="col-sm-8">
+                        <select id="selectQuiz" class="form-control" onchange="onchangeQuiz(this.value)">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="space">
+                    <label class="col-sm-7">您的測驗成績為:</label>
+                    <label id="showgrade">...</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右邊的匡 -->
+    <div class="col-9" id='rightbox'>
+
+    </div>
+</div>
+<script>
+    let allSubmits = <%-JSON.stringify(submits)%> //全部的作答紀錄
+    let submiter = <%-JSON.stringify(submiter)%>
+    console.log(allSubmits);
+    let nowUnit;
+    let nowQuiz;
+    let getScore;
+    window.onload = function () {
+        let i;
+        for (i = 0; i < units.length; i++) {
+            if (i == 0) {
+                nowUnit = units[i]._id;
+            }
+            selectUnit.options[i] = new Option(units[i].unitName, units[i]._id);
+        }
+        selectQuiz.length = 0;
+        let testLength = 0;
+        for (i = 0; i < tests.length; i++) {
+            if (tests[i].belongUnit == nowUnit) {
+                if (testLength == 0) nowQuiz = tests[i]._id;
+                selectQuiz.options[testLength++] = new Option(tests[i].testName, tests[i]._id);
+            }
+        }
+        selectQuiz.length = testLength;
+        onchangeQuiz(nowQuiz);
+    }
+    let onchangeUnit = function (unitId) {
+        let i;
+        nowUnit = unitId;
+        selectQuiz.length = 0;
+        let testLength = 0;
+        for (i = 0; i < tests.length; i++) {
+            if (tests[i].belongUnit == nowUnit) {
+                if (testLength == 0) nowQuiz = tests[i]._id;
+                selectQuiz.options[testLength++] = new Option(tests[i].testName, tests[i]._id); // 設定新選項
+            }
+        }
+        onchangeQuiz(nowQuiz);
+        selectQuiz.length = testLength; // 刪除多餘的選項
+    }
+    let onchangeQuiz = function (quizId) {
+        nowQuiz = quizId;
+        //let nowStudent = "5ca577446c5b2903acb7fd20"; //學生id
+        let nowStudent = "<%=user._id%>";
+        let isSubmited = 0;
+        for (i = 0; i < allSubmits.length; i++) {
+            if ((allSubmits[i].testID == nowQuiz) && (allSubmits[i].writer == nowStudent)) {
+                console.log('--------------studentQuiz---------------');
+
+                console.log(allSubmits[i]);
+                document.getElementById('showgrade').innerHTML = allSubmits[i].obtainscore;
+                showSubmiterAnswer(allSubmits[i]); //執行顯示資料
+                isSubmited++;
+            }
+        }
+        if (isSubmited == 0) {
+            let rightbox = document.getElementById('rightbox');
+            rightbox.innerHTML = '';
+
+            let alertDiv = document.createElement('div');
+            alertDiv.innerHTML = '您未填寫測驗';
+            alertDiv.style = 'text-align:center;';
+            alertDiv.className = 'col-sm-12 alert alert-danger';
+            rightbox.appendChild(alertDiv);
+            let grade = document.getElementById('showgrade');
+            grade.innerHTML = '...';
+
+        }
+        isSubmited = 0;
+    }
+    let showSubmiterAnswer = function (test) {
+        let rightbox = document.getElementById('rightbox');
+        let bightml = '';
+
+        for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
+            let qution = test.testQutionsAndAnswer[i];
+            let html =
+                `
+                    <div class="qution" id="qution${i}">
+                    `
+            if (qution.type == '選擇題') {
+                if (qution.isCorrect == true) {
+                    html +=
+                        `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.qutionName} （選擇題）
+                            </p>`
+                } else {
+                    html +=
+                        `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.qutionName} （選擇題）
+                            </p>`
+                }
+                let selection = "";
+                for (let i = 0; i < qution.selection.length; i++) {
+                    if (qution.studentAnswer[i] == "1") {
+                        selection += `
+                        <div class="col-2"><input  checked type="radio">
+                          ${qution.selection[i]}
+                        </div>
+                        `
+                    } else {
+                        selection += `
+                        <div class="col-2"><input  type="radio">
+                          ${qution.selection[i]}
+                        </div>
+                        `
+                    }
+                }
+
+                html +=
+                    `
+                    <p>學生答案:</p>
+                    <div>
+                        <div class="row">
+                            ${selection}
+                        </div>
+                        <br />
+                        <p>正確答案：${qution.correctAnswers}</p>
+                        <p>(配分:
+                            ${qution.score})</p>
+                    </div>
+                    `
+            }
+            if (qution.type == '是非題') {
+                let yes = '';
+                if (qution.studentAnswer == 'yes') {
+                    yes = "checked";
+                }
+                let no = '';
+                if (qution.studentAnswer == 'no') {
+                    no = "checked";
+                }
+                if (qution.isCorrect == true) {
+                    html +=
+                        `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.qutionName} （是非題）
+                            </p>`
+                } else {
+                    html +=
+                        `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.qutionName} （是非題）
+                            </p>`
+                }
+
+                html +=
+                    `
+                <p>學生答案:</p>
+                <div>
+                    <div class="row">
+                        <div class="col-2"><input name="textmode${i}" ${yes} onclick="onAnswer('YNQ','yes','${i}')" type="radio"> yes</div>
+                        <div class="col-2"><input name="textmode${i}" ${no} onclick="onAnswer('YNQ','no','${i}')" type="radio"> no</div>
+                    </div>
+                    <br />
+                    <p>正確答案：${qution.correctAnswers}</p>
+                    <p>(配分:
+                        ${qution.score})</p>
+                </div>
+        `
+            }
+
+            if (qution.type == '填空題') {
+                if (qution.isCorrect == true) {
+                    html +=
+                        `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.qutionName} （填空題）
+                            </p>`
+                } else {
+                    html +=
+                        `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.qutionName} （填空題)
+                            </p>`
+                }
+
+                html +=
+                    `
+                    <p>學生答案:</p>
+                    <div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <input type="text" id='FBQanswer${i}' class="form-control" onkeyup="onAnswer('FBQ','null','${i}')" value = "${qution.studentAnswer}">
+                            </div>
+
+                        </div>
+
+                        <p>正確答案：${qution.correctAnswers}</p>
+                        <p>(配分:
+                            ${qution.score})</p>
+                    </div>
+                    `
+            }
+
+            if (qution.type == '程式題') {
+                if (qution.userAnswer == '' || qution.userAnswer == undefined) {
+                    qution.userAnswer = {
+                        scriptData: {
+                            language: '未填寫',
+                            script: '未填寫',
+                            input: '未填寫'
+
+                        },
+                        output: "未填寫"
+
+                    }
+
+                }
+                let languageValue = ''
+                switch (qution.userAnswer.scriptData.language) {
+                    case 'python3':
+                        languageValue = 'python3'
+                        break;
+                    case 'c++':
+                        languageValue = 'cpp'
+                        break;
+
+                    case 'c':
+                        languageValue = 'c'
+                        break;
+                    case 'javascript':
+                        languageValue = 'javascript'
+                        break;
+                    default:
+                        break;
+                }
+                if (qution.isCorrect == true) {
+                    html +=
+                        `
+                            <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
+                                ${qution.qutionName} （程式題）
+                            </p>`
+                } else {
+                    html +=
+                        `
+                            <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
+                                ${qution.qutionName} （程式題)
+                            </p>`
+                }
+                html +=
+                    `
+                    <p>學生答案:</p>
+                    <div>
+                        <p>輸入說明:
+                                ${qution.inputDescription}
+                        </p>
+                        <p>輸出說明:
+                            ${qution.outputDescription}
+                        </p>
+                        <div class="row">
+                            <div class="col ">
+                                <pre>輸入範例：
+                                    ${qution.inputExample}
+                                </pre>
+                            </div>
+                            <div class="col ">
+                                <pre>輸出範例：
+                                    ${qution.outputExample}
+                                </pre>
+                            </div>
+                        </div>
+                        <div class="row" style="height: 20rem">
+                            <div class="col">
+                                <div class="md-form">
+                                    <textarea class="md-textarea form-control" style="height: 70%;" onclick="setCanTab(this)" id="code${i}">${qution.studentAnswer}</textarea>
+                                </div>
+                                <div class="md-form">
+                                    <textarea class="md-textarea form-control" onclick="setCanTab(this)" style="height: 20%;" id="input${i}"></textarea>
+                                </div>
+                                <select id="language${i}" class="mt-1" >
+                                    <option value="${qution.language}">${qution.language}</option>
+                                </select>
+                            </div>
+                            <div class="col" style="overflow:hidden">
+                                <div class="md-form">
+                                    <div class="md-textarea form-control" style="height: 90%;">
+                                        <pre id="output${i}" class="h-100">${qution.userAnswer.output}
+                                        </pre>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-1 float-right" onclick="compile(${i})">編譯</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>(配分:
+                                        ${qution.score})
+                                </p>
+                            </div>
+                        </div>
+
+                </div>
+                `
+            }
+            html += `</div>`
+            bightml += html;
+        }
+        rightbox.innerHTML = bightml;
+    }
+</script>
+
+<% include layout/footer %>

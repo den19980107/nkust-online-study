@@ -1,133 +1,146 @@
 <% include layout/navbar %>
 <style>
-html,body{
-    width: 100%;
-    height: 100%;
-}
-/* meterial loader */
-.linear-activity {
-    overflow: hidden;
-    width: 50%;
-    height: 4px;
-    background-color: #B3E5FC;
-    margin: 20px auto;
-}
-
-.determinate {
-    position: relative;
-    max-width: 100%;
-    height: 100%;
-    -webkit-transition: width 500ms ease-out 1s;
-       -moz-transition: width 500ms ease-out 1s;
-         -o-transition: width 500ms ease-out 1s;
-            transition: width 500ms ease-out 1s;
-    background-color: #03A9F4;
-}
-
-.indeterminate {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.indeterminate:before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    background-color: #03A9F4;
-    animation: indeterminate_first 1.5s infinite ease-out;
-}
-
-.indeterminate:after {
-    content: '';
-    position: absolute;
-    height: 100%;
-    background-color: #4FC3F7;
-    animation: indeterminate_second 1.5s infinite ease-in;
-}
-
-@keyframes indeterminate_first {
-    0% {
-        left: -100%;
+    html,
+    body {
         width: 100%;
+        height: 100%;
     }
-    100% {
-        left: 100%;
-        width: 10%;
-    }
-}
 
-@keyframes indeterminate_second {
-    0% {
-        left: -150%;
+    /* meterial loader */
+    .linear-activity {
+        overflow: hidden;
+        width: 50%;
+        height: 4px;
+        background-color: #B3E5FC;
+        margin: 20px auto;
+    }
+
+    .determinate {
+        position: relative;
+        max-width: 100%;
+        height: 100%;
+        -webkit-transition: width 500ms ease-out 1s;
+        -moz-transition: width 500ms ease-out 1s;
+        -o-transition: width 500ms ease-out 1s;
+        transition: width 500ms ease-out 1s;
+        background-color: #03A9F4;
+    }
+
+    .indeterminate {
+        position: relative;
         width: 100%;
+        height: 100%;
     }
-    100% {
-        left: 100%;
-        width: 10%;
+
+    .indeterminate:before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: #03A9F4;
+        animation: indeterminate_first 1.5s infinite ease-out;
     }
-}
-/* end of meterial loader */
-.back{
-    font-size: 26px;
-    color: rgb(109, 107, 107);
-}
-.back:hover{
-    color: black;
-}
-.chapterList{
-    list-style: none;
-}
-.chapter a{
-    display: flex;
-    justify-content: start;
-    padding: 1rem;
-    color: black;
-    text-decoration: none
-}
-.chapter p{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    color: black;
-    padding: 0;
-    margin: 0;
-}
-.chapter i {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-right: 1rem;
-}
-.chapter:hover{
-    background: rgb(224, 224, 224)
-}
-.chapter a:focus{
-    border-left: 4px solid rgb(199, 45, 39);
-    outline: none
-}
-.chapter2{
-    width: 100%;
-    height: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center
-}
-.chapter2 a {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-decoration: none;
-    color: black;
-    width: 100%;
-    height: 100%;
-    padding: 1rem
-}
 
+    .indeterminate:after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: #4FC3F7;
+        animation: indeterminate_second 1.5s infinite ease-in;
+    }
 
+    @keyframes indeterminate_first {
+        0% {
+            left: -100%;
+            width: 100%;
+        }
+
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+
+    @keyframes indeterminate_second {
+        0% {
+            left: -150%;
+            width: 100%;
+        }
+
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+
+    /* end of meterial loader */
+    .back {
+        font-size: 26px;
+        color: rgb(109, 107, 107);
+    }
+
+    .back:hover {
+        color: black;
+    }
+
+    .chapterList {
+        list-style: none;
+    }
+
+    .chapter a {
+        display: flex;
+        justify-content: start;
+        padding: 1rem;
+        color: black;
+        text-decoration: none
+    }
+
+    .chapter p {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        color: black;
+        padding: 0;
+        margin: 0;
+    }
+
+    .chapter i {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-right: 1rem;
+    }
+
+    .chapter:hover {
+        background: rgb(224, 224, 224)
+    }
+
+    .chapter a:focus {
+        border-left: 4px solid rgb(199, 45, 39);
+        outline: none
+    }
+
+    .chapter2 {
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
+
+    .chapter2 a {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 100%;
+        padding: 1rem
+    }
 </style>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-<div id ="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<div id="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
     <div class="indeterminate"></div>
 </div>
 <div class="row w-100 h-100">
@@ -135,7 +148,7 @@ html,body{
         <img src="https://img.youtube.com/vi/<%=videoinfo.videoURL%>/0.jpg" style="width: 100%;">
 
         <ul class="chapterList m-0 p-0">
-            <li class="chapter2" >
+            <li class="chapter2">
                 <a href="#" style="font-size: 14px;color: rgb(85, 85, 85)">影片</a>
             </li>
             <li class="chapter">
@@ -158,30 +171,53 @@ html,body{
             </li>
         </ul>
     </div>
-    
+
     <div class="col h-100 videos">
         <div style="display: flex;justify-content: start">
-            <i class="fas fa-arrow-left back mr-4" data-toggle="tooltip" title="返回影片清單" style="display:flex;justify-content:center;flex-direction: column;" onclick="window.location='/class/showVideoSituation/<%=unit.belongClass%>'"></i>
-            <h3 style="display:flex;justify-content:center;flex-direction: column;padding: 0;margin: 0;"><%=videoinfo.videoName%></h3>
+            <i class="fas fa-arrow-left back mr-4" data-toggle="tooltip" title="返回影片清單"
+                style="display:flex;justify-content:center;flex-direction: column;"
+                onclick="window.location='/class/showVideoSituation/<%=unit.belongClass%>'"></i>
+            <h3 style="display:flex;justify-content:center;flex-direction: column;padding: 0;margin: 0;">
+                <%=videoinfo.videoName%></h3>
         </div>
-        <div class="mt-2" id="chartDiv" style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:60vw ;display: none">
-            <div style="height: 4rem;width: 100%;display: flex;justify-content: start;">
-                <p id = "viewer" style="margin-right: 3rem">觀看人數：</p>
-                <p id = "videoTime">影片長度：</p>
+        <div id="analyzingDiv" style="display: none">
+            <div class="mt-2 bg-dark" id="videoDiv"
+                style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:36.5vw; width:60vw ;display: none">
+                <div id="video">
+                    <div id="player" class="w-100">
+                    </div>
+                </div>
             </div>
-            <canvas id="myChart" style="width: 100px"></canvas>
+            <div class="mt-2" id="chartDiv"
+                style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:60vw ;">
+                <h5>影片行為分佈圖</h5>
+                <div style="height: 4rem;width: 100%;display: flex;justify-content: start;">
+                    <p id="viewer" style="margin-right: 3rem">觀看人數：</p>
+                    <p id="videoTime1">影片長度：</p>
+                </div>
+                <canvas id="myChart" style="width: 100px"></canvas>
+            </div>
+            <div class="mt-2" id="resentViewChartDiv"
+                style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:60vw ;">
+                <h5 class="p-0 mt-2">最近觀看人數</h5>
+                <canvas id="resentViewChart" style="width: 100px"></canvas>
+            </div>
         </div>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 <script>
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip(); 
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
     });
-    let analyseData = function(videoID){
+
+    let analyseData = function (videoID) {
+        let analyzingDiv = document.getElementById('analyzingDiv')
+
         $.ajax({
-            url: '/api/getVideoInfo/'+videoID,
+            url: '/api/getVideoInfo/' + videoID,
             type: 'GET',
             beforeSend: function () {
                 let loader = document.getElementById('line-loader');
@@ -197,157 +233,321 @@ html,body{
             success: function (response) {
                 response = JSON.parse(response);
                 console.log(response)
-                let viewer = document.getElementById('viewer');
-                let videoTime = document.getElementById('videoTime');
-                let chartDiv = document.getElementById('chartDiv');
-                chartDiv.style.display= "block"
-                viewer.innerHTML = `觀看次數：${response.behaviors.length}`
-                videoTime.innerHTML = `影片長度：${parseInt(response.videoinfo.vtime)-1}秒`
-
-                let videoTimeLine = [];//每一秒代表陣列中的一格
-                let behaviorRecord = response.behaviors;
-                console.log(behaviorRecord);
-                for(let k = 0;k<parseInt(response.videoinfo.vtime);k++){
-                    videoTimeLine[k] = {
-                        start:0,
-                        play:0,
-                        fastforward:0,
-                        reverse:0,
-                        pause:0,
-                        close:0
-                    }
-                }
-                for(let i = 0;i<behaviorRecord.length;i++){//跑過每一比看影片行為記錄
-                    //console.log(behaviorRecord[i]);
-                    let videoActions = behaviorRecord[i].videoActions;
-                    for(let j = 0;j<videoActions.length;j++){//跑過每一筆紀錄中的動作
-                        console.log(videoActions[j].split(":"));
-                        for(let k = 0;k<parseInt(response.videoinfo.vtime);k++){//跑過每一秒
-                            let thisAction = videoActions[j].split(":")
-                            let nextAction;
-                            if(j<videoActions.length-1){
-                                nextAction = videoActions[j+1].split(":")
-                            }else{
-                                nextAction = false
-                            }
-                            if(thisAction[1]==k){//在這一秒發生
-                                if(thisAction[0] == '0'){
-                                    videoTimeLine[k].start+=1 
-                                }
-                                else if(thisAction[0] == 'fastTurn'){
-                                    if(parseInt(thisAction[1])>parseInt(thisAction[2])){
-                                        videoTimeLine[k].reverse+=1 
-                                    }else{
-                                        videoTimeLine[k].fastforward+=1 
-                                    }
-                                }
-                                else if(thisAction[0] == 'pause'){
-                                    videoTimeLine[k].pause+=1 
-                                }
-                                else if(thisAction[0] == 'close'){
-                                    videoTimeLine[k].close+=1 
-                                }
-                                else if(thisAction[0] == 'play'){
-                                    //console.log("play");
-                                    
-                                    //console.log(thisAction);
-                                    //console.log(nextAction);
-                                    if(nextAction !=false){
-                                        //console.log("have next");
-                                        let start = null
-                                        let end = null
-                                        if(parseInt(nextAction[1])>parseInt(thisAction[1])){
-                                            end = parseInt(nextAction[1])
-                                            start = parseInt(thisAction[1])
-                                        }
-                                        console.log(start);
-                                        console.log(end);
-                                        if(start!=null&&end!=null){
-                                            for(let q = start;q<=end;q++){
-                                                videoTimeLine[q].play+=1 
-                                                console.log(q,videoTimeLine[q]);
-                                                
-                                            }
-                                        }
-                                    }
-                                }
-                            }      
-                        }
-                    }
-                    
-                }
-                let start = [];
-                let fastforward = []
-                let reverse = []
-                let pause = []
-                let close = []
-                let play = []
-                let label = []
-                console.log(videoTimeLine);
-                
-                for(let i = 0;i<videoTimeLine.length;i++){
-                    start[i] = videoTimeLine[i].start;
-                    fastforward[i] = videoTimeLine[i].fastforward;
-                    reverse[i] = videoTimeLine[i].reverse;
-                    pause[i] = videoTimeLine[i].pause;
-                    close[i] = videoTimeLine[i].close;
-                    play[i] = videoTimeLine[i].play;
-                    label[i] = i
-                }
-                console.log(start,fastforward,reverse,pause,close);
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var chart = new Chart(ctx, {
-                    // The type of chart we want to create
-                    type: 'line',
-                    // The data for our dataset
-                    data: {
-                        labels: label,
-                        datasets: [
-                            {
-                                label: '開始',
-                                backgroundColor: 'rgba(255,255,255,0)',
-                                borderColor: 'rgb(144, 196,117)',
-                                data: start
-                            },
-                            {
-                                label: '結束',
-                                backgroundColor: 'rgba(255,255,255,0)',
-                                borderColor: 'rgb(242, 62, 92)',
-                                data: close 
-                            },
-                            {
-                                label: '快轉',
-                                backgroundColor: 'rgba(255,255,255,0)',
-                                borderColor: 'rgb(173, 191, 234)',
-                                data: fastforward 
-                            },
-                            {
-                                label: '倒轉',
-                                backgroundColor: 'rgba(255,255,255,0)',
-                                borderColor: 'rgb(214, 211, 173)',
-                                data: reverse 
-                            },
-                            {
-                                label: '暫停',
-                                backgroundColor: 'rgba(255,255,255,0)',
-                                borderColor: 'rgb(255, 99, 132)',
-                                data: pause 
-                            },
-                            {
-                                label: '播放',
-                                backgroundColor: 'rgba(255,255,255,0)',
-                                borderColor: 'rgb(173, 242, 167)',
-                                data: play 
-                            }
-                        ]
-                    },
-
-                    // Configuration options go here
-                    options: {}
-                });
-
+                showVideoDistribution(response); //顯示影片在不同秒數所做的播放，暫停，快轉等動作
+                showVideoResentView(response); //顯示影片最近觀看紀錄
+                analyzingDiv.style.display = "block"
             }
         })
+    }
+
+
+    //顯示影片在不同秒數所做的播放，暫停，快轉等動作
+    let showVideoDistribution = function (response) {
+        let viewer = document.getElementById('viewer');
+        let videoTime = document.getElementById('videoTime1');
+        viewer.innerHTML = `觀看次數：${response.behaviors.length}`
+        videoTime.innerHTML = `影片長度：${parseInt(response.videoinfo.vtime)-1}秒`
+
+        let videoTimeLine = []; //每一秒代表陣列中的一格
+        let behaviorRecord = response.behaviors;
+        console.log(behaviorRecord);
+        for (let k = 0; k < parseInt(response.videoinfo.vtime); k++) {
+            videoTimeLine[k] = {
+                start: 0,
+                play: 0,
+                fastforward: 0,
+                reverse: 0,
+                pause: 0,
+                close: 0
+            }
+        }
+        for (let i = 0; i < behaviorRecord.length; i++) { //跑過每一比看影片行為記錄
+            //console.log(behaviorRecord[i]);
+            let videoActions = behaviorRecord[i].videoActions;
+            for (let j = 0; j < videoActions.length; j++) { //跑過每一筆紀錄中的動作
+                //console.log(videoActions[j].split(":"));
+                for (let k = 0; k < parseInt(response.videoinfo.vtime); k++) { //跑過每一秒
+                    let thisAction = videoActions[j].split(":")
+                    let nextAction;
+                    if (j < videoActions.length - 1) {
+                        nextAction = videoActions[j + 1].split(":")
+                    } else {
+                        nextAction = false
+                    }
+                    if (thisAction[1] == k) { //在這一秒發生
+                        if (thisAction[0] == '0') {
+                            videoTimeLine[k].start += 1
+                        } else if (thisAction[0] == 'fastTurn') {
+                            if (parseInt(thisAction[1]) > parseInt(thisAction[2])) {
+                                videoTimeLine[k].reverse += 1
+                            } else {
+                                videoTimeLine[k].fastforward += 1
+                            }
+                        } else if (thisAction[0] == 'pause') {
+                            videoTimeLine[k].pause += 1
+                        } else if (thisAction[0] == 'close') {
+                            videoTimeLine[k].close += 1
+                        } else if (thisAction[0] == 'play') {
+                            //console.log("play");
+
+                            //console.log(thisAction);
+                            //console.log(nextAction);
+                            if (nextAction != false) {
+                                //console.log("have next");
+                                let start = null
+                                let end = null
+                                if (parseInt(nextAction[1]) > parseInt(thisAction[1])) {
+                                    end = parseInt(nextAction[1])
+                                    start = parseInt(thisAction[1])
+                                }
+                                //console.log(start);
+                                //console.log(end);
+                                if (start != null && end != null) {
+                                    for (let q = start; q <= end; q++) {
+                                        videoTimeLine[q].play += 1
+                                        //console.log(q,videoTimeLine[q]);
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        let start = [];
+        let fastforward = []
+        let reverse = []
+        let pause = []
+        let close = []
+        let play = []
+        let label = []
+        //console.log(videoTimeLine);
+
+        for (let i = 0; i < videoTimeLine.length; i++) {
+            start[i] = videoTimeLine[i].start;
+            fastforward[i] = videoTimeLine[i].fastforward;
+            reverse[i] = videoTimeLine[i].reverse;
+            pause[i] = videoTimeLine[i].pause;
+            close[i] = videoTimeLine[i].close;
+            play[i] = videoTimeLine[i].play;
+            label[i] = i
+        }
+        //console.log(start,fastforward,reverse,pause,close);
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: label,
+                datasets: [{
+                        label: '開始',
+                        backgroundColor: 'rgba(255,255,255,0)',
+                        borderColor: 'rgb(144, 196,117)',
+                        data: start
+                    },
+                    {
+                        label: '結束',
+                        backgroundColor: 'rgba(255,255,255,0)',
+                        borderColor: 'rgb(242, 62, 92)',
+                        data: close
+                    },
+                    {
+                        label: '快轉',
+                        backgroundColor: 'rgba(255,255,255,0)',
+                        borderColor: 'rgb(173, 191, 234)',
+                        data: fastforward
+                    },
+                    {
+                        label: '倒轉',
+                        backgroundColor: 'rgba(255,255,255,0)',
+                        borderColor: 'rgb(214, 211, 173)',
+                        data: reverse
+                    },
+                    {
+                        label: '暫停',
+                        backgroundColor: 'rgba(255,255,255,0)',
+                        borderColor: 'rgb(60, 39, 247)',
+                        data: pause
+                    },
+                    {
+                        label: '播放',
+                        backgroundColor: 'rgba(255,255,255,0)',
+                        borderColor: 'rgb(173, 242, 167)',
+                        data: play
+                    }
+                ]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+        document.getElementById('myChart').onclick = function (evt) {
+            showVideo();
+            var activePoints = chart.getElementsAtEvent(evt);
+            console.log(activePoints[0]._index);
+            player.pauseVideo();
+            player.seekTo(activePoints[0]._index);
+            $(".ytp-pause-overlay ytp-scroll-min").remove();
+        }
+    }
+
+
+    //顯示最近觀看的條狀圖
+    let showVideoResentView = function (response) {
+        let behaviors = response.behaviors; //所有觀看影片紀錄
+        let dateName = []; //所有觀看紀錄的觀看時間存成陣列當作lalbel
+        let data = {};
+
+        for (let i = 0; i < behaviors.length; i++) {
+            let date = behaviors[i].watchTime.split(" ")[0].split("/");
+            let time = behaviors[i].watchTime.split(" ")[2];
+            let hh = time.split(":")[0]
+            let mm = time.split(":")[1]
+            time = hh + ":" + mm + ":00"; //把秒數去掉 以分鐘當區隔
+            date = new Date(date[2] + '/' + date[1] + '/' + date[0] + " " + time)
+            console.log(date);
+
+            dateName.push(date)
+            if (data[date] != undefined) {
+                //表示有存過這天 把次數加一就好
+                data[date] += 1
+            } else {
+                data[date] = 1;
+            }
+        }
+        console.log(data);
+
+        let t = Object.keys(data)
+        let data1 = []
+        for (let i = 0; i < t.length; i++) {
+            console.log(t[i]); //t
+            console.log(data[t[i]]); //y
+            data1.push({
+                t: new Date(t[i]),
+                y: data[t[i]]
+            })
+        }
+        console.log(data1);
+
+
+        var ctx = document.getElementById('resentViewChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dateName,
+                datasets: [{
+                    label: '最近觀看',
+                    data: data1,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'hour'
+                        },
+                        barPercentage: 20
+                    }]
+                }
+            }
+        });
+
+    }
+
+
+    let showVideo = function () {
+        let videoDiv = document.getElementById('videoDiv');
+        videoDiv.style.display = 'block';
+        let video = document.getElementById('player');
+        video.style.cssText = "width:100%;height:100%";
+    }
+    //影片的部分
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    console.log(firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+
+    function onYouTubeIframeAPIReady() {
+        console.log("ready");
+
+        let width = document.getElementById('videoDiv').clientWidth * 0.96;
+        let height = (document.getElementById('videoDiv').clientWidth * 9) / 16;
+        console.log(width);
+        console.log(height);
+        player = new YT.Player('player', {
+            height: height,
+            width: width,
+            videoId: "<%=videoinfo.videoURL%>",
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': yt.onPlayerStateChange
+            },
+            playerVars: {
+                autoplay: 0,
+                controls: 1,
+                disablekb: 1,
+                modestbranding: 1,
+                iv_load_policy: 3,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0,
+                ecver: 2
+                // 'controls': 1, //控制列，0:隱藏，1:顯示(默認)
+                // 'fs': 0, //全屏按鈕，0:隱藏，1:顯示(默認)
+                // 'iv_load_policy': 3, //影片註釋，1:顯示(默認)，3:不顯示
+                // 'rel': 0, //顯示相關視頻，0:不顯示，1:顯示(默認)
+                // 'modestbranding': 1, //YouTube標籤，0:顯示(默認)，1:不顯示    
+                // 'playsinline': 1 //在iOS的播放器中全屏播放，0:全屏(默認)，1:內嵌
+            }
+        });
+        console.log(document.getElementById('player'));
+    }
+
+
+
+
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+
+
+    function stopVideo() {
+        player.stopVideo();
     }
 </script>
 <% include layout/nobottom-footer %>
