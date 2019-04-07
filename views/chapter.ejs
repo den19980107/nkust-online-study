@@ -153,20 +153,29 @@
                                         alt="Responsive image">
                                 </div>
                                 <div class="col-11">
-                                    <div class="row">
-                                        <%if(comment.userID == classinfo.teacher){%>
-                                        <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
-                                            <%=comment.userName%>老師回復：
-                                        </h5>
-                                        <%}else{%>
-                                        <h5 style="margin-right: 10px;">
-                                            <%=comment.userName%>
-                                        </h5>
-                                        <%}%>
-
-                                        <p>
-                                            <%=comment.commentTime%>
-                                        </p>
+                                    <div class="row" style="display: flex;justify-content: space-between">
+                                        <div style="display: flex">
+                                            <%if(comment.userID == classinfo.teacher){%>
+                                            <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
+                                                <%=comment.userName%>老師回復：
+                                            </h5>
+                                            <%}else{%>
+                                            <h5 style="margin-right: 10px;">
+                                                <%=comment.userName%>
+                                            </h5>
+                                            <%}%>
+    
+                                            <p>
+                                                <%=comment.commentTime%>
+                                            </p>
+                                        </div>
+                                        <%if(comment.userID == user._id || user._id == classinfo.teacher){%>
+                                        <div >
+                                            <button type="button" class="close" onclick="deleteComment('<%=comment._id%>')">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <%}%>                    
                                     </div>
                                     <div class="row">
                                         <p style="width: 100%;word-wrap:break-word;padding-right: 5px;">
@@ -662,6 +671,11 @@
         } else {
             alert('您還沒有選擇筆記');
         }
+    }
+
+    let deleteComment = function(commentID){
+        console.log(commentID);
+        window.location = "/SDC/deleteChapterComment/<%=chapter._id%>/"+commentID;
     }
 </script>
 <!--  -->

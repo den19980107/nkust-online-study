@@ -150,7 +150,15 @@ router.get('/user/:uid/comment/chapter/:cid/body/:body', ensureAuthenticated, fu
         res.redirect('/class/showChapter/' + chapterID);
     })
 });
-
+//使用者刪除文章留言
+router.get('/deleteChapterComment/:chapterID/:commentID',function(req,res){
+    studentCommentChapter.remove({_id:req.params.commentID},function(err){
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/class/showChapter/'+req.params.chapterID)
+    })
+})
 //使用者對影片留言
 router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, function (req, res) {
     let userID = req.params.uid;
@@ -175,6 +183,15 @@ router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, func
     })
 
 });
+//使用者刪除影片留言
+router.get('/deleteVideoComment/:videoID/:commentID',function(req,res){
+    studentCommentVideo.remove({_id:req.params.commentID},function(err){
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/class/showVideo/'+req.params.videoID)
+    })
+})
 
 //使用者對文章留言
 // /user/<%=user._id%>/comment/article/<%=article._id%>/body/
@@ -201,6 +218,15 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuth
     })
 
 });
+//使用者刪除文章留言
+router.get('/deleteArticleComment/:articleID/:commentID/:classID',function(req,res){
+    studentCommentArticle.remove({_id:req.params.commentID},function(err){
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/articles/'+req.params.articleID+'/inClass/'+req.params.classID)
+    })
+})
 
 //學生對測驗進行填寫
 router.post('/submitTest', ensureAuthenticated, function (req, res) {

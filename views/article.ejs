@@ -101,21 +101,32 @@
                     <div class="col">
                         <li style="width: 100%;list-style: none;margin-bottom: 20px;">
                             <div class="row">
+                                <div class="col-1">
+                                    <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
+                                </div>
                                 <div class="col-11">
-                                    <div style="display:flex">
-                                        <%if(comment.userID == classinfo.teacher){%>
-                                        <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
-                                            <%=comment.userName%>老師回復：
-                                        </h5>
-                                        <%}else{%>
-                                        <h5 style="margin-right: 10px;">
-                                            <%=comment.userName%>
-                                        </h5>
-                                        <%}%>
-
-                                        <p>
-                                            <%=comment.commentTime%>
-                                        </p>
+                                    <div class="" style="display: flex;justify-content: space-between">
+                                        <div style="display: flex">
+                                            <%if(comment.userID == classinfo.teacher){%>
+                                            <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
+                                                <%=comment.userName%>老師回復：
+                                            </h5>
+                                            <%}else{%>
+                                            <h5 style="margin-right: 10px;">
+                                                <%=comment.userName%>
+                                            </h5>
+                                            <%}%>
+                                            <p>
+                                                <%=comment.commentTime%>
+                                            </p>
+                                        </div>
+                                        <%if(comment.userID == user._id || user._id  == classinfo.teacher){%>
+                                        <div >
+                                            <button type="button" class="close" onclick="deleteComment('<%=comment._id%>')">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <%}%>                    
                                     </div>
                                     <div class="">
                                         <p style="width: 100%;word-wrap:break-word;padding-right: 5px;">
@@ -210,6 +221,11 @@
                 '/inClass/<%=article.belongClass%>';
         }
 
+    }
+
+    let deleteComment = function(commentID){
+        console.log(commentID);
+        window.location = "/SDC/deleteArticleComment/<%=article._id%>/"+commentID+"/<%=classinfo._id%>";
     }
 </script>
 <!--  -->
