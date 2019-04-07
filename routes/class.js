@@ -662,7 +662,7 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
 //新增影片
 router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, function (req, res) {
   console.log(req.body.date);
-  
+
   let newVideo = new Video();
   newVideo.videoName = req.params.videoName;
   newVideo.videoURL = req.params.videoURLid;
@@ -676,7 +676,7 @@ router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, fun
       console.log(err);
     }
     res.send('200');
-    
+
   });
 });
 
@@ -1535,7 +1535,7 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
 //----------------助教-----------------------
 
 //查看影片觀看情形
-router.get('/showVideoSituation/:classID',ensureAuthenticated,function(req,res){
+router.get('/showVideoSituation/:classID', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.classID, function (err, classinfo) {
     if (err) {
       console.log(err);
@@ -1585,9 +1585,9 @@ router.get('/showVideoSituation/:classID',ensureAuthenticated,function(req,res){
 
             }
             console.log(watcher);
-            
+
             res.render('showVideoSituation', {
-              classinfo:classinfo,
+              classinfo: classinfo,
               units: units,
               videos: videos,
               behaviors: behaviors,
@@ -1603,17 +1603,73 @@ router.get('/showVideoSituation/:classID',ensureAuthenticated,function(req,res){
 
 
 //查看影片分析
-router.get('/videoAnalytics/:videoID',ensureAuthenticated,function(req,res){
-  Video.findById(req.params.videoID,function(err,videoinfo){
-    Unit.findById(videoinfo.belongUnit,function(err,unit){
-      res.render('videoAnalytics',{
-        videoinfo:videoinfo,
-        unit:unit
+router.get('/videoAnalytics/:videoID', ensureAuthenticated, function (req, res) {
+  Video.findById(req.params.videoID, function (err, videoinfo) {
+    Unit.findById(videoinfo.belongUnit, function (err, unit) {
+      res.render('videoAnalytics', {
+        videoinfo: videoinfo,
+        unit: unit
       })
     })
   })
 })
 
+
+
+//學生查看成績
+router.get('/studentWatchGrade/:classID', function (req, res) {
+  Class.findById(req.params.classID, function (err, classinfo) {
+    if (err) {
+      console.log(err);
+    }
+    Unit.find({
+      belongClass: classinfo._id
+    }, function (err, units) {
+      if (err) {
+        console.log(err);
+      }
+      let querytext = []
+      for (let i = 0; i < units.length; i++) {
+        querytext.push(ObjectID(units[i]._id).toString())
+      }
+      query = {
+        belongUnit: querytext
+      }
+      console.log("query = " + query);
+
+      Test.find(query, function (err, tests) {
+        if (err) {
+          console.log(err);
+        }
+        studntSubmitTest.find(query, function (err, submits) {
+          if (err) {
+            console.log(err);
+          }
+          let querytext = []
+
+          for (let i = 0; i < submits.length; i++) {
+            querytext.push(ObjectID(submits[i].writer).toString())
+          }
+          query = {
+            _id: querytext
+          }
+          User.find(query, function (err, submiter) {
+            if (err) {
+              console.log(err);
+
+            }
+            res.render('studentWatchGrade', {
+              units: units,
+              tests: tests,
+              submits: submits,
+              submiter: submiter
+            });
+          })
+        })
+      })
+    })
+  })
+});
 
 
 //Access Control
