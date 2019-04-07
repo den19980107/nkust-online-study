@@ -148,16 +148,16 @@
 <table class="table">
   <thead>
     <tr>
-      <th style="padding:8px 0px" width="120">
+      <th style="padding:8px 0px" width="8%">
         <%if(classinfo.teacher == user._id){%>
-        <div class="row">
-          <div>
-            <button class="btn div-left" onclick="deleteAssistant()" style="padding:5px 13px 0 8px"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;" id="selectstatus"></i></button>
+        <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
+          <div style="display:flex;">
+            <button class="btn div-left" onclick="deleteAssistant()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
           </div>
-          <div style="padding:5px;">
+          <div style="display:flex;">
             <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
           </div>
-          <div class="dropdown" style="padding:9px 0 0">
+          <div class="dropdown" style="display:flex;">
             <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-angle-down"></i>
             </button>
@@ -169,11 +169,11 @@
         </div>
         <%}%>
       </th>
-      <th class="text-center" scope="col" width="200">助教名單</th>
-      <th class="text-center" scope="col" width="375">管理單元</th>
-      <th class="text-center" scope="col" width="375">審核成員</th>
-      <th class="text-center" scope="col" width="375">批閱測驗</th>
-      <th class="text-center" scope="col" width="375">修改課程</th>
+      <th class="text-center" scope="col" width="12%">助教名單</th>
+      <th class="text-center" scope="col" width="21%">管理單元</th>
+      <th class="text-center" scope="col" width="21%">審核成員</th>
+      <th class="text-center" scope="col" width="21%">批閱測驗</th>
+      <th class="text-center" scope="col" width="21%">修改課程</th>
     </tr>
   </thead>
   <tbody>
@@ -181,8 +181,8 @@
     <%Assistants.forEach(function(user){%>
     <%if(students[temp].permission != '11111'&&students[temp].permission != '00000'){%>
     <tr>
-      <td class="text-center" style="width:120px;">
-          <div class="text-danger" id="delAssistant<%=temp%>" style="padding:0px">
+      <td class="text-center">
+          <div class="text-danger" id="delAssistant<%=temp%>" style="padding:0px;margin:4px;">
               <input type="checkbox" value="<%=students[temp].studentID%>" name="c" style="zoom: 2" onclick="showdelbutton()">
           </div>
       </td>

@@ -12,15 +12,15 @@
 <table class="table">
     <thead>
         <tr>
-            <th width="160" style="padding:12px 0">
-              <div class="row" style="padding:0 0 0 17px ">
+            <th width="10.5%" style="padding:12px 0">
+              <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
                 <div>
                     <button class="btn btn-success btn-sm" onclick="check()">批准</button>
                 </div>
-                <div style="padding:8px 0 8px 8px;">
+                <div style="padding:8px 0 8px 8px;display:flex;">
                   <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
                 </div>
-                <div class="dropdown" style="padding:9px 0 0">
+                <div class="dropdown" style="display:flex;">
                   <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-angle-down"></i>
                   </button>
@@ -31,11 +31,11 @@
                 </div>
               </div>
             </th>
-            <th class="text-center" scope="col" width="150" style="padding:0 0 21px;" valign="left">姓名</th>
-            <th class="text-center" scope="col" width="400" style="padding:0 0 21px">科系</th>
-            <th class="text-center" scope="col" width="300" style="padding:0 0 21px">學號</th>
-            <th class="text-center" scope="col" width="300" style="padding:0 0 21px">信箱</th>
-            <th class="text-center" scope="col" width="500" style="padding:0 0 21px">個人網頁</th>
+            <th class="text-center" scope="col" width="10%" style="padding:0 0 21px;">姓名</th>
+            <th class="text-center" scope="col" width="18%" style="padding:0 0 21px">科系</th>
+            <th class="text-center" scope="col" width="15%" style="padding:0 0 21px">學號</th>
+            <th class="text-center" scope="col" width="15%" style="padding:0 0 21px">信箱</th>
+            <th class="text-center" scope="col" width="30%" style="padding:0 0 21px">個人網頁</th>
         </tr>
     </thead>
     <tbody>
@@ -43,7 +43,7 @@
         <%users.forEach(function(user){%>
         <%if(studentscheck[temp].permission =='00000'){%>
         <tr>
-            <td style="width:120px;" align="right">
+            <td class="text-center">
                 <div class="text-danger" id="checkStudent<%=temp%>" style="padding:0px">
                     <input type="checkbox" value="<%=studentscheck[temp].studentID%>" style="zoom: 2" name="c" onclick="showselect()">
                 </div>

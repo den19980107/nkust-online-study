@@ -22,7 +22,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th style="padding:8px 0px" width="120">
+      <th style="padding:8px 0px" width="7%">
         <%temp = 0%>
         <%users.forEach(function(userss){%>
         <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
@@ -47,14 +47,14 @@
         <%temp++%>
         <%})%>
         <%if(classinfo.teacher == user._id){%>
-        <div class="row">
-          <div>
-            <button class="btn div-left" onclick="deleteclick()" style="padding:5px 13px 0 8px"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;" id="selectstatus"></i></button>
+        <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
+          <div style="display:flex;">
+            <button class="btn div-left" onclick="deleteclick()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
           </div>
-          <div style="padding:5px;">
+          <div style="display:flex;">
             <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
           </div>
-          <div class="dropdown" style="padding:9px 0 0">
+          <div class="dropdown" style="display:flex;">
             <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-angle-down"></i>
             </button>
@@ -66,11 +66,11 @@
         </div>
         <%}%>
       </th>
-      <th class="text-center" scope="col" width="150">姓名</th>
-      <th class="text-center" scope="col" width="400">科系</th>
-      <th class="text-center" scope="col" width="300">學號</th>
-      <th class="text-center" scope="col" width="300">信箱</th>
-      <th class="text-center" scope="col" width="500">個人網頁</th>
+      <th class="text-center" scope="col" width="7%">姓名</th>
+      <th class="text-center" scope="col" width="18%">科系</th>
+      <th class="text-center" scope="col" width="15%">學號</th>
+      <th class="text-center" scope="col" width="15%">信箱</th>
+      <th class="text-center" scope="col" width="20%">個人網頁</th>
     </tr>
   </thead>
   <tbody>
@@ -79,7 +79,7 @@
     <%if(students[temp].permission !='00000'){%>
     <tr>
       <td class="text-center">
-          <div class="text-danger" id="delStudent<%=temp%>" style="padding:0px">
+          <div class="text-danger" id="delStudent<%=temp%>" style="padding:0px;margin:4px;">
               <input type="checkbox" value="<%=students[temp].studentID%>" name="c" style="zoom: 2" onclick="showdelbutton()">
           </div>
       </td>
