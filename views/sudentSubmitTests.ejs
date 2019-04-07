@@ -415,7 +415,14 @@
                         <br />
                         <p>正確答案：${qution.correctAnswers}</p>
                         <p>(配分:
-                            ${qution.score})</p>
+                            ${qution.score})
+                        </p>
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.qutionName}','${qution.score}')">正確</button>
+                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
+                            </div>
+                        </div>    
                     </div>
                     `
                 }
@@ -470,7 +477,14 @@
                     <br />
                     <p>正確答案：${qution.correctAnswers}</p>
                     <p>(配分:
-                        ${qution.score})</p>
+                        ${qution.score})
+                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.qutionName}','${qution.score}')">正確</button>
+                            <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
+                        </div>
+                    </div>
                 </div>
         `
                 }
@@ -526,7 +540,14 @@
 
                         <p>正確答案：${qution.correctAnswers}</p>
                         <p>(配分:
-                            ${qution.score})</p>
+                            ${qution.score})
+                        </p>
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.qutionName}','${qution.score}')">正確</button>
+                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
+                            </div>
+                        </div>
                     </div>
                     `
                 }
