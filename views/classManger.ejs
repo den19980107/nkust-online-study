@@ -1169,6 +1169,7 @@
         //TODO
         //傳到伺服器存起來
         if (TestORHomeWorkMode == "Test") {
+            console.log("Test mode");
             $.ajax({
                 url: '/class/addTest/class/<%=classinfo._id%>/unit/' + unitID,
                 type: 'POST',
