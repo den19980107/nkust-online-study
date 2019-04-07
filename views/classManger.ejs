@@ -473,7 +473,9 @@
                                   </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" onclick="saveQutionList()">儲存題目</button>
+                                <input type="checkbox" class="btn btn-primary ml-2" id="publishScoreNow">測驗結束立刻公佈成績</input>
+                                <input type="checkbox" class="btn btn-primary ml-2"id = "canCheckQuestionAndAnswer" >學生可查看題目與答案</input>
+                                <button type="button" class="btn btn-primary ml-2" onclick="saveQutionList()">儲存題目</button>
                             </div>
                         </div>
                     </div>
@@ -1143,7 +1145,11 @@
         let testName = document.getElementById('testNameinput');
         let unitID = document.getElementById('unitID').innerText.replace(/\s/g, '');
         let publicTime =new Date(document.getElementById('publicTime').value);
-        let EndpublicTime = new Date(document.getElementById('EndpublicTime').value)
+        let EndpublicTime = new Date(document.getElementById('EndpublicTime').value);
+        let publishScoreNow = document.getElementById('publishScoreNow').checked;
+        let canCheckQuestionAndAnswer = document.getElementById('canCheckQuestionAndAnswer').checked;
+        console.log(publishScoreNow);
+        console.log(canCheckQuestionAndAnswer);
         // let today = new Date();
         // var timeDiff = (publicTime.getTime() - today.getTime())/1000;
         // console.log(timeDiff);
@@ -1154,7 +1160,9 @@
             belongUnit: unitID,
             publicTime:publicTime,
             EndpublicTime:EndpublicTime,
-            isPublic:false
+            isPublic:false,
+            publishScoreNow:publishScoreNow,
+            canCheckQuestionAndAnswer:canCheckQuestionAndAnswer
         }
         console.log(testinfo);
         
