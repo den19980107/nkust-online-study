@@ -1,0 +1,274 @@
+<% include layout/header %>
+    <style media="screen">
+      .space{
+          margin:0.5rem;
+      }
+      pre{
+        font-size:1rem;
+      }
+
+    </style>
+    <script>
+        var units = <%- JSON.stringify(units) %>;
+        var tests = <%- JSON.stringify(tests) %>;
+        //console.log(tests);
+    </script>
+    <div>
+        <span style="font-size:30px;">測驗成績</span>
+        <hr/>
+    </div>
+    <div class="row">
+        <!-- 左邊的匡 -->
+        <div class="col-3">
+            <div class="row">
+                <div class="dropdown w-100">
+                    <div class="space">
+                        <label class="col-sm-4 col-form-label">選擇單元</label>
+                        <div class="col-sm-8"  style="float:right; display:inline-block;">
+                            <select id="selectUnit" class="form-control" onchange="onchangeUnit(this.value)">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space">
+                        <label class="col-sm-4 col-form-label">選擇測驗</label>
+                        <div class="col-sm-8"  style="float:right;display:inline-block;">
+                            <select id="selectQuiz" class="form-control" onchange="onchangeQuiz(this.value)">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右邊的匡 -->
+        <div class="col-9" id='rightbox'>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script  type="text/javascript">
+        let allSubmits = <%-JSON.stringify(submits)%>  //全部的作答紀錄
+        let submiter = <%-JSON.stringify(submiter)%>
+        let nowUnit;
+        let nowQuiz;
+        let predata = [];
+        //console.log(allSubmits);
+        google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});
+        window.onload = function () {
+
+            let i;
+            for (i=0; i<units.length; i++){
+                if(i == 0){
+                    nowUnit=units[i]._id;
+                }
+                selectUnit.options[i]=new Option(units[i].unitName,units[i]._id);
+            }
+            selectQuiz.length=0;
+            let testLength=0;
+            for (i=0; i<tests.length; i++){
+                if(tests[i].belongUnit == nowUnit){
+                    if(testLength == 0) nowQuiz=tests[i]._id;
+                    selectQuiz.options[testLength++]=new Option(tests[i].testName,tests[i]._id);
+                }
+            }
+            selectQuiz.length=testLength;
+            onchangeQuiz(nowQuiz);
+        }
+
+        let onchangeUnit = function(unitId){
+            let i;
+            nowUnit=unitId;
+            selectQuiz.length=0;
+            let testLength=0;
+            for (i=0; i<tests.length; i++){
+                if(tests[i].belongUnit == nowUnit){
+                    if(testLength == 0) nowQuiz=tests[i]._id;
+                    selectQuiz.options[testLength++]=new Option(tests[i].testName,tests[i]._id);	// 設定新選項
+                }
+            }
+            onchangeQuiz(nowQuiz);
+            selectQuiz.length=testLength;	// 刪除多餘的選項
+        }
+
+        let onchangeQuiz = function(quizId){
+            nowQuiz = quizId;
+            let isSubmited = 0;
+            let nowQuizAllReply = [];   //此次測驗的所有回答
+            for (i=0; i<allSubmits.length; i++){
+                if(allSubmits[i].testID == nowQuiz){
+                    nowQuizAllReply.push(allSubmits[i]);
+                    isSubmited++;
+                }
+            }
+            if(isSubmited == 0){
+              let rightbox = document.getElementById('rightbox');
+              rightbox.innerHTML='';
+              let alertDiv = document.createElement('div');
+              alertDiv.innerHTML='尚未有學生填寫此測驗';
+              alertDiv.style='text-align:center;';
+              alertDiv.className='col-sm-12 alert alert-danger';
+              rightbox.appendChild(alertDiv);
+            }else{
+                showPercent(nowQuizAllReply);  //顯示資料
+            }
+            isSubmited = 0;
+        }
+
+        let showPercent = function (allReply) {
+
+            let i,j;
+            let question = [];
+            //let predata = [];
+            let rightbox = document.getElementById('rightbox');
+            rightbox.innerHTML = '';
+            let bightml = '';
+            for (i=0; i<tests.length; i++){
+                if(nowQuiz == tests[i]._id){
+                  question = tests[i].testQutions;  //題型
+                }
+            }
+
+            for(i=0;i<question.length;i++){
+                let newDiv = document.createElement('div');
+                newDiv.id = 'box'+i;
+                newDiv.style = 'display:inline-block;';
+                newDiv.innerHTML = '';
+                rightbox.appendChild(newDiv);
+            }
+
+            //google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
+            for(i=0;i<question.length;i++){
+                let questionName = question[i].qutionName;
+                if(question[i].type == '選擇題'){
+                    let selection = question[i].selection;
+                    let correctAnswers = question[i].correctAnswers;
+                    let studentAnswers = [];
+                    for(j=0;j<selection.length;j++){
+                        studentAnswers.push(parseInt(0));
+                    }
+                    for(j=0;j<allReply.length;j++){
+                        let k;
+                        for(k=0;k<selection.length;k++){
+
+                          if(parseInt(allReply[j].testQutionsAndAnswer[i].studentAnswer[k])==1)
+                              studentAnswers[k] += 1;
+                              //studentAnswers[k] += parseInt(allReply[j].testQutionsAndAnswer[i].studentAnswer[k]);
+                        }
+                    }
+                    predata.length=0;
+                    for(j=0;j<selection.length;j++){
+                        predata.push([selection[j],studentAnswers[j]]);
+                    }
+                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
+                    google.charts.setOnLoadCallback(drawChart(i));
+                    function drawChart(i) {
+                      let data = new google.visualization.DataTable();
+                      data.addColumn('string', 'choose');
+                      data.addColumn('number', 'percent');
+                      data.addRows(predata);
+                      let options = {'title':questionName+'(選擇題)',
+                                     'width':400,
+                                     'height':300};
+                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                      chart.draw(data, options);
+                    }
+                }
+                if(question[i].type == '是非題') {
+                    let isTure=0;
+                    let isFalse=0;
+                    let correctAnswers = question[i].correctAnswers;
+                    for(j=0;j<allReply.length;j++){
+                        if(allReply[j].testQutionsAndAnswer[i].studentAnswer=='yes'){
+                            isTure += 1;
+                        }else {
+                            isFalse += 1;
+                        }
+                    }
+                    predata.length=0;
+                    predata.push(['是',isTure]);
+                    predata.push(['否',isFalse]);
+                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
+                    google.charts.setOnLoadCallback(drawChart(i));
+                    function drawChart(i) {
+                      let data = new google.visualization.DataTable();
+                      data.addColumn('string', 'choose');
+                      data.addColumn('number', 'percent');
+                      data.addRows(predata);
+                      let options = {'title':questionName+'(是非題)',
+                                     'width':400,
+                                     'height':300};
+                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                      chart.draw(data, options);
+                    }
+                    isTure=0;
+                    isFalse=0;
+                }
+                if(question[i].type == '填空題') {
+                    let isCorrect=0;
+                    let isError=0;
+                    let correctAnswers = question[i].correctAnswers;
+                    for(j=0;j<allReply.length;j++){
+                        if(allReply[j].testQutionsAndAnswer[i].isCorrect==true){
+                            isCorrect += 1;
+                        }else {
+                            isError += 1;
+                        }
+                    }
+                    predata.length=0;
+                    predata.push(['對',isCorrect]);
+                    predata.push(['錯',isError]);
+                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
+                    google.charts.setOnLoadCallback(drawChart(i));
+                    function drawChart(i) {
+                      let data = new google.visualization.DataTable();
+                      data.addColumn('string', 'choose');
+                      data.addColumn('number', 'percent');
+                      data.addRows(predata);
+                      let options = {'title':questionName+'(填空題)',
+                                     'width':400,
+                                     'height':300};
+                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                      chart.draw(data, options);
+                    }
+                    isCorrect=0;
+                    isError=0;
+                }
+                if(question[i].type == '程式題') {
+                    let isCorrect=0;
+                    let isError=0;
+                    let correctAnswers = question[i].correctAnswers;
+                    for(j=0;j<allReply.length;j++){
+                        if(allReply[j].testQutionsAndAnswer[i].isCorrect==true){
+                            isCorrect += 1;
+                        }else {
+                            isError += 1;
+                        }
+                    }
+                    predata.length=0;
+                    predata.push(['對',isCorrect]);
+                    predata.push(['錯',isError]);
+                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
+                    google.charts.setOnLoadCallback(drawChart(i));
+                    function drawChart(i) {
+                      let data = new google.visualization.DataTable();
+                      data.addColumn('string', 'choose');
+                      data.addColumn('number', 'percent');
+                      data.addRows(predata);
+                      let options = {'title':questionName+'(程式題)',
+                                     'width':400,
+                                     'height':300};
+                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                      chart.draw(data, options);
+                    }
+                    isCorrect=0;
+                    isError=0;
+                }
+            }
+        }
+
+    </script>
+
+<% include layout/footer %>
