@@ -446,22 +446,22 @@ router.get('/:id/addUnit/:unitName', ensureAuthenticated, function (req, res) {
       console.log(err);
     }
     //確認此課程是否為此user的
-    if (classinfo.teacher != req.user._id) {
-      console.log("不是老師");
-    } else {
-      let newUnit = new Unit();
-      newUnit.unitName = req.params.unitName;
-      newUnit.belongClass = classId;
-      console.log(newUnit);
-      newUnit.save(function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.redirect('/class/classManager/' + req.params.id);
-        }
-      })
+    // if (classinfo.teacher != req.user._id) {
+    //   console.log("不是老師");
+    // } else {
+    let newUnit = new Unit();
+    newUnit.unitName = req.params.unitName;
+    newUnit.belongClass = classId;
+    console.log(newUnit);
+    newUnit.save(function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect('/class/classManager/' + req.params.id);
+      }
+    })
 
-    }
+    // }
   })
 
 
