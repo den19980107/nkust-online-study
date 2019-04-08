@@ -343,98 +343,102 @@
             myField.value += myValue;
         }
     }
+    let temp = 0
     let finishTest = function () {
-        let qutions = <%- JSON.stringify(test) %>
-        for (let i = 0; i < qutions.testQutions.length; i++) {
-            if(qutions.testQutions[i].type=="程式題"){
-                qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
-                qutions.testQutions[i].language = answerArray[i].language
-                qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
-            }else{
-                qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
-                qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
-            }
-        }
-        qutions.writer = "<%=user._id%>"
-        //改測驗
-        for(let i=0;i<qutions.testQutions.length;i++){
-            let qution = qutions.testQutions[i]
-            if (qution.type == '選擇題') {
-              let studentAnswers = [];
-              for(let j = 0;j<qution.selection.length;j++){
-                  console.log("j = "+qution.studentAnswer[j]);
-                  if(qution.studentAnswer[j]=="1"){
-                      studentAnswers.push(qution.selection[j]);
-                  }
+        if(temp == 0 ){
+          let qutions = <%- JSON.stringify(test) %>
+          for (let i = 0; i < qutions.testQutions.length; i++) {
+              if(qutions.testQutions[i].type=="程式題"){
+                  qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
+                  qutions.testQutions[i].language = answerArray[i].language
+                  qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
+              }else{
+                  qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
+                  qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
               }
-              console.log(studentAnswers);
-              let isCorrect = true;
-              if(studentAnswers.length!=qution.correctAnswers.length){
-                  isCorrect=false;
-              }
-              for(let i =0;i<qution.correctAnswers.length;i++){
-                  if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
-                      isCorrect=false;
-                  }
-              }
-              qution.isCorrect = isCorrect
-            }
-            if (qution.type == '是非題') {
-              let isCorrect = true;
-              if(qution.studentAnswer!=qution.correctAnswers){
-                  isCorrect=false;
-              }
-              qution.isCorrect = isCorrect
-            }
-            if (qution.type == '填空題') {
-              let isCorrect = false;
-              for(let i = 0;i<qution.correctAnswers.length;i++){
-                if(qution.studentAnswer == qution.correctAnswers[i]){
-                  isCorrect = true;
+          }
+          qutions.writer = "<%=user._id%>"
+          //改測驗
+          for(let i=0;i<qutions.testQutions.length;i++){
+              let qution = qutions.testQutions[i]
+              if (qution.type == '選擇題') {
+                let studentAnswers = [];
+                for(let j = 0;j<qution.selection.length;j++){
+                    console.log("j = "+qution.studentAnswer[j]);
+                    if(qution.studentAnswer[j]=="1"){
+                        studentAnswers.push(qution.selection[j]);
+                    }
                 }
-              }
-              qution.isCorrect = isCorrect
-            }
-            if (qution.type == '程式題') {
-              let isCorrect = false;
-              var testverification = {
-                input: qution.intputTest,
-                script: qution.studentAnswer,
-                language: qution.language,
-                id: "001"
-              }
-              var socket = io();
-              socket.emit('script', testverification);
-              socket.on('answer', function (obj) {
-                  console.log(obj);
-                  console.log(obj.body.output);
-                  console.log(qution.language);
-                  obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
-                  if(obj.body.output == qution.outputTest){
-                      isCorrect = true
-                      qution.isCorrect = isCorrect
-                      delay(2000).then(function(){
-                        if(i==qutions.testQutions.length-1){
-                            answermodifyend(qutions)
-                        }
-                      });
-                  }else{
-                      qution.isCorrect = isCorrect
-                      delay(2000).then(function(){
-                        if(i==qutions.testQutions.length-1){
-                            answermodifyend(qutions)
-                        }
-                      });
-                  }
-              });
-            }else{
-              delay(3000).then(function(){
-                if(i==qutions.testQutions.length-1){
-                    answermodifyend(qutions)
+                console.log(studentAnswers);
+                let isCorrect = true;
+                if(studentAnswers.length!=qution.correctAnswers.length){
+                    isCorrect=false;
                 }
-              });
-            }
+                for(let i =0;i<qution.correctAnswers.length;i++){
+                    if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
+                        isCorrect=false;
+                    }
+                }
+                qution.isCorrect = isCorrect
+              }
+              if (qution.type == '是非題') {
+                let isCorrect = true;
+                if(qution.studentAnswer!=qution.correctAnswers){
+                    isCorrect=false;
+                }
+                qution.isCorrect = isCorrect
+              }
+              if (qution.type == '填空題') {
+                let isCorrect = false;
+                for(let i = 0;i<qution.correctAnswers.length;i++){
+                  if(qution.studentAnswer == qution.correctAnswers[i]){
+                    isCorrect = true;
+                  }
+                }
+                qution.isCorrect = isCorrect
+              }
+              if (qution.type == '程式題') {
+                let isCorrect = false;
+                var testverification = {
+                  input: qution.intputTest,
+                  script: qution.studentAnswer,
+                  language: qution.language,
+                  id: "001"
+                }
+                var socket = io();
+                socket.emit('script', testverification);
+                socket.on('answer', function (obj) {
+                    console.log(obj);
+                    console.log(obj.body.output);
+                    console.log(qution.language);
+                    obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
+                    if(obj.body.output == qution.outputTest){
+                        isCorrect = true
+                        qution.isCorrect = isCorrect
+                        delay(2000).then(function(){
+                          if(i==qutions.testQutions.length-1){
+                              answermodifyend(qutions)
+                          }
+                        });
+                    }else{
+                        qution.isCorrect = isCorrect
+                        delay(2000).then(function(){
+                          if(i==qutions.testQutions.length-1){
+                              answermodifyend(qutions)
+                          }
+                        });
+                    }
+                });
+              }else{
+                delay(3000).then(function(){
+                  if(i==qutions.testQutions.length-1){
+                      answermodifyend(qutions)
+                  }
+                });
+              }
+          }
         }
+        temp += 1
     }
     var delay = function(s){
       return new Promise(function(resolve,reject){
