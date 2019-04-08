@@ -675,7 +675,11 @@
 
     let deleteComment = function(commentID){
         console.log(commentID);
-        window.location = "/SDC/deleteChapterComment/<%=chapter._id%>/"+commentID;
+        if (window.confirm('您確定要刪除嗎？') == true) {
+            window.location = "/SDC/deleteChapterComment/<%=chapter._id%>/"+commentID;
+        }else{
+
+        }
     }
 </script>
 <!--  -->

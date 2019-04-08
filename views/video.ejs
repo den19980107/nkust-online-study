@@ -942,7 +942,10 @@
 
     let deleteComment = function(commentID){
         console.log(commentID);
-        window.location = "/SDC/deleteVideoComment/<%=video._id%>/"+commentID;
+        if (window.confirm('您確定要刪除嗎？') == true) {
+            window.location = "/SDC/deleteVideoComment/<%=video._id%>/"+commentID;
+        } else {
+        }
     }
     window.onunload = function () {
         socket.emit('videoAction', {

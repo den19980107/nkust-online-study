@@ -225,7 +225,11 @@
 
     let deleteComment = function(commentID){
         console.log(commentID);
-        window.location = "/SDC/deleteArticleComment/<%=article._id%>/"+commentID+"/<%=classinfo._id%>";
+        if (window.confirm('您確定要刪除嗎？') == true) {
+            window.location = "/SDC/deleteArticleComment/<%=article._id%>/"+commentID+"/<%=classinfo._id%>";
+        }else{
+
+        }
     }
 </script>
 <!--  -->
