@@ -886,7 +886,6 @@ router.post('/EndpublicTest/:testID', ensureAuthenticated, function (req, res) {
 //更改測驗
 router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
   console.log(req.body);
-
   let query = {
     _id: ObjectID(req.params.testID)
   }
@@ -895,7 +894,9 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
       testName: req.body.testName,
       publicTime: req.body.publicTime,
       EndpublicTime: req.body.EndpublicTime,
-      testQutions: req.body.QuationList
+      testQutions: req.body.QuationList,
+      publishScoreNow:req.body.publishScoreNow,
+      canCheckQuestionAndAnswer: req.body.canCheckQuestionAndAnswer;
     }
   }
   Test.findById(query, function (err, testinfo) {
@@ -1672,7 +1673,6 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
     })
   })
 });
-
 //老師查看測驗錯誤占比
 router.get('/showTestPercent/:classID', function(req, res) {
   Class.findById(req.params.classID, function(err, classinfo) {

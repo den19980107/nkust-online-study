@@ -285,6 +285,8 @@
         let testName = document.getElementById('testNameinput');
         let publicTime =new Date(document.getElementById('publicTime').value);
         let EndpublicTime = new Date(document.getElementById('EndpublicTime').value)
+        let publishScoreNow = document.getElementById('publishScoreNow').checked;
+        let canCheckQuestionAndAnswer = document.getElementById('canCheckQuestionAndAnswer').checked;
         // let today = new Date();
         // var timeDiff = (publicTime.getTime() - today.getTime())/1000;
         // console.log(timeDiff);
@@ -294,7 +296,9 @@
             QuationList: QuationList,
             publicTime:publicTime,
             EndpublicTime:EndpublicTime,
-            isPublic:false
+            isPublic:false,
+            publishScoreNow:publishScoreNow,
+            canCheckQuestionAndAnswer:canCheckQuestionAndAnswer
         }
         console.log(testinfo);
         

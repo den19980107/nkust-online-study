@@ -97,6 +97,8 @@
                                   </div>
                             </div>
                             <div class="modal-footer">
+                                <input type="checkbox" class="btn btn-primary ml-2" id="publishScoreNow">測驗結束立刻公佈成績</input>
+                                <input type="checkbox" class="btn btn-primary ml-2"id = "canCheckQuestionAndAnswer" >學生可查看題目與答案</input>
                                 <button type="button" class="btn btn-primary" onclick="saveQutionList()">儲存題目</button>
                             </div>
                         </div>
@@ -426,9 +428,11 @@
                   }
               });
             }else{
-              if(i==qutions.testQutions.length-1){
-                  answermodifyend(qutions)
-              }
+              delay(3000).then(function(){
+                if(i==qutions.testQutions.length-1){
+                    answermodifyend(qutions)
+                }
+              });
             }
         }
     }
