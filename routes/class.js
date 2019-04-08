@@ -896,7 +896,7 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
       EndpublicTime: req.body.EndpublicTime,
       testQutions: req.body.QuationList,
       publishScoreNow:req.body.publishScoreNow,
-      canCheckQuestionAndAnswer: req.body.canCheckQuestionAndAnswer;
+      canCheckQuestionAndAnswer: req.body.canCheckQuestionAndAnswer
     }
   }
   Test.findById(query, function (err, testinfo) {
