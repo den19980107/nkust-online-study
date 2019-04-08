@@ -118,6 +118,7 @@
         let canCheckQuestionAndAnswer = ""
         let publishScoreNow = ""
         let tests = <%-JSON.stringify(tests)%>
+        console.log(tests)
         for (i = 0; i < tests.length; i++) {
             if (tests[i]._id == nowQuiz) {
                 canCheckQuestionAndAnswer = tests[i].canCheckQuestionAndAnswer
