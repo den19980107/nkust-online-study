@@ -1673,6 +1673,60 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
   })
 });
 
+//老師查看測驗錯誤占比
+router.get('/showTestPercent/:classID', function(req, res) {
+  Class.findById(req.params.classID, function(err, classinfo) {
+    if (err) {
+      console.log(err);
+    }
+    Unit.find({
+      belongClass: classinfo._id
+    }, function(err, units) {
+      if (err) {
+        console.log(err);
+      }
+      let querytext = []
+      for (let i = 0; i < units.length; i++) {
+        querytext.push(ObjectID(units[i]._id).toString())
+      }
+      query = {
+        belongUnit: querytext
+      }
+      console.log("query = " + query);
+
+      Test.find(query, function(err, tests) {
+        if (err) {
+          console.log(err);
+        }
+        studntSubmitTest.find(query, function(err, submits) {
+          if (err) {
+            console.log(err);
+          }
+          let querytext = []
+
+          for (let i = 0; i < submits.length; i++) {
+            querytext.push(ObjectID(submits[i].writer).toString())
+          }
+          query = {
+            _id: querytext
+          }
+          User.find(query, function(err, submiter) {
+            if (err) {
+              console.log(err);
+
+            }
+            res.render('showTestPercent', {
+              units: units,
+              tests: tests,
+              submits: submits,
+              submiter: submiter
+            });
+          })
+        })
+      })
+    })
+  })
+});
 
 //Access Control
 function ensureAuthenticated(req, res, next) {
