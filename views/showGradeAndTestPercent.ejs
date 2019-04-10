@@ -214,7 +214,7 @@
                 rightbox.appendChild(newDiv);
             }
 
-            
+
             for(i=0;i<question.length;i++){
                 let questionName = question[i].qutionName;
                 if(question[i].type == '選擇題'){
@@ -237,6 +237,7 @@
                     for(j=0;j<selection.length;j++){
                         predata.push([selection[j],studentAnswers[j]]);
                     }
+                    
                     google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
                     google.charts.setOnLoadCallback(drawChart(i));
                     function drawChart(i) {
@@ -247,7 +248,8 @@
                       let options = {'title':questionName+'(選擇題)',
                                      'width':400,
                                      'height':300,
-                                     'fontSize':14};
+                                     'fontSize':14,
+                                     'sliceVisibilityThreshold':0};
                       let chart = new google.visualization.PieChart(document.getElementById('box'+i));
                       chart.draw(data, options);
                     }
@@ -276,7 +278,8 @@
                       let options = {'title':questionName+'(是非題)',
                                      'width':400,
                                      'height':300,
-                                     'fontSize':14};
+                                     'fontSize':14,
+                                     'sliceVisibilityThreshold':0};
                       let chart = new google.visualization.PieChart(document.getElementById('box'+i));
                       chart.draw(data, options);
                     }
@@ -307,7 +310,8 @@
                       let options = {'title':questionName+'(填空題)',
                                      'width':400,
                                      'height':300,
-                                     'fontSize':14};
+                                     'fontSize':14,
+                                     'sliceVisibilityThreshold':0};
                       let chart = new google.visualization.PieChart(document.getElementById('box'+i));
                       chart.draw(data, options);
                     }
@@ -338,7 +342,8 @@
                       let options = {'title':questionName+'(程式題)',
                                      'width':400,
                                      'height':300,
-                                     'fontSize':14};
+                                     'fontSize':14,
+                                     'sliceVisibilityThreshold':0};
                       let chart = new google.visualization.PieChart(document.getElementById('box'+i));
                       chart.draw(data, options);
                     }
