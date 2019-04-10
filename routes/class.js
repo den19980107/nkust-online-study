@@ -1673,8 +1673,9 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
     })
   })
 });
-//老師查看測驗錯誤占比
-router.get('/showTestPercent/:classID', function(req, res) {
+
+//老師查看測驗成績與錯誤占比
+router.get('/showGradeAndTestPercent/:classID', function(req, res) {
   Class.findById(req.params.classID, function(err, classinfo) {
     if (err) {
       console.log(err);
@@ -1715,7 +1716,7 @@ router.get('/showTestPercent/:classID', function(req, res) {
               console.log(err);
 
             }
-            res.render('showTestPercent', {
+            res.render('showGradeAndTestPercent', {
               units: units,
               tests: tests,
               submits: submits,
