@@ -1162,12 +1162,22 @@ router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, r
     let updatetestinfo = {};
     updatetestinfo.testQutionsAndAnswer = testinfo.testQutionsAndAnswer
     updatetestinfo.isTeacherMarked = true;
+    updatetestinfo.obtainscore = req.body.score.toString();
     updatetestinfo.score = req.body.score.toString();
     updatetestinfo.markArray = req.body.markArray;
     updatetestinfo.testName = testinfo.testName;
     updatetestinfo.testID = testinfo.testID;
     updatetestinfo.writer = testinfo.writer;
     updatetestinfo.belongUnit = testinfo.belongUnit;
+    for(let i=0;i < req.body.markArray.length;i++){
+      if(req.body.markArray[i] == "right"){
+          updatetestinfo.testQutionsAndAnswer[i].isCorrect = true;
+      }else if (req.body.markArray[i] == "wrong") {
+          updatetestinfo.testQutionsAndAnswer[i].isCorrect = false;
+      }else{
+        console.log("markArray is none");
+      }
+    }
     console.log(updatetestinfo);
     console.log("testinfoID = " + testinfo._id);
 
