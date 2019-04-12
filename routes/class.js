@@ -183,55 +183,62 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
 router.get('/:id', ensureAuthenticated, function (req, res) {
   console.log("in");
   Class.findById(req.params.id, function (error, classinfo) {
-    User.findById(classinfo.teacher, function (error2, teacher) {
-      Unit.find({
-        belongClass: classinfo._id
-      }, function (error3, units) {
-        if (error3) {
-          console.log(error3);
-        } else {
-          StudebtTakeCourse.find({
-            classID: classinfo._id
-          }, function (error4, thisClassStudents) {
-            if (error4) {
-              console.log(error4);
-            }
-            gfs.files.findOne({
-              filename: classinfo.classImage
-            }, (err, img) => {
-
-              if (!img || img.length === 0) {
-                res.render('classDashboard', {
-                  id: req.params.id,
-                  classinfo: classinfo,
-                  units: units,
-                  teacher: teacher,
-                  thisClassStudents: thisClassStudents,
-                  img: 'not Image'
-                });
-              } else {
-                if (img.contentType === 'image/jpeg' || img.contentType === "image/png") {
-                  img.isImage = true;
-                } else {
-                  img.isImage = false;
-                }
-                console.log(img);
-
-                res.render('classDashboard', {
-                  id: req.params.id,
-                  classinfo: classinfo,
-                  units: units,
-                  teacher: teacher,
-                  thisClassStudents: thisClassStudents,
-                  img: img
-                });
-              }
-            })
-          });
-        }
+    if(error){
+      res.render('notExist',{
+        title:"喔喔！此課程不存在...",
+        message:"此課程有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
       })
-
-    });
+    }else{
+      User.findById(classinfo.teacher, function (error2, teacher) {
+        Unit.find({
+          belongClass: classinfo._id
+        }, function (error3, units) {
+          if (error3) {
+            console.log(error3);
+          } else {
+            StudebtTakeCourse.find({
+              classID: classinfo._id
+            }, function (error4, thisClassStudents) {
+              if (error4) {
+                console.log(error4);
+              }
+              gfs.files.findOne({
+                filename: classinfo.classImage
+              }, (err, img) => {
+  
+                if (!img || img.length === 0) {
+                  res.render('classDashboard', {
+                    id: req.params.id,
+                    classinfo: classinfo,
+                    units: units,
+                    teacher: teacher,
+                    thisClassStudents: thisClassStudents,
+                    img: 'not Image'
+                  });
+                } else {
+                  if (img.contentType === 'image/jpeg' || img.contentType === "image/png") {
+                    img.isImage = true;
+                  } else {
+                    img.isImage = false;
+                  }
+                  console.log(img);
+  
+                  res.render('classDashboard', {
+                    id: req.params.id,
+                    classinfo: classinfo,
+                    units: units,
+                    teacher: teacher,
+                    thisClassStudents: thisClassStudents,
+                    img: img
+                  });
+                }
+              })
+            });
+          }
+        })
+  
+      });
+    }
   });
 });
 //@顯示照片的route
@@ -260,25 +267,31 @@ router.get('/image/:imageName', ensureAuthenticated, (req, res) => {
 //管理課程內容
 router.get('/classManager/:id', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.id, function (error, classinfo) {
-    Unit.find({
-      belongClass: classinfo._id
-    }, function (error2, units) {
-      StudebtTakeCourse.find({
-        classID: req.params.id
-      }, function (err, thisClassStudents) {
-        if (err) {
-          console.log(err);
-        }
-        res.render('classManger', {
-          id: req.params.id,
-          classinfo: classinfo,
-          units: units,
-          noSelectUnit: true,
-          thisClassStudents: thisClassStudents
-        });
+    if(error){
+      res.render('notExist',{
+        title:"喔喔！此課程不存在...",
+        message:"此課程有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
       })
-    })
-
+    }else{
+      Unit.find({
+        belongClass: classinfo._id
+      }, function (error2, units) {
+        StudebtTakeCourse.find({
+          classID: req.params.id
+        }, function (err, thisClassStudents) {
+          if (err) {
+            console.log(err);
+          }
+          res.render('classManger', {
+            id: req.params.id,
+            classinfo: classinfo,
+            units: units,
+            noSelectUnit: true,
+            thisClassStudents: thisClassStudents
+          });
+        })
+      })
+    }
   });
 });
 
@@ -286,48 +299,61 @@ router.get('/classManager/:id', ensureAuthenticated, function (req, res) {
 //刪除課程
 router.get('/deleteCourse/:id', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.id, function (error, classinfo) {
-    let query = {
-      _id: req.params.id
-    }
-    if (classinfo.teacher == req.user.id) { //確認課程的創立人是否等於發出要求的使用者
-      Class.remove(query, function (err) {
-        if (err) {
-          console.log(err);
-        }
-        req.flash('success', '刪除成功');
-        res.redirect('/users/myclass');
+    if(error){
+      res.render('notExist',{
+        title:"喔喔！此課程不存在...",
+        message:"此課程有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
       })
-    } else {
-      req.flash('danger', '這堂課不是您開的課');
-      res.redirect('/class');
+    }else{
+      let query = {
+        _id: req.params.id
+      }
+      if (classinfo.teacher == req.user.id) { //確認課程的創立人是否等於發出要求的使用者
+        Class.remove(query, function (err) {
+          if (err) {
+            console.log(err);
+          }
+          req.flash('success', '刪除成功');
+          res.redirect('/users/myclass');
+        })
+      } else {
+        req.flash('danger', '這堂課不是您開的課');
+        res.redirect('/class');
+      }
     }
-
   })
 
 })
 //上架課程
 router.get('/LunchClass/:cid', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.cid, function (err, classinfo) {
-    let updateClass = {}
-    updateClass.className = classinfo.className
-    updateClass.credit = classinfo.credit
-    updateClass.classTime = classinfo.classTime
-    updateClass.classRoom = classinfo.classRoom
-    updateClass.teacher = classinfo.teacher
-    updateClass.outline = classinfo.outline
-    updateClass.isLunched = true
-    let query = {
-      _id: classinfo._id
-    }
-    console.log(updateClass);
-
-    Class.update(query, updateClass, function (err) {
-      if (err) {
-        console.log(err);
+    if(err){
+      res.render('notExist',{
+        title:"喔喔！此課程不存在...",
+        message:"此課程有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      let updateClass = {}
+      updateClass.className = classinfo.className
+      updateClass.credit = classinfo.credit
+      updateClass.classTime = classinfo.classTime
+      updateClass.classRoom = classinfo.classRoom
+      updateClass.teacher = classinfo.teacher
+      updateClass.outline = classinfo.outline
+      updateClass.isLunched = true
+      let query = {
+        _id: classinfo._id
       }
-      req.flash('success', "上架成功！");
-      res.redirect('/class/' + req.params.cid);
-    })
+      console.log(updateClass);
+
+      Class.update(query, updateClass, function (err) {
+        if (err) {
+          console.log(err);
+        }
+        req.flash('success', "上架成功！");
+        res.redirect('/class/' + req.params.cid);
+      })
+    }
   })
 })
 
@@ -474,7 +500,10 @@ router.get('/classManager/:classID/deleteUnit/:UnitID', ensureAuthenticated, fun
   }
   Unit.remove(query, function (error, unit) {
     if (error) {
-      console.log(error);
+      res.render('notExist',{
+        title:"喔喔！此單元不存在...",
+        message:"此單元有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
     } else {
       req.flash("success", "刪除成功");
       res.redirect('/class/classManager/' + req.params.classID)
@@ -486,94 +515,101 @@ router.get('/classManager/:classID/deleteUnit/:UnitID', ensureAuthenticated, fun
 //顯示單元內容
 router.get('/:classID/showUnit/:unitID', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.classID, function (error, classinfo) {
-    Unit.find({
-      belongClass: classinfo._id
-    }, function (error2, units) {
-      let selectUnit = "";
-      let selectUnitID = "";
-      for (let i = 0; i < units.length; i++) {
-        if (units[i]._id == req.params.unitID) {
-          selectUnit = units[i].unitName;
-          selectUnitID = units[i]._id;
+    if(error){
+      res.render('notExist',{
+        title:"喔喔！此單元不存在...",
+        message:"此單元有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Unit.find({
+        belongClass: classinfo._id
+      }, function (error2, units) {
+        let selectUnit = "";
+        let selectUnitID = "";
+        for (let i = 0; i < units.length; i++) {
+          if (units[i]._id == req.params.unitID) {
+            selectUnit = units[i].unitName;
+            selectUnitID = units[i]._id;
+          }
         }
-      }
-      Chapter.find({
-        belongUnit: req.params.unitID
-      }, function (error3, chapters) {
-        Video.find({
+        Chapter.find({
           belongUnit: req.params.unitID
-        }, function (error4, videos) {
-          Test.find({
+        }, function (error3, chapters) {
+          Video.find({
             belongUnit: req.params.unitID
-          }, function (err, tests) {
-            if (err) {
-              console.log(err);
-            }
-            Homework.find({
+          }, function (error4, videos) {
+            Test.find({
               belongUnit: req.params.unitID
-            }, function (err, homeworks) {
+            }, function (err, tests) {
               if (err) {
                 console.log(err);
               }
-              console.log(homeworks);
-
-              studntSubmitTest.find({}, function (err, TestSubmitRecords) {
+              Homework.find({
+                belongUnit: req.params.unitID
+              }, function (err, homeworks) {
                 if (err) {
                   console.log(err);
                 }
-                console.log(TestSubmitRecords);
-                console.log(tests);
-                console.log("start");
-                for (let i = 0; i < TestSubmitRecords.length; i++) {
-                  for (let j = 0; j < tests.length; j++) {
-                    if (TestSubmitRecords[i].writer == req.user._id) {
-                      if (TestSubmitRecords[i].testID == tests[j]._id) {
-                        tests[j].isComplete = true
-                      }
-                    }
+                console.log(homeworks);
+  
+                studntSubmitTest.find({}, function (err, TestSubmitRecords) {
+                  if (err) {
+                    console.log(err);
                   }
-                }
-                studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
-                  for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
-                    for (let j = 0; j < homeworks.length; j++) {
-                      if (HomeworkSubmitRecords[i].writer == req.user._id) {
-                        if (HomeworkSubmitRecords[i].homeworkID == homeworks[j]._id) {
-                          homeworks[j].isComplete = true
+                  console.log(TestSubmitRecords);
+                  console.log(tests);
+                  console.log("start");
+                  for (let i = 0; i < TestSubmitRecords.length; i++) {
+                    for (let j = 0; j < tests.length; j++) {
+                      if (TestSubmitRecords[i].writer == req.user._id) {
+                        if (TestSubmitRecords[i].testID == tests[j]._id) {
+                          tests[j].isComplete = true
                         }
                       }
                     }
                   }
-                  StudebtTakeCourse.find({
-                    classID: req.params.classID
-                  }, function (err, thisClassStudents) {
-                    if (err) {
-                      console.log(err);
+                  studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
+                    for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
+                      for (let j = 0; j < homeworks.length; j++) {
+                        if (HomeworkSubmitRecords[i].writer == req.user._id) {
+                          if (HomeworkSubmitRecords[i].homeworkID == homeworks[j]._id) {
+                            homeworks[j].isComplete = true
+                          }
+                        }
+                      }
                     }
-                    res.render('classManger', {
-                      id: req.params.id,
-                      classinfo: classinfo,
-                      units: units,
-                      chapters: chapters,
-                      unitName: selectUnit,
-                      unitID: selectUnitID,
-                      videos: videos,
-                      tests: tests,
-                      homeworks: homeworks,
-                      thisClassStudents: thisClassStudents
+                    StudebtTakeCourse.find({
+                      classID: req.params.classID
+                    }, function (err, thisClassStudents) {
+                      if (err) {
+                        console.log(err);
+                      }
+                      res.render('classManger', {
+                        id: req.params.id,
+                        classinfo: classinfo,
+                        units: units,
+                        chapters: chapters,
+                        unitName: selectUnit,
+                        unitID: selectUnitID,
+                        videos: videos,
+                        tests: tests,
+                        homeworks: homeworks,
+                        thisClassStudents: thisClassStudents
+                      });
                     });
-                  });
-
-
+  
+  
+                  })
                 })
+  
               })
-
+  
             })
-
-          })
-
+  
+          });
         });
-      });
-    })
+      })
+    } 
   });
 })
 
@@ -614,15 +650,20 @@ router.delete('/deletechapter/:chapterID', ensureAuthenticated, function (req, r
     _id: req.params.chapterID
   }
 
-  Chapter.findById(req.params.chapterID, function (err, article) {
-
-    Chapter.remove(query, function (err) {
-      if (err) {
-        console.log(err);
-      }
-      res.send('Success');
-    })
-
+  Chapter.findById(req.params.chapterID, function (err, chapter) {
+    if(err||chapter==null){
+      res.render('notExist',{
+        title:"喔喔！此講義不存在...",
+        message:"此講義有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Chapter.remove(query, function (err) {
+        if (err) {
+          console.log(err);
+        }
+        res.send('Success');
+      })
+    }
   })
 })
 
@@ -632,30 +673,35 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
     _id: req.params.id
   }
   Chapter.findById(query, function (err, chapter) {
-    if (err) {
-      console.log(error);
-    }
-    studentCommentChapter.find({
-      chapterID: chapter._id
-    }, function (err, comments) {
-      if (err) {
-        console.log(err);
-      }
-      Unit.findById(chapter.belongUnit, function (err, unit) {
+    console.log(chapter);
+    
+    if(err||chapter==null){
+      res.render('notExist',{
+        title:"喔喔！此講義不存在...",
+        message:"此講義有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      studentCommentChapter.find({
+        chapterID: chapter._id
+      }, function (err, comments) {
         if (err) {
           console.log(err);
         }
-        Class.findById(unit.belongClass, function (err, classinfo) {
-          res.render('chapter', {
-            chapter: chapter,
-            comments: comments,
-            classinfo: classinfo
-          });
+        Unit.findById(chapter.belongUnit, function (err, unit) {
+          if (err) {
+            console.log(err);
+          }
+          Class.findById(unit.belongClass, function (err, classinfo) {
+            res.render('chapter', {
+              chapter: chapter,
+              comments: comments,
+              classinfo: classinfo
+            });
+          })
         })
+  
       })
-
-    })
-
+    }
   })
 });
 
@@ -692,15 +738,20 @@ router.delete('/deletevideo/:videoID', ensureAuthenticated, function (req, res) 
   let query = {
     _id: req.params.videoID
   }
-  Video.findById(req.params.videoID, function (err, article) {
-
-    Video.remove(query, function (err) {
-      if (err) {
-        console.log(err);
-      }
-      res.send('Success');
-    })
-
+  Video.findById(req.params.videoID, function (err, video) {
+    if(err||video == null){
+      res.render('notExist',{
+        title:"喔喔！此影片不存在...",
+        message:"此影片有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Video.remove(query, function (err) {
+        if (err) {
+          console.log(err);
+        }
+        res.send('Success');
+      })
+    }
   })
 });
 
@@ -710,39 +761,42 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
     _id: req.params.id
   }
   Video.findById(query, function (err, video) {
-    if (err) {
-      console.log(error);
-    }
-    Unit.findById({
-      _id: video.belongUnit
-    }, function (err, unit) {
-      Class.findById({
-        _id: unit.belongClass
-      }, function (err, classinfo) {
-        if (err) {
-          console.log(err);
-        }
-        studentCommentVideo.find({
-          videoID: video._id
-        }, function (err, comments) {
+    if(err||video == null){
+      res.render('notExist',{
+        title:"喔喔！此影片不存在...",
+        message:"此影片有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Unit.findById({
+        _id: video.belongUnit
+      }, function (err, unit) {
+        Class.findById({
+          _id: unit.belongClass
+        }, function (err, classinfo) {
           if (err) {
             console.log(err);
           }
-          Note.find({
-            author_id: req.user._id
-          }, function (err, notes) {
-            res.render('video', {
-              video: video,
-              comments: comments,
-              classinfo: classinfo,
-              notes: notes
-            });
-          })
-        });
-
-      })
-    });
-
+          studentCommentVideo.find({
+            videoID: video._id
+          }, function (err, comments) {
+            if (err) {
+              console.log(err);
+            }
+            Note.find({
+              author_id: req.user._id
+            }, function (err, notes) {
+              res.render('video', {
+                video: video,
+                comments: comments,
+                classinfo: classinfo,
+                notes: notes
+              });
+            })
+          });
+  
+        })
+      });
+    }
   })
 });
 
@@ -789,13 +843,19 @@ router.delete('/deletetest/:testID', ensureAuthenticated, function (req, res) {
     _id: req.params.testID
   }
   Test.findById(req.params.testID, function (err, test) {
-    Test.remove(query, function (err) {
-      if (err) {
-        console.log(err);
-      }
-      res.send('Success');
-    })
-
+    if(err||test == null){
+      res.render('notExist',{
+        title:"喔喔！此測驗不存在...",
+        message:"此測驗有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Test.remove(query, function (err) {
+        if (err) {
+          console.log(err);
+        }
+        res.send('Success');
+      })
+    }
   })
 })
 
@@ -805,37 +865,40 @@ router.get('/showTest/:testID', ensureAuthenticated, function (req, res) {
     _id: req.params.testID
   }
   Test.findById(query, function (err, test) {
-    if (err) {
-      console.log(error);
-    }
-    Unit.findById({
-      _id: test.belongUnit
-    }, function (err, unit) {
-      Class.findById({
-        _id: unit.belongClass
-      }, function (err, classinfo) {
-        if (err) {
-          console.log(err);
-        }
-        let isSubmited = false;
-        studntSubmitTest.find({}, function (err, TestSubmitRecords) {
-          for (let i = 0; i < TestSubmitRecords.length; i++) {
-            if (TestSubmitRecords[i].writer == req.user._id) {
-              if (TestSubmitRecords[i].testID == test._id) {
-                isSubmited = true
+    if(err||test == null){
+      res.render('notExist',{
+        title:"喔喔！此測驗不存在...",
+        message:"此測驗有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Unit.findById({
+        _id: test.belongUnit
+      }, function (err, unit) {
+        Class.findById({
+          _id: unit.belongClass
+        }, function (err, classinfo) {
+          if (err) {
+            console.log(err);
+          }
+          let isSubmited = false;
+          studntSubmitTest.find({}, function (err, TestSubmitRecords) {
+            for (let i = 0; i < TestSubmitRecords.length; i++) {
+              if (TestSubmitRecords[i].writer == req.user._id) {
+                if (TestSubmitRecords[i].testID == test._id) {
+                  isSubmited = true
+                }
               }
             }
-          }
-          res.render('test', {
-            test: test,
-            classinfo: classinfo,
-            isSubmited: isSubmited
-          });
+            res.render('test', {
+              test: test,
+              classinfo: classinfo,
+              isSubmited: isSubmited
+            });
+          })
+  
         })
-
-      })
-    });
-
+      });
+    }
   })
 
 });
@@ -902,15 +965,22 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
   Test.findById(query, function (err, testinfo) {
     console.log("testinfo = ");
     console.log(testinfo)
-  })
-  Test.updateOne(query, newvalues, function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('update success');
-      res.json({
-        success: 1
-      });
+    if(err || testinfo == null){
+      res.render('notExist',{
+        title:"喔喔！此測驗不存在...",
+        message:"此測驗有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Test.updateOne(query, newvalues, function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('update success');
+          res.json({
+            success: 1
+          });
+        }
+      })
     }
   })
 
@@ -948,37 +1018,40 @@ router.get('/showHomeWork/:homeworkID', ensureAuthenticated, function (req, res)
     _id: req.params.homeworkID
   }
   Homework.findById(query, function (err, homework) {
-    if (err) {
-      console.log(error);
-    }
-    Unit.findById({
-      _id: homework.belongUnit
-    }, function (err, unit) {
-      Class.findById({
-        _id: unit.belongClass
-      }, function (err, classinfo) {
-        if (err) {
-          console.log(err);
-        }
-        let isSubmited = false;
-        studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
-          for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
-            if (HomeworkSubmitRecords[i].writer == req.user._id) {
-              if (HomeworkSubmitRecords[i].homeworkID == homework._id) {
-                isSubmited = true
+    if(err || homework == null){
+      res.render('notExist',{
+        title:"喔喔！此作業不存在...",
+        message:"此作業有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Unit.findById({
+        _id: homework.belongUnit
+      }, function (err, unit) {
+        Class.findById({
+          _id: unit.belongClass
+        }, function (err, classinfo) {
+          if (err) {
+            console.log(err);
+          }
+          let isSubmited = false;
+          studntSubmitHomework.find({}, function (err, HomeworkSubmitRecords) {
+            for (let i = 0; i < HomeworkSubmitRecords.length; i++) {
+              if (HomeworkSubmitRecords[i].writer == req.user._id) {
+                if (HomeworkSubmitRecords[i].homeworkID == homework._id) {
+                  isSubmited = true
+                }
               }
             }
-          }
-          res.render('homework', {
-            homework: homework,
-            classinfo: classinfo,
-            isSubmited: isSubmited
-          });
+            res.render('homework', {
+              homework: homework,
+              classinfo: classinfo,
+              isSubmited: isSubmited
+            });
+          })
+  
         })
-
-      })
-    });
-
+      });
+    }
   })
 
 });
@@ -995,14 +1068,20 @@ router.delete('/deletehomework/:homeworkID', ensureAuthenticated, function (req,
   let query = {
     _id: req.params.homeworkID
   }
-  Homework.findById(req.params.homeworkID, function (err, test) {
-    Homework.remove(query, function (err) {
-      if (err) {
-        console.log(err);
-      }
-      res.send('Success');
-    })
-
+  Homework.findById(req.params.homeworkID, function (err, homework) {
+    if(err || homework == null){
+      res.render('notExist',{
+        title:"喔喔！此作業不存在...",
+        message:"此作業有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Homework.remove(query, function (err) {
+        if (err) {
+          console.log(err);
+        }
+        res.send('Success');
+      })
+    }
   })
 })
 //批閱考卷
@@ -1083,25 +1162,15 @@ router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, r
     let updatetestinfo = {};
     updatetestinfo.testQutionsAndAnswer = testinfo.testQutionsAndAnswer
     updatetestinfo.isTeacherMarked = true;
-    updatetestinfo.obtainscore = req.body.score.toString();
     updatetestinfo.score = req.body.score.toString();
     updatetestinfo.markArray = req.body.markArray;
     updatetestinfo.testName = testinfo.testName;
     updatetestinfo.testID = testinfo.testID;
     updatetestinfo.writer = testinfo.writer;
     updatetestinfo.belongUnit = testinfo.belongUnit;
-    for(let i=0;i < req.body.markArray.length;i++){
-      if(req.body.markArray[i] == "right"){
-          updatetestinfo.testQutionsAndAnswer[i].isCorrect = true;
-      }else if (req.body.markArray[i] == "wrong") {
-          updatetestinfo.testQutionsAndAnswer[i].isCorrect = false;
-      }else{
-        console.log("markArray is none");
-      }
-    }
     console.log(updatetestinfo);
     console.log("testinfoID = " + testinfo._id);
-    console.log(req.body.score.toString());
+
     studntSubmitTest.update({
       _id: testinfo._id
     }, updatetestinfo, function (err) {
@@ -1683,9 +1752,8 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
     })
   })
 });
-
-//老師查看測驗成績與錯誤占比
-router.get('/showGradeAndTestPercent/:classID', function(req, res) {
+//老師查看測驗錯誤占比
+router.get('/showTestPercent/:classID', function(req, res) {
   Class.findById(req.params.classID, function(err, classinfo) {
     if (err) {
       console.log(err);
@@ -1726,7 +1794,7 @@ router.get('/showGradeAndTestPercent/:classID', function(req, res) {
               console.log(err);
 
             }
-            res.render('showGradeAndTestPercent', {
+            res.render('showTestPercent', {
               units: units,
               tests: tests,
               submits: submits,
