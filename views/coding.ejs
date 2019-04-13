@@ -41,6 +41,7 @@
                             選擇分類
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/coding">所有題目</a>
                             <%tags.forEach(function(tag){%>
                                 <a class="dropdown-item" href="/coding/select/<%=tag.tagName%>"><%=tag.tagName%></a>
                             <%})%>
