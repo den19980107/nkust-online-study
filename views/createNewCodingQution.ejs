@@ -22,9 +22,21 @@
 </style>
 <div class="row">
     <div class="col">
-        <h3 style="margin-top: 4px;margin-bottom: 4px;;">新增程式題</h3>
+        <h3 style="margin-top: 4px;margin-bottom: 4px;">新增程式題</h3>
     </div>
     <div class="col" style="display: flex; justify-content: flex-end">
+        <p style="width: 20%;display: flex;justify-content: center;flex-direction: column;padding: 0;margin: 0">標籤：</p>
+        <input type="text" style="margin-right: 1rem;width: 80%" disabled id = "tagList">
+        <div class="dropdown" style="display: flex;justify-content: center;flex-direction: column;margin-right: 1rem">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                選擇分類
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%tags.forEach(function(tag){%>
+                    <a class="dropdown-item" href="#" onclick="addTag(`<%=tag.tagName%>`)"><%=tag.tagName%></a>
+                <%})%>
+            </div>
+        </div>
         <button class="btn btn-primary" onclick="saveQution()">儲存題目</button>
     </div>
 </div>
@@ -61,6 +73,25 @@
 
 <script src="/ckeditor/ckeditor.js"></script>
 <script>
+    let tagArray = [];
+    let addTag = function(tagName){
+        if(tagArray.indexOf(tagName)==-1){
+            tagArray.push(tagName);
+        }else{
+            tagArray.splice(tagArray.indexOf(tagName),1);
+        }
+        updateTag()
+    }
+    let updateTag = function(){
+        let tagList = document.getElementById('tagList');
+        tagList.value = "";
+        for(let i = 0;i<tagArray.length;i++){
+            tagList.value+=tagArray[i]
+            if(i!=tagArray.length-1){
+                tagList.value+=","
+            }
+        }
+    }
     let Detail = CKEDITOR.replace('Detail', {
         height: "100px",
         on: {
@@ -136,6 +167,7 @@
             title: title,
             body: CKEDITOR.instances.Detail.getData(),
             testData: testData,
+            tags:tagArray
         }
         $.ajax({
             url: '/coding/addQution',
@@ -148,7 +180,7 @@
                 window.location = "/coding/createNewCodingQution"
             },
             error: function (err) {
-                alert('錯誤訊息：' + err.responseJSON.msg);
+                alert('錯誤訊息：' + err);
             }
         });
 

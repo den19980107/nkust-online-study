@@ -17,6 +17,9 @@ let codeQutionSchema = mongoose.Schema({
     testData: {
         type: Array,
         require: true
+    },
+    tags:{
+        type:Array
     }
 });
 

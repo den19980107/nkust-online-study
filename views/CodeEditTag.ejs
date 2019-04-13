@@ -1,0 +1,89 @@
+<% include layout/header %>
+<style>
+    .tag{
+        margin-right: 1rem;
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        margin: 0 1rem 1rem 0;
+        background: rgb(211, 245, 195);
+    }
+    .tag p, .tag button{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 1rem 0 0 ;
+        margin: 0;
+    }
+</style>
+<h3>標籤</h3>
+<form class="form-inline">
+    <div class="form-group mb-2">
+        <label >新增標籤</label>
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+        <input class="form-control" placeholder="請輸入標籤名稱" id="tagName">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2" onclick="addTag()">新增</button>
+</form>
+<div style="display: flex;flex-wrap: wrap;justify-content: start;" id="tagList">
+    <%tags.forEach(function(tag){%>
+        <div class="tag alert" role="alert">
+            <p><%=tag.tagName%></p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="deleteTag(`<%=tag._id%>`)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <%})%>
+</div>
+
+<script>
+    let addTag = function(){
+        let tagName = document.getElementById('tagName').value;
+        console.log(tagName);
+        $.ajax({
+            url: '/coding/addTag',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({tagName:tagName}),
+            dataType: 'json',
+            beforeSend: function () {
+
+            },
+            complete: function () {
+
+            },
+            success: function (response) {
+                console.log(response);
+                window.location = "/coding/editTag"
+            },
+            error: function (err) {
+                console.log(err);
+                alert('錯誤訊息：' + code);
+            }
+        });
+    }
+    let deleteTag = function(id){
+        $.ajax({
+            url: '/coding/deleteTag',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({id:id}),
+            dataType: 'json',
+            beforeSend: function () {
+
+            },
+            complete: function () {
+
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (err) {
+                console.log(err);
+                alert('錯誤訊息：' + code);
+            }
+        });
+    }
+</script>
+<% include layout/footer %>

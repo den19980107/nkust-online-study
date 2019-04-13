@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 //bring codeqution model
 let CodeQution = require('../model/codeQution');
-let CodingSubmitRecord = require('../model/codingSubmitRecord')
+let CodingSubmitRecord = require('../model/codingSubmitRecord');
+let CodeTags = require("../model/codeTags");
 router.get('/', ensureAuthenticated, function (req, res) {
     CodeQution.find({}, function (err, qutions) {
         CodingSubmitRecord.find({}, function (err, submitRecord) {
@@ -41,19 +42,95 @@ router.get('/', ensureAuthenticated, function (req, res) {
             CodingSubmitRecord.find({
                 submiterID: req.user._id
             }, function (err, myRecord) {
-                res.render('coding', {
-                    qutions: qutions,
-                    submitRecord: submitRecord,
-                    myRecord: myRecord
+                CodeTags.find({},function(err,tags){
+                    if(err){
+                        console.log(err);
+                        
+                    }
+                    res.render('coding', {
+                        qutions: qutions,
+                        submitRecord: submitRecord,
+                        myRecord: myRecord,
+                        tags:tags
+                    })
                 })
             })
         })
     })
 });
 
+//使用者依據標籤分類
+router.get('/select/:tagName',function(req,res){
+    CodeQution.find({}, function (err, qutions) {
+        let newQutionList = []
+        for(let i = 0;i<qutions.length;i++){
+            if(qutions[i].tags.indexOf(req.params.tagName)!=-1){
+                newQutionList.push(qutions[i])
+            }
+        }
+        qutions = newQutionList;
+        console.log(qutions);
+        
+        CodingSubmitRecord.find({}, function (err, submitRecord) {
+            console.log(qutions.length);
+            console.log(submitRecord.length);
+            for (let i = 0; i < qutions.length; i++) {
+                qutions[i].submitTime = 0;
+                qutions[i].acceptTime = 0;
+                qutions[i].isWritten = "Not";
+            }
+            console.log(submitRecord);
+            console.log(req.user._id);
+
+            for (let i = 0; i < qutions.length; i++) {
+                for (let j = 0; j < submitRecord.length; j++) {
+                    if (qutions[i]._id == submitRecord[j].codingQutionID) {
+                        qutions[i].submitTime += 1;
+                        if (submitRecord[j].status == "Accepted") {
+                            qutions[i].acceptTime += 1;
+                        }
+                        if (submitRecord[j].submiterID == req.user._id) {
+                            if (submitRecord[j].status == "Accepted") {
+                                if (qutions[i].isWritten == "Not" || qutions[i].isWritten == "Wrong") {
+                                    qutions[i].isWritten = "Right"
+                                }
+                            }
+                            if (submitRecord[j].status == "Wrong Answer" || submitRecord[j].status == "Compile Error") {
+                                if (qutions[i].isWritten != "Right") {
+                                    qutions[i].isWritten = "Wrong"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            CodingSubmitRecord.find({
+                submiterID: req.user._id
+            }, function (err, myRecord) {
+                CodeTags.find({},function(err,tags){
+                    if(err){
+                        console.log(err);
+                        
+                    }
+                    res.render('coding', {
+                        qutions: qutions,
+                        submitRecord: submitRecord,
+                        myRecord: myRecord,
+                        tags:tags
+                    })
+                })
+            })
+        })
+    })
+})
+
 //到新增題目頁面
 router.get('/createNewCodingQution', ensureAuthenticated, function (req, res) {
-    res.render('createNewCodingQution');
+    CodeTags.find({},function(err,tags){
+        res.render('createNewCodingQution',{
+            tags:tags
+        });
+    })
 })
 
 //新增題目
@@ -63,6 +140,7 @@ router.post('/addQution', ensureAuthenticated, function (req, res) {
     newQuestion.title = req.body.title;
     newQuestion.body = req.body.body;
     newQuestion.testData = req.body.testData;
+    newQuestion.tags = req.body.tags;
     console.log(req.body.testData);
     newQuestion.save(function (err) {
         if (err) {
@@ -167,6 +245,55 @@ router.post('/editQution', ensureAuthenticated, function (req, res) {
     })
 })
 
+//管理員進入編輯標籤頁面
+router.get('/editTag',function(req,res){
+    CodeTags.find({},function(err,tags){
+        if(err){
+
+        }else{
+            if(tags == null){
+                tags = {}
+            }
+            res.render('CodeEditTag',{
+                tags:tags
+            })
+        }
+    })
+})
+
+//管理員新增標籤
+router.post('/addTag',function(req,res){
+    console.log(req.body.tagName);
+    let newTag = new CodeTags();
+    newTag.tagName = req.body.tagName;
+    newTag.save(function(err){
+        console.log(err);
+        
+        if(err){
+            console.log(err);     
+        }else{
+            res.status(200).json({
+                message: '新增成功'
+            });
+        }
+    })
+    
+})
+
+//管理員刪除標籤
+router.post('/deleteTag',function(req,res){
+    console.log(req.body.id);
+    CodeTags.remove({_id:req.body.id},function(err){
+        if(err){
+            console.log(err);     
+        }else{
+            res.status(200).json({
+                message: '刪除成功'
+            });
+        }
+    })
+    
+})
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
