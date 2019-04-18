@@ -780,7 +780,9 @@
         chooseClassTimeLabel.value = chooseClassTime;
     }
     //產生QRCODE
-    $('#qrcode').qrcode(`${window.location.href}`);
+    $('#qrcode').qrcode(`${document.URL}`);
+    console.log(document.URL);
+    
 </script>
 
 <% include layout/footer %>
