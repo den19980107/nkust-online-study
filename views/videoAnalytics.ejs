@@ -137,6 +137,7 @@
         height: 100%;
         padding: 1rem
     }
+
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -164,7 +165,7 @@
                 </a>
             </li>
             <li class="chapter">
-                <a href="#">
+                <a href="#" onclick="showComment('<%=videoinfo._id%>')">
                     <i class="far fa-comment-alt"></i>
                     <p>留言</p>
                 </a>
@@ -203,6 +204,9 @@
                 <canvas id="resentViewChart" style="width: 100px"></canvas>
             </div>
         </div>
+
+        <div id = "commentDiv" style="display: none;padding: 1rem 0">
+        </div>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -212,10 +216,11 @@
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
-
+    //使用者按下數據分析時
     let analyseData = function (videoID) {
         let analyzingDiv = document.getElementById('analyzingDiv')
-
+        let commentDiv = document.getElementById('commentDiv');
+        commentDiv.style.display = "none"
         $.ajax({
             url: '/api/getVideoInfo/' + videoID,
             type: 'GET',
@@ -239,6 +244,54 @@
             }
         })
     }
+    //使用者按下留言時
+    let showComment = function(videoID){
+        let analyzingDiv = document.getElementById('analyzingDiv');
+        let commentDiv = document.getElementById('commentDiv');
+        analyzingDiv.style.display = "none";
+        $.ajax({
+            url: '/api/getVideoComment/' + videoID,
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert(error.error);
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response)
+                commentDiv.innerHTML = ""
+                commentDiv.style.display = "block";
+                if(response.comments.length == 0){
+                    commentDiv.innerHTML+=`<div style="margin-top:1rem;display:flex;justify-content:center"><p style="font-size:24px">還沒有留言喔！</p></div>`
+                }else{
+                    for(let i = 0 ;i<response.comments.length;i++){
+                        commentDiv.innerHTML+=`
+                        <div class="commentDiv" style="display: flex;height: 5.5rem;border-bottom: 1px solid rgb(221, 221, 221);padding: 1rem 0 0 0 ">
+                            <div class="commentImg" style="border-radius: 50%;overflow: hidden;width:3rem;height:3rem;margin-top:0.5rem">
+                                <img src="https://yt3.ggpht.com/-CBF2tecsmtc/AAAAAAAAAAI/AAAAAAAAAAA/M_OS_rctlaE/s76-c-k-no-mo-rj-c0xffffff/photo.jpg" style="height: 3rem;" alt="">
+                            </div>
+                            <div style="display: flex;flex-direction: column;justify-content: space-around;padding: 0.6rem">
+                                <div>
+                                    <span class="badge badge-dark">${response.comments[i].userName}</span>
+                                </div>
+                                <p style="padding: 0;margin: 0">${response.comments[i].body}</p>
+                            </div>
+                        </div>
+                        `
+                    }
+                }   
+            }
+        })
+    }
+
+    
 
 
     //顯示影片在不同秒數所做的播放，暫停，快轉等動作

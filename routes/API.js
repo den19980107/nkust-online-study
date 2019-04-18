@@ -101,6 +101,7 @@ function append(videos,comments,behaviors) {
     return data
 }
 
+//send影片資訊
 router.get('/getVideoInfo/:videoID',function(req,res){
     Video.findById(req.params.videoID,function(err,videoinfo){
         Videobehavior.find({videoID:videoinfo._id},function(err,behaviors){
@@ -110,6 +111,17 @@ router.get('/getVideoInfo/:videoID',function(req,res){
                 res.send(`{"videoinfo" : ${JSON.stringify(videoinfo)},"behaviors":${JSON.stringify(behaviors)} }`);
             }
         })
+    })
+})
+
+//send影片留言
+router.get('/getVideoComment/:videoID',function(req,res){
+    studentCommentVideo.find({videoID:req.params.videoID},function(err,comments){
+        if(err){
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        }else{
+            res.send(`{"comments" : ${JSON.stringify(comments)}}`);
+        }
     })
 })
 
