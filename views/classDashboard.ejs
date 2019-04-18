@@ -66,7 +66,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.0/css/all.css">
 <div class="row">
     <div class="col">
-        <h3>課程資訊</h3>
+        <h3 style="display: inline;">課程資訊</hs>
+        <button class="btn btn-primary btn-sm" style="float:right" data-toggle="modal" data-target="#QRCode">QRCode</button>
+        <div class="modal fade" id="QRCode" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">QRCODE</h5>
+                </div>
+                <div class="modal-body" style="padding: 2.3rem;">
+                  <center>
+                  <div id="qrcode"></div>
+                  </center>
+                </div>
+            </div>
+          </div>
+        </div>
     </div>
 </div>
 <hr>
@@ -501,6 +517,8 @@
 
 
 </div>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 <script>
     let deleteCourseBtn = document.getElementById('deleteCourse');
     if (deleteCourseBtn != null) {
@@ -761,6 +779,8 @@
         chooseClassTimeLabel.innerHTML = chooseClassTime
         chooseClassTimeLabel.value = chooseClassTime;
     }
+    //產生QRCODE
+    $('#qrcode').qrcode(`${window.location.href}`);
 </script>
 
 <% include layout/footer %>
