@@ -205,7 +205,7 @@ router.get('/:id', ensureAuthenticated, function (req, res) {
               gfs.files.findOne({
                 filename: classinfo.classImage
               }, (err, img) => {
-  
+
                 if (!img || img.length === 0) {
                   res.render('classDashboard', {
                     id: req.params.id,
@@ -222,7 +222,7 @@ router.get('/:id', ensureAuthenticated, function (req, res) {
                     img.isImage = false;
                   }
                   console.log(img);
-  
+
                   res.render('classDashboard', {
                     id: req.params.id,
                     classinfo: classinfo,
@@ -236,7 +236,7 @@ router.get('/:id', ensureAuthenticated, function (req, res) {
             });
           }
         })
-  
+
       });
     }
   });
@@ -551,7 +551,7 @@ router.get('/:classID/showUnit/:unitID', ensureAuthenticated, function (req, res
                   console.log(err);
                 }
                 console.log(homeworks);
-  
+
                 studntSubmitTest.find({}, function (err, TestSubmitRecords) {
                   if (err) {
                     console.log(err);
@@ -597,19 +597,19 @@ router.get('/:classID/showUnit/:unitID', ensureAuthenticated, function (req, res
                         thisClassStudents: thisClassStudents
                       });
                     });
-  
-  
+
+
                   })
                 })
-  
+
               })
-  
+
             })
-  
+
           });
         });
       })
-    } 
+    }
   });
 })
 
@@ -674,7 +674,7 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
   }
   Chapter.findById(query, function (err, chapter) {
     console.log(chapter);
-    
+
     if(err||chapter==null){
       res.render('notExist',{
         title:"喔喔！此講義不存在...",
@@ -699,7 +699,7 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
             });
           })
         })
-  
+
       })
     }
   })
@@ -793,7 +793,7 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
               });
             })
           });
-  
+
         })
       });
     }
@@ -895,7 +895,7 @@ router.get('/showTest/:testID', ensureAuthenticated, function (req, res) {
               isSubmited: isSubmited
             });
           })
-  
+
         })
       });
     }
@@ -1048,7 +1048,7 @@ router.get('/showHomeWork/:homeworkID', ensureAuthenticated, function (req, res)
               isSubmited: isSubmited
             });
           })
-  
+
         })
       });
     }
@@ -1762,8 +1762,9 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
     })
   })
 });
-//老師查看測驗錯誤占比
-router.get('/showTestPercent/:classID', function(req, res) {
+
+//老師查看測驗成績與錯誤占比
+router.get('/showGradeAndTestPercent/:classID', function(req, res) {
   Class.findById(req.params.classID, function(err, classinfo) {
     if (err) {
       console.log(err);
@@ -1804,7 +1805,7 @@ router.get('/showTestPercent/:classID', function(req, res) {
               console.log(err);
 
             }
-            res.render('showTestPercent', {
+            res.render('showGradeAndTestPercent', {
               units: units,
               tests: tests,
               submits: submits,
@@ -1816,6 +1817,7 @@ router.get('/showTestPercent/:classID', function(req, res) {
     })
   })
 });
+
 
 //Access Control
 function ensureAuthenticated(req, res, next) {
