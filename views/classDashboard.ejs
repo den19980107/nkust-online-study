@@ -518,7 +518,7 @@
 
 </div>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
-<script type="text/javascript" src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 <script>
     let deleteCourseBtn = document.getElementById('deleteCourse');
     if (deleteCourseBtn != null) {
@@ -780,9 +780,7 @@
         chooseClassTimeLabel.value = chooseClassTime;
     }
     //產生QRCODE
-    $('#qrcode').qrcode(`${document.URL}`);
-    console.log(document.URL);
-    
+    $('#qrcode').qrcode(`${window.location.href}`);
 </script>
 
 <% include layout/footer %>
