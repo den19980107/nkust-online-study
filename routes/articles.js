@@ -13,7 +13,7 @@ let Class = require('../model/class');
 var h2p = require('html2plaintext')
 
 //新增文章的route
-router.post('/add/inClass/:classID', function (req, res) {
+router.post('/add/inClass/:classID',ensureAuthenticated, function (req, res) {
     req.checkBody('title', '文章標題不得為空').notEmpty();
     // req.checkBody('author', 'Author is required').notEmpty();
     req.checkBody('body', '文章內容不得為空').notEmpty();
@@ -56,7 +56,7 @@ router.post('/add/inClass/:classID', function (req, res) {
 });
 
 //刪除文章 route
-router.delete('/:id', function (req, res) {
+router.delete('/:id',ensureAuthenticated, function (req, res) {
     if (!req.user._id) {
         res.status(500).send();
     }
@@ -80,7 +80,7 @@ router.delete('/:id', function (req, res) {
 });
 
 //編輯文章 route
-router.post('/edit/:id/inClass/:classid', function (req, res) {
+router.post('/edit/:id/inClass/:classid',ensureAuthenticated, function (req, res) {
     let article = {};
     article.title = req.body.title;
     article.author = req.body.author;
@@ -182,7 +182,8 @@ router.get('/', ensureAuthenticated, function (req, res) {
     });
 });
 
-router.get('/inClass/:classid', function (req, res) {
+//顯示某課程內的討論區
+router.get('/inClass/:classid',ensureAuthenticated, function (req, res) {
     Article.find({
         belongClass: req.params.classid
     }, function (err, articles) {
@@ -223,10 +224,14 @@ router.get('/inClass/:classid', function (req, res) {
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return next();
+      return next();
     } else {
-        req.flash('danger', '請先登入');
-        res.redirect('/users/login');
+      req.flash('danger', '請先登入');
+      let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
+      console.log("inuser ensure = "+nextURL);
+      console.log("url = /users/login/?r="+nextURL);
+      
+      res.redirect('/users/login/?r='+nextURL);
     }
 }
 

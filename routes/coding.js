@@ -297,10 +297,14 @@ router.post('/deleteTag',function(req,res){
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return next();
+      return next();
     } else {
-        req.flash('danger', '請先登入');
-        res.redirect('/users/login');
+      req.flash('danger', '請先登入');
+      let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
+      console.log("inuser ensure = "+nextURL);
+      console.log("url = /users/login/?r="+nextURL);
+      
+      res.redirect('/users/login/?r='+nextURL);
     }
 }
 module.exports = router;

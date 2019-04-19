@@ -152,17 +152,21 @@ router.post('/register', function (req, res) {
 
 //Login Form
 router.get('/login', function (req, res) {
-    res.render('login',{
-        nextURL:null
-    });
+    console.log("get login,url = "+req.originalUrl);
+    if(req.url.split('/').length>2){
+        let url = req.url.split('/')[2].replace("?r=","");
+        console.log("haveNext url = "+url);
+        
+        res.render('login',{
+            nextURL:url.replace(new RegExp('%2F', 'g'),'/')
+        });
+    }else{
+        res.render('login',{
+            nextURL:null
+        });
+    }
 });
-//Login with next
-router.get('/login/:nextURL', function (req, res) {
-    let nextURL = req.params.nextURL.replace(',','/');
-    res.render('login',{
-        nextURL:nextURL
-    });
-});
+
 
 //Login process
 router.post('/login', function (req, res, next) {
@@ -179,7 +183,8 @@ router.post('/login', function (req, res, next) {
     } else {
         let successRedirectURL = "";
         if(req.body.nextURL != "null"){
-            successRedirectURL = req.body.nextURL.replace(new RegExp(',', 'g'),'/');
+            console.log(req.body.nextURL)
+            successRedirectURL = req.body.nextURL
             console.log("successRedirectURL = ",successRedirectURL);
             
             passport.authenticate('local', {
@@ -406,10 +411,14 @@ router.delete('/note/deleteNote/:noteID', ensureAuthenticated, function (req, re
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return next();
+      return next();
     } else {
-        req.flash('danger', '請先登入');
-        res.redirect('/users/login');
+      req.flash('danger', '請先登入');
+      let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
+      console.log("inuser ensure = "+nextURL);
+      console.log("url = /users/login/?r="+nextURL);
+      
+      res.redirect('/users/login/?r='+nextURL);
     }
 }
 module.exports = router;
