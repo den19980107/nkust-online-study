@@ -1825,7 +1825,10 @@ function ensureAuthenticated(req, res, next) {
     return next();
   } else {
     req.flash('danger', '請先登入');
-    res.redirect('/users/login');
+    let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),',');
+    console.log(nextURL);
+    
+    res.redirect('/users/login/'+nextURL);
   }
 }
 
