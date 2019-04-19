@@ -152,14 +152,23 @@ router.post('/register', function (req, res) {
 
 //Login Form
 router.get('/login', function (req, res) {
-    res.render('login');
+    res.render('login',{
+        nextURL:null
+    });
+});
+//Login with next
+router.get('/login/:nextURL', function (req, res) {
+    let nextURL = req.params.nextURL.replace(',','/');
+    res.render('login',{
+        nextURL:nextURL
+    });
 });
 
 //Login process
 router.post('/login', function (req, res, next) {
     console.log(req.body);
     req.checkBody('username', '帳號未填寫').notEmpty();
-    req.checkBody('password', '密碼未填寫').notEmpty();
+    req.checkBody('password', '密碼未填寫').notEmpty(); 
     let errors = req.validationErrors();
     console.log(errors);
     if (errors) {
@@ -168,11 +177,23 @@ router.post('/login', function (req, res, next) {
             user: ''
         })
     } else {
-        passport.authenticate('local', {
-            successRedirect: '/',
-            failureRedirect: '/users/login',
-            failureFlash: true
-        })(req, res, next);
+        let successRedirectURL = "";
+        if(req.body.nextURL != "null"){
+            successRedirectURL = req.body.nextURL.replace(new RegExp(',', 'g'),'/');
+            console.log("successRedirectURL = ",successRedirectURL);
+            
+            passport.authenticate('local', {
+                successRedirect: successRedirectURL,
+                failureRedirect: '/users/login',
+                failureFlash: true
+            })(req, res, next);
+        }else{
+            passport.authenticate('local', {
+                successRedirect: '/',
+                failureRedirect: '/users/login',
+                failureFlash: true
+            })(req, res, next);
+        }
     }
 });
 
