@@ -91,7 +91,9 @@ io.on('connection', function (socket) {
             if (obj.type == "fastTurn") {
                 videobehavior.videoActions.push("fastTurn:" + obj.beginTime + ":" + obj.endTime);
             }
-
+            if(obj.type == "note"){
+                videobehavior.videoActions.push("note:" + obj.time + ":" + obj.time);
+            }
             if (obj.type == "close") {
                 videobehavior.videoActions.push("close:"+obj.time+":"+obj.time );
                 videobehavior.save(function (err) {

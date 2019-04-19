@@ -578,11 +578,19 @@
                     $(function () {
                         cke_1_top.style.cssText = "margin-top:3.6rem"
                     });
+                },
+                focus:function(e){
+                    let slider = document.getElementById('slider');
+                    console.log("focus");
+                    socket.emit('videoAction', {
+                        type: 'note',
+                        time: Math.floor(slider.value)
+                });
                 }
             },
         });
 
-
+        
     }
 
     function controlVideo(e) {
