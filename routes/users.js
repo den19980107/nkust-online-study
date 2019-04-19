@@ -189,7 +189,7 @@ router.post('/login', function (req, res, next) {
             
             passport.authenticate('local', {
                 successRedirect: successRedirectURL,
-                failureRedirect: '/users/login',
+                failureRedirect: '/users/login/?r='+successRedirectURL.replace(new RegExp('/', 'g'),'%2F'),
                 failureFlash: true
             })(req, res, next);
         }else{
