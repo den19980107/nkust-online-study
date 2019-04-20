@@ -114,6 +114,55 @@ router.get('/getVideoInfo/:videoID',function(req,res){
     })
 })
 
+//send影片detial
+router.get('/getVideoDetial/:videoID',function(req,res){
+    Video.findById(req.params.videoID,function(err,videoinfo){
+        Videobehavior.find({videoID:videoinfo._id},function(err,behaviors){
+            let watchers = []
+            for(let i = 0;i<behaviors.length;i++){
+                if(watchers.indexOf(ObjectID(behaviors[i].watcherID).toString())==-1){
+                    watchers.push(ObjectID(behaviors[i].watcherID).toString())
+                }
+            }
+            query = {_id:watchers}         
+            User.find(query,function(err,watchersInfo){
+                Unit.findById({_id:videoinfo.belongUnit},function(err,Unit){
+                    Class.findById({_id:Unit.belongClass},function(err,ClassInfo){
+                        let videoName = videoinfo.videoName;
+                        let videoWatchTime = behaviors.length;
+                        let videoTime =parseInt(videoinfo.vtime);
+                        let belongUnit = Unit;
+                        let belongClass = ClassInfo;
+                        let watchersNumber = watchersInfo.length;
+                        let data = {
+                            "videoName":videoName,
+                            "videoWatchTime":videoWatchTime,
+                            "videoTime":videoTime,
+                            "watchersInfo":watchersInfo,
+                            "belongUnit":belongUnit,
+                            "belongClass":belongClass,
+                            "watchersNumber":watchersNumber
+                        }
+                        console.log(data);
+                        res.send(`[{
+                            "videoName":${JSON.stringify(videoName)},
+                            "videoWatchTime":"${JSON.stringify(videoWatchTime)}",
+                            "videoTime":"${JSON.stringify(videoTime)}",
+                            "watchersNumber":"${JSON.stringify(watchersNumber)}"
+                        },
+                        ${JSON.stringify(watchersInfo)}
+                        ,
+                        ${JSON.stringify(belongUnit)}
+                        ,
+                        ${JSON.stringify(belongClass)}
+                        ]`);
+                    });
+                })  
+            })
+        })
+    })
+})
+
 //send影片留言
 router.get('/getVideoComment/:videoID',function(req,res){
     studentCommentVideo.find({videoID:req.params.videoID},function(err,comments){

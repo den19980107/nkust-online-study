@@ -153,7 +153,7 @@
                 <a href="#" style="font-size: 14px;color: rgb(85, 85, 85)">影片</a>
             </li>
             <li class="chapter">
-                <a href="#">
+                <a href="#" onclick="showVideoDetial('<%=videoinfo._id%>')">
                     <i class="fas fa-pen"></i>
                     <p>詳細資料</p>
                 </a>
@@ -181,11 +181,63 @@
             <h3 style="display:flex;justify-content:center;flex-direction: column;padding: 0;margin: 0;">
                 <%=videoinfo.videoName%></h3>
         </div>
+        <div id = "videDitalDiv"style="display: none;">
+            <div class="card m-2" style="width: auto;flex: 1 auto;">
+                <h5 class="card-header">所屬課程</h5>
+                <div class="card-body">
+                    <p class="card-text" id = "DitalbelongClass"></p>
+                </div>
+            </div> 
+            <div class="card m-2" style="width: auto;flex: 1 auto;">
+                <h5 class="card-header">所屬單元</h5>
+                <div class="card-body">
+                    <p class="card-text" id = "DitalbelongUnit"></p>
+                </div>
+            </div>  
+            <div class="card m-2" style="width: auto;flex: 1 auto;">
+                <h5 class="card-header">影片名稱</h5>
+                <div class="card-body">
+                    <p class="card-text" id = "DitalvideoName"></p>
+                </div>
+            </div>
+            <div class="card m-2" style="width: auto;flex: 1 auto;">
+                <h5 class="card-header">觀看次數</h5>
+                <div class="card-body">
+                    <p class="card-text" id = "DitalwatchTime"></p>
+                </div>
+            </div>
+            <div class="card m-2" style="width: auto;flex: 1 auto;">
+                <h5 class="card-header">影片長度</h5>
+                <div class="card-body">
+                    <p class="card-text" id = "DitalvideoTime"></p>
+                </div>
+            </div>      
+            <div class="card m-2" style="width: auto;flex: 1 auto;">
+                <h5 class="card-header">觀看人數</h5>
+                <div class="card-body">
+                    <p class="card-text" id = "watcherNumber"></p>
+                </div>
+            </div>       
+            <div class="card m-2" style="width: auto;flex: 1 auto;">
+                <h5 class="card-header">觀看名單</h5>
+                <div class="card-body">
+                    <table class="table" id = "DitalwatcherList">
+        
+                    </table>
+                </div>
+            </div> 
+
+        </div>
         <div id="analyzingDiv" style="display: none">
-            <div class="mt-2 bg-dark" id="videoDiv"
-                style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:36.5vw; width:60vw ;display: none">
-                <div id="video">
-                    <div id="player" class="w-100">
+            <div id = "videoDiv" style="display: none;">
+                <div style="width:60vw;display: flex;justify-content: flex-end;">
+                    <button class="btn btn-danger mb-1" onclick="$('#videoDiv').hide();stopVideo();">隱藏影片</button>
+                </div>
+                <div class="mt-2 bg-dark" 
+                    style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:36.5vw; width:60vw;">
+                    <div id="video">
+                        <div id="player" class="w-100">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -209,18 +261,88 @@
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<!-- 讓圖表可以被放大和滾動 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
+    //顯示影片詳細資訊
+    let showVideoDetial = function(videoID){
+        let analyzingDiv = document.getElementById('analyzingDiv');
+        let commentDiv = document.getElementById('commentDiv');
+        let videDitalDiv =document.getElementById('videDitalDiv');
+        analyzingDiv.style.display = "none";
+        commentDiv.style.display = "none";
+        $.ajax({
+            url: '/api/getVideoDetial/' + videoID,
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert(error.error);
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                $("#DitalvideoName").text(response[0].videoName)
+                $("#DitalwatchTime").text(response[0].videoWatchTime+"次")
+                $("#DitalvideoTime").text(response[0].videoTime+"秒")
+                let DitalwatcherList = document.getElementById('DitalwatcherList')
+                DitalwatcherList.innerHTML = `
+                <thead>
+                    <tr>
+                        <th scope="col">姓名</th>
+                        <th scope="col">帳號</th>
+                        <th scope="col">信箱</th>
+                        <th scope="col">學校</th>
+                        <th scope="col">科系</th>
+                        <th scope="col">學號</th>
+                    </tr>
+                </thead>
+                `;
+                for(let i = 0;i<response[1].length;i++){
+                    DitalwatcherList.innerHTML+=`
+                    <tbody>
+                        <tr>
+                        <td>${response[1][i].name}</td>
+                        <td>${response[1][i].username}</td>
+                        <td>${response[1][i].email}</td>
+                        <td>${response[1][i].schoolname}</td>
+                        <td>${response[1][i].department}</td>
+                        <td>${response[1][i].studentid}</td>
+                        </tr>
+                    </tbody>
+                    `
+                } 
+
+                $("#DitalbelongUnit").text(response[2].unitName)
+                $("#DitalbelongClass").text(response[3].className)
+                $("#watcherNumber").text(response[0].watchersNumber+"人")
+                console.log(response);
+                videDitalDiv.style.cssText = "display:flex;flex-wrap:wrap;align-items: flex-start;width:60vw"
+                
+            }
+        })
+    }
     //使用者按下數據分析時
     let analyseData = function (videoID) {
-        let analyzingDiv = document.getElementById('analyzingDiv')
+        let analyzingDiv = document.getElementById('analyzingDiv');
         let commentDiv = document.getElementById('commentDiv');
-        commentDiv.style.display = "none"
+        let videDitalDiv =document.getElementById('videDitalDiv');
+        commentDiv.style.display = "none";
+        videDitalDiv.style.display = "none";
         $.ajax({
             url: '/api/getVideoInfo/' + videoID,
             type: 'GET',
@@ -240,7 +362,7 @@
                 console.log(response)
                 showVideoDistribution(response); //顯示影片在不同秒數所做的播放，暫停，快轉等動作
                 showVideoResentView(response); //顯示影片最近觀看紀錄
-                analyzingDiv.style.display = "block"
+                analyzingDiv.style.display = "block";
             }
         })
     }
@@ -248,7 +370,9 @@
     let showComment = function(videoID){
         let analyzingDiv = document.getElementById('analyzingDiv');
         let commentDiv = document.getElementById('commentDiv');
+        let videDitalDiv =document.getElementById('videDitalDiv');
         analyzingDiv.style.display = "none";
+        videDitalDiv.style.display = "none";
         $.ajax({
             url: '/api/getVideoComment/' + videoID,
             type: 'GET',
@@ -291,9 +415,6 @@
         })
     }
 
-    
-
-
     //顯示影片在不同秒數所做的播放，暫停，快轉等動作
     let showVideoDistribution = function (response) {
         let viewer = document.getElementById('viewer');
@@ -303,7 +424,7 @@
 
         let videoTimeLine = []; //每一秒代表陣列中的一格
         let behaviorRecord = response.behaviors;
-        console.log(behaviorRecord);
+        console.log("behaviorRecord = "+behaviorRecord);
         for (let k = 0; k < parseInt(response.videoinfo.vtime); k++) {
             videoTimeLine[k] = {
                 start: 0,
@@ -392,7 +513,7 @@
             note[i] = videoTimeLine[i].note;
             label[i] = i
         }
-        console.log(start,fastforward,reverse,pause,close,note);
+        //console.log(start,fastforward,reverse,pause,close,note);
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -402,43 +523,50 @@
                 labels: label,
                 datasets: [{
                         label: '開始',
-                        backgroundColor: 'rgba(255,255,255,0)',
+                        fill:false,
+                        backgroundColor: 'rgb(144, 196,117)',
                         borderColor: 'rgb(144, 196,117)',
                         data: start
                     },
                     {
                         label: '結束',
-                        backgroundColor: 'rgba(255,255,255,0)',
+                        fill:false,
+                        backgroundColor: 'rgb(242, 62, 92)',
                         borderColor: 'rgb(242, 62, 92)',
                         data: close
                     },
                     {
                         label: '快轉',
-                        backgroundColor: 'rgba(255,255,255,0)',
+                        fill:false,
+                        backgroundColor: 'rgb(173, 191, 234)',
                         borderColor: 'rgb(173, 191, 234)',
                         data: fastforward
                     },
                     {
                         label: '倒轉',
-                        backgroundColor: 'rgba(255,255,255,0)',
+                        fill:false,
+                        backgroundColor: 'rgb(214, 211, 173)',
                         borderColor: 'rgb(214, 211, 173)',
                         data: reverse
                     },
                     {
                         label: '暫停',
-                        backgroundColor: 'rgba(255,255,255,0)',
+                        fill:false,
+                        backgroundColor: 'rgb(60, 39, 247)',
                         borderColor: 'rgb(60, 39, 247)',
                         data: pause
                     },
                     {
                         label: '播放',
-                        backgroundColor: 'rgba(255,255,255,0)',
+                        fill:false,
+                        backgroundColor: 'rgb(173, 242, 167)',
                         borderColor: 'rgb(173, 242, 167)',
                         data: play
                     },
                     {
                         label: '筆記',
-                        backgroundColor: 'rgba(255,255,255,0)',
+                        fill:false,
+                        backgroundColor: 'rgb(0, 0, 0)',
                         borderColor: 'rgb(0, 0, 0)',
                         data: note
                     }
@@ -446,15 +574,31 @@
             },
 
             // Configuration options go here
-            options: {}
+            options: {
+                pan: {
+                    enabled: true,
+                    mode: 'x',
+                    speed: 10,
+                    threshold: 10
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'x',
+                    speed: 0.5
+                }
+            }
         });
         document.getElementById('myChart').onclick = function (evt) {
-            showVideo();
             var activePoints = chart.getElementsAtEvent(evt);
-            console.log(activePoints[0]._index);
-            player.pauseVideo();
-            player.seekTo(activePoints[0]._index);
-            $(".ytp-pause-overlay ytp-scroll-min").remove();
+            //console.log(activePoints[0]);
+            
+            if(activePoints[0]!=undefined){
+                //console.log(activePoints[0]._index);
+                showVideo();
+                player.pauseVideo();
+                player.seekTo(activePoints[0]._index);
+                $(".ytp-pause-overlay ytp-scroll-min").remove();
+            }
         }
     }
 
@@ -462,18 +606,20 @@
     //顯示最近觀看的條狀圖
     let showVideoResentView = function (response) {
         let behaviors = response.behaviors; //所有觀看影片紀錄
+        //console.log(behaviors);
+        
         let dateName = []; //所有觀看紀錄的觀看時間存成陣列當作lalbel
         let data = {};
 
         for (let i = 0; i < behaviors.length; i++) {
             let date = behaviors[i].watchTime.split(" ")[0].split("/");
+            //console.log(date);
+            
             let time = behaviors[i].watchTime.split(" ")[2];
             let hh = time.split(":")[0]
             let mm = time.split(":")[1]
             time = hh + ":" + mm + ":00"; //把秒數去掉 以分鐘當區隔
-            date = new Date(date[2] + '/' + date[1] + '/' + date[0] + " " + time)
-            console.log(date);
-
+            date = new Date(date[2] + '/' + date[1] + '/' + date[0]+ " "+time)
             dateName.push(date)
             if (data[date] != undefined) {
                 //表示有存過這天 把次數加一就好
@@ -482,19 +628,22 @@
                 data[date] = 1;
             }
         }
-        console.log(data);
+        //console.log(dateName);
+        
+        
+        //console.log(data);
 
         let t = Object.keys(data)
         let data1 = []
         for (let i = 0; i < t.length; i++) {
-            console.log(t[i]); //t
-            console.log(data[t[i]]); //y
+            //console.log(t[i]); //t
+            //console.log(data[t[i]]); //y
             data1.push({
-                t: new Date(t[i]),
+                x: new Date(t[i]),
                 y: data[t[i]]
             })
         }
-        console.log(data1);
+        //onsole.log(data1);
 
 
         var ctx = document.getElementById('resentViewChart').getContext('2d');
@@ -506,22 +655,12 @@
                     label: '最近觀看',
                     data: data1,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(255, 99, 132, 1)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(255,99,132,1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 5
                 }]
             },
             options: {
@@ -529,10 +668,22 @@
                     xAxes: [{
                         type: 'time',
                         time: {
-                            unit: 'hour'
+                            unit: 'day'
                         },
-                        barPercentage: 20
+                        barThickness: 6,
+                        distribution: 'linear'
                     }]
+                },
+                pan: {
+                    enabled: true,
+                    mode: 'x',
+                    speed: 1,
+                    threshold: 1
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'x',
+                    speed: 0.5
                 }
             }
         });
@@ -553,19 +704,19 @@
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    console.log(firstScriptTag);
+    //console.log(firstScriptTag);
 
     // 3. This function creates an <iframe> (and YouTube player)
     //    after the API code downloads.
     var player;
 
     function onYouTubeIframeAPIReady() {
-        console.log("ready");
+        console.log("youtube api ready");
 
         let width = document.getElementById('videoDiv').clientWidth * 0.96;
         let height = (document.getElementById('videoDiv').clientWidth * 9) / 16;
-        console.log(width);
-        console.log(height);
+        //console.log(width);
+        //console.log(height);
         player = new YT.Player('player', {
             height: height,
             width: width,
@@ -592,7 +743,7 @@
                 // 'playsinline': 1 //在iOS的播放器中全屏播放，0:全屏(默認)，1:內嵌
             }
         });
-        console.log(document.getElementById('player'));
+        //console.log(document.getElementById('player'));
     }
 
 
