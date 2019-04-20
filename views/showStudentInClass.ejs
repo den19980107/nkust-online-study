@@ -22,10 +22,10 @@
 <table class="table">
   <thead>
     <tr>
+      <%temp = 0%>
+      <%users.forEach(function(userss){%>
+      <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
       <th style="padding:8px 0px;position:relative;" width="5.5%">
-        <%temp = 0%>
-        <%users.forEach(function(userss){%>
-        <%if(students[temp].studentID == user._id && students[temp].permission[1] == "A"){%>
         <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
           <div style="position:absolute;left:10%;top:50%;transform: translate(-50%, -50%);">
             <button class="btn div-left" onclick="deleteclick()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
@@ -43,29 +43,31 @@
             </div>
           </div>
         </div>
-        <%}%>
-        <%temp++%>
-        <%})%>
-        <%if(classinfo.teacher == user._id){%>
-        <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
-          <div style="position:absolute;left:10%;top:50%;transform: translate(-50%, -50%);">
-            <button class="btn div-left" onclick="deleteclick()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
-          </div>
-          <div style="position:absolute;left:50%;top:50%;transform: translate(-50%, -50%);">
-            <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
-          </div>
-          <div class="dropdown" style="position:absolute;left:80%;top:50%;transform: translate(-50%, -50%);">
-            <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-angle-down"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 4rem;padding:0px">
-              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allselect('c')">全選</a>
-              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allnotselect('c')">全不選</a>
-            </div>
-          </div>
-        </div>
-        <%}%>
       </th>
+      <%}%>
+      <%temp++%>
+      <%})%>
+      <%if(classinfo.teacher == user._id){%>
+      <th style="padding:8px 0px;position:relative;" width="5.5%">
+        <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
+          <div style="position:absolute;left:10%;top:50%;transform: translate(-50%, -50%);">
+            <button class="btn div-left" onclick="deleteclick()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
+          </div>
+          <div style="position:absolute;left:50%;top:50%;transform: translate(-50%, -50%);">
+            <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
+          </div>
+          <div class="dropdown" style="position:absolute;left:80%;top:50%;transform: translate(-50%, -50%);">
+            <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-angle-down"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 4rem;padding:0px">
+              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allselect('c')">全選</a>
+              <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allnotselect('c')">全不選</a>
+            </div>
+          </div>
+        </div>
+      </th>
+      <%}%>
       <th class="text-center" scope="col" width="7%">姓名</th>
       <th class="text-center" scope="col" width="18%">科系</th>
       <th class="text-center" scope="col" width="15%">學號</th>
@@ -74,33 +76,46 @@
     </tr>
   </thead>
   <tbody>
-    <%temp = 0%>
-    <%users.forEach(function(user){%>
-    <%if(students[temp].permission !='00000'){%>
+    <%i = 0%>
+    <%users.forEach(function(usersss){%>
+    <%if(students[i].permission !='00000'){%>
     <tr>
+      <%j = 0%>
+      <%users.forEach(function(userss){%>
+      <%if(students[j].studentID == user._id && students[j].permission[1] == "A"){%>
       <td class="text-center">
-          <div class="text-danger" id="delStudent<%=temp%>" style="padding:0px;margin:4px;">
-              <input type="checkbox" value="<%=students[temp].studentID%>" name="c" style="zoom: 2" onclick="showdelbutton()">
+          <div class="text-danger" id="delStudent<%=i%>" style="padding:0px;margin:4px;">
+              <input type="checkbox" value="<%=students[i].studentID%>" name="c" style="zoom: 2" onclick="showdelbutton()">
           </div>
       </td>
+      <%}%>
+      <%j++%>
+      <%})%>
+      <%if(classinfo.teacher == user._id){%>
       <td class="text-center">
-        <%=user.name%>
+          <div class="text-danger" id="delStudent<%=i%>" style="padding:0px;margin:4px;">
+              <input type="checkbox" value="<%=students[i].studentID%>" name="c" style="zoom: 2" onclick="showdelbutton()">
+          </div>
+      </td>
+      <%}%>
+      <td class="text-center">
+        <%=usersss.name%>
       </td>
       <td class="text-center">
-        <%=user.department%>
+        <%=usersss.department%>
       </td>
       <td class="text-center">
-        <%=user.studentid%>
+        <%=usersss.studentid%>
       </td>
       <td class="text-center">
-        <a href="mailto:<%=user.email%>">電子信箱Email</a>
+        <a href="mailto:<%=usersss.email%>">電子信箱Email</a>
       </td>
       <td class="text-center">
-        <a href="/class/<%=classID%>/showClassmateInfo/<%=user._id%>">個人網頁Personal WebPage</a>
+        <a href="/class/<%=classID%>/showClassmateInfo/<%=usersss._id%>">個人網頁Personal WebPage</a>
       </td>
     </tr>
     <%}%>
-    <%temp++%>
+    <%i++%>
     <%})%>
   </tbody>
 </table>
