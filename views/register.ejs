@@ -32,7 +32,7 @@
             <input type="password" class="form-control" name="password2">
         </div>
         <div class="form-group">
-            <label style="margin-right: 10px">身份</label>
+            <label style="margin-right: 10px">身份 <label style="color: red">*</label></label>
             <label>學生</label>
             <input type="checkbox" id="student" name="student">
             <label>老師</label>
@@ -60,8 +60,11 @@
     var studentCheckbox = document.getElementById('student');
     var teacherCheckbox = document.getElementById('teacher');
     var hideForm = document.getElementById('hide');
+    let submit = document.getElementById('submit');
+
     studentCheckbox.onclick = function () {
         console.log(studentCheckbox.checked);
+        submit.disabled = false;
         if (studentCheckbox.checked) {
             teacherCheckbox.checked = false;
             hideForm.style.display = "block";
@@ -73,6 +76,7 @@
     }
     teacherCheckbox.onclick = function () {
         console.log(teacherCheckbox.checked);
+        submit.disabled = false;
         if (teacherCheckbox.checked) {
             studentCheckbox.checked = false;
             hideForm.style.display = "none";
@@ -81,6 +85,12 @@
                 teacherCheckbox.checked = true
             }
         }
+    }
+
+    window.onload = function(){
+        teacherCheckbox.checked = false;
+        studentCheckbox.checked = false;
+        submit.disabled = true;
     }
 </script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
