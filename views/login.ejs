@@ -4,10 +4,14 @@
     登入
 </h3>
 <form method="POST" action="/users/login">
-    <%if(nextURL == null){%>
-        <input type="text" name="nextURL" value="null" style="display: none">
+    <%if(locals.nextURL){%>
+        <%if(nextURL == null){%>
+            <input type="text" name="nextURL" value="null" style="display: none">
+        <%}else{%>
+            <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
+        <%}%>
     <%}else{%>
-        <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
+        <input type="text" name="nextURL" value="null" style="display: none">
     <%}%>
     <div class="form-group">
         <label>帳號:</label>
