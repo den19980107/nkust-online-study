@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <div class="row">
-    <div class="col-9">
+    <div class="col-lg-9 col-sm-12">
         <div>
             <div style="display: flex;justify-content: space-between;margin-bottom: 1rem">
                 <%if(user.permission == "admin"){%>
@@ -50,7 +50,7 @@
                 <%}%>
             </div>
             <div class="mb-2" style="display: flex">
-                <input type="text" style="flex: 8">
+                <input type="text" style="flex: 8;border: 1px solid rgb(182, 181, 181)">
                 <input type="submit" class="btn btn-primary" value="搜尋" style="flex: 1;margin-left: 1rem">
                 <%if(user.permission == "admin"){%>
                     <a href="/coding/createNewCodingQution" class="btn btn-success"
@@ -117,7 +117,7 @@
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-lg-3 col-sm-12">
         <div style="width: 100%">
             <div>
                 <h5>你的解題情況</h5>

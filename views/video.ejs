@@ -115,7 +115,7 @@
     <%=video.videoName%>
 </h3>
 <div class="row">
-    <div class="col-8 ">
+    <div class="col-lg-8 col-sm-12">
         <div id="video">
             <div id="player" class="w-100">
             </div>
@@ -210,7 +210,7 @@
 
 
     </div>
-    <div class="col-4 pl-3">
+    <div class="col-lg-4 col-sm-12 pl-3">
         <%if(user.permission == "student"){%>
         <div style="border: 1px solid rgb(182, 182, 182);position: relative;" class="mb-2">
             <div class="loader" id="loader"></div>
@@ -281,8 +281,8 @@
     var player;
 
     function onYouTubeIframeAPIReady() {
-        let width = document.getElementsByClassName('col-8')[0].clientWidth * 0.96;
-        let height = (document.getElementsByClassName('col-8')[0].clientWidth * 9) / 16;
+        let width = document.getElementsByClassName('col-lg-8')[0].clientWidth * 0.96;
+        let height = (document.getElementsByClassName('col-lg-8')[0].clientWidth * 9) / 16;
         console.log(width);
         console.log(height);
         player = new YT.Player('player', {

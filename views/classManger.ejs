@@ -61,7 +61,7 @@
 <%}%>
 <%}%>
 <div class="row">
-    <div class="col-3">
+    <div class="col-lg-3 col-sm-12">
         <div>
             <div style="display: flex;justify-content: space-between">
                 <h5 class="float-left">單元總覽</h5>
@@ -96,7 +96,7 @@
         </div>
 
         <div class="just-padding">
-            <div class="list-group list-group-root" style="height: 450px;overflow-y: scroll;">
+            <div class="list-group list-group-root" style="height: auto;">
                 <%units.forEach(function(unit){%>
                 <!-- <div class="row border-top bg-white">
 
@@ -170,12 +170,12 @@
                 </div>
                 <br>
                 <%if(user._id == classinfo.teacher){%>
-                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#addLecture">新增</button>
+                <button class="btn btn-secondary w-100 mb-3" data-toggle="modal" data-target="#addLecture">新增</button>
                 <%}%>
                 <%for(let i = 0;i < thisClassStudents.length;i++){%>
                 <%if(thisClassStudents[i].studentID==user._id){%>
                 <%if(thisClassStudents[i].permission[0]=='A'){%>
-                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#addLecture">新增</button>
+                <button class="btn btn-secondary w-100 mb-3" data-toggle="modal" data-target="#addLecture">新增</button>
                 <%}%>
                 <%}%>
                 <%}%>
@@ -247,7 +247,7 @@
                 </div>
                 <br>
                 <%if(user._id == classinfo.teacher || isTA){%>
-                <button class="btn btn-secondary w-100" id="newVideo" data-toggle="modal" data-target="#uploadVideoModal">新增</button>
+                <button class="btn btn-secondary w-100 mb-3" id="newVideo" data-toggle="modal" data-target="#uploadVideoModal">新增</button>
                 <%}%>
                 <!-- Modal -->
                 <div class="modal fade" id="uploadVideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -414,7 +414,7 @@
                 </div>
                 <br>
                 <%if(user._id == classinfo.teacher || isTA){%>
-                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal" onclick="TestModel()">新增</button>
+                <button class="btn btn-secondary w-100 mb-3" data-toggle="modal" data-target="#uploadTestModal" onclick="TestModel()">新增</button>
                 <!-- Modal -->
                 <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -521,7 +521,7 @@
                 </div>
                 <br>
                 <%if(user._id == classinfo.teacher || isTA){%>
-                <button class="btn btn-secondary w-100" data-toggle="modal" data-target="#uploadTestModal" onclick="HomeWorkModel()">新增</button>
+                <button class="btn btn-secondary w-100 mb-3" data-toggle="modal" data-target="#uploadTestModal" onclick="HomeWorkModel()">新增</button>
                 <%}%>
             </div>
         </div>

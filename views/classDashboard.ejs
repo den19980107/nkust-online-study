@@ -119,14 +119,14 @@
                 </div>
                 <%if(img){%>
                 <%if(img.isImage) {%>
-                <div style="height: 14.5rem;background: rgb(226, 226, 226);overflow: hidden;">
-                    <div class="row box mb-2">
+                <div class="mb-3" style="height: 14.5rem;background: black;overflow: hidden;display: flex;justify-content: center;flex-direction: column;">
+                    <div class="row box">
                         <img class="card-img-top bg-light w-100 img" src="/class/image/<%=img.filename%>" style="border: 1px solid lightslategray;height: 15rem;overflow: hidden;">
                     </div>
                 </div>
                 <%}else{%>
-                <div style="height: 14.5rem;background: rgb(226, 226, 226);overflow: hidden;">
-                    <div class="box  mb-2 ">
+                <div class="mb-3" style="height: 14.5rem;background: black;overflow: hidden;display: flex;justify-content: center;flex-direction: column;">
+                    <div class="box">
                         <img class="img w-100" src="/img/NoImage.png" style="border: 1px solid rgb(226, 226, 226);">
                     </div>
                 </div>

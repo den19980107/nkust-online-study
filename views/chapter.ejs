@@ -96,7 +96,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col" id ="chapterDIV">
             <div id="mian" class="bg-white" style="padding-bottom: 50px;">
                 <textarea style="display: none" id="hidedata">
                     <%=chapter.body%>
@@ -192,7 +192,7 @@
             </div>
         </div>
         <%if(user.permission == "student"){%>
-        <div class="col-4 pl-3">
+        <div class="col-lg-4 col-sm-12 pl-3">
             <div style="border: 1px solid rgb(182, 182, 182);position: relative;" id="noteDIV" class="mb-2 bg-white">
                 <div class="loader" id="loader"></div>
                 <div class="w-100 bg-light p-2" style="height: 3.6rem;position: relative;top: 0px;border-bottom: 0.3pt rgb(201, 200, 200) solid">
@@ -256,6 +256,12 @@
     }
 
     window.onload = function () {
+        let chapterIMG = $('img');
+        console.log(chapterIMG);
+        for(let i = 1;i<chapterIMG.length-1;i++){
+            chapterIMG[i].style.cssText = "width:100%"
+        }
+        
         let replyInput = document.getElementById('replyInput');
         let submitComment = document.getElementById('submitComment');
         if (replyInput.value == "") {
