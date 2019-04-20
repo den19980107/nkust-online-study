@@ -339,16 +339,7 @@
         <%}%>
         <%}%>
         <%if(user.permission == "student"){%>
-
-        <!--可以管理成員-->
-        <%for(let i = 0;i < thisClassStudents.length;i++){%>
-        <%if(thisClassStudents[i].studentID==user._id){%>
-        <%if(thisClassStudents[i].permission[1]=='A'){%>
-        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn form-control mb-2" style="color: white;background: rgb(228, 212, 122)">本班成員</a>
-        <%}%>
-        <%}%>
-        <%}%>
-
+        
         <!--可以管理批閱考卷-->
         <%for(let i = 0;i < thisClassStudents.length;i++){%>
         <%if(thisClassStudents[i].studentID==user._id){%>
@@ -358,11 +349,21 @@
         <%}%>
         <%}%>
 
+        <!--可以管理成員-->
+        <%for(let i = 0;i < thisClassStudents.length;i++){%>
+        <%if(thisClassStudents[i].studentID==user._id){%>
+        <%if(thisClassStudents[i].permission[1]=='A'){%>
+        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn form-control mb-2" style="color: white;background: rgb(228, 212, 122)">本班成員</a>
+        <%}else{%>
+        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
+        <%}%>
+        <%}%>
+        <%}%>
+
         <%for(let i = 0;i < thisClassStudents.length;i++){%>
         <%if(thisClassStudents[i].studentID==user._id){%>
         <%if(thisClassStudents[i].permission!='00000'){%>
         <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">討論區</a>
-        <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
         <a href="/class/studentWatchGrade/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">觀看成績</a>
         <%}%>
         <%}%>
