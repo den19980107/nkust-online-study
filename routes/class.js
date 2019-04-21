@@ -87,8 +87,32 @@ const upload = multer({
   storage
 });
 
+
+//TODO 把前端切換頁面做完
+//一個頁面最多多少個課程
+let maxClassInPage = 8;
+
+//顯示所有課程
 router.get('/', ensureAuthenticated, function (req, res) {
   Class.find({}, function (err, classes) {
+    console.log(classes);
+    let totalPage = Math.ceil(classes.length/maxClassInPage);
+    let allClass = [];
+    let classIMG = [];
+    for(let i = 0;i<classes.length;i++){
+      if(classes[i].isLunched == true){
+        console.log(classes[i].isLunched);
+        if(allClass.length<maxClassInPage){
+          allClass.push(classes[i])
+        }
+        if(classes[i].classImage!=undefined){
+          classIMG.push(classes[i].classImage)
+        }
+      }
+    }
+    console.log(allClass);
+    console.log(classIMG);
+    
     if (err) {
       console.log(err);
     } else {
@@ -96,11 +120,15 @@ router.get('/', ensureAuthenticated, function (req, res) {
       //     classes: classes
       // });
 
-      gfs.files.find().toArray((err, imgs) => {
+      gfs.files.find({ filename: {$in:classIMG} }).toArray((err, imgs) => {
+        console.log(imgs);
+        
         if (!imgs || imgs.length === 0) {
           res.render('class', {
-            classes: classes,
-            imgs: false
+            classes: allClass,
+            imgs: false,
+            page:"1",
+            totalPage:totalPage
           });
         } else {
           imgs.map(img => {
@@ -112,7 +140,76 @@ router.get('/', ensureAuthenticated, function (req, res) {
           });
 
           res.render('class', {
-            classes: classes
+            classes: allClass,
+            page:"1",
+            totalPage:totalPage
+          });
+        }
+      })
+    }
+
+  });
+});
+
+//顯示所有課程with page
+router.get('/page/:page', ensureAuthenticated, function (req, res) {
+  console.log(req.params.page);
+  let page = req.params.page -1;
+  Class.find({}, function (err, classes) {
+    console.log(classes);
+    let totalPage = Math.ceil(classes.length/maxClassInPage);
+    let allClass = [];
+    let classIMG = [];
+    for(let i = 0;i<classes.length;i++){
+      if(classes[i].isLunched == true){
+        console.log(classes[i].isLunched);
+        allClass.push(classes[i])
+        if(classes[i].classImage!=undefined){
+          classIMG.push(classes[i].classImage)
+        }
+      }
+    }
+    let sendClass = []
+    for(let i = 0;i<allClass.length;i++){
+      if(i>page*maxClassInPage-1&&sendClass.length<maxClassInPage){
+        sendClass.push(allClass[i])
+      }
+    }
+    console.log("-------------");
+    
+    console.log(sendClass);
+    console.log(classIMG);
+    
+    if (err) {
+      console.log(err);
+    } else {
+      // res.render('class', {
+      //     classes: classes
+      // });
+
+      gfs.files.find({ filename: {$in:classIMG} }).toArray((err, imgs) => {
+        console.log(imgs);
+        
+        if (!imgs || imgs.length === 0) {
+          res.render('class', {
+            classes: sendClass,
+            imgs: false,
+            page:page+1,
+            totalPage:totalPage
+          });
+        } else {
+          imgs.map(img => {
+            if (img.contentType === 'image/jpeg' || img.contentType === "image/png") {
+              img.isImage = true;
+            } else {
+              img.isImage = false;
+            }
+          });
+
+          res.render('class', {
+            classes: sendClass,
+            page:page+1,
+            totalPage:totalPage
           });
         }
       })
@@ -1275,13 +1372,30 @@ router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, 
 //搜尋課程名稱
 router.get('/search/:className', ensureAuthenticated, function (req, res) {
   Class.find({}, function (err, classes) {
+    
     if (err) {
       console.log(err);
     } else {
       let searchClassName = req.params.className;
       if (searchClassName == 'null') {
+        let page = 0;
+        let allClass = [];
+        for(let i = 0;i<classes.length;i++){
+          if(classes[i].isLunched == true){
+            console.log(classes[i].isLunched);
+            allClass.push(classes[i])
+          }
+        }
+        let sendClass = []
+        for(let i = 0;i<allClass.length;i++){
+          if(i>page*maxClassInPage-1&&sendClass.length<maxClassInPage){
+            sendClass.push(allClass[i])
+          }
+        }
         res.render('class', {
-          classes: classes
+          classes: sendClass,
+          totalPage:Math.ceil(classes.length/maxClassInPage),
+          page:page+1
         });
       } else {
         let searchedClasses = []
@@ -1291,7 +1405,9 @@ router.get('/search/:className', ensureAuthenticated, function (req, res) {
           }
         }
         res.render('class', {
-          classes: searchedClasses
+          classes: searchedClasses,
+          page:1,
+          totalPage:-1,
         });
       }
     }

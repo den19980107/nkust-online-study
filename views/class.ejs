@@ -116,7 +116,25 @@
             <%}%>
             <%}%>
         </div>
-
+        <%if(totalPage != -1){%>
+        <div class="mt-5" style="display: flex;justify-content: center">
+            <nav aria-label="...">
+                <ul class="pagination" id = "pageNumberList">
+                    <li class="page-item">
+                    <a class="page-link" onclick="previousPage()">上一頁</a>
+                    </li>
+                    <%for(let i = 0;i<totalPage;i++){%>
+                        <li class="page-item" id = "<%=i+1%>" aria-current="page">
+                            <a class="page-link" onclick="changePage('<%=i+1%>')"><%=i+1%></a>
+                        </li>
+                    <%}%>
+                    <li class="page-item">
+                    <a class="page-link"  onclick="nextPage()">下一頁</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <%}%>
     </div>
 </div>
 <script>
@@ -126,6 +144,39 @@
             searchClassName = "null";
         }
         window.location = "/class/search/" + searchClassName;
+    }
+    let page = parseInt('<%=page%>');
+    document.getElementById(page).className = "page-item active";
+
+    let pageNumberList = document.getElementById('pageNumberList');
+
+    let previousPage = function(){
+        document.getElementById(page).className = "page-item";
+        if(page!=1){
+            page = page-1;
+        }
+        document.getElementById(page).className = "page-item active";
+        updatePage(page)
+    }
+    let nextPage = function(){
+        document.getElementById(page).className = "page-item";
+        if(page!=3){
+            page = page+1;
+        }
+        document.getElementById(page).className = "page-item active";
+        updatePage(page)
+    }
+
+    let changePage = function(newPage){
+        let oldPage = page;
+        document.getElementById(oldPage).className = "page-item";
+        page = newPage;
+        document.getElementById(newPage).className = "page-item active";
+        updatePage(page)
+    }
+
+    let updatePage = function(page){
+        window.location = "/class/page/"+page;
     }
 </script>
 <% include layout/footer %>
