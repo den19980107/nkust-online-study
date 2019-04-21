@@ -95,6 +95,7 @@ let maxClassInPage = 8;
 //顯示所有課程
 router.get('/', ensureAuthenticated, function (req, res) {
   Class.find({}, function (err, classes) {
+    classes = classes.reverse();//讓最新課的排在最前面
     console.log(classes);
     let totalPage = Math.ceil(classes.length/maxClassInPage);
     let allClass = [];
@@ -156,6 +157,7 @@ router.get('/page/:page', ensureAuthenticated, function (req, res) {
   console.log(req.params.page);
   let page = req.params.page -1;
   Class.find({}, function (err, classes) {
+    classes = classes.reverse();//讓最新課的排在最前面
     console.log(classes);
     let totalPage = Math.ceil(classes.length/maxClassInPage);
     let allClass = [];
@@ -1376,6 +1378,7 @@ router.get('/search/:className', ensureAuthenticated, function (req, res) {
     if (err) {
       console.log(err);
     } else {
+      classes = classes.reverse();//讓最新課的排在最前面
       let searchClassName = req.params.className;
       if (searchClassName == 'null') {
         let page = 0;
