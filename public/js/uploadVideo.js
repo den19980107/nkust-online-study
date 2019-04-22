@@ -526,7 +526,8 @@ function defineRequest() {
                 }),
                 dataType: 'json',
                 success: function (response) {
-                    window.location = '/class/' + classID + '/showUnit/' + unitID.innerText.replace(/\s/g, '');
+                    // window.location = '/class/' + classID + '/showUnit/' + unitID.innerText.replace(/\s/g, '');
+                    showVideo();
                     alert('新增成功!');
                 },
                 error: function (err) {
