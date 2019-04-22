@@ -353,7 +353,7 @@
     <!-- end of 影片上傳model -->
 
     <!-- 上傳講義Modal -->
-    <div class="modal fade" id="addLecture" tabindex="-1" role="dialog" aria-labelledby="eaddLectureLabel"
+    <div class="modal fade" id="addLecture" tabindex="-1" role="dialog" aria-labelledby="addLectureLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -663,7 +663,7 @@
                 if(canManage){
                     videoTable.innerHTML = `
                     <i class="fas fa-plus-circle"
-                        style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)";data-toggle="modal" data-target="#addLecture">
+                        style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)";data-toggle="modal" onclick="$('#addLecture').modal();" data-target="#addLecture">
                     </i>`;
                 }
                 
