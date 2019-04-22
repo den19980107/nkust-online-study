@@ -518,7 +518,7 @@ function defineRequest() {
 
             $.ajax({
                 type: 'POST',
-                url: '/class/' + unitID.innerText.replace(/\s/g, '') + '/addvideo/' + videoName.textContent + '/' + uploadResponse.id,
+                url: '/class/' + selectedUnitID + '/addvideo/' + videoName.textContent + '/' + uploadResponse.id,
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
