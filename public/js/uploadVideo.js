@@ -34,6 +34,8 @@ function handleClientLoad() {
 }
 
 function initClient() {
+    console.log("init");
+
     // Initialize the gapi.client object, which app uses to make API requests.
     // Get API key and client ID from API Console.
     // 'scope' field specifies space-delimited list of access scopes
