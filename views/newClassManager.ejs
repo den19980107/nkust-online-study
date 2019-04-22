@@ -1,0 +1,558 @@
+<% include layout/navbar %>
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .chapterList {
+        list-style: none;
+    }
+
+    .chapter {
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
+
+    .chapter a {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 100%;
+        padding: 1rem
+    }
+
+    .chapter a:hover {
+        background: rgb(224, 224, 224)
+    }
+
+    .chapter a:focus {
+        border-left: 4px solid rgb(199, 45, 39);
+        outline: none
+    }
+
+
+
+
+
+
+
+
+    /* meterial loader */
+    .linear-activity {
+        overflow: hidden;
+        width: 50%;
+        height: 4px;
+        background-color: #B3E5FC;
+        margin: 20px auto;
+    }
+
+    .determinate {
+        position: relative;
+        max-width: 100%;
+        height: 100%;
+        -webkit-transition: width 500ms ease-out 1s;
+        -moz-transition: width 500ms ease-out 1s;
+        -o-transition: width 500ms ease-out 1s;
+        transition: width 500ms ease-out 1s;
+        background-color: #03A9F4;
+    }
+
+    .indeterminate {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .indeterminate:before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: #03A9F4;
+        animation: indeterminate_first 1.5s infinite ease-out;
+    }
+
+    .indeterminate:after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: #4FC3F7;
+        animation: indeterminate_second 1.5s infinite ease-in;
+    }
+
+    @keyframes indeterminate_first {
+        0% {
+            left: -100%;
+            width: 100%;
+        }
+
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+
+    @keyframes indeterminate_second {
+        0% {
+            left: -150%;
+            width: 100%;
+        }
+
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+
+    /* end of meterial loader */
+
+    .table {
+        width: 100%
+    }
+
+    .table tr {
+        border: none
+    }
+
+    .table tr:hover {
+        background: rgb(224, 224, 224)
+    }
+
+    .table tr th {
+        border: none
+    }
+
+    .videoName {
+        color: black;
+    }
+
+    .videoName:hover {
+        color: rgb(62, 113, 209);
+    }
+</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<div id="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
+    <div class="indeterminate"></div>
+</div>
+<div class="row w-100 h-100">
+    <div class="col-2 h-100 chapterDiv" style="border-right: 1px solid rgb(229, 229, 229)">
+        <table class="table">
+            <tr>
+                <th>單元</th>
+            </tr>
+        </table>
+        <ul class="chapterList">
+            <%let i = 0%>
+            <%units.forEach(function(unit){%>
+            <li class="chapter">
+                <a href="#" id="unit<%=i%>" onclick="selectUnit('unit<%=i%>','<%=unit._id%>')"><%=unit.unitName%></a>
+            </li>
+            <%i++%>
+            <%})%>
+        </ul>
+    </div>
+    <div class="col h-100 videos">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="videoTab" href="#" onclick="showVideo()">影片</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="chapterTab" onclick="showChapter()">講義</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="testTab" onclick="showTest()">測驗</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" id="myscheduleTab" tabindex="-1" aria-disabled="true">我的進度</a>
+            </li>
+        </ul>
+        <table class="table" id="videoTable">
+            <i class="fas fa-plus-circle"
+                style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
+                data-toggle="modal" data-target="#uploadVideoModal">
+            </i>
+        </table>
+        <div class="modal fade" id="uploadVideoModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">上傳影片</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs" id="tabContent" style="border: none">
+                            <li class="mr-2"><a href="#fileTab" class="badge badge-info" data-toggle="tab">檔案</a>
+                            </li>
+                            <li><a href="#URLTab" class="badge badge-info" data-toggle="tab">網址</a></li>
+                        </ul>
+                        <br>
+                        <div class="tab-content">
+
+                            <!-- file upload panel -->
+                            <div class="tab-pane active" id="fileTab">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">影片名稱</span>
+                                    </div>
+                                    <input type="text" id="videoTitle" class="form-control" aria-label="Default"
+                                        aria-describedby="inputGroup-sizing-default" placeholder="請輸入影片名稱">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">上傳</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="select-file">
+                                        <label class="custom-file-label" for="select-file-button"
+                                            id="file-text">選擇檔案</label>
+                                    </div>
+                                </div>
+                                <script>
+                                    var selectFile = document.getElementById('select-file');
+                                    var fileText = document.getElementById('file-text');
+                                    selectFile.addEventListener('change', function () {
+                                        var fileName = selectFile.files[0].name;
+
+                                        fileText.innerHTML = fileName;
+                                    });
+                                </script>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="progress mt-1" id="uploadProgressBar">
+                                            <div id="uploadPersent" class="progress-bar " role="progressbar"
+                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                <p id="persentText" class="mt-3 px-1">0%</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <table id="uploadVideoList" class="table table-hover" style="display: none">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">影片名稱</th>
+                                            <th scope="col">影片網址</th>
+                                        </tr>
+                                    </thead>
+                                    </tbody>
+
+                                    </tbody>
+                                </table>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-warning"
+                                        id="execute-request-button">登入老師youtube影片帳號</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" id="upload-file-button">上傳</button>
+                                </div>
+
+                            </div>
+                            <!-- end of file upload panel -->
+
+                            <!-- URL upload panel -->
+                            <div class="tab-pane" id="URLTab">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">影片名稱</span>
+                                    </div>
+                                    <input id="URL-videoName" type="text" class="form-control" aria-label="Default"
+                                        aria-describedby="inputGroup-sizing-default" placeholder="請輸入影片名稱">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">影片網址</span>
+                                    </div>
+                                    <input id="URL-videoURL" type="text" class="form-control" aria-label="Default"
+                                        aria-describedby="inputGroup-sizing-default" placeholder="請輸入影片網址">
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="progress mt-1" id="uploadProgressBar" style="background: none">
+                                            <div id="uploadPersent" style="display: none" class="progress-bar "
+                                                role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                                aria-valuemax="100">
+                                                <p id="persentText" class="mt-3 px-1">0%</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary"
+                                        id="upload-videoURL-button">上傳</button>
+                                </div>
+                            </div>
+                            <!-- end of URL upload panel -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/uploadVideo.js"></script>
+<script>
+    let selectedUnit = "unit0"
+    let selectedUnitID = "<%=units[0]._id%>"
+    window.onload = function () {
+        let unit0 = document.getElementById('unit0');
+        if (unit0 != null) {
+            unit0.click();
+            unit0.focus();
+        }
+    }
+    let selectUnit = function (Unit_i, Unitid) {
+        selectedUnit = Unit_i;
+        selectedUnitID = Unitid;
+        let videoTab = document.getElementById('videoTab');
+        videoTab.click();
+    }
+    console.log(selectedUnit);
+
+    let videoTab = document.getElementById('videoTab');
+    let chapterTab = document.getElementById('chapterTab');
+    let testTab = document.getElementById('testTab');
+    let myscheduleTab = document.getElementById('myscheduleTab');
+
+    let showVideo = function () {
+        videoTab.className = "nav-link active";
+        chapterTab.className = "nav-link ";
+        testTab.className = "nav-link ";
+        myscheduleTab.className = "nav-link ";
+        let videoTable = document.getElementById('videoTable');
+        videoTable.innerHTML = "";
+        $.ajax({
+            url: '/api/getVideoInUnit/' + selectedUnitID,
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert(error.error);
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response.videos)
+                videoTable.innerHTML = `
+            <tr>
+                <th>影片</th>
+                <th>日期</th>
+                <th>觀看次數</th>
+                <th>留言數</th>
+            </tr>
+            `
+                for (let i = 0; i < response.videos.length; i++) {
+                    let date = "undefind";
+                    if (response.videos[i].postTime != undefined) {
+                        date = response.videos[i].postTime
+                    }
+                    videoTable.style.cssText = "";
+                    videoTable.innerHTML += `
+                    <tr onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
+                    <td>
+                        <div style="display:flex">
+                            <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/0.jpg" style="width:8.8rem;height:5rem"></img>
+                            <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
+                        </div>
+                    </td>
+                    <td>${date}</td>
+                    <td>${response.videos[i].watchTime}</td>
+                    <td>${response.videos[i].comments.length}</td>
+                    </tr>
+                `
+                }
+            }
+        })
+    }
+
+
+    let showChapter = function () {
+        videoTab.className = "nav-link";
+        chapterTab.className = "nav-link active";
+        testTab.className = "nav-link ";
+        myscheduleTab.className = "nav-link ";
+        let videoTable = document.getElementById('videoTable');
+        videoTable.innerHTML = "";
+        $.ajax({
+            url: '/api/getChapterInUnit/' + selectedUnitID,
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert(error.error);
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response.comment);
+                console.log(response.chapter)
+                let chapters = response.chapter;
+                videoTable.innerHTML = '';
+                videoTable.style.cssText =
+                    "display:flex;flex-wrap:wrap;justify-content: start;"
+                for (let i = 0; i < chapters.length; i++) {
+                    videoTable.innerHTML += `
+                    <div class="card mt-3 mr-3" style="width: 12rem;height:16.97rem;" onclick = "window.location = '/class/showChapter/${chapters[i]._id}'">
+                        <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" >
+                            <div style="display:flex;justify-content: space-between">
+                                <i class="fas fa-file-alt" style="padding:0.5rem;font-size:22px;color:rgb(83,132,246)"></i>
+                                <i class="fas fa-ellipsis-v" style="padding:0.5rem;font-size:16px;"></i>
+                            </div>
+                            <p style="margin:0;padding:0.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${chapters[i].chapterName}</p>
+                        </div>
+                        <div class="card-body p-2" style="height:11.8rem;background: linear-gradient(rgb(250,250,250) 10%,white 90%);">
+                            <div class="card-text h-100" style="width:100%;height:95%;overflow:hidden;white-space:nowrap;font-size:1px">${chapters[i].body}</div>
+                        </div>
+                    </div>
+                    `
+                }
+            }
+
+        })
+    }
+
+    let showTest = function () {
+        videoTab.className = "nav-link";
+        chapterTab.className = "nav-link";
+        testTab.className = "nav-link active";
+        myscheduleTab.className = "nav-link ";
+        let videoTable = document.getElementById('videoTable');
+        videoTable.innerHTML = "";
+        $.ajax({
+            url: '/api/getTestInUnit/' + selectedUnitID,
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert(error.error);
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+                console.log(response.tests)
+                let tests = response.tests;
+                videoTable.innerHTML = '';
+                videoTable.style.cssText = "display:flex;flex-wrap:wrap;justify-content: start;"
+                for (let i = 0; i < tests.length; i++) {
+                    videoTable.innerHTML += `
+                    <div class="card mt-3 mr-3" style="width: 12rem;height:16.97rem;" onclick = "window.location = '/class/showChapter/${tests[i]._id}'">
+                        <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" >
+                            <div style="display:flex;justify-content: space-between">
+                                <i class="fas fa-pen-alt" style="padding:0.5rem;font-size:22px;color:black"></i>
+                                <i class="fas fa-ellipsis-v" style="padding:0.5rem;font-size:16px;"></i>
+                            </div>
+                            <p style="margin:0;padding:0.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${tests[i].testName}</p>
+                        </div>
+                        <div class="card-body p-2" style="height:11.8rem;background: linear-gradient(rgb(250,250,250) 10%,white 90%);">
+                            <div class="card-text h-100" style="width:100%;height:95%;overflow:hidden;white-space:nowrap;display: flex;justify-content: center;flex-direction: column;text-align: center;font-size:5rem;color:rgb(246,194,155)"><i class="fas fa-align-left"></i></div>
+                        </div>
+                    </div>
+                    `
+                }
+            }
+
+        })
+    }
+
+
+    let uploadvideoURLbutton = document.getElementById('upload-videoURL-button');
+    uploadvideoURLbutton.onclick = function () {
+        //let classID = document.getElementById('classID').innerText.replace(/\s/g, '');
+        let videoname = document.getElementById('URL-videoName').value;
+        let videoURL = document.getElementById('URL-videoURL').value;
+        let url = '';
+        var pos = videoURL.indexOf("watch?v=");
+        var end = videoURL.indexOf("&");
+        if (end = -1) {
+            end = videoURL.length
+        }
+        console.log(end);
+
+        if (pos != -1) {
+            url = videoURL.substring(pos + 8, end);
+            console.log("url=" + url);
+        }
+        let verifyYoutubeUrl = 'https://www.youtube.com/';
+        let verifyYoutube = verifyYoutubeUrl.indexOf(verifyYoutubeUrl);
+        console.log("verifyYoutube" + verifyYoutube);
+        let Date1 = new Date().toLocaleString('zh-TW', {
+            timeZone: 'Asia/Taipei'
+        });
+
+        if (verifyYoutube >= 0) { //如果是youtube的網址
+            $.ajax({
+                type: 'POST',
+                url: '/class/' + selectedUnitID + '/addvideo/' +
+                    videoname +
+                    '/' + url,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    date: Date1
+                }),
+                dataType: 'json',
+                beforeSend: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    console.log(response);
+                    showVideo();
+                    alert('新增成功!');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        } else {
+            alert('您輸入的網址不是youtube的影片！')
+        }
+
+
+    }
+</script>
+
+
+<% include layout/nobottom-footer %>

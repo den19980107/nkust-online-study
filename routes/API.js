@@ -35,53 +35,56 @@ let Note = require('../model/note')
 
 
 //拿到單元內影片
-router.get('/getVideoInUnit/:unitID',function(req,res){
-    Video.find({belongUnit:req.params.unitID},function(err,videos){
+router.get('/getVideoInUnit/:unitID', function (req, res) {
+    Video.find({
+        belongUnit: req.params.unitID
+    }, function (err, videos) {
         if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}');
         } else {
             console.log(videos);
-            
-            studentCommentVideo.find({},function(err,comments){
+
+            studentCommentVideo.find({}, function (err, comments) {
                 if (err) {
                     res.send('{"error" : "要求失敗", "status" : 500}');
-                }else{
-                    Videobehavior.find({},function(err,behaviors){
+                } else {
+                    Videobehavior.find({}, function (err, behaviors) {
                         if (err) {
                             res.send('{"error" : "要求失敗", "status" : 500}');
-                        }else{
-                            processArray(videos,comments,behaviors).then(function(videoinfo){
+                        } else {
+                            processArray(videos, comments, behaviors).then(function (videoinfo) {
                                 res.send(`{"videos" : ${JSON.stringify(videoinfo)}} `);
                             });
                         }
                     })
-                } 
+                }
             })
         }
     })
 })
-async function processArray(videos,comments,behaviors) {
-    let data = await append(videos,comments,behaviors)
+async function processArray(videos, comments, behaviors) {
+    let data = await append(videos, comments, behaviors)
     return data
 }
-function append(videos,comments,behaviors) {
-    for(let i = 0;i<videos.length;i++){
+
+function append(videos, comments, behaviors) {
+    for (let i = 0; i < videos.length; i++) {
         videos[i].comments = [];
     }
     let data = []
-    for(let i = 0;i<videos.length;i++){
+    for (let i = 0; i < videos.length; i++) {
         videosinfo = {
-            belongUnit:videos[i].belongUnit,
+            belongUnit: videos[i].belongUnit,
             videoName: videos[i].videoName,
             videoURL: videos[i].videoURL,
             vtime: videos[i].vtime,
-            postTime:videos[i].postTime,
-            _id:ObjectID(videos[i]._id).toString(),
-            comments:[],
-            watchTime:0
+            postTime: videos[i].postTime,
+            _id: ObjectID(videos[i]._id).toString(),
+            comments: [],
+            watchTime: 0
         }
-        for(let j = 0;j<comments.length;j++){
-            if(videos[i].id == comments[j].videoID){
+        for (let j = 0; j < comments.length; j++) {
+            if (videos[i].id == comments[j].videoID) {
                 videos[i].comments.push(comments[j].body);
                 videosinfo.comments.push(comments[j].body)
             }
@@ -89,11 +92,11 @@ function append(videos,comments,behaviors) {
         data.push(videosinfo)
     }
 
-    for(let i = 0;i<data.length;i++){
-        for(j=0;j<behaviors.length;j++){
-            console.log(data[i]._id,behaviors[j].videoID);
-            
-            if(data[i]._id == behaviors[j].videoID){
+    for (let i = 0; i < data.length; i++) {
+        for (j = 0; j < behaviors.length; j++) {
+            console.log(data[i]._id, behaviors[j].videoID);
+
+            if (data[i]._id == behaviors[j].videoID) {
                 data[i].watchTime++;
             }
         }
@@ -102,9 +105,11 @@ function append(videos,comments,behaviors) {
 }
 
 //send影片資訊
-router.get('/getVideoInfo/:videoID',function(req,res){
-    Video.findById(req.params.videoID,function(err,videoinfo){
-        Videobehavior.find({videoID:videoinfo._id},function(err,behaviors){
+router.get('/getVideoInfo/:videoID', function (req, res) {
+    Video.findById(req.params.videoID, function (err, videoinfo) {
+        Videobehavior.find({
+            videoID: videoinfo._id
+        }, function (err, behaviors) {
             if (err) {
                 res.send('{"error" : "要求失敗", "status" : 500}');
             } else {
@@ -115,33 +120,41 @@ router.get('/getVideoInfo/:videoID',function(req,res){
 })
 
 //send影片detial
-router.get('/getVideoDetial/:videoID',function(req,res){
-    Video.findById(req.params.videoID,function(err,videoinfo){
-        Videobehavior.find({videoID:videoinfo._id},function(err,behaviors){
+router.get('/getVideoDetial/:videoID', function (req, res) {
+    Video.findById(req.params.videoID, function (err, videoinfo) {
+        Videobehavior.find({
+            videoID: videoinfo._id
+        }, function (err, behaviors) {
             let watchers = []
-            for(let i = 0;i<behaviors.length;i++){
-                if(watchers.indexOf(ObjectID(behaviors[i].watcherID).toString())==-1){
+            for (let i = 0; i < behaviors.length; i++) {
+                if (watchers.indexOf(ObjectID(behaviors[i].watcherID).toString()) == -1) {
                     watchers.push(ObjectID(behaviors[i].watcherID).toString())
                 }
             }
-            query = {_id:watchers}         
-            User.find(query,function(err,watchersInfo){
-                Unit.findById({_id:videoinfo.belongUnit},function(err,Unit){
-                    Class.findById({_id:Unit.belongClass},function(err,ClassInfo){
+            query = {
+                _id: watchers
+            }
+            User.find(query, function (err, watchersInfo) {
+                Unit.findById({
+                    _id: videoinfo.belongUnit
+                }, function (err, Unit) {
+                    Class.findById({
+                        _id: Unit.belongClass
+                    }, function (err, ClassInfo) {
                         let videoName = videoinfo.videoName;
                         let videoWatchTime = behaviors.length;
-                        let videoTime =parseInt(videoinfo.vtime);
+                        let videoTime = parseInt(videoinfo.vtime);
                         let belongUnit = Unit;
                         let belongClass = ClassInfo;
                         let watchersNumber = watchersInfo.length;
                         let data = {
-                            "videoName":videoName,
-                            "videoWatchTime":videoWatchTime,
-                            "videoTime":videoTime,
-                            "watchersInfo":watchersInfo,
-                            "belongUnit":belongUnit,
-                            "belongClass":belongClass,
-                            "watchersNumber":watchersNumber
+                            "videoName": videoName,
+                            "videoWatchTime": videoWatchTime,
+                            "videoTime": videoTime,
+                            "watchersInfo": watchersInfo,
+                            "belongUnit": belongUnit,
+                            "belongClass": belongClass,
+                            "watchersNumber": watchersNumber
                         }
                         console.log(data);
                         res.send(`[{
@@ -157,19 +170,59 @@ router.get('/getVideoDetial/:videoID',function(req,res){
                         ${JSON.stringify(belongClass)}
                         ]`);
                     });
-                })  
+                })
             })
         })
     })
 })
 
 //send影片留言
-router.get('/getVideoComment/:videoID',function(req,res){
-    studentCommentVideo.find({videoID:req.params.videoID},function(err,comments){
-        if(err){
+router.get('/getVideoComment/:videoID', function (req, res) {
+    studentCommentVideo.find({
+        videoID: req.params.videoID
+    }, function (err, comments) {
+        if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}');
-        }else{
+        } else {
             res.send(`{"comments" : ${JSON.stringify(comments)}}`);
+        }
+    })
+})
+
+//send講義資訊
+router.get('/getChapterInUnit/:chapterID', function (req, res) {
+    Chapter.find({
+        belongUnit: req.params.chapterID
+    }, function (err, chapters) {
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        } else {
+            console.log(chapters);
+
+            studentCommentChapter.find({}, function (err, comments) {
+                if (err) {
+                    res.send('{"error" : "要求失敗", "status" : 500}');
+                } else {
+                    // processArray(chapters, comments, {}).then(function (chapterinfo) {
+                    //     console.log("------------");
+                    //     console.log(chapterinfo);
+                    // });
+                    res.send(`{"chapter" : ${JSON.stringify(chapters)},"comment":${JSON.stringify(comments)}} `);
+                }
+            })
+        }
+    })
+})
+
+//send測驗資訊
+router.get('/getTestInUnit/:chapterID', function (req, res) {
+    Test.find({
+        belongUnit: req.params.chapterID
+    }, function (err, tests) {
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        } else {
+            res.send(`{"tests" : ${JSON.stringify(tests)}} `);
         }
     })
 })

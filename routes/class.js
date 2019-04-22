@@ -393,7 +393,37 @@ router.get('/classManager/:id', ensureAuthenticated, function (req, res) {
     }
   });
 });
-
+//新版管理課程內容
+router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
+  Class.findById(req.params.id, function (error, classinfo) {
+    console.log(classinfo);
+    
+    if(error){
+      res.render('notExist',{
+        title:"喔喔！此課程不存在...",
+        message:"此課程有可能被該任課老師刪除了！請聯絡任課老師暸解情況"
+      })
+    }else{
+      Unit.find({
+        belongClass: classinfo._id
+      }, function (error2, units) {
+        StudebtTakeCourse.find({
+          classID: req.params.id
+        }, function (err, thisClassStudents) {
+          if (err) {
+            console.log(err);
+          }
+          res.render('newClassManager', {
+            id: req.params.id,
+            classinfo: classinfo,
+            units: units,
+            thisClassStudents: thisClassStudents
+          });
+        })
+      })
+    }
+  });
+});
 
 //刪除課程
 router.get('/deleteCourse/:id', ensureAuthenticated, function (req, res) {
