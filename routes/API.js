@@ -214,6 +214,20 @@ router.get('/getChapterInUnit/:chapterID', function (req, res) {
     })
 })
 
+//rename講義名稱
+router.post('/renameChapter/:chapterID',function(req,res){
+    let myquery = { _id: req.params.chapterID };
+    let newvalues = { $set: {chapterName: req.body.chapterName} };
+    Chapter.updateOne(myquery,newvalues,function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "更改失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
 //send測驗資訊
 router.get('/getTestInUnit/:chapterID', function (req, res) {
     Test.find({

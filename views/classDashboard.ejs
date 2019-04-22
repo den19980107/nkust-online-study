@@ -170,14 +170,17 @@
                     <form class="form-inline my-2 my-lg-0">
                         <%if(user.permission =='teacher'){%>
                         <%if(user.id == classinfo.teacher){%>
-                        <a href="/class/classManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
+                        <a href="/class/newClassManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
                         </a>
                         <%}%>
                         <%}%>
                         <%for(let i = 0;i < thisClassStudents.length;i++){%>
                         <%if(thisClassStudents[i].studentID==user._id){%>
                         <%if(thisClassStudents[i].permission[0]=='A'){%>
-                        <a href="/class/classManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
+                        <a href="/class/newClassManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
+                        </a>
+                        <%}else{%>
+                        <a href="/class/newClassManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">查看所有單元
                         </a>
                         <%}%>
                         <%}%>
