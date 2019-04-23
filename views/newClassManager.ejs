@@ -163,7 +163,7 @@
     <div class="indeterminate"></div>
 </div>
 <div class="row w-100 h-100">
-    <div class="col-2 h-100 chapterDiv" style="border-right: 1px solid rgb(229, 229, 229)">
+    <div class="col-lg-2 col-sm-12 chapterDiv mb-3" style="border-right: 1px solid rgb(229, 229, 229)">
         <div style="display: flex;justify-content: space-between;padding: 1rem">
             <h5>單元</h5>
             <%if(isTA || user._id == classinfo.teacher){%>
@@ -204,7 +204,7 @@
 <%})%>
 </ul>
 </div>
-<div class="col h-100 videos">
+<div class="col-lg-10 col-sm-12 h-100 videos">
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" id="videoTab" href="#" onclick="showVideo()">影片</a>
@@ -219,12 +219,14 @@
             <a class="nav-link disabled" href="#" id="myscheduleTab" tabindex="-1" aria-disabled="true">我的進度</a>
         </li>
     </ul>
-    <table class="table" id="videoTable">
-        <!-- <i class="fas fa-plus-circle"
-                style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
-                data-toggle="modal" data-target="#uploadVideoModal">
-            </i> -->
-    </table>
+    <div class="w-100" style="overflow-x: scroll">
+        <table class="table" id="videoTable">
+            <!-- <i class="fas fa-plus-circle"
+                    style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
+                    data-toggle="modal" data-target="#uploadVideoModal">
+                </i> -->
+        </table>
+    </div>
 
     <!-- 影片上傳model -->
     <div class="modal fade" id="uploadVideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
