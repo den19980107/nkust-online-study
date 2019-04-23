@@ -503,7 +503,15 @@
     </div>
 </div>
 
-
+<%if(locals.units[0]){%>
+    <script>
+        let selectedUnitID ="<%=units[0]._id%>"
+    </script>
+<%}else{%>
+    <script>
+        let selectedUnitID =""
+    </script>
+<%}%>
 <script>
     let canManage = false
 </script>
@@ -514,7 +522,6 @@
 <%}%>
 <script>
     let selectedUnit = "unit0"
-    let selectedUnitID = "<%=units[0]._id%>"
     window.onload = function () {
         console.log("--------onload----------");
         let unit0 = document.getElementById('unit0'); 
@@ -522,7 +529,7 @@
         
         console.log(unit0);
         
-        if (unit0 != null) {
+        if (unit0 != null && unit0 != undefined) {
             unit0.childNodes[0].click();
             console.log("in unit0 click");
             unit0.focus();
