@@ -242,7 +242,7 @@ RetryHandler.prototype.getRandomInt_ = function (min, max) {
  *    upload
  * @param {function} [options.onError] Callback if upload fails
  */
-var MediaUploader = function (options) {
+let MediaUploader = function (options) {
     var noop = function () {};
     this.file = options.file;
     this.contentType = options.contentType || this.file.type || 'application/octet-stream';
@@ -266,6 +266,8 @@ var MediaUploader = function (options) {
     }
     this.httpMethod = options.fileId ? 'PUT' : 'POST';
 };
+console.log("mediaUpload = "+MediaUploader);
+
 
 /**
  * Initiate the upload.
