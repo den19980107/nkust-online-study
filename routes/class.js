@@ -759,6 +759,9 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
     req.flash('danger', "講義標題與內容不得為空");
     res.redirect('/class/' + req.body.classID + '/showUnit/' + req.body.unitID);
   } else {
+    console.log("---------------");
+    console.log(req.body.classID);
+    console.log(req.body.title);
     console.log(req.body.body);
 
     let chapter = new Chapter();
@@ -769,8 +772,8 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
       if (err) {
         console.log(err);
       } else {
-        req.flash('success', "新增成功");
-        res.redirect('/class/' + req.body.classID + '/showUnit/' + req.body.unitID);
+        //req.flash('success', "新增成功");
+        res.redirect('/class/newClassManager/'+req.body.classID);
       }
     });
 

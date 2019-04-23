@@ -104,6 +104,18 @@ function append(videos, comments, behaviors) {
     return data
 }
 
+//刪除單元
+router.post('/deleteUnit/:unitID',function(req,res){
+    Unit.remove({_id:req.params.unitID},function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "刪除失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
 //send影片資訊
 router.get('/getVideoInfo/:videoID', function (req, res) {
     Video.findById(req.params.videoID, function (err, videoinfo) {
@@ -189,6 +201,18 @@ router.get('/getVideoComment/:videoID', function (req, res) {
     })
 })
 
+//delete影片
+router.post('/deleteVideo/:videoID',function(req,res){
+    Video.remove({_id:req.params.videoID},function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "刪除失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
 //send講義資訊
 router.get('/getChapterInUnit/:chapterID', function (req, res) {
     Chapter.find({
@@ -222,6 +246,45 @@ router.post('/renameChapter/:chapterID',function(req,res){
         if(err){
             console.log(err);
             res.send('{"error" : "更改失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
+//delete講義
+router.post('/deleteChapter/:chapterID',function(req,res){
+    Chapter.remove({_id:req.params.chapterID},function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "刪除失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
+
+//rename講義名稱
+router.post('/renameTest/:testID',function(req,res){
+    let myquery = { _id: req.params.testID };
+    let newvalues = { $set: {testName: req.body.testName} };
+    Test.updateOne(myquery,newvalues,function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "更改失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
+//delete測驗
+router.post('/deleteTest/:testID',function(req,res){
+    Test.remove({_id:req.params.testID},function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "刪除失敗", "status" : 500}');
         }else{
             res.send('{"success" : "儲存成功"}');
         }

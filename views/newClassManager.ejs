@@ -197,8 +197,8 @@
         <ul class="chapterList">
             <%let i = 0%>
 <%units.forEach(function(unit){%>
-<li class="chapter">
-    <a href="#" id="unit<%=i%>" onclick="selectUnit('unit<%=i%>','<%=unit._id%>')"><%=unit.unitName%></a>
+<li class="chapter" aria-haspopup="true" aria-expanded="false">
+    <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" onclick="selectUnit('unit<%=i%>','<%=unit._id%>')"><%=unit.unitName%></p> <i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i></a>
 </li>
 <%i++%>
 <%})%>
@@ -367,7 +367,7 @@
                     <!-- TODO 加入新增講義功能 要想辦法拿到unit_id -->
                     <form method="POST" action="/class/unit/addLecture">
                         <input type="text" id="unitID" style="display: none" name="unitID">
-                        <input type="text" name="classID" style="display: none" value="<%=classinfo._id%>">
+                        <input type="text" name="classID" style="display: none"  value="<%=classinfo._id%>">
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">教材名稱</label>
                             <div class="col-sm-10">
@@ -493,7 +493,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" onclick="saveChapterRename()" >儲存</button>
+            <button type="button" id = "saveRenameBTN" class="btn btn-primary" onclick="saveChapterRename()" >儲存</button>
         </div>
         </div>
     </div>
@@ -512,10 +512,13 @@
     let selectedUnit = "unit0"
     let selectedUnitID = "<%=units[0]._id%>"
     window.onload = function () {
-        let unit0 = document.getElementById('unit0');
+        console.log("--------onload----------");
+        let unit0 = document.getElementById('unit0'); 
         if (unit0 != null) {
             unit0.click();
             unit0.focus();
+            showVideo();
+            document.getElementById('unitID').value = selectedUnitID
         }
     }
 
@@ -584,8 +587,8 @@
                         }
                         videoTable.style.cssText = "";
                         videoTable.innerHTML += `
-                            <tr onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
-                            <td>
+                            <tr>
+                            <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
                                     <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/0.jpg" style="width:8.8rem;height:5rem"></img>
                                     <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
@@ -594,7 +597,7 @@
                             <td>${date}</td>
                             <td>${response.videos[i].watchTime}</td>
                             <td>${response.videos[i].comments.length}</td>
-                            <td style = "text-align:center"><i class="fas fa-trash-alt"></i></td>
+                            <td style = "text-align:center"><i class="fas fa-trash-alt" onclick="deleteVideo('${response.videos[i].videoName}','${response.videos[i]._id}')"></i></td>
                             </tr>
                         `
                     }
@@ -615,8 +618,8 @@
                         }
                         videoTable.style.cssText = "";
                         videoTable.innerHTML += `
-                            <tr onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
-                            <td>
+                            <tr>
+                            <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
                                     <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/0.jpg" style="width:8.8rem;height:5rem"></img>
                                     <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
@@ -631,6 +634,35 @@
                 }
             }
         })
+    }
+    let deleteUnit = function(unitName,unitID){
+        console.log(unitName,unitID);
+        
+        if(confirm('確定要刪除"'+unitName+'"單元嗎?')){
+            $.ajax({
+                type: 'POST',
+                url: '/api/deleteUnit/'+ unitID,
+                type: 'POST',
+                beforeSend: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    console.log(response);
+                    window.location = "/class/newClassManager/<%=classinfo._id%>";
+                    alert('刪除成功!');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }else{
+
+        }
     }
 
 
@@ -679,14 +711,14 @@
                                     <i class="fas fa-ellipsis-v" style="padding:0.5rem;font-size:16px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#" onclick = "renameChapter('${chapters[i].chapterName}','${chapters[i]._id}')">重新命名</a>
-                                        <a class="dropdown-item" href="#">刪除</a>
+                                        <a class="dropdown-item" href="#" onclick = "deleteChapter('${chapters[i].chapterName}','${chapters[i]._id}')">刪除</a>
                                     </div>
                                 </div>
                             </div>
                             <p style="margin:0;padding:0.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${chapters[i].chapterName}</p>
                         </div>
                         <div class="card-body p-2" style="height:11.8rem;background: linear-gradient(rgb(250,250,250) 10%,white 90%);" onclick = "window.location = '/class/showChapter/${chapters[i]._id}'">
-                            <div class="card-text h-100" style="width:100%;height:95%;overflow:hidden;white-space:nowrap;font-size:1px">${chapters[i].body}</div>
+                            <div class="card-text h-100" style="width:100%;height:95%;overflow:hidden;font-size:1px">${chapters[i].body}</div>
                         </div>
                     </div>
                     `
@@ -742,8 +774,8 @@
                                 <div class="dropdown">
                                     <i class="fas fa-ellipsis-v" style="padding:0.5rem;font-size:16px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">重新命名</a>
-                                        <a class="dropdown-item" href="#">刪除</a>
+                                        <a class="dropdown-item" href="#" onclick="renameTest('${tests[i].testName}','${tests[i]._id}')">重新命名</a>
+                                        <a class="dropdown-item" href="#" onclick="deleteTest('${tests[i].testName}','${tests[i]._id}')">刪除</a>
                                     </div>
                                 </div>
                             </div>
@@ -768,8 +800,22 @@
     let renameChapter = function(chapteName,chapterID){
         $('#renameModal').modal();
         let newNameText = document.getElementById('newName');
+        let saveRenameBTN = document.getElementById('saveRenameBTN');
+        saveRenameBTN.setAttribute('onclick','saveChapterRename()');//把改名視窗的儲存按鈕的onclick設定成儲存測驗名稱
         newNameText.value = chapteName;//先把原本的名字設定上
         renameMaterialID = chapterID;
+    }
+
+    //測驗重新命名
+    let renameTest = function(testName,TestID){
+        $('#renameModal').modal();
+        let newNameText = document.getElementById('newName');
+        let saveRenameBTN = document.getElementById('saveRenameBTN');
+        saveRenameBTN.setAttribute('onclick','saveTestRename()');//把改名視窗的儲存按鈕的onclick設定成儲存測驗名稱
+        console.log(saveRenameBTN);
+        
+        newNameText.value = testName;//把原本的名字設定上
+        renameMaterialID = TestID
     }
 
     let saveChapterRename = function(){
@@ -795,13 +841,130 @@
                 console.log(response);
                 showChapter();
                 $('#renameModal').modal('hide');
-                alert('新增成功!');
+                alert('更改成功!');
             },
             error: function (err) {
                 console.log(err);
             }
         });
     }
+
+    let saveTestRename = function(){
+        renameMaterialName = document.getElementById('newName').value;
+        
+        $.ajax({
+            type: 'POST',
+            url: '/api/renameTest/'+ renameMaterialID,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                testName: renameMaterialName
+            }),
+            dataType: 'json',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                console.log(response);
+                showTest();
+                $('#renameModal').modal('hide');
+                alert('更改成功!');
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+
+    let deleteChapter = function(chapteName,chapterID){
+        if(confirm('確定要刪除"'+chapteName+'"講義嗎?')){
+            $.ajax({
+                type: 'POST',
+                url: '/api/deleteChapter/'+ chapterID,
+                type: 'POST',
+                beforeSend: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    console.log(response);
+                    showChapter();
+                    alert('刪除成功!');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }else{
+
+        }
+    }
+    let deleteTest = function(testName,testID){
+        if(confirm('確定要刪除"'+testName+'"講義嗎?')){
+            $.ajax({
+                type: 'POST',
+                url: '/api/deleteTest/'+ testID,
+                type: 'POST',
+                beforeSend: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    console.log(response);
+                    showTest();
+                    alert('刪除成功!');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }else{
+
+        }
+    }
+
+    let deleteVideo = function(videoName,videoID){
+        if(confirm('確定要刪除"'+videoName+'"影片嗎?')){
+            $.ajax({
+                type: 'POST',
+                url: '/api/deleteVideo/'+ videoID,
+                type: 'POST',
+                beforeSend: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('line-loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    console.log(response);
+                    showVideo();
+                    alert('刪除成功!');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }else{
+
+        }
+    }
+
     let uploadvideoURLbutton = document.getElementById('upload-videoURL-button');
     uploadvideoURLbutton.onclick = function () {
         //let classID = document.getElementById('classID').innerText.replace(/\s/g, '');
@@ -848,6 +1011,7 @@
                 },
                 success: function (response) {
                     console.log(response);
+                    $('#uploadVideoModal').modal('hide');
                     showVideo();
                     alert('新增成功!');
                 },
@@ -1281,6 +1445,7 @@
                     console.log(response);
 
                     alert('新增成功');
+                    $('#uploadTestModal').modal('hide')
                     showTest();
                 },
                 error: function (err) {
