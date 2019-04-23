@@ -30,6 +30,8 @@ let Homework = require('../model/homework');
 let studntSubmitTest = require('../model/studentSubmitTest');
 //bring student submit homework model
 let studntSubmitHomework = require('../model/studentSubmitHomework');
+//bring studentWatchChapter modal
+let studentWatchChapter = require('../model/studentWatchChapter');
 //bring note model
 let Note = require('../model/note')
 //寄email的工具
@@ -832,11 +834,22 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
             console.log(err);
           }
           Class.findById(unit.belongClass, function (err, classinfo) {
-            res.render('chapter', {
-              chapter: chapter,
-              comments: comments,
-              classinfo: classinfo
-            });
+            if(err){
+              console.log(err);
+            }
+            let newRecord = new studentWatchChapter()
+            newRecord.studentID = req.user._id;
+            newRecord.chapterID = req.params.id;
+            newRecord.save(function(err){
+              if(err){
+                console.log(err);
+              }
+              res.render('chapter', {
+                chapter: chapter,
+                comments: comments,
+                classinfo: classinfo
+              });
+            })
           })
         })
 
