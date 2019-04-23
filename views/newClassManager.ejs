@@ -200,7 +200,7 @@
             <%let i = 0%>
 <%units.forEach(function(unit){%>
 <li class="chapter" aria-haspopup="true" aria-expanded="false">
-    <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" onclick="selectUnit('unit<%=i%>','<%=unit._id%>')"><%=unit.unitName%></p> <i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i></a>
+    <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" onclick="selectUnit('unit<%=i%>','<%=unit._id%>')"><%=unit.unitName%></p> <%if(isTA || user._id == classinfo.teacher){%><i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i><%}%></a>
 </li>
 <%i++%>
 <%})%>
@@ -704,7 +704,9 @@
                 console.log(response.comment);
                 console.log(response.chapter)
                 let chapters = response.chapter;
+                let isDisplay = "none";
                 if(canManage){
+                    isDisplay = "block";
                     videoTable.innerHTML = `
                     <i class="fas fa-plus-circle"
                         style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)";data-toggle="modal" onclick="$('#addLecture').modal();" data-target="#addLecture">
@@ -719,7 +721,7 @@
                         <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" >
                             <div style="display:flex;justify-content: space-between">
                                 <i class="fas fa-file-alt" style="padding:0.5rem;font-size:22px;color:rgb(83,132,246)"></i>
-                                <div class="dropdown">
+                                <div class="dropdown" style="display:${isDisplay}">
                                     <i class="fas fa-ellipsis-v" style="padding:0.5rem;font-size:16px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#" onclick = "renameChapter('${chapters[i].chapterName}','${chapters[i]._id}')">重新命名</a>
@@ -769,7 +771,10 @@
                 console.log(response.tests)
                 let tests = response.tests;
                 videoTable.style.cssText = "display:flex;flex-wrap:wrap;justify-content: start;"
+                let isDisplay2 = "none";
+                console.log(isDisplay2);
                 if(canManage){
+                    isDisplay2 = "block";   
                     videoTable.innerHTML = `
                     <i class="fas fa-plus-circle"
                         style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)" data-toggle="modal" data-target="#uploadTestModal" onclick="TestModel()">
@@ -783,7 +788,7 @@
                         <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" >
                             <div style="display:flex;justify-content: space-between">
                                 <i class="fas fa-pen-alt" style="padding:0.5rem;font-size:22px;color:black"></i>
-                                <div class="dropdown">
+                                <div class="dropdown" style="display:${isDisplay2}">
                                     <i class="fas fa-ellipsis-v" style="padding:0.5rem;font-size:16px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#" onclick="renameTest('${tests[i].testName}','${tests[i]._id}')">重新命名</a>
