@@ -508,18 +508,19 @@
     canManage = true
 </script>
 <%}%>
-<script src="/js/uploadVideo.js"></script>
-<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
-    onreadystatechange="if (this.readyState === 'complete') this.onload()">
-</script>
 <script>
     let selectedUnit = "unit0"
     let selectedUnitID = "<%=units[0]._id%>"
     window.onload = function () {
         console.log("--------onload----------");
         let unit0 = document.getElementById('unit0'); 
+        console.log("unit0 = ");
+        
+        console.log(unit0);
+        
         if (unit0 != null) {
-            unit0.click();
+            unit0.childNodes[0].click();
+            console.log("in unit0 click");
             unit0.focus();
             //showVideo();
             document.getElementById('unitID').value = selectedUnitID
@@ -532,6 +533,7 @@
     }
 
     let selectUnit = function (Unit_i, Unitid) {
+        console.log("in selectUnit");
         selectedUnit = Unit_i;
         selectedUnitID = Unitid;
         let videoTab = document.getElementById('videoTab');
@@ -546,6 +548,8 @@
     let myscheduleTab = document.getElementById('myscheduleTab');
 
     let showVideo = function () {
+        console.log("in showVideo");
+        
         videoTab.className = "nav-link active";
         chapterTab.className = "nav-link ";
         testTab.className = "nav-link ";
@@ -1476,6 +1480,10 @@
         }
 
     }
+</script>
+<script src="/js/uploadVideo.js"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
 
 <% include layout/nobottom-footer %>

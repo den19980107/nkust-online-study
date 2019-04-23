@@ -8,12 +8,15 @@ let uploadProgressBar = document.getElementById('uploadProgressBar');
 let uploadPersent = document.getElementById('uploadPersent');
 let persentText = document.getElementById('persentText');
 let uploadVideoList = document.getElementById('uploadVideoList');
-newVideo.addEventListener('click', function () {
-    console.log("asd");
-    console.log(newVideo);
+while(newVideo!= null){
+    newVideo.onclick = function(){
+        console.log("asd");
+        console.log(newVideo);
+    
+        uploadProgressBar.style.visibility = "hidden";
+    }
+}
 
-    uploadProgressBar.style.visibility = "hidden";
-});
 
 
 
