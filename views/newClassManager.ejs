@@ -200,13 +200,15 @@
             <%let i = 0%>
 <%units.forEach(function(unit){%>
 <li class="chapter" aria-haspopup="true" aria-expanded="false">
-    <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" onclick="selectUnit('unit<%=i%>','<%=unit._id%>')"><%=unit.unitName%></p> <%if(isTA || user._id == classinfo.teacher){%><i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i><%}%></a>
+    <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" onclick="selectUnit('unit<%=i%>','<%=unit._id%>','<%=unit.unitName%>')"><%=unit.unitName%></p> <%if(isTA || user._id == classinfo.teacher){%><i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i><%}%></a>
 </li>
 <%i++%>
 <%})%>
 </ul>
 </div>
 <div class="col-lg-10 col-sm-12 h-100 videos">
+    <h5 id = "unitNameText" class="m-0" style="padding: 1rem;display: inline-block"></h5>
+    <i class="fas fa-pen" onclick="renameUnit()"></i>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" id="videoTab" href="#" onclick="showVideo()">影片</a>
@@ -549,13 +551,57 @@
         window.location = '/class/<%=classinfo._id%>/addUnit/' + unitName.value;
     }
 
-    let selectUnit = function (Unit_i, Unitid) {
+    let selectUnit = function (Unit_i, Unitid,unitName) {
+        let unitNameText =document.getElementById('unitNameText')
+        unitNameText.innerText = unitName
         console.log("in selectUnit");
         selectedUnit = Unit_i;
         selectedUnitID = Unitid;
         let videoTab = document.getElementById('videoTab');
         videoTab.click();
         document.getElementById('unitID').value = selectedUnitID
+    }
+
+    let renameUnit = function(){
+        let unitName =document.getElementById('unitNameText').innerHTML;
+        $('#renameModal').modal();
+        let newNameText = document.getElementById('newName');
+        let saveRenameBTN = document.getElementById('saveRenameBTN');
+        saveRenameBTN.setAttribute('onclick','saveUnitRename()');//把改名視窗的儲存按鈕的onclick設定成儲存測驗名稱
+        newNameText.value = unitName;//先把原本的名字設定上
+        renameMaterialID = selectedUnitID;
+    }
+    let saveUnitRename = function(){
+        console.log("saveUnitRename");
+        
+        renameMaterialName = document.getElementById('newName').value;
+        $.ajax({
+            type: 'POST',
+            url: '/api/renameUnit/'+ renameMaterialID,
+            contentType: 'application/json',
+            data: JSON.stringify({
+                unitrName: renameMaterialName
+            }),
+            dataType: 'json',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            success: function (response) {
+                console.log(response);
+                let unitNameText =document.getElementById('unitNameText');
+                unitNameText.innerHTML = renameMaterialName;
+                $('#renameModal').modal('hide');
+                alert('更改成功!');
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
     }
     console.log(selectedUnit);
 

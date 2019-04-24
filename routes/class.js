@@ -782,6 +782,36 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
   }
 })
 
+//進入編輯講義頁面
+router.get('/editChapter/:chapterID',function(req,res){
+  Chapter.findById(req.params.chapterID,function(err,chapterinfo){
+    if(err){
+      console.log(err);
+    }
+    Unit.findById(chapterinfo.belongUnit,function(err,unitinfo){
+      res.render('edit_chapter',{
+        chapterinfo:chapterinfo,
+        calssID:unitinfo.belongClass
+      })
+    })
+  })
+})
+//儲存編輯結果
+router.post('/saveEditedChapter',function(req,res){
+  console.log(req.body);
+  
+  let myquery = { _id: req.body.chapterID };
+  let newvalues = { $set: {chapterName: req.body.chapterName,body:req.body.body} };
+  Chapter.updateOne(myquery,newvalues,function(err){
+      if(err){
+          console.log(err);
+          res.send('{"error" : "更改失敗", "status" : 500}');
+      }else{
+          res.send('{"success" : "儲存成功"}');
+      }
+  })
+})
+
 //刪除講義
 router.delete('/deletechapter/:chapterID', ensureAuthenticated, function (req, res) {
   if (!req.user._id) {

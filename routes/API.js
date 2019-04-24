@@ -117,6 +117,23 @@ router.post('/deleteUnit/:unitID',function(req,res){
     })
 })
 
+
+//rename單元
+router.post('/renameUnit/:unitID',function(req,res){
+    console.log(req.body);
+    
+    let myquery = { _id: req.params.unitID };
+    let newvalues = { $set: {unitName: req.body.unitName} };
+    Unit.updateOne(myquery,newvalues,function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "更改失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
 //send影片資訊
 router.get('/getVideoInfo/:videoID', function (req, res) {
     Video.findById(req.params.videoID, function (err, videoinfo) {
