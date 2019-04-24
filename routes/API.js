@@ -32,7 +32,8 @@ let studntSubmitTest = require('../model/studentSubmitTest');
 let studntSubmitHomework = require('../model/studentSubmitHomework');
 //bring note model
 let Note = require('../model/note')
-
+//bring studentWatchChapter modal
+let studentWatchChapter = require('../model/studentWatchChapter');
 
 //拿到單元內影片
 router.get('/getVideoInUnit/:unitID', function (req, res) {

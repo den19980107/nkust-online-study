@@ -221,13 +221,19 @@
             <a class="nav-link disabled" href="#" id="myscheduleTab" tabindex="-1" aria-disabled="true">我的進度</a>
         </li>
     </ul>
-    <div class="w-100" id = "tableContainer"style="overflow-x: scroll">
+    <div class="w-100" id = "tableContainer" style="overflow-x: scroll">
         <div class="table" id="videoTable">
             <!-- <i class="fas fa-plus-circle"
                     style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
                     data-toggle="modal" data-target="#uploadVideoModal">
                 </i> -->
         </div>
+        <table class="table" id="videoTable2">
+            <!-- <i class="fas fa-plus-circle"
+                    style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
+                    data-toggle="modal" data-target="#uploadVideoModal">
+                </i> -->
+        </table>
     </div>
 
     <!-- 影片上傳model -->
@@ -567,6 +573,10 @@
         myscheduleTab.className = "nav-link ";
         let videoTable = document.getElementById('videoTable');
         videoTable.innerHTML = "";
+        let videoTable2 = document.getElementById('videoTable2');
+        videoTable2.innerHTML = "";
+        let tableContainer = document.getElementById('tableContainer');
+        tableContainer.style.cssText = "overflow-x: scroll";
         $.ajax({
             url: '/api/getVideoInUnit/' + selectedUnitID,
             type: 'GET',
@@ -585,12 +595,12 @@
                 response = JSON.parse(response);
                 console.log(response.videos)
                 if(canManage){ // 是管理者
-                    videoTable.innerHTML = `
+                    videoTable2.innerHTML = `
                     <i class="fas fa-plus-circle"
                         style="position: fixed;bottom: 5rem;right: 5rem;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
                         data-toggle="modal" data-target="#uploadVideoModal">
                     </i>`
-                    videoTable.innerHTML += `
+                    videoTable2.innerHTML += `
                     <tr>
                         <th>影片</th>
                         <th>日期</th>
@@ -604,8 +614,8 @@
                         if (response.videos[i].postTime != undefined) {
                             date = response.videos[i].postTime
                         }
-                        videoTable.style.cssText = "";
-                        videoTable.innerHTML += `
+                        videoTable2.style.cssText = "";
+                        videoTable2.innerHTML += `
                             <tr>
                             <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
@@ -622,7 +632,7 @@
                     }
 
                 }else{
-                    videoTable.innerHTML += `
+                    videoTable2.innerHTML += `
                     <tr>
                         <th>影片</th>
                         <th>日期</th>
@@ -635,8 +645,8 @@
                         if (response.videos[i].postTime != undefined) {
                             date = response.videos[i].postTime
                         }
-                        videoTable.style.cssText = "";
-                        videoTable.innerHTML += `
+                        videoTable2.style.cssText = "";
+                        videoTable2.innerHTML += `
                             <tr>
                             <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
@@ -690,8 +700,12 @@
         chapterTab.className = "nav-link active";
         testTab.className = "nav-link ";
         myscheduleTab.className = "nav-link ";
+        let videoTable2 = document.getElementById('videoTable2');
+        videoTable2.innerHTML = "";
         let videoTable = document.getElementById('videoTable');
         videoTable.innerHTML = "";
+        let tableContainer = document.getElementById('tableContainer');
+        tableContainer.style.cssText = "";
         $.ajax({
             url: '/api/getChapterInUnit/' + selectedUnitID,
             type: 'GET',
@@ -754,8 +768,12 @@
         chapterTab.className = "nav-link";
         testTab.className = "nav-link active";
         myscheduleTab.className = "nav-link ";
+        let videoTable2 = document.getElementById('videoTable2');
+        videoTable2.innerHTML = "";
         let videoTable = document.getElementById('videoTable');
         videoTable.innerHTML = "";
+        let tableContainer = document.getElementById('tableContainer');
+        tableContainer.style.cssText = "";
         console.log("test");
 
         $.ajax({
