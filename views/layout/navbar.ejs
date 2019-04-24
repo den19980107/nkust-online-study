@@ -26,7 +26,7 @@
 </style>
 
 <body class="bg-white">
-  <nav class="navbar navbar-expand-lg navbar-light bg-white" style="position: fixed;top: 0px;z-index: 1000;width: 100%;height: 4rem">
+  <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-white" style="position: fixed;top: 0px;z-index: 1000;width: 100%;min-height: 4rem">
     <a class="navbar-brand" href="/"><img src="/img/logo.png" class="img-fluid" style="height: 30px"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,6 @@
     </div>
   </nav>
   <div style="height: 4rem"></div>
-
   <%- messages('message', locals) %>
           <!-- ejs 的if如果要確定他有沒有傳過來的話是要用typeof -->
           <% if(typeof errors !== 'undefined') { %>
