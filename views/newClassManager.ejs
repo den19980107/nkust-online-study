@@ -200,7 +200,7 @@
             <%let i = 0%>
 <%units.forEach(function(unit){%>
 <li class="chapter" aria-haspopup="true" aria-expanded="false">
-    <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" onclick="selectUnit('unit<%=i%>','<%=unit._id%>','<%=unit.unitName%>')"><%=unit.unitName%></p> <%if(isTA || user._id == classinfo.teacher){%><i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i><%}%></a>
+    <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" id="<%=unit._id%>" onclick="selectUnit('unit<%=i%>','<%=unit._id%>','<%=unit.unitName%>')"><%=unit.unitName%></p> <%if(isTA || user._id == classinfo.teacher){%><i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i><%}%></a>
 </li>
 <%i++%>
 <%})%>
@@ -580,7 +580,7 @@
             url: '/api/renameUnit/'+ renameMaterialID,
             contentType: 'application/json',
             data: JSON.stringify({
-                unitrName: renameMaterialName
+                unitName: renameMaterialName
             }),
             dataType: 'json',
             beforeSend: function () {
@@ -595,6 +595,8 @@
                 console.log(response);
                 let unitNameText =document.getElementById('unitNameText');
                 unitNameText.innerHTML = renameMaterialName;
+                let unitListNameText = document.getElementById(renameMaterialID);
+                unitListNameText.innerHTML = renameMaterialName;
                 $('#renameModal').modal('hide');
                 alert('更改成功!');
             },
