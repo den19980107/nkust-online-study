@@ -126,13 +126,17 @@
 .videoName:hover{
     color: rgb(62, 113, 209);
 }
+.smallCell{
+    width: 1px;
+    white-space: nowrap;
+}
 
 </style>
 <div id ="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
     <div class="indeterminate"></div>
 </div>
-<div class="row w-100 h-100">
-    <div class="col-2 h-100 chapterDiv" style="border-right: 1px solid rgb(229, 229, 229)">
+<div class="row w-100">
+    <div class="col-lg-2 col-sm-12 chapterDiv" style="border-right: 1px solid rgb(229, 229, 229)">
         <table class="table">
             <tr>
                 <th>單元</th>
@@ -149,7 +153,7 @@
         </ul>
     </div>
     
-    <div class="col h-100 videos">
+    <div class="col-lg-10 col-sm-12 videos" style="overflow-x: scroll" >
         <table class="table" id= "videoTable">
             
         </table>
@@ -192,8 +196,8 @@ let showVideoInChapter = function(unitID){
             <tr>
                 <th>影片</th>
                 <th>日期</th>
-                <th>觀看次數</th>
-                <th>留言數</th>
+                <th class="smallCell">觀看次數</th>
+                <th class="smallCell">留言數</th>
             </tr>
             `
             for(let i = 0;i<response.videos.length;i++){
@@ -203,13 +207,13 @@ let showVideoInChapter = function(unitID){
                 }
                 videoTable.innerHTML+=`
                     <tr onclick="window.location='/class/videoAnalytics/${response.videos[i]._id}'">
-                    <td>
+                    <td class="smallCell">
                         <div style="display:flex">
                             <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/0.jpg" style="width:8.8rem;height:5rem"></img>
                             <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
                         </div>
                     </td>
-                    <td>${date}</td>
+                    <td class="smallCell">${date}</td>
                     <td>${response.videos[i].watchTime}</td>
                     <td>${response.videos[i].comments.length}</td>
                     </tr>
