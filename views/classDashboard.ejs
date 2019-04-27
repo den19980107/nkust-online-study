@@ -371,7 +371,7 @@
         <%}%>
         <%}%>
         <%}%>
-        <button href="/SDC/student/<%=user._id%>/Take/class/:<%=classinfo._id%>" onclick="document.getElementById('takeClassBtn').disabled =true" id="takeClassBtn" class="btn btn-success form-control "
+        <button  onclick="document.getElementById('takeClassBtn').disabled =true;window.location='/SDC/student/<%=user._id%>/Take/class/:<%=classinfo._id%>'" id="takeClassBtn" class="btn btn-success form-control "
             style="color:white">參加此課程</button>
         <a id="waitapprove" class="btn btn-warning form-control " style="color:white">等待教師審核中</a>
         <hr>
