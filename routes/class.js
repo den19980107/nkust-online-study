@@ -1547,9 +1547,7 @@ router.get('/showStudentApproval/:classID', ensureAuthenticated, function (req, 
         let find = [];
         for (let j = 0; j < studentscheck.length; j++) {
           for (let z = 0; z < studentscheck.length; z++) {
-            console.log(users[z]._id);
-            
-            if(users[z]._id != undefined){
+            if(users[z] != undefined){
               if (checkStudentInfoQuery[j] == users[z]._id) {
                 find.push(users[z]).toString();
               }
