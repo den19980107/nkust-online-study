@@ -1439,8 +1439,10 @@ router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, 
         let find = [];
         for (let j = 0; j < students.length; j++) {
           for (let z = 0; z < students.length; z++) {
-            if (findStudentInfoQuery[j] == users[z]._id) {
-              find.push(users[z]).toString();
+            if(typeof(users[z]._id) != undefined){
+              if (findStudentInfoQuery[j] == users[z]._id) {
+                find.push(users[z]).toString();
+              }
             }
           }
         }
