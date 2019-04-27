@@ -55,6 +55,11 @@
             後台
           </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/backend/training">
+              訓練
+            </a>
+          </li>
         <%}%>
               <%if(user.permission == "teacher"){%>
         <li class="nav-item">
@@ -97,7 +102,7 @@
 
     </div>
   </nav>
-  <div style="height: 4rem"></div>
+  <div style="height: 4.9rem"></div>
   <%- messages('message', locals) %>
           <!-- ejs 的if如果要確定他有沒有傳過來的話是要用typeof -->
           <% if(typeof errors !== 'undefined') { %>
