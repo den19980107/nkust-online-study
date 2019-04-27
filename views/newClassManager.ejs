@@ -1207,7 +1207,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：選擇題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p1 = document.createElement('div');
                 p1.innerHTML += "<h6>選項：</h6>"
                 for (let i = 0; i < newQution.selection.length; i++) {
@@ -1233,6 +1235,9 @@
                 }
                 p2.innerText = `正確答案：${correctanswer}`;
                 let p3 = document.createElement('p');
+                if(newQution.score == ""){
+                    newQution.score = "未設定"
+                }
                 p3.innerText = '配分：' + newQution.score;
                 let btn = document.createElement('button');
                 btn.className = 'close';
@@ -1270,7 +1275,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：是非題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p = document.createElement('p');
                 if (newQution.correctAnswers == 'yes') {
                     p.innerHTML = '正確答案：是';
@@ -1315,7 +1322,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：填空題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p = document.createElement('div');
                 p.innerHTML += "<h6>答案：</h6>"
                 for (let i = 0; i < newQution.correctAnswers.length; i++) {
@@ -1325,6 +1334,9 @@
                     p.appendChild(input)
                 }
                 let p3 = document.createElement('p');
+                if(newQution.score == ""){
+                    newQution.score = "未設定"
+                }
                 p3.innerText = '配分：' + newQution.score;
                 let btn = document.createElement('button');
                 btn.className = 'close';
@@ -1367,7 +1379,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：程式題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p1 = document.createElement('p');
                 p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
                 let p2 = document.createElement('p');
@@ -1378,6 +1392,9 @@
                 p4.innerHTML = `輸出範例：\n${newQution.outputExample}`;
                 let btn = document.createElement('button');
                 let p5 = document.createElement('p');
+                if(newQution.score == ""){
+                    newQution.score = "未設定"
+                }
                 p5.innerText = '配分：' + newQution.score;
                 btn.className = 'close';
                 // btn.attributes = 'data-dismiss="alert" aria-label="Close" qutionID=' + QuationList.length - 1;
