@@ -768,6 +768,11 @@
         console.log(chooseClassTime);
         chooseClassTimeLabel.innerHTML = chooseClassTime
         chooseClassTimeLabel.value = chooseClassTime;
+        for(let i = 0;i<chooseClassTime.length;i++){
+            if(chooseClassTime[i] == ""){
+                chooseClassTime.splice(i,1);
+            }
+        }
         for (let i = 0; i < chooseClassTime.length; i++) {
             let div = document.createElement('div');
             div.className = "alert alert-warning alert-dismissible fade show";
