@@ -190,7 +190,7 @@
                 <hr style="margin-top: 5px">
                 <div class="list-group" id="unitlist">
                     <%units.forEach(function(unit){%>
-                    <a href="/class/<%=classinfo._id%>/showUnit/<%=unit._id%>" class="list-group-item list-group-item-action disabled">
+                    <a href="/class/newClassManager/<%=classinfo._id%>" class="list-group-item list-group-item-action disabled">
                         <img src="/img/bookmark-regular.svg" alt="" style="height:20px ; width:20px ; margin-right: 10px">
                         <%=unit.unitName%>
                     </a>
@@ -371,8 +371,8 @@
         <%}%>
         <%}%>
         <%}%>
-        <a href="/SDC/student/<%=user._id%>/Take/class/:<%=classinfo._id%>" id="takeClassBtn" class="btn btn-success form-control "
-            style="color:white">參加此課程</a>
+        <button  onclick="document.getElementById('takeClassBtn').disabled =true;window.location='/SDC/student/<%=user._id%>/Take/class/:<%=classinfo._id%>'" id="takeClassBtn" class="btn btn-success form-control "
+            style="color:white">參加此課程</button>
         <a id="waitapprove" class="btn btn-warning form-control " style="color:white">等待教師審核中</a>
         <hr>
         <button id="quitClassBtn" class="btn btn-danger form-control " style="color:white ;display: none">退出此課程</button>
@@ -577,6 +577,12 @@
             let selectedTimeDiv = document.getElementById('selectedTime');
 
             //如果chooseClassTime裡面有東西表示老師有設定過時間 就要先把它顯示出來
+            console.log(chooseClassTime);
+            for(let i = 0;i<chooseClassTime.length;i++){
+                if(chooseClassTime[i] == ""){
+                    chooseClassTime.splice(i,1);
+                }
+            }
             if (chooseClassTime.length != 0) {
                 console.log("有之前設定的時間");
                 if (isSet == false) {
@@ -629,22 +635,27 @@
             if (e.key == 'Enter') {
                 let titleDIV = document.getElementById('titleDIV');
                 let updateTitleText = document.getElementById('updateTitleText');
-                titleText = updateTitleText.value;
-                titleDIV.innerHTML = '';
-                titleDIV.innerHTML =
-                    `<h5 class="scrollText" id="title">
-                    課程名稱：${titleText}
-                </h5>
-                <%if(user._id == classinfo.teacher){%>
-                <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
-                    onclick="updateClassInfo('title')"></i>
-                <%}%>`
+                if(updateTitleText.value == ""){
+                    updateTitleText.value = "<%=classinfo.className%>"
+                    alert("課程名稱不得為空！")
+                }else{
+                    titleText = updateTitleText.value;
+                    titleDIV.innerHTML = '';
+                    titleDIV.innerHTML =
+                        `<h5 class="scrollText" id="title">
+                        課程名稱：${titleText}
+                    </h5>
+                    <%if(user._id == classinfo.teacher){%>
+                    <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                        onclick="updateClassInfo('title')"></i>
+                    <%}%>`
 
-                //titleText update到db中
-                $.ajax({
-                    url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + titleText,
-                    type: 'POST'
-                });
+                    //titleText update到db中
+                    $.ajax({
+                        url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + titleText,
+                        type: 'POST'
+                    });
+                }
             }
         }
         if (part == 'outline') {
@@ -681,6 +692,9 @@
         if (part == "classRoom") {
             let updateClassRoomText = document.getElementById('updateClassRoomText').value
             console.log(updateClassRoomText);
+            if(updateClassRoomText == ""){
+                updateClassRoomText = "未設定"
+            }
             //把classRoom update到db中
             $.ajax({
                 url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + updateClassRoomText,
@@ -754,6 +768,11 @@
         console.log(chooseClassTime);
         chooseClassTimeLabel.innerHTML = chooseClassTime
         chooseClassTimeLabel.value = chooseClassTime;
+        for(let i = 0;i<chooseClassTime.length;i++){
+            if(chooseClassTime[i] == ""){
+                chooseClassTime.splice(i,1);
+            }
+        }
         for (let i = 0; i < chooseClassTime.length; i++) {
             let div = document.createElement('div');
             div.className = "alert alert-warning alert-dismissible fade show";

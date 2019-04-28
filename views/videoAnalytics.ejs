@@ -169,6 +169,9 @@
         #commentDiv{
             padding: 1rem !important;
         }
+        .videos{
+            padding: 0 !important;
+        }
     }
 
 </style>
@@ -179,7 +182,7 @@
 </div>
 <div class="row w-100" style="padding:0;margin: 0">
     <div class="col-lg-2 col-sm-12 chapterDiv" style="border-right: 1px solid rgb(229, 229, 229);padding-right: 0;padding-left: 0">
-        <img src="https://img.youtube.com/vi/<%=videoinfo.videoURL%>/0.jpg" style="width: 100%;">
+        <img src="https://img.youtube.com/vi/<%=videoinfo.videoURL%>/mqdefault.jpg" style="width: 100%;">
 
         <ul class="chapterList m-0 p-0">
             <li class="chapter2">
@@ -206,7 +209,7 @@
         </ul>
     </div>
 
-    <div class="col-lg-10 col-sm-12 videos" style="padding-right: 0;padding-left: 0">
+    <div class="col-lg-10 col-sm-12 videos" style="padding-right: 0;padding-left: 1rem">
         <div class = "topNavgation mt-2" style="display: flex;justify-content: start">
             <i class="fas fa-arrow-left back mr-4" data-toggle="tooltip" title="返回影片清單"
                 style="display:flex;justify-content:center;flex-direction: column;"

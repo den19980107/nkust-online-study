@@ -301,7 +301,11 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
 
 //顯示我的筆記
 router.get('/mynote', ensureAuthenticated, function (req, res) {
-    res.render('mynote');
+    if(req.user.permission == "teacher"){
+        res.render('index');
+    }else{
+        res.render('mynote');
+    }
 })
 //新增筆記
 router.post('/note/createNote', ensureAuthenticated, function (req, res) {

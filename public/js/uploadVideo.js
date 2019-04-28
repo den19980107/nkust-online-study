@@ -1,4 +1,4 @@
-console.log("uploadVideo.js is loaded");
+//console.log("uploadVideo.js is loaded");
 
 // let newHandout = document.getElementById("newHandout");
 let newVideo = document.getElementById("newVideo");
@@ -10,8 +10,8 @@ let persentText = document.getElementById('persentText');
 let uploadVideoList = document.getElementById('uploadVideoList');
 while(newVideo!= null){
     newVideo.onclick = function(){
-        console.log("asd");
-        console.log(newVideo);
+        //console.log("asd");
+        //console.log(newVideo);
     
         uploadProgressBar.style.visibility = "hidden";
     }
@@ -37,7 +37,7 @@ function handleClientLoad() {
 }
 
 function initClient() {
-    console.log("init");
+    //console.log("init");
 
     // Initialize the gapi.client object, which app uses to make API requests.
     // Get API key and client ID from API Console.
@@ -66,7 +66,7 @@ function initClient() {
         });
         $("#upload-file-button").click(function () {
             uploadProgressBar.style.visibility = "visible";
-            console.log("upload");
+            //console.log("upload");
             defineRequest();
         });
         $("#select-file").bind("change", function () {
@@ -135,7 +135,7 @@ function removeEmptyParams(params) {
 
 function executeRequest(request) {
     request.execute(function (response) {
-        console.log(response);
+        //console.log(response);
     });
 }
 
@@ -269,7 +269,7 @@ let MediaUploader = function (options) {
     }
     this.httpMethod = options.fileId ? 'PUT' : 'POST';
 };
-console.log("mediaUpload = "+MediaUploader);
+//console.log("mediaUpload = "+MediaUploader);
 
 
 /**
@@ -485,7 +485,7 @@ function defineRequest() {
         }.bind(this),
         onProgress: function (data) {
             var currentTime = Date.now();
-            console.log('Progress: ' + data.loaded + ' bytes loaded out of ' + data.total);
+            //console.log('Progress: ' + data.loaded + ' bytes loaded out of ' + data.total);
             var totalBytes = data.total;
             let a = (data.loaded / data.total) * 100;
             uploadPersent.style.width = `${a}%`;
@@ -497,7 +497,7 @@ function defineRequest() {
             persentText.textContent = `${Math.floor(0)}%`;
             uploadProgressBar.style.visibility = "hidden";
             // alert("done!");
-            console.log('Upload complete for video ' + uploadResponse.id);
+            //console.log('Upload complete for video ' + uploadResponse.id);
             var videoName = document.createElement('p');
             var videoURL = document.createElement('a');
             var uploadVideoCount = document.createElement('p');
@@ -536,7 +536,7 @@ function defineRequest() {
                     alert('新增成功!');
                 },
                 error: function (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
             });
 

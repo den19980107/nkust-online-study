@@ -1,0 +1,158 @@
+<% include layout/navbar %>
+<style>
+    /* meterial loader */
+    .linear-activity {
+        overflow: hidden;
+        width: 50%;
+        height: 4px;
+        background-color: #B3E5FC;
+        margin: 20px auto;
+    }
+
+    .determinate {
+        position: relative;
+        max-width: 100%;
+        height: 100%;
+        -webkit-transition: width 500ms ease-out 1s;
+        -moz-transition: width 500ms ease-out 1s;
+        -o-transition: width 500ms ease-out 1s;
+        transition: width 500ms ease-out 1s;
+        background-color: #03A9F4;
+    }
+
+    .indeterminate {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .indeterminate:before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: #03A9F4;
+        animation: indeterminate_first 1.5s infinite ease-out;
+    }
+
+    .indeterminate:after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: #4FC3F7;
+        animation: indeterminate_second 1.5s infinite ease-in;
+    }
+
+    @keyframes indeterminate_first {
+        0% {
+            left: -100%;
+            width: 100%;
+        }
+
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+
+    @keyframes indeterminate_second {
+        0% {
+            left: -150%;
+            width: 100%;
+        }
+
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+
+    /* end of meterial loader */
+</style>
+<div id="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
+    <div class="indeterminate"></div>
+</div>
+<div style="display: flex;justify-content: center;padding: 3rem">
+    <button class="btn btn-primary" onclick="getVideoAverage()">get影片平均</button>
+    <button class=" ml-3 btn btn-primary" onclick="getStudentAverage()">get所有學生對不同影片的觀看平均</button>
+</div>
+<div id = "videoAverage" style="padding: 1rem"></div>
+<script>
+    let getVideoAverage = function(){
+        console.log('get getAverage');
+        
+        $.ajax({
+            url: '/backend/getAverage',
+            type: 'POST',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                console.log(error);
+                
+            },
+            success: function (response) {
+                console.log(response);
+                let videoAverage = document.getElementById('videoAverage');
+                let average = response;
+                for(let i = 0;i<average.length;i++){
+                    videoAverage.innerHTML+=`
+                        <h3>${average[i].videoID}</h3>
+                        <p>start:${average[i].start}</p>
+                        <p>play:${average[i].play}</p>
+                        <p>pause:${average[i].pause}</p>
+                        <p>fastforward:${average[i].fastforward}</p>
+                        <p>reverse:${average[i].reverse}</p>
+                        <p>note:${average[i].note}</p>
+                        <p>close:${average[i].close}</p>
+                        
+                    `
+                }
+            }
+        })
+    }
+
+    let getStudentAverage = function(){
+        console.log('get getStudentAverage');
+        
+        $.ajax({
+            url: '/backend/getSudentAverage',
+            type: 'POST',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                console.log(error);
+                
+            },
+            success: function (response) {
+                console.log(response);
+                // let videoAverage = document.getElementById('videoAverage');
+                // let average = response;
+                // for(let i = 0;i<average.length;i++){
+                //     videoAverage.innerHTML+=`
+                //         <h3>${average[i].videoID}</h3>
+                //         <p>start:${average[i].start}</p>
+                //         <p>play:${average[i].play}</p>
+                //         <p>pause:${average[i].pause}</p>
+                //         <p>fastforward:${average[i].fastforward}</p>
+                //         <p>reverse:${average[i].reverse}</p>
+                //         <p>note:${average[i].note}</p>
+                //         <p>close:${average[i].close}</p>
+                        
+                //     `
+                // }
+            }
+        })
+    }
+</script>
+<% include layout/footer %>

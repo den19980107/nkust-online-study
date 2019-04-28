@@ -565,6 +565,8 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
         classRoom: req.params.text
       }
     };
+    console.log(newvalues);
+    
     Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
@@ -968,12 +970,15 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
             Note.find({
               author_id: req.user._id
             }, function (err, notes) {
-              res.render('video', {
-                video: video,
-                comments: comments,
-                classinfo: classinfo,
-                notes: notes
-              });
+              Video.find({belongUnit:unit._id},function(err,recommandVideo){
+                res.render('video', {
+                  video: video,
+                  comments: comments,
+                  classinfo: classinfo,
+                  notes: notes,
+                  recommandVideo:recommandVideo
+                });
+              })
             })
           });
 
@@ -1439,8 +1444,10 @@ router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, 
         let find = [];
         for (let j = 0; j < students.length; j++) {
           for (let z = 0; z < students.length; z++) {
-            if (findStudentInfoQuery[j] == users[z]._id) {
-              find.push(users[z]).toString();
+            if(users[z] != undefined){
+              if (findStudentInfoQuery[j] == users[z]._id) {
+                find.push(users[z]).toString();
+              }
             }
           }
         }
@@ -1545,8 +1552,10 @@ router.get('/showStudentApproval/:classID', ensureAuthenticated, function (req, 
         let find = [];
         for (let j = 0; j < studentscheck.length; j++) {
           for (let z = 0; z < studentscheck.length; z++) {
-            if (checkStudentInfoQuery[j] == users[z]._id) {
-              find.push(users[z]).toString();
+            if(users[z] != undefined){
+              if (checkStudentInfoQuery[j] == users[z]._id) {
+                find.push(users[z]).toString();
+              }
             }
           }
         }

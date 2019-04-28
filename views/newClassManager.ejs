@@ -531,15 +531,15 @@
 <script>
     let selectedUnit = "unit0"
     window.onload = function () {
-        console.log("--------onload----------");
+        //console.log("--------onload----------");
         let unit0 = document.getElementById('unit0'); 
-        console.log("unit0 = ");
+        //console.log("unit0 = ");
         
-        console.log(unit0);
+        //console.log(unit0);
         
         if (unit0 != null && unit0 != undefined) {
             unit0.childNodes[0].click();
-            console.log("in unit0 click");
+            //console.log("in unit0 click");
             unit0.focus();
             //showVideo();
             document.getElementById('unitID').value = selectedUnitID
@@ -554,7 +554,7 @@
     let selectUnit = function (Unit_i, Unitid,unitName) {
         let unitNameText =document.getElementById('unitNameText')
         unitNameText.innerText = unitName
-        console.log("in selectUnit");
+        //console.log("in selectUnit");
         selectedUnit = Unit_i;
         selectedUnitID = Unitid;
         let videoTab = document.getElementById('videoTab');
@@ -572,7 +572,7 @@
         renameMaterialID = selectedUnitID;
     }
     let saveUnitRename = function(){
-        console.log("saveUnitRename");
+        //console.log("saveUnitRename");
         
         renameMaterialName = document.getElementById('newName').value;
         $.ajax({
@@ -601,11 +601,11 @@
                 alert('更改成功!');
             },
             error: function (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
     }
-    console.log(selectedUnit);
+    //console.log(selectedUnit);
 
     let videoTab = document.getElementById('videoTab');
     let chapterTab = document.getElementById('chapterTab');
@@ -613,7 +613,7 @@
     let myscheduleTab = document.getElementById('myscheduleTab');
 
     let showVideo = function () {
-        console.log("in showVideo");
+        //console.log("in showVideo");
         
         videoTab.className = "nav-link active";
         chapterTab.className = "nav-link ";
@@ -641,7 +641,7 @@
             },
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response.videos)
+                //console.log(response.videos)
                 if(canManage){ // 是管理者
                     videoTable2.innerHTML = `
                     <i class="fas fa-plus-circle"
@@ -667,7 +667,7 @@
                             <tr>
                             <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
-                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/0.jpg" style="width:11.66rem;height:7rem"></img>
+                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/mqdefault.jpg" style="width:12rem;height:6.75rem"></img>
                                     <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
                                 </div>
                             </td>
@@ -698,7 +698,7 @@
                             <tr>
                             <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
-                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/0.jpg" style="width:8.8rem;height:5rem"></img>
+                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/mqdefault.jpg" style="width:12rem;height:6.75rem"></img>
                                     <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
                                 </div>
                             </td>
@@ -713,7 +713,7 @@
         })
     }
     let deleteUnit = function(unitName,unitID){
-        console.log(unitName,unitID);
+        //console.log(unitName,unitID);
         
         if(confirm('確定要刪除"'+unitName+'"單元嗎?')){
             $.ajax({
@@ -770,8 +770,8 @@
             },
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response.comment);
-                console.log(response.chapter)
+                //console.log(response.comment);
+                //console.log(response.chapter)
                 let chapters = response.chapter;
                 let isDisplay = "none";
                 if(canManage){
@@ -822,7 +822,7 @@
         videoTable.innerHTML = "";
         let tableContainer = document.getElementById('tableContainer');
         tableContainer.style.cssText = "";
-        console.log("test");
+        //console.log("test");
 
         $.ajax({
             url: '/api/getTestInUnit/' + selectedUnitID,
@@ -840,12 +840,12 @@
             },
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response);
-                console.log(response.tests)
+                //console.log(response);
+                //console.log(response.tests)
                 let tests = response.tests;
                 videoTable.style.cssText = "display:flex;flex-wrap:wrap;justify-content: start;"
                 let isDisplay2 = "none";
-                console.log(isDisplay2);
+                //console.log(isDisplay2);
                 if(canManage){
                     isDisplay2 = "block";   
                     videoTable.innerHTML = `
@@ -902,7 +902,7 @@
         let newNameText = document.getElementById('newName');
         let saveRenameBTN = document.getElementById('saveRenameBTN');
         saveRenameBTN.setAttribute('onclick','saveTestRename()');//把改名視窗的儲存按鈕的onclick設定成儲存測驗名稱
-        console.log(saveRenameBTN);
+        //console.log(saveRenameBTN);
         
         newNameText.value = testName;//把原本的名字設定上
         renameMaterialID = TestID
@@ -928,13 +928,13 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 showChapter();
                 $('#renameModal').modal('hide');
                 alert('更改成功!');
             },
             error: function (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
     }
@@ -960,13 +960,13 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 showTest();
                 $('#renameModal').modal('hide');
                 alert('更改成功!');
             },
             error: function (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
     }
@@ -987,12 +987,12 @@
                     loader.style.display = "none"
                 },
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
                     showChapter();
                     alert('刪除成功!');
                 },
                 error: function (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
             });
         }else{
@@ -1014,12 +1014,12 @@
                     loader.style.display = "none"
                 },
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
                     showTest();
                     alert('刪除成功!');
                 },
                 error: function (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
             });
         }else{
@@ -1042,12 +1042,12 @@
                     loader.style.display = "none"
                 },
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
                     showVideo();
                     alert('刪除成功!');
                 },
                 error: function (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
             });
         }else{
@@ -1066,7 +1066,7 @@
         if (end = -1) {
             end = videoURL.length
         }
-        console.log(end);
+        //console.log(end);
 
         if (pos != -1) {
             url = videoURL.substring(pos + 8, end);
@@ -1074,7 +1074,7 @@
         }
         let verifyYoutubeUrl = 'https://www.youtube.com/';
         let verifyYoutube = verifyYoutubeUrl.indexOf(verifyYoutubeUrl);
-        console.log("verifyYoutube" + verifyYoutube);
+        //console.log("verifyYoutube" + verifyYoutube);
         let Date1 = new Date().toLocaleString('zh-TW', {
             timeZone: 'Asia/Taipei'
         });
@@ -1100,13 +1100,13 @@
                     loader.style.display = "none"
                 },
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
                     $('#uploadVideoModal').modal('hide');
                     showVideo();
                     alert('新增成功!');
                 },
                 error: function (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
             });
         } else {
@@ -1124,7 +1124,7 @@
 
     let TestORHomeWorkMode = ""
     let HomeWorkModel = function () {
-        console.log("home");
+        //console.log("home");
         let exampleModalLabel = document.getElementById('TestORHomeWork');
         exampleModalLabel.innerHTML = "新增作業";
         let testnameLabel = document.getElementById('testName');
@@ -1132,11 +1132,11 @@
         let testName = document.getElementById('testNameinput');
         testName.placeholder = "請輸入作業名稱";
         TestORHomeWorkMode = "HomeWork";
-        console.log(TestORHomeWorkMode);
+        //console.log(TestORHomeWorkMode);
 
     }
     let TestModel = function () {
-        console.log("asd");
+        //console.log("asd");
         let exampleModalLabel = document.getElementById('TestORHomeWork');
         exampleModalLabel.innerHTML = "新增測驗"
         let testnameLabel = document.getElementById('testName');
@@ -1144,7 +1144,7 @@
         let testName = document.getElementById('testNameinput');
         testName.placeholder = "請輸入測驗名稱";
         TestORHomeWorkMode = "Test"
-        console.log(TestORHomeWorkMode);
+        //console.log(TestORHomeWorkMode);
 
     }
 
@@ -1154,7 +1154,7 @@
     let FBQ = document.getElementById('FBQ');
     let PGQ = document.getElementById('PGQ');
     let changeTypeOfQution = function functionName(e) {
-        console.log("onchange");
+        //console.log("onchange");
         if (e.value == "選擇題") {
             MCQ.style.cssText = "display:block";
             YNQ.style.cssText = "display:none";
@@ -1207,7 +1207,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：選擇題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p1 = document.createElement('div');
                 p1.innerHTML += "<h6>選項：</h6>"
                 for (let i = 0; i < newQution.selection.length; i++) {
@@ -1233,6 +1235,9 @@
                 }
                 p2.innerText = `正確答案：${correctanswer}`;
                 let p3 = document.createElement('p');
+                if(newQution.score == ""){
+                    newQution.score = "未設定"
+                }
                 p3.innerText = '配分：' + newQution.score;
                 let btn = document.createElement('button');
                 btn.className = 'close';
@@ -1270,7 +1275,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：是非題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p = document.createElement('p');
                 if (newQution.correctAnswers == 'yes') {
                     p.innerHTML = '正確答案：是';
@@ -1315,7 +1322,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：填空題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p = document.createElement('div');
                 p.innerHTML += "<h6>答案：</h6>"
                 for (let i = 0; i < newQution.correctAnswers.length; i++) {
@@ -1325,6 +1334,9 @@
                     p.appendChild(input)
                 }
                 let p3 = document.createElement('p');
+                if(newQution.score == ""){
+                    newQution.score = "未設定"
+                }
                 p3.innerText = '配分：' + newQution.score;
                 let btn = document.createElement('button');
                 btn.className = 'close';
@@ -1367,7 +1379,9 @@
                 let h5 = document.createElement('h5');
                 h5.innerText = "題目類型：程式題";
                 let h6 = document.createElement('h6');
-                h6.innerText = `題目：${newQution.qutionName}`;
+                h6.style.cssText="word-break: break-all"
+                h6.innerText = `題目：
+                ${newQution.qutionName}`;
                 let p1 = document.createElement('p');
                 p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
                 let p2 = document.createElement('p');
@@ -1378,6 +1392,9 @@
                 p4.innerHTML = `輸出範例：\n${newQution.outputExample}`;
                 let btn = document.createElement('button');
                 let p5 = document.createElement('p');
+                if(newQution.score == ""){
+                    newQution.score = "未設定"
+                }
                 p5.innerText = '配分：' + newQution.score;
                 btn.className = 'close';
                 // btn.attributes = 'data-dismiss="alert" aria-label="Close" qutionID=' + QuationList.length - 1;
@@ -1405,7 +1422,7 @@
     }
 
     function editQution(id) {
-        console.log(QuationList[id]);
+        //console.log(QuationList[id]);
         if (QuationList[id].type == "選擇題") {
             editMCQ(QuationList[id], id);
             changeTypeOfQution({
@@ -1434,19 +1451,19 @@
 
     function deleteQutioListItem(id) {
         QuationList[id] = '';
-        console.log(QuationList);
+        //console.log(QuationList);
     }
     //設定測驗發佈時間最早為今天
     let today = new Date().toLocaleString('zh-TW', {
         timeZone: 'Asia/Taipei'
     });
-    console.log("today = ", today);
+    //console.log("today = ", today);
     let split = today.split(" ");
     let ymd = split[0];
     let hm = split[1];
-    console.log("hm = ", hm);
+    //console.log("hm = ", hm);
     ymd = ymd.split("/");
-    console.log("ymd = ", ymd);
+    //console.log("ymd = ", ymd);
     let yyyy = ymd[0];
     let mm = ymd[1];
     if (parseInt(mm) < 10) {
@@ -1456,8 +1473,8 @@
     if (parseInt(dd) < 10) {
         dd = "0" + dd
     }
-    console.log("yyyy = ", yyyy, " mm = ", mm, " dd = ", dd);
-    console.log("hm = ", hm);
+    //console.log("yyyy = ", yyyy, " mm = ", mm, " dd = ", dd);
+    //console.log("hm = ", hm);
     let hh = "";
     let minute = "";
     if (hm.indexOf("上午") != -1) {
@@ -1473,10 +1490,10 @@
     } else if (hm.indexOf("下午") != -1) {
         hm = hm.split(":");
         hh = hm[0].replace("下午", "");
+        hh = parseInt(hh) +12;
         if (parseInt(hh) < 10) {
             hh = "0" + hh
         }
-        minute = hm[1];
         minute = hm[1];
         if (parseInt(minute) < 10) {
             minute = "0" + minute
@@ -1490,7 +1507,7 @@
 
     //當使用者選擇發佈時間時 要將結束時間設定成發佈時間之後
     let setEndTime = function (startTime) {
-        console.log(startTime.value);
+        //console.log(startTime.value);
         document.getElementById("EndpublicTime").setAttribute("min", startTime.value)
         document.getElementById("EndpublicTime").value = startTime.value
     }
@@ -1503,8 +1520,8 @@
         let EndpublicTime = new Date(document.getElementById('EndpublicTime').value);
         let publishScoreNow = document.getElementById('publishScoreNow').checked;
         let canCheckQuestionAndAnswer = document.getElementById('canCheckQuestionAndAnswer').checked;
-        console.log(publishScoreNow);
-        console.log(canCheckQuestionAndAnswer);
+        //console.log(publishScoreNow);
+        //console.log(canCheckQuestionAndAnswer);
         // let today = new Date();
         // var timeDiff = (publicTime.getTime() - today.getTime())/1000;
         // console.log(timeDiff);
@@ -1519,12 +1536,12 @@
             publishScoreNow: publishScoreNow,
             canCheckQuestionAndAnswer: canCheckQuestionAndAnswer
         }
-        console.log(testinfo);
+        //console.log(testinfo);
 
         //TODO
         //傳到伺服器存起來
         if (TestORHomeWorkMode == "Test") {
-            console.log("Test mode");
+            //console.log("Test mode");
             $.ajax({
                 url: '/class/addTest/class/<%=classinfo._id%>/unit/' + selectedUnitID,
                 type: 'POST',
@@ -1532,7 +1549,7 @@
                 data: JSON.stringify(testinfo),
                 dataType: 'json',
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
 
                     alert('新增成功');
                     $('#uploadTestModal').modal('hide')
@@ -1544,7 +1561,7 @@
             });
         }
         if (TestORHomeWorkMode == "HomeWork") {
-            console.log("homework mode");
+            //console.log("homework mode");
             $.ajax({
                 url: '/class/addHomeWork/class/<%=classinfo._id%>/unit/' + unitID,
                 type: 'POST',
