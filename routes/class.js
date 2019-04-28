@@ -565,6 +565,8 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
         classRoom: req.params.text
       }
     };
+    console.log(newvalues);
+    
     Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
