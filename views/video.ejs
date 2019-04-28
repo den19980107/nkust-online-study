@@ -235,21 +235,27 @@
         </div>
         <%}%>
         <button class="form-control mb-2">單元內影片</button>
-        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc">
+        <div id = "UnitVideo" style="width: 100%">
+
         </div>
-        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
-        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
-        <button class="form-control mb-2">相關影片</button>
-        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
-        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
-        <div class="mb-2" style="height: 180px; width: 100%;background: #ccc"></div>
 
     </div>
 </div>
-
-
 <script>
     let notes = <%- JSON.stringify(notes) %>
+    let recommandVideo = <%- JSON.stringify(recommandVideo) %>;
+    let videoinfo = <%- JSON.stringify(video) %>;
+    let UnitVideo = document.getElementById('UnitVideo');
+    for(let i = 0;i<recommandVideo.length;i++){
+        if(recommandVideo[i]._id != videoinfo._id){
+            UnitVideo.innerHTML+=`
+            <div class="mb-2" style="height: ${UnitVideo.offsetWidth/16*9}; width: 100%;background:black;" onclick="window.location = '/class/showVideo/${recommandVideo[i]._id}'">
+                <img src="https://img.youtube.com/vi/${recommandVideo[i].videoURL}/mqdefault.jpg" style="width:100%;height:100%">
+            </div>
+            `
+        }
+    }
+    
 
     notes.sort(function (a, b) {
         // Turn your strings into dates, and then subtract them

@@ -970,12 +970,15 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
             Note.find({
               author_id: req.user._id
             }, function (err, notes) {
-              res.render('video', {
-                video: video,
-                comments: comments,
-                classinfo: classinfo,
-                notes: notes
-              });
+              Video.find({belongUnit:unit._id},function(err,recommandVideo){
+                res.render('video', {
+                  video: video,
+                  comments: comments,
+                  classinfo: classinfo,
+                  notes: notes,
+                  recommandVideo:recommandVideo
+                });
+              })
             })
           });
 
