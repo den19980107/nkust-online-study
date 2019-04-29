@@ -677,9 +677,10 @@
         }
     }
 
-
+    let watchtime = 0;
     let videoTime = document.getElementById('videoTime');
     setInterval(function () {
+        watchtime++;
         nowtime = player.getCurrentTime();
         slider.value = nowtime;
         var hr = Math.floor(nowtime / 3600);
@@ -965,7 +966,8 @@
     window.onunload = function () {
         socket.emit('videoAction', {
             type: 'close',
-            time: Math.floor(slider.value)
+            time: Math.floor(slider.value),
+            totalTime:watchtime
         });
     }
 </script>

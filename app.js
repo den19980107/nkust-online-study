@@ -96,6 +96,7 @@ io.on('connection', function (socket) {
             }
             if (obj.type == "close") {
                 videobehavior.videoActions.push("close:"+obj.time+":"+obj.time );
+                videobehavior.videoActions.push("totalWatchTime:"+obj.totalTime+":"+obj.totalTime );
                 videobehavior.save(function (err) {
                     if (err) {
                         console.log(err);
