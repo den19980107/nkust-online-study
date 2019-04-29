@@ -131,7 +131,30 @@
                     isSubmited++;
                 }
             }
-            if(isSubmited == 0){
+            let testInUnit = 0;
+            for(let i = 0;i<allSubmits.length;i++){
+                if(allSubmits[i].belongUnit == nowUnit){
+                    testInUnit++;
+                }
+            }
+            //console.log(allSubmits.length);
+            
+            if(testInUnit ==0){
+                let rightbox = document.getElementById('showPercent');
+                rightbox.innerHTML='';
+                let alertDiv = document.createElement('div');
+                alertDiv.innerHTML='此單元尚未建立測驗';
+                alertDiv.style='text-align:center; margin-top:10px;';
+                alertDiv.className='col-sm-12 alert alert-danger';
+                rightbox.appendChild(alertDiv);
+                let currentGrade = document.getElementById('currentGrade');
+                currentGrade.innerHTML = '';
+                let alert = document.createElement('div');
+                alert.innerHTML = '此單元尚未建立測驗';
+                alert.style = 'text-align:center; margin-top:10px;';
+                alert.className = 'col-sm-12 alert alert-danger';
+                currentGrade.appendChild(alert);
+            }else if(isSubmited == 0){
               let rightbox = document.getElementById('showPercent');
               rightbox.innerHTML='';
               let alertDiv = document.createElement('div');
