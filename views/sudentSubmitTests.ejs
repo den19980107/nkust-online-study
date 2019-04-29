@@ -126,7 +126,7 @@
 
         <div class="row mb-3 mt-3 pb-0">
             <div class="col p-0">
-                <button class="btn btn-primary form-control" id="showDataBtn">觀看測驗情形</button>
+                <!-- <button class="btn btn-primary form-control" id="showDataBtn">觀看測驗情形</button> -->
             </div>
         </div>
 
@@ -233,17 +233,22 @@
                 testList.children[i].style.cssText = "background:rgb(150, 216, 168)";
             }
             e.style.cssText = "background:rgb(194, 190, 190)";
+            let totalSubmitter = 0;
             for (let i = 0; i < studentSubmits.length; i++) {
                 let submiterName = ''
                 for (let j = 0; j < submiter.length; j++) {
                     if (submiter[j]._id == studentSubmits[i].writer) {
                         if (studentSubmits[i].testID == testID) {
+                            totalSubmitter++;
                             submiterName = submiter[j].name;
                             studentList.innerHTML +=
                                 `<li class="studentList" onclick ="showSubmiterAnswer('${submiter[j]._id}','${testID}','${submiter[j].name}',this)">${submiterName}</li>`
                         }
                     }
                 }
+            }
+            if(totalSubmitter == 0){
+                studentList.innerHTML = "<p style = 'text-align:center'>還沒有人提交測驗喔!</p>"
             }
         }
         let showSubmiter2 = function (testID, e) {
