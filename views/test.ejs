@@ -26,12 +26,12 @@
     <%=test.testName%>(已提交過此測驗)
 </h4>
 <%}else{%>
-<div style="display: flex;justify-content:space-between;height: 3rem;">
-    <h4 style="width: 33%;line-height: 3rem">考卷名稱:
+<div class="row">
+    <h4 class="col-lg-4 col-sm-12" style="line-height: 3rem">考卷名稱:
             <%=test.testName%>
     </h4>
-    <p id = "ToppublicTime"  style="width: 33%;line-height: 3rem;text-align: center"></p>
-    <div style="width: 33%;">
+    <p class="col-lg-4 col-sm-12" id = "ToppublicTime"  style="line-height: 3rem;text-align: center"></p>
+    <div class="col-lg-4 col-sm-12" style="">
         <%if(user._id == classinfo.teacher){%>
             <button class="btn btn-secondary " data-toggle="modal" style="float: right;margin-top: 0.5rem" data-target="#uploadTestModal" onclick="EditTest()">編輯測驗</button>
                 <!-- Modal -->
