@@ -284,7 +284,8 @@
                     <p id="viewer" style="margin-right: 3rem">觀看人數：</p>
                     <p id="videoTime1">影片長度：</p>
                 </div>
-                <canvas id="myChart" style="width: 100px"></canvas>
+                <!-- <canvas id="myChart" style="width: 100px"></canvas> -->
+                <div id="container"></div>
             </div>
             <div class="mt-2" id="resentViewChartDiv"
                 style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:60vw ;">
@@ -297,6 +298,14 @@
         </div>
     </div>
 </div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+<!-- <div id="container"></div> -->
+
+
 <!-- 讓圖表可以被放大和滾動 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
@@ -550,92 +559,177 @@
             label[i] = i
         }
         //console.log(start,fastforward,reverse,pause,close,note);
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-            // The data for our dataset
-            data: {
-                labels: label,
-                datasets: [{
-                        label: '開始',
-                        fill:false,
-                        backgroundColor: 'rgb(144, 196,117)',
-                        borderColor: 'rgb(144, 196,117)',
-                        data: start
-                    },
-                    {
-                        label: '結束',
-                        fill:false,
-                        backgroundColor: 'rgb(242, 62, 92)',
-                        borderColor: 'rgb(242, 62, 92)',
-                        data: close
-                    },
-                    {
-                        label: '快轉',
-                        fill:false,
-                        backgroundColor: 'rgb(173, 191, 234)',
-                        borderColor: 'rgb(173, 191, 234)',
-                        data: fastforward
-                    },
-                    {
-                        label: '倒轉',
-                        fill:false,
-                        backgroundColor: 'rgb(214, 211, 173)',
-                        borderColor: 'rgb(214, 211, 173)',
-                        data: reverse
-                    },
-                    {
-                        label: '暫停',
-                        fill:false,
-                        backgroundColor: 'rgb(60, 39, 247)',
-                        borderColor: 'rgb(60, 39, 247)',
-                        data: pause
-                    },
-                    {
-                        label: '播放',
-                        fill:false,
-                        backgroundColor: 'rgb(173, 242, 167)',
-                        borderColor: 'rgb(173, 242, 167)',
-                        data: play
-                    },
-                    {
-                        label: '筆記',
-                        fill:false,
-                        backgroundColor: 'rgb(0, 0, 0)',
-                        borderColor: 'rgb(0, 0, 0)',
-                        data: note
+        // var ctx = document.getElementById('myChart').getContext('2d');
+        // var chart = new Chart(ctx, {
+        //     // The type of chart we want to create
+        //     type: 'line',
+        //     // The data for our dataset
+        //     data: {
+        //         labels: label,
+        //         datasets: [{
+        //                 label: '開始',
+        //                 fill:false,
+        //                 backgroundColor: 'rgb(144, 196,117)',
+        //                 borderColor: 'rgb(144, 196,117)',
+        //                 data: start
+        //             },
+        //             {
+        //                 label: '結束',
+        //                 fill:false,
+        //                 backgroundColor: 'rgb(242, 62, 92)',
+        //                 borderColor: 'rgb(242, 62, 92)',
+        //                 data: close
+        //             },
+        //             {
+        //                 label: '快轉',
+        //                 fill:false,
+        //                 backgroundColor: 'rgb(173, 191, 234)',
+        //                 borderColor: 'rgb(173, 191, 234)',
+        //                 data: fastforward
+        //             },
+        //             {
+        //                 label: '倒轉',
+        //                 fill:false,
+        //                 backgroundColor: 'rgb(214, 211, 173)',
+        //                 borderColor: 'rgb(214, 211, 173)',
+        //                 data: reverse
+        //             },
+        //             {
+        //                 label: '暫停',
+        //                 fill:false,
+        //                 backgroundColor: 'rgb(60, 39, 247)',
+        //                 borderColor: 'rgb(60, 39, 247)',
+        //                 data: pause
+        //             },
+        //             {
+        //                 label: '播放',
+        //                 fill:false,
+        //                 backgroundColor: 'rgb(173, 242, 167)',
+        //                 borderColor: 'rgb(173, 242, 167)',
+        //                 data: play
+        //             },
+        //             {
+        //                 label: '筆記',
+        //                 fill:false,
+        //                 backgroundColor: 'rgb(0, 0, 0)',
+        //                 borderColor: 'rgb(0, 0, 0)',
+        //                 data: note
+        //             }
+        //         ]
+        //     },
+
+        //     // Configuration options go here
+        //     options: {
+        //         pan: {
+        //             enabled: true,
+        //             mode: 'x',
+        //             speed: 10,
+        //             threshold: 10
+        //         },
+        //         zoom: {
+        //             enabled: true,
+        //             mode: 'x',
+        //             speed: 0.5
+        //         }
+        //     }
+        // });
+        Highcharts.chart('container', {
+            chart:{
+                zoomType: 'x',
+                type:'spline',
+                events:{
+                    click:function(event){
+                        console.log( event.xAxis[0].value);
+                        if(event.xAxis[0].value!=undefined){
+                            //console.log(activePoints[0]._index);
+                            showVideo();
+                            player.pauseVideo();
+                            player.seekTo(event.xAxis[0].value);
+                            $(".ytp-pause-overlay ytp-scroll-min").remove();
+                        }
                     }
-                ]
+                }
+            },
+            title: {
+                text: '<%=videoinfo.videoName%>的播放行為分析圖'
             },
 
-            // Configuration options go here
-            options: {
-                pan: {
-                    enabled: true,
-                    mode: 'x',
-                    speed: 10,
-                    threshold: 10
-                },
-                zoom: {
-                    enabled: true,
-                    mode: 'x',
-                    speed: 0.5
+            yAxis: {
+                title: {
+                    text: '行為次數'
                 }
-            }
+            },
+            xAxis: {
+                title: {
+                    text: '影片時間(秒)'
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 0
+                }
+            },
+
+            series: [{
+                name: '開始',
+                data: start
+            }, {
+                name: '結束',
+                data: close
+            }, {
+                name: '快轉',
+                data: fastforward
+            }, {
+                name: '倒轉',
+                data: reverse
+            },{
+                name: '播放',
+                data:play
+            }, {
+                name: 'pause',
+                data:pause
+            }, {
+                name: '筆記',
+                data:note
+            }],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            },
+
         });
-        document.getElementById('myChart').onclick = function (evt) {
-            var activePoints = chart.getElementsAtEvent(evt);
-            //console.log(activePoints[0]);
+        // document.getElementById('myChart').onclick = function (evt) {
+        //     var activePoints = chart.getElementsAtEvent(evt);
+        //     //console.log(activePoints[0]);
             
-            if(activePoints[0]!=undefined){
-                //console.log(activePoints[0]._index);
-                showVideo();
-                player.pauseVideo();
-                player.seekTo(activePoints[0]._index);
-                $(".ytp-pause-overlay ytp-scroll-min").remove();
-            }
-        }
+        //     if(activePoints[0]!=undefined){
+        //         //console.log(activePoints[0]._index);
+        //         showVideo();
+        //         player.pauseVideo();
+        //         player.seekTo(activePoints[0]._index);
+        //         $(".ytp-pause-overlay ytp-scroll-min").remove();
+        //     }
+        // }
     }
 
 
