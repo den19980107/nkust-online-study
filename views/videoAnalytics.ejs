@@ -302,6 +302,7 @@
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="http://code.highcharts.com/maps/modules/map.js"></script>
 
 <!-- <div id="container"></div> -->
 
@@ -634,8 +635,13 @@
         //     }
         // });
         Highcharts.chart('container', {
+            mapNavigation: {
+                enableMouseWheelZoom: true
+            },
+
             chart:{
-                zoomType: 'x',
+                panning: true,
+                panKey: 'shift',
                 type:'spline',
                 events:{
                     click:function(event){
