@@ -250,7 +250,7 @@
         if(recommandVideo[i]._id != videoinfo._id){
             UnitVideo.innerHTML+=`
             <p style="padding:0;font-size:20px;margin:0">${recommandVideo[i].videoName}</p>
-            <div class="mb-2" style="height: ${UnitVideo.offsetWidth/16*9}; width: 100%;background:black;" onclick="window.location = '/class/showVideo/${recommandVideo[i]._id}'">
+            <div class="mb-2" style="height: ${UnitVideo.offsetWidth/16*9}; width: 100%;background:black;border:1px solid black" onclick="window.location = '/class/showVideo/${recommandVideo[i]._id}'">
                 <img src="https://img.youtube.com/vi/${recommandVideo[i].videoURL}/mqdefault.jpg" style="width:100%;height:100%">
             </div>
             `
