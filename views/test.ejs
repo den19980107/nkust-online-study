@@ -1,4 +1,5 @@
 <% include layout/header %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <style>
     .qution{
         margin-bottom: 2rem;
@@ -22,11 +23,13 @@
     }
 </style>
 <%if(isSubmited){%>
+<a href="/class/newClassManager/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程單元頁面</i></a>
 <h4>考卷名稱:
     <%=test.testName%>(已提交過此測驗)
 </h4>
 <%}else{%>
 <div class="row">
+    <a href="/class/newClassManager/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程單元頁面</i></a>
     <h4 class="col-lg-4 col-sm-12" style="line-height: 3rem">考卷名稱:
             <%=test.testName%>
     </h4>

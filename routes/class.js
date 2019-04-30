@@ -1319,7 +1319,8 @@ router.get('/correctTestIn/:classID', ensureAuthenticated, function (req, res) {
               units: units,
               tests: tests,
               submits: submits,
-              submiter: submiter
+              submiter: submiter,
+              classinfo:classinfo
             });
           })
 
@@ -1966,7 +1967,8 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
               units: units,
               tests: tests,
               submits: submits,
-              submiter: submiter
+              submiter: submiter,
+              classinfo:classinfo
             });
           })
         })

@@ -1,4 +1,6 @@
 <% include layout/header %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
     <style media="screen">
       .space {
           display: flex;
@@ -13,9 +15,10 @@
         var tests = <%- JSON.stringify(tests) %>;
         //console.log(tests);
     </script>
+    <a href="/class/<%=units[0].belongClass%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程資訊頁面</i></a>
 
-        <h3>學習狀況</h3>
-        <hr>
+    <h3>學習狀況</h3>
+    <hr>
 
     <div class="row">
         <!-- 左邊的匡 -->

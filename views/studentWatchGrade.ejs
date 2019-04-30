@@ -1,4 +1,6 @@
 <% include layout/header %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 <style media="screen">
     pre {
         font-size: 1rem;
@@ -35,6 +37,7 @@
     var units = <%- JSON.stringify(units) %>;
     var tests = <%- JSON.stringify(tests) %>;
 </script>
+<a href="/class/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程資訊頁面</i></a>
 <div>
     <span style="font-size:30px;">測驗成績</span>
     <hr>
