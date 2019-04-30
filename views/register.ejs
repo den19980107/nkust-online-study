@@ -9,7 +9,7 @@
 <h3>
     註冊
 </h3>
-<form method="POST" action="/users/register">
+<form method="POST" action="/users/register" onsubmit="submitBTN.disabled=true ; return true;">
     <div id="remember_form">
         <div class="form-group">
             <label>姓名: <label style="color: red">*</label></label>
@@ -52,7 +52,7 @@
                 <input type="text" class="form-control" name="studentid">
             </div>
         </div>
-        <input type="submit" id="submit" class="btn btn-primary submit" value="註冊">
+        <input type="submit" id="submit" name="submitBTN" class="btn btn-primary submit" value="註冊">
     </div>
 </form>
 
