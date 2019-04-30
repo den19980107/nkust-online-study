@@ -349,9 +349,12 @@
             for (let i = 0; i < qutions.testQutions.length; i++) {
                 if(qutions.testQutions[i].type=="程式題"){
                     if(typeof answerArray[i] === 'undefined'){
-                        qutions.testQutions[i].studentAnswer = null
-                        qutions.testQutions[i].language = null
-                        qutions.testQutions[i].isCorrect = false
+                        alert("還有程式題沒有編譯過喔！請編譯過後再提交")
+                        document.getElementById('finishTestBtn').disabled = false;
+                        // qutions.testQutions[i].studentAnswer = null
+                        // qutions.testQutions[i].language = null
+                        // qutions.testQutions[i].isCorrect = false
+                        return;
                     }else{
                         qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
                         qutions.testQutions[i].language = answerArray[i].language
@@ -436,7 +439,7 @@
                     console.log(obj);
                     console.log(obj.body.output);
                     console.log(qution.language);
-                    if(typeof obj.body.output === 'undefined'){
+                    if(typeof obj.body.output === 'undefined' || obj.body.output === null){
 
                     }else{
                         obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
@@ -496,7 +499,7 @@
           },
           success: function (response) {
               alert('填寫測驗成功');
-              window.location = "/class/<%=classinfo._id%>/showUnit/<%=test.belongUnit%>"
+              window.location = "/class/newClassManager/<%=classinfo._id%>"
           }
       })
     }
