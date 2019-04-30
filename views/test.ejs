@@ -28,8 +28,10 @@
     <%=test.testName%>(已提交過此測驗)
 </h4>
 <%}else{%>
+<div class="raw">
+  <a href="/class/newClassManager/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程單元頁面</i></a>
+</div>
 <div class="row">
-    <a href="/class/newClassManager/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程單元頁面</i></a>
     <h4 class="col-lg-4 col-sm-12" style="line-height: 3rem">考卷名稱:
             <%=test.testName%>
     </h4>
@@ -373,7 +375,7 @@
                     }
                 }else{
                     console.log(answerArray[i]);
-                    
+
                     if(typeof answerArray[i] === 'undefined'){
                         qutions.testQutions[i].studentAnswer = -1
                         qutions.testQutions[i].isCorrect = false
@@ -392,7 +394,7 @@
                 for(let j = 0;j<qution.selection.length;j++){
                     //console.log("j = "+qution.studentAnswer[j]);
                     console.log(qution.studentAnswer);
-                    
+
                     if(qution.studentAnswer[j]=="1"){
                         studentAnswers.push(qution.selection[j]);
                     }
@@ -435,7 +437,7 @@
                 }
                 console.log("testverification = -------");
                 console.log(testverification);
-                
+
                 var socket = io();
                 socket.emit('script', testverification);
                 socket.on('answer', function (obj) {
