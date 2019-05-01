@@ -172,6 +172,18 @@
         .videos{
             padding: 0 !important;
         }
+        #videoDiv{
+            width: 100% !important:
+        }
+        .mobile{
+            width: 100% !important;
+            padding: 0.6rem;
+        }
+        .mobile-video{
+            width: 95vw !important;
+            height: 53.4375vw !important;
+            margin: 0.5rem;
+        }
     }
 
 </style>
@@ -266,10 +278,10 @@
         </div>
         <div id="analyzingDiv" style="display: none">
             <div id = "videoDiv" style="display: none;">
-                <div style="width:60vw;display: flex;justify-content: flex-end;">
+                <div class="mobile" style="width:60vw;display: flex;justify-content: flex-end;">
                     <button class="btn btn-danger mb-1" onclick="$('#videoDiv').hide();stopVideo();">隱藏影片</button>
                 </div>
-                <div class="mt-2 bg-dark" 
+                <div class="mobile-video" class="mt-2 bg-dark" 
                     style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:36.5vw; width:60vw;">
                     <div id="video">
                         <div id="player" class="w-100">
@@ -657,12 +669,17 @@
                 }
             },
             title: {
-                text: '<%=videoinfo.videoName%>的播放行為分析圖'
+                text: '播放行為'
             },
-
             yAxis: {
+                lineWidth: 1,
+                tickWidth: 1,
                 title: {
-                    text: '行為次數'
+                    align: 'high',
+                    offset: 0,
+                    text: '次數',
+                    rotation: 0,
+                    y: -10
                 }
             },
             xAxis: {
