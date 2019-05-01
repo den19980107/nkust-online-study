@@ -114,7 +114,11 @@
         background: rgb(224, 224, 224)
     }
 
-    .chapter a:focus {
+    /* .chapter a:focus {
+        border-left: 4px solid rgb(199, 45, 39);
+        outline: none
+    } */
+    .chapterFocus{
         border-left: 4px solid rgb(199, 45, 39);
         outline: none
     }
@@ -201,19 +205,19 @@
                 <a href="#" style="font-size: 14px;color: rgb(85, 85, 85)">影片</a>
             </li>
             <li class="chapter">
-                <a href="#" onclick="showVideoDetial('<%=videoinfo._id%>')">
+                <a id="list1" href="#" onclick="showVideoDetial('<%=videoinfo._id%>')">
                     <i class="fas fa-pen"></i>
                     <p>詳細資料</p>
                 </a>
             </li>
             <li class="chapter">
-                <a href="#" onclick="analyseData('<%=videoinfo._id%>')">
+                <a id="list2" href="#" onclick="analyseData('<%=videoinfo._id%>')">
                     <i class="fas fa-chart-bar"></i>
                     <p>數據分析</p>
                 </a>
             </li>
             <li class="chapter">
-                <a href="#" onclick="showComment('<%=videoinfo._id%>')">
+                <a id="list3" href="#" onclick="showComment('<%=videoinfo._id%>')">
                     <i class="far fa-comment-alt"></i>
                     <p>留言</p>
                 </a>
@@ -331,8 +335,28 @@
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
+    //改變左變選項讓他被選到時會有一條紅線在左邊
+    let changeLeftList = function(id){
+        let list1 = document.getElementById('list1');
+        let list2 = document.getElementById('list2');
+        let list3 = document.getElementById('list3');
+        list1.className = "";
+        list2.className = "";
+        list3.className = "";
+        for(let i = 1;i<=3;i++){
+            let selectChapter = document.getElementById('list'+id);
+            console.log(id,i);
+            if(id == i){
+                console.log(selectChapter.className);
+                selectChapter.className = "chapterFocus"
+                console.log(selectChapter.className);
+                
+            }
+        }
+    }
     //顯示影片詳細資訊
     let showVideoDetial = function(videoID){
+        changeLeftList(1);
         let analyzingDiv = document.getElementById('analyzingDiv');
         let commentDiv = document.getElementById('commentDiv');
         let videDitalDiv =document.getElementById('videDitalDiv');
@@ -396,6 +420,7 @@
     }
     //使用者按下數據分析時
     let analyseData = function (videoID) {
+        changeLeftList(2);
         let analyzingDiv = document.getElementById('analyzingDiv');
         let commentDiv = document.getElementById('commentDiv');
         let videDitalDiv =document.getElementById('videDitalDiv');
@@ -426,6 +451,7 @@
     }
     //使用者按下留言時
     let showComment = function(videoID){
+        changeLeftList(3);
         let analyzingDiv = document.getElementById('analyzingDiv');
         let commentDiv = document.getElementById('commentDiv');
         let videDitalDiv =document.getElementById('videDitalDiv');
