@@ -281,7 +281,7 @@
         <script>
             let data = "<%=classinfo.classTime%>";
             let isTeacher = "<%=isTeacher%>"
-            console.log(isTeacher);
+            //console.log(isTeacher);
             let classtime = [];
             classtime = data.split(',');
             let classtimelist = document.getElementById('classtimelist');
@@ -342,7 +342,7 @@
         <%}%>
         <%}%>
         <%if(user.permission == "student"){%>
-        
+
         <!--可以管理批閱考卷-->
         <%for(let i = 0;i < thisClassStudents.length;i++){%>
         <%if(thisClassStudents[i].studentID==user._id){%>
@@ -378,7 +378,7 @@
         <button id="quitClassBtn" class="btn btn-danger form-control " style="color:white ;display: none">退出此課程</button>
         <script>
             let thisClassStudents = <%- JSON.stringify(thisClassStudents)%>
-            console.log(thisClassStudents);
+            //console.log(thisClassStudents);
             let inclassStudentNumber = 0;
             let isin = "NOT_IN";
             let takeClassBtn = document.getElementById('takeClassBtn');
@@ -391,11 +391,11 @@
                 if (thisClassStudents[i].studentID == "<%=user._id%>") {
                     if (thisClassStudents[i].permission != "00000") { //已經正式成為學生了
                         isin = "IS_IN";
-                        console.log("is in");
+                        //console.log("is in");
                     }
                     if (thisClassStudents[i].permission == "00000") { //等待老師批准中
                         isin = "WAITTING_APPROVE";
-                        console.log("wait approve");
+                        //console.log("wait approve");
 
                     }
                 }
@@ -425,7 +425,7 @@
             } else if (isin == "NOT_IN") { //未申請過此課程
                 quitClassBtn.style.cssText = "display:none";
                 waitapprove.style.cssText = "display:none"
-                console.log("not Submmited");
+                //console.log("not Submmited");
             }
         </script>
         <%}%>
@@ -539,7 +539,7 @@
 
 
     let titleText = ''
-    console.log("asd");
+    //console.log("asd");
 
     let isSet = false;
     let updateClassInfo = function (info) {
@@ -548,7 +548,7 @@
             let title = document.getElementById('title');
             titleText = title.innerText.substr(5, title.innerText.length - 1);
             let titleDIV = document.getElementById('titleDIV');
-            console.log(titleDIV);
+            //console.log(titleDIV);
             titleDIV.innerHTML =
                 `<input value = "${titleText}" id="updateTitleText" class="form-control" onkeypress ="sendUpdate(event,'title')" onfocusout = "cancelUpdate('title')"/>`
             document.getElementById('updateTitleText').focus();
@@ -577,14 +577,14 @@
             let selectedTimeDiv = document.getElementById('selectedTime');
 
             //如果chooseClassTime裡面有東西表示老師有設定過時間 就要先把它顯示出來
-            console.log(chooseClassTime);
+            //console.log(chooseClassTime);
             for(let i = 0;i<chooseClassTime.length;i++){
                 if(chooseClassTime[i] == ""){
                     chooseClassTime.splice(i,1);
                 }
             }
             if (chooseClassTime.length != 0) {
-                console.log("有之前設定的時間");
+                //console.log("有之前設定的時間");
                 if (isSet == false) {
                     isSet = true;
                     for (let i = 0; i < chooseClassTime.length; i++) {
@@ -660,7 +660,7 @@
         }
         if (part == 'outline') {
             let outline = document.getElementById('outline').value;
-            console.log(outline);
+            //console.log(outline);
 
             //把outline update到db中
             $.ajax({
@@ -670,8 +670,8 @@
 
         }
         if (part == "classTime") {
-            console.log("classTime");
-            console.log(chooseClassTime);
+            //console.log("classTime");
+            //console.log(chooseClassTime);
             //把classTime update到db中
 
             $.ajax({
@@ -691,7 +691,7 @@
         }
         if (part == "classRoom") {
             let updateClassRoomText = document.getElementById('updateClassRoomText').value
-            console.log(updateClassRoomText);
+            //console.log(updateClassRoomText);
             if(updateClassRoomText == ""){
                 updateClassRoomText = "未設定"
             }
@@ -709,7 +709,7 @@
         }
         if (part == "credit") {
             let updatecreditText = document.getElementById('updatecreditText').value
-            console.log(updatecreditText);
+            //console.log(updatecreditText);
             //把classRoom update到db中
             $.ajax({
                 url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + updatecreditText,
@@ -765,7 +765,7 @@
 
         selectedTimeDiv.innerHTML = '';
         chooseClassTime.push(weekday.value + ' ' + beginTime.value + '~' + endTime.value);
-        console.log(chooseClassTime);
+        //console.log(chooseClassTime);
         chooseClassTimeLabel.innerHTML = chooseClassTime
         chooseClassTimeLabel.value = chooseClassTime;
         for(let i = 0;i<chooseClassTime.length;i++){

@@ -170,7 +170,7 @@
                                                 <%=comment.userName%>
                                             </h5>
                                             <%}%>
-    
+
                                             <p>
                                                 <%=comment.commentTime%>
                                             </p>
@@ -181,7 +181,7 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <%}%>                    
+                                        <%}%>
                                     </div>
                                     <div class="row">
                                         <p style="width: 100%;word-wrap:break-word;padding-right: 5px;">
@@ -246,7 +246,7 @@
     var text = hidedata.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
     let Detail = document.getElementById('Detail');
     Detail.innerHTML = text
-    console.log(text);
+    //console.log(text);
 
     // CKEDITOR.instances.Detail.setData(text);
 
@@ -263,11 +263,11 @@
 
     window.onload = function () {
         let chapterIMG = $('img');
-        console.log(chapterIMG);
+        //console.log(chapterIMG);
         for(let i = 1;i<chapterIMG.length-1;i++){
             chapterIMG[i].style.cssText = "width:100%"
         }
-        
+
         let replyInput = document.getElementById('replyInput');
         let submitComment = document.getElementById('submitComment');
         if (replyInput.value == "") {
@@ -317,11 +317,11 @@
                     ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
                     ymdB = postTimeB[0].split("/");
                     ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
-                    console.log(ymdA, ymdB);
+                    //console.log(ymdA, ymdB);
 
                     return new Date(ymdA) - new Date(ymdB);
                 });
-                console.log(response);
+                //console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
                     noteList.innerHTML +=
@@ -346,27 +346,27 @@
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                     `
@@ -435,7 +435,7 @@
             title: "無標題",
             body: ""
         }
-        console.log(note);
+        //console.log(note);
         $.ajax({
             url: '/users/note/createNote',
             type: 'POST',
@@ -451,7 +451,7 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
 
                 let noteList = document.getElementById('noteList');
                 noteList.innerHTML = '';
@@ -478,27 +478,27 @@
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                     `
@@ -511,13 +511,13 @@
 
 
     let showNote = function (noteID) {
-        console.log(noteID);
+        //console.log(noteID);
         let note = document.getElementById('noteView');
         note.style.cssText = "display:block"
         let noteList = document.getElementById('noteList');
         noteList.style.cssText = "display:none"
 
-        console.log(document.getElementById('note'));
+        //console.log(document.getElementById('note'));
         CKEDITOR.instances.note.setData("");
 
         nowWrittingNote = noteID
@@ -556,7 +556,7 @@
         let title = document.getElementById('title');
         title.value = "筆記本"
         title.disabled = true
-        console.log(note);
+        //console.log(note);
         note.style.cssText = "display:none"
         let noteList = document.getElementById('noteList');
         noteList.style.cssText = 'height: 28rem;overflow-y: scroll'
@@ -587,11 +587,11 @@
                     ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
                     ymdB = postTimeB[0].split("/");
                     ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
-                    console.log(ymdA, ymdB);
+                    //console.log(ymdA, ymdB);
 
                     return new Date(ymdA) - new Date(ymdB);
                 });
-                console.log(response);
+                //console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
                     noteList.innerHTML +=
@@ -615,27 +615,27 @@
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                     `
@@ -646,14 +646,14 @@
         });
     }
     let saveNote = function () {
-        console.log("nowWrittingNote = " + nowWrittingNote);
+        //console.log("nowWrittingNote = " + nowWrittingNote);
 
         if (nowWrittingNote != '') {
             note = {
                 body: CKEDITOR.instances.note.getData(),
                 title: document.getElementById('title').value
             }
-            console.log(note);
+            //console.log(note);
 
 
             $.ajax({
@@ -686,7 +686,7 @@
     }
 
     let deleteComment = function(commentID){
-        console.log(commentID);
+        //console.log(commentID);
         if (window.confirm('您確定要刪除嗎？') == true) {
             window.location = "/SDC/deleteChapterComment/<%=chapter._id%>/"+commentID;
         }else{
