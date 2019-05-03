@@ -1051,7 +1051,10 @@
                     dataAndName.push({
                         name: response[i].studentName,
                         colorByPoint: true,
-                        data: [myData[i]]
+                        data: [myData[i]],
+                        marker: {
+                            symbol: 'circle'
+                        }
                     })
                 }
                 // // Give the points a 3D feel by adding a radial gradient
