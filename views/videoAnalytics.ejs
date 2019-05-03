@@ -353,10 +353,12 @@
         let list1 = document.getElementById('list1');
         let list2 = document.getElementById('list2');
         let list3 = document.getElementById('list3');
+        let list4 = document.getElementById('list4');
         list1.className = "";
         list2.className = "";
         list3.className = "";
-        for(let i = 1;i<=3;i++){
+        list4.className = "";
+        for(let i = 1;i<=4;i++){
             let selectChapter = document.getElementById('list'+id);
             console.log(id,i);
             if(id == i){
@@ -964,6 +966,7 @@
     }
 
     let showRFM = function(){
+        changeLeftList(4);
         $.ajax({
             url: '/api/showRFMAnalizying/<%=videoinfo._id%>',
             type: 'GET',
@@ -1043,6 +1046,14 @@
                     myData.push(data)
                 }
                 console.log(myData);
+                let dataAndName = []
+                for(let i =0;i<myData.length;i++){
+                    dataAndName.push({
+                        name: response[i].studentName,
+                        colorByPoint: true,
+                        data: [myData[i]]
+                    })
+                }
                 // // Give the points a 3D feel by adding a radial gradient
                 // Highcharts.setOptions({
                 //     colors: Highcharts.getOptions().colors.map(function (color) {
@@ -1112,11 +1123,7 @@
                     legend: {
                         enabled: false
                     },
-                    series: [{
-                        name: 'Reading',
-                        colorByPoint: true,
-                        data: myData
-                    }]
+                    series: dataAndName
                 });
 
 

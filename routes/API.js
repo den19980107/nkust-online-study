@@ -395,7 +395,8 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                         R:"",
                         F:"",
                         M:0,
-                        studentID:""
+                        studentID:"",
+                        studentName:""
                     }
                 }
                 let date = new Date().toLocaleString().split(" ")[0];
@@ -408,6 +409,8 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                 let ss = time.split(":")[2].split(".")[0];
                 let nowTime = new Date(Date.UTC(year,month-1,day,hr,mm,ss));
                 console.log("nowTime = ",nowTime);
+
+                let studentIDs = []
                 for(let i = 0;i<studentRFM.length;i++){
                     studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600;
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
@@ -417,15 +420,26 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                     }
                     console.log("---------------------------");
                     
-                    studentRFM[i].studentID = studentBehavior[i].studentID
+                    studentRFM[i].studentID = studentBehavior[i].studentID;
+                    studentIDs.push(ObjectID(studentBehavior[i].studentID).toString())
+                    //studentRFM[i].studentName = findById(studentBehavior[i].studentID)
                 }
-                console.log(studentRFM);
-                res.json(studentRFM)
+                User.find({_id:studentIDs},function(err,studentinfo){
+                    for(let i = 0;i<studentRFM.length;i++){
+                        for(let j = 0;j<studentinfo.length;j++){
+                            console.log(studentRFM[i].studentID,studentinfo[j]);
+                            if(studentRFM[i].studentID == studentinfo[j]._id){
+                                studentRFM[i].studentName = studentinfo[j].name;
+                            }
+                        }
+                    }
+                    console.log(studentRFM);
+                    res.json(studentRFM)
+                })
             }        
         })
     })
 })
-
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
