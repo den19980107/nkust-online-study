@@ -1041,6 +1041,15 @@
                 M = M.map(function(num){
                     return map(num,Mmin,Mmax,0,100)
                 })
+                Rcolor = R.map(function(num){
+                    return map(num,0,100,0,255)
+                })
+                Fcolor = F.map(function(num){
+                    return map(num,0,100,0,255)
+                })
+                Mcolor = M.map(function(num){
+                    return map(num,0,100,0,255)
+                })
                 for(let i = 0;i<response.length;i++){
                     let data = [R[i],F[i],M[i]];
                     myData.push(data)
@@ -1050,13 +1059,15 @@
                 for(let i =0;i<myData.length;i++){
                     dataAndName.push({
                         name: response[i].studentName,
-                        colorByPoint: true,
+                        color: `rgb(${Rcolor[i]},${Fcolor[i]},${Mcolor[i]})`,
                         data: [myData[i]],
                         marker: {
                             symbol: 'circle'
                         }
                     })
                 }
+                console.log(dataAndName);
+                
                 // // Give the points a 3D feel by adding a radial gradient
                 // Highcharts.setOptions({
                 //     colors: Highcharts.getOptions().colors.map(function (color) {
