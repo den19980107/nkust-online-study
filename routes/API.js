@@ -322,6 +322,110 @@ router.get('/getTestInUnit/:chapterID', function (req, res) {
     })
 })
 
+//RFM分析
+router.get('/showRFMAnalizying/:videoID',function(req,res){
+    let videoID = req.params.videoID;
+    Video.findById(videoID,function(err,videoinfo){
+        if(err){
+            console.log(err);
+        }
+        let vtime = videoinfo.vtime;
+        Videobehavior.find({videoID:videoID},function(err,videobehaviors){
+            if(videobehaviors.length == 0 ){
+                res.send('{"response" : "沒有觀看紀錄", "status" : 500}');
+            }else{
+                videobehaviors = videobehaviors.sort(function (a, b) {
+                    return a.watcherID > b.watcherID ? 1 : -1;
+                });
+                let studentBehavior = [{
+                    studentID:"",
+                    behaviors:[],
+                    lastwatchTime:new Date(1999)
+                }];
+                let nowWatcherID = videobehaviors[0].watcherID;
+                studentBehavior[0].studentID = nowWatcherID;
+                let count = 0;
+                
+                for(let i = 0;i<videobehaviors.length;i++){
+                    if(nowWatcherID == videobehaviors[i].watcherID){
+                        studentBehavior[count].behaviors.push(videobehaviors[i].videoActions);
+                        let date = videobehaviors[i].watchTime.split("@")[0];
+                        let year = date.split("/")[2];
+                        let month = date.split("/")[1];
+                        let day = date.split("/")[0];
+                        let time = videobehaviors[i].watchTime.split("@")[1];
+                        let hr = time.split(":")[0];
+                        let mm = time.split(":")[1];
+                        let ss = time.split(":")[2];
+                        if(studentBehavior[count].lastwatchTime<new Date(Date.UTC(year,month-1,day,hr,mm,ss))){
+                            studentBehavior[count].lastwatchTime =new Date(Date.UTC(year,month-1,day,hr,mm,ss));
+                        }
+                        console.log(year,month,day,hr,mm,ss);
+                        
+                    }else{
+                        console.log("------------------------");
+                        nowWatcherID = videobehaviors[i].watcherID;
+                        count++;
+                        studentBehavior[count] = {
+                            studentID:"",
+                            behaviors:[],
+                            lastwatchTime:""
+                        }
+                        studentBehavior[count].studentID = nowWatcherID;
+                        studentBehavior[count].behaviors.push(videobehaviors[i].videoActions);
+                        let date = videobehaviors[i].watchTime.split("@")[0];
+                        let year = date.split("/")[2];
+                        let month = date.split("/")[1];
+                        let day = date.split("/")[0];
+                        let time = videobehaviors[i].watchTime.split("@")[1];
+                        let hr = time.split(":")[0];
+                        let mm = time.split(":")[1];
+                        let ss = time.split(":")[2];
+                        if(studentBehavior[count].lastwatchTime<new Date(Date.UTC(year,month-1,day,hr,mm,ss))){
+                            studentBehavior[count].lastwatchTime =new Date(Date.UTC(year,month-1,day,hr,mm,ss));
+                        }
+                        console.log(year,month,day,hr,mm,ss);
+                    }
+                }
+                console.log(studentBehavior);
+                let studentRFM = []
+                //TODO 濾掉無效紀錄
+                for(let i = 0;i<studentBehavior.length;i++){
+                    studentRFM[i] = {
+                        R:"",
+                        F:"",
+                        M:0,
+                        studentID:""
+                    }
+                }
+                let date = new Date().toLocaleString().split(" ")[0];
+                let year = date.split("-")[0];
+                let month = date.split("-")[1];
+                let day = date.split("-")[2];
+                let time = new Date().toLocaleString().split(" ")[1];
+                let hr = time.split(":")[0];
+                let mm = time.split(":")[1];
+                let ss = time.split(":")[2].split(".")[0];
+                let nowTime = new Date(Date.UTC(year,month-1,day,hr,mm,ss));
+                console.log("nowTime = ",nowTime);
+                for(let i = 0;i<studentRFM.length;i++){
+                    studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600;
+                    studentRFM[i].F = studentBehavior[i].behaviors.length;
+                    for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
+                        //console.log(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1]);
+                        studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1])
+                    }
+                    console.log("---------------------------");
+                    
+                    studentRFM[i].studentID = studentBehavior[i].studentID
+                }
+                console.log(studentRFM);
+                res.json(studentRFM)
+            }        
+        })
+    })
+})
+
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
