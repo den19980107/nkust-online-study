@@ -440,6 +440,24 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
         })
     })
 })
+
+//send Userinfo
+router.get('/getuserinfo/:id',function(req,res){
+    User.findById(req.params.id,function(err,userinfo){
+        if(err){
+            console.log(err);
+        }
+        let publicInfo = {
+            department: userinfo.department,
+            email: userinfo.email,
+            name: userinfo.name,
+            schoolname: userinfo.schoolname,
+            studentid: userinfo.studentid,    
+            username: userinfo.username
+        }
+        res.json(publicInfo)
+    })
+})
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

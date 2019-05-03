@@ -325,7 +325,29 @@
         </div>
     </div>
 </div>
-
+<div class="modal" id = "watcherInfoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">關看者資訊</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p id ="name"></p>
+            <p id ="username"></p>
+            <p id ="schoolname"></p>
+            <p id ="department"></p>
+            <p id ="studentid"></p>
+            <p id ="email"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -1058,6 +1080,7 @@
                 let dataAndName = []
                 for(let i =0;i<myData.length;i++){
                     dataAndName.push({
+                        id:response[i].studentID,
                         name: response[i].studentName,
                         color: `rgb(${Rcolor[i]},${Fcolor[i]},${Mcolor[i]})`,
                         data: [myData[i]],
@@ -1116,23 +1139,57 @@
                             width: 10,
                             height: 10,
                             depth: 10
+                        },
+                        series: {
+                            cursor: 'pointer',
+                            events: {
+                                click: function (e) {
+                                    console.log(e.point.series.userOptions.id);
+                                    let userID = e.point.series.userOptions.id
+                                    $.ajax({
+                                        url: '/api/getuserinfo/'+userID,
+                                        type: 'GET',
+                                        beforeSend: function () {
+                                            let loader = document.getElementById('line-loader');
+                                            loader.style.display = "block"
+                                        },
+                                        complete: function () {
+                                            let loader = document.getElementById('line-loader');
+                                            loader.style.display = "none"
+                                        },
+                                        error: function (error) {
+                                            alert(error.error);
+                                        },
+                                        success: function (response) {
+                                            console.log(response);
+                                            document.getElementById('username').innerHTML = "帳號:  "+response.username;
+                                            document.getElementById('name').innerHTML = "姓名:  "+response.name
+                                            document.getElementById('schoolname').innerHTML = "就讀學校:  "+response.schoolname
+                                            document.getElementById('department').innerHTML = "就讀科系:  "+response.department
+                                            document.getElementById('studentid').innerHTML = "學號:  "+response.studentid
+                                            document.getElementById('email').innerHTML = "信箱:  "+response.email
+                                            $('#watcherInfoModal').modal()
+                                        }         
+                                    })      
+                                }   
+                            }
                         }
                     },
                     yAxis: {
                         min: 0,
                         max: 100,
-                        title: {text:"F"}
+                        title: {text:"F(觀看頻率)"}
                     },
                     xAxis: {
                         min: 0,
                         max: 100,
                         gridLineWidth: 1,
-                        title: {text:"R"}
+                        title: {text:"R(最近觀看)"}
                     },
                     zAxis: {
                         min: 0,
                         max: 100,
-                        title:{text:"M"}
+                        title:{text:"M(花費成本)"}
                     },
                     legend: {
                         enabled: false
