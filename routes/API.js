@@ -390,15 +390,20 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                 //TODO 濾掉無效紀錄
                 for(let i = 0;i<studentBehavior.length;i++){
                     let tempbehaviors = []
-                    console.log(studentBehavior[i].behaviors.length);
+                    console.log("學生："+studentBehavior[i].studentID);
+                    console.log("濾掉之前有"+studentBehavior[i].behaviors.length+"筆紀錄");
+                    console.log("影片時間 = "+vtime);
                     
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
+                        console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
+                        
                         if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/10){
                             tempbehaviors.push(studentBehavior[i].behaviors[j])
                         }
                     }
                     studentBehavior[i].behaviors = tempbehaviors
-                    console.log(studentBehavior[i].behaviors.length);
+                    console.log("濾掉之後有"+studentBehavior[i].behaviors.length+"筆紀錄");
+                    console.log("------------------");
                     
                 }
                 let studentRFM = []
