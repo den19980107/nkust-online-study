@@ -243,6 +243,9 @@
     </div>
 </div>
 <script>
+    let user = <%- JSON.stringify(user)%>;
+    console.log(user);
+    
     let notes = <%- JSON.stringify(notes) %>
     let recommandVideo = <%- JSON.stringify(recommandVideo) %>;
     let videoinfo = <%- JSON.stringify(video) %>;
@@ -337,10 +340,12 @@
             // console.log(event.data);
             if (event.data == 1) {
                 console.log("播放"+Math.floor(slider.value));
-                socket.emit('videoAction', {
+                if(user.permission == "student"){
+                    socket.emit('videoAction', {
                         type: 'play',
                         time: Math.floor(slider.value)
-                });
+                    });
+                }
                 action.push("播放:" + parseInt(event.target.getCurrentTime()) / 60)
                 //console.table(action);
                 if (PlayPauseBtn.className == play) {
@@ -354,10 +359,12 @@
                 if (PlayPauseBtn.className == pause) {
                     PlayPauseBtn.className = play;
                 }
-                socket.emit('videoAction', {
-                        type: 'pause',
-                        time: Math.floor(slider.value)
-                });
+                if(user.permission == "student"){
+                    socket.emit('videoAction', {
+                            type: 'pause',
+                            time: Math.floor(slider.value)
+                    });
+                }
             }
         }
     }
@@ -372,12 +379,14 @@
         player.setVolume(volume.value)
         player.seekTo(0);
         //網頁打開紀錄
-        socket.emit('videoAction', {
-            type: 'open',
-            watcherID: "<%=user._id%>",
-            videoID: "<%=video._id%>",
-            vtime: vtime
-        });
+        if(user.permission == "student"){
+            socket.emit('videoAction', {
+                type: 'open',
+                watcherID: "<%=user._id%>",
+                videoID: "<%=video._id%>",
+                vtime: vtime
+            });
+        }
 
     }
 
@@ -411,12 +420,13 @@
             let beginTime = nowtime;
             player.seekTo(slider.value);
             console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
-
-            socket.emit('videoAction', {
-                type: 'fastTurn',
-                beginTime: Math.floor(beginTime),
-                endTime: Math.floor(slider.value)
-            });
+            if(user.permission == "student"){
+                socket.emit('videoAction', {
+                    type: 'fastTurn',
+                    beginTime: Math.floor(beginTime),
+                    endTime: Math.floor(slider.value)
+                });
+            }
             let play = "fas fa-play mr-2";
             let isplay = document.getElementById('PlayPauseBtn');
 
@@ -590,10 +600,12 @@
                 focus:function(e){
                     let slider = document.getElementById('slider');
                     console.log("focus");
-                    socket.emit('videoAction', {
-                        type: 'note',
-                        time: Math.floor(slider.value)
-                });
+                    if(user.permission == "student"){
+                        socket.emit('videoAction', {
+                            type: 'note',
+                            time: Math.floor(slider.value)
+                        });
+                    }
                 }
             },
         });
@@ -965,11 +977,13 @@
         }
     }
     window.onunload = function () {
-        socket.emit('videoAction', {
-            type: 'close',
-            time: Math.floor(slider.value),
-            totalTime:watchtime
-        });
+        if(user.permission == "student"){
+            socket.emit('videoAction', {
+                type: 'close',
+                time: Math.floor(slider.value),
+                totalTime:watchtime
+            });
+        }
     }
 </script>
 <% include layout/footer %>
