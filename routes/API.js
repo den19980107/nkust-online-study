@@ -387,9 +387,21 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                         console.log(year,month,day,hr,mm,ss);
                     }
                 }
-                console.log(studentBehavior);
-                let studentRFM = []
                 //TODO 濾掉無效紀錄
+                for(let i = 0;i<studentBehavior.length;i++){
+                    let tempbehaviors = []
+                    console.log(studentBehavior[i].behaviors.length);
+                    
+                    for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
+                        if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/10){
+                            tempbehaviors.push(studentBehavior[i].behaviors[j])
+                        }
+                    }
+                    studentBehavior[i].behaviors = tempbehaviors
+                    console.log(studentBehavior[i].behaviors.length);
+                    
+                }
+                let studentRFM = []
                 for(let i = 0;i<studentBehavior.length;i++){
                     studentRFM[i] = {
                         R:"",
