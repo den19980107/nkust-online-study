@@ -121,7 +121,7 @@ router.post('/deleteUnit/:unitID',function(req,res){
 //rename單元
 router.post('/renameUnit/:unitID',function(req,res){
     console.log(req.body);
-    
+
     let myquery = { _id: req.params.unitID };
     let newvalues = { $set: {unitName: req.body.unitName} };
     Unit.updateOne(myquery,newvalues,function(err){
@@ -345,7 +345,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                 let nowWatcherID = videobehaviors[0].watcherID;
                 studentBehavior[0].studentID = nowWatcherID;
                 let count = 0;
-                
+
                 for(let i = 0;i<videobehaviors.length;i++){
                     if(nowWatcherID == videobehaviors[i].watcherID){
                         studentBehavior[count].behaviors.push(videobehaviors[i].videoActions);
@@ -361,7 +361,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                             studentBehavior[count].lastwatchTime =new Date(Date.UTC(year,month-1,day,hr,mm,ss));
                         }
                         console.log(year,month,day,hr,mm,ss);
-                        
+
                     }else{
                         console.log("------------------------");
                         nowWatcherID = videobehaviors[i].watcherID;
@@ -393,10 +393,10 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                     console.log("學生："+studentBehavior[i].studentID);
                     console.log("濾掉之前有"+studentBehavior[i].behaviors.length+"筆紀錄");
                     console.log("影片時間 = "+vtime);
-                    
+
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
                         console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
-                        
+
                         if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/10){
                             tempbehaviors.push(studentBehavior[i].behaviors[j])
                         }
@@ -404,7 +404,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                     studentBehavior[i].behaviors = tempbehaviors
                     console.log("濾掉之後有"+studentBehavior[i].behaviors.length+"筆紀錄");
                     console.log("------------------");
-                    
+
                 }
                 let studentRFM = []
                 for(let i = 0;i<studentBehavior.length;i++){
@@ -434,9 +434,10 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
                         //console.log(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1]);
                         studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1])
+                        studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(0).join().split("note").length-1)//筆記次數
                     }
                     console.log("---------------------------");
-                    
+
                     studentRFM[i].studentID = studentBehavior[i].studentID;
                     studentIDs.push(ObjectID(studentBehavior[i].studentID).toString())
                     //studentRFM[i].studentName = findById(studentBehavior[i].studentID)
@@ -453,7 +454,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                     console.log(studentRFM);
                     res.json(studentRFM)
                 })
-            }        
+            }
         })
     })
 })
@@ -469,7 +470,7 @@ router.get('/getuserinfo/:id',function(req,res){
             email: userinfo.email,
             name: userinfo.name,
             schoolname: userinfo.schoolname,
-            studentid: userinfo.studentid,    
+            studentid: userinfo.studentid,
             username: userinfo.username
         }
         res.json(publicInfo)
