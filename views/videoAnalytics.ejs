@@ -1221,16 +1221,18 @@
     }
     //顯示此學生在本課程所有測驗的成績
     let  showTestScoreInClass = function(thisClassTests,userSubmitTest){
-        console.log(userSubmitTest.length/thisClassTests.length);
+        console.log(userSubmitTest);
         let testNameAndScore = {}
         for(let i = 0;i<thisClassTests.length;i++){
             testNameAndScore[thisClassTests[i].testName] = -1;
         }
         for(let j = 0;j<userSubmitTest.length;j++){
-            if(userSubmitTest[j].score != undefined){
-                testNameAndScore[userSubmitTest[j].testName] = userSubmitTest[j].score
+            if(userSubmitTest[j].obtainscore != undefined){
+                testNameAndScore[userSubmitTest[j].testName] = parseInt(userSubmitTest[j].obtainscore)
             }
         }
+        console.log('testNameAndScore = ');
+        
         console.log(testNameAndScore);
         
         let labelName = Object.keys(testNameAndScore)
