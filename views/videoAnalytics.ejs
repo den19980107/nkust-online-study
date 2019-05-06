@@ -330,7 +330,7 @@
     </div>
 </div>
 <div class="modal" id = "watcherInfoModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">關看者資訊</h5>
@@ -339,12 +339,45 @@
             </button>
         </div>
         <div class="modal-body">
-            <p id ="name"></p>
-            <p id ="username"></p>
-            <p id ="schoolname"></p>
-            <p id ="department"></p>
-            <p id ="studentid"></p>
-            <p id ="email"></p>
+            <div class="card p-5" style="background: #333;color: white">
+                <div style="display: flex;">
+                    <div class="userImg" style="font-size: 70px;margin-right: 2rem;margin-bottom: 2rem;">
+                        <i class="far fa-user" style="color: white"></i>
+                    </div>
+                    <div class="userInfo" style="flex: 3">
+                        <p id ="name"></p>
+                        <p id ="username"></p>
+                    </div>
+                    <div class="userInfo" style="justify-content: right">
+                        <button class="btn btn-primary mr-2" id = "studentPage_btn"><i class="fas fa-home"></i> 學生主頁</button>
+                        <button class="btn btn-warning" id="studetEmail_btn" style="color: white"><i class="fas fa-envelope"></i> E-mail</button>
+                    </div>
+                </div>
+                <div style="display:flex;">
+                    <p id ="schoolname" class="mr-5"></p>
+                    <p id ="department" class="mr-5"></p>
+                    <p id ="studentid" class="mr-5"></p>
+                    <p id ="email" style="display: none"></p>
+                </div>
+            </div>
+            <div style="padding: 1rem;text-align: center">
+                <h5 class="m-0">小考成績</h5>
+            </div>
+            <canvas id ="testScoreChart"></canvas>
+            <div style="display: flex">
+                <div style="flex: 1">
+                    <div style="padding: 1rem;text-align: center">
+                        <h5 class="m-0">測驗填答率</h5>
+                    </div>
+                    <canvas id ="TestfinishPersentChart"></canvas>
+                </div>
+                <div style="flex: 1">
+                    <div style="padding: 1rem;text-align: center">
+                        <h5 class="m-0">影片完成率</h5>
+                    </div>
+                     <canvas id ="VideofinishPersentChart"></canvas>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -643,81 +676,7 @@
             note[i] = videoTimeLine[i].note;
             label[i] = i
         }
-        //console.log(start,fastforward,reverse,pause,close,note);
-        // var ctx = document.getElementById('myChart').getContext('2d');
-        // var chart = new Chart(ctx, {
-        //     // The type of chart we want to create
-        //     type: 'line',
-        //     // The data for our dataset
-        //     data: {
-        //         labels: label,
-        //         datasets: [{
-        //                 label: '開始',
-        //                 fill:false,
-        //                 backgroundColor: 'rgb(144, 196,117)',
-        //                 borderColor: 'rgb(144, 196,117)',
-        //                 data: start
-        //             },
-        //             {
-        //                 label: '結束',
-        //                 fill:false,
-        //                 backgroundColor: 'rgb(242, 62, 92)',
-        //                 borderColor: 'rgb(242, 62, 92)',
-        //                 data: close
-        //             },
-        //             {
-        //                 label: '快轉',
-        //                 fill:false,
-        //                 backgroundColor: 'rgb(173, 191, 234)',
-        //                 borderColor: 'rgb(173, 191, 234)',
-        //                 data: fastforward
-        //             },
-        //             {
-        //                 label: '倒轉',
-        //                 fill:false,
-        //                 backgroundColor: 'rgb(214, 211, 173)',
-        //                 borderColor: 'rgb(214, 211, 173)',
-        //                 data: reverse
-        //             },
-        //             {
-        //                 label: '暫停',
-        //                 fill:false,
-        //                 backgroundColor: 'rgb(60, 39, 247)',
-        //                 borderColor: 'rgb(60, 39, 247)',
-        //                 data: pause
-        //             },
-        //             {
-        //                 label: '播放',
-        //                 fill:false,
-        //                 backgroundColor: 'rgb(173, 242, 167)',
-        //                 borderColor: 'rgb(173, 242, 167)',
-        //                 data: play
-        //             },
-        //             {
-        //                 label: '筆記',
-        //                 fill:false,
-        //                 backgroundColor: 'rgb(0, 0, 0)',
-        //                 borderColor: 'rgb(0, 0, 0)',
-        //                 data: note
-        //             }
-        //         ]
-        //     },
 
-        //     // Configuration options go here
-        //     options: {
-        //         pan: {
-        //             enabled: true,
-        //             mode: 'x',
-        //             speed: 10,
-        //             threshold: 10
-        //         },
-        //         zoom: {
-        //             enabled: true,
-        //             mode: 'x',
-        //             speed: 0.5
-        //         }
-        //     }
-        // });
         Highcharts.chart('container', {
             mapNavigation: {
                 enableMouseWheelZoom: true
@@ -1139,7 +1098,7 @@
                                     console.log(e.point.series.userOptions.id);
                                     let userID = e.point.series.userOptions.id
                                     $.ajax({
-                                        url: '/api/getuserinfo/'+userID,
+                                        url: '/api/getuserinfo/'+userID+'/<%=videoinfo._id%>',
                                         type: 'GET',
                                         beforeSend: function () {
                                             let loader = document.getElementById('line-loader');
@@ -1160,6 +1119,11 @@
                                             document.getElementById('department').innerHTML = "就讀科系:  "+response.department
                                             document.getElementById('studentid').innerHTML = "學號:  "+response.studentid
                                             document.getElementById('email').innerHTML = "信箱:  "+response.email
+                                            document.getElementById('studentPage_btn').onclick =  function() {window.location = `/class/${response.classinfo._id}/showClassmateInfo/${userID}`};
+                                            document.getElementById('studetEmail_btn').onclick = function() {window.open('mailto:'+response.email);}
+                                            showTestScoreInClass(response.thisClassTests,response.userSubmitTest);//顯示此學生在本課程所有測驗的成績
+                                            showVideofinishPersent(response.thisClassVideo,response.totalWatchVideo);
+                                            showTestfinishPersent(response.thisClassTests,response.userSubmitTest)
                                             $('#watcherInfoModal').modal()
                                         }         
                                     })      
@@ -1254,6 +1218,231 @@
 
             }
         })
+    }
+    //顯示此學生在本課程所有測驗的成績
+    let  showTestScoreInClass = function(thisClassTests,userSubmitTest){
+        console.log(userSubmitTest.length/thisClassTests.length);
+        let testNameAndScore = {}
+        for(let i = 0;i<thisClassTests.length;i++){
+            testNameAndScore[thisClassTests[i].testName] = -1;
+        }
+        for(let j = 0;j<userSubmitTest.length;j++){
+            if(userSubmitTest[j].score != undefined){
+                testNameAndScore[userSubmitTest[j].testName] = userSubmitTest[j].score
+            }
+        }
+        console.log(testNameAndScore);
+        
+        let labelName = Object.keys(testNameAndScore)
+        console.log(labelName.length);
+        
+        let data = []
+        for(let i = 0;i<labelName.length;i++){
+            data[i] = parseInt(testNameAndScore[labelName[i]])
+        }
+        console.log(labelName);
+        console.log(data);
+        let backgroundColors = [];
+        for(let i = 0;i<data.length;i++){
+            if(data[i]>80){
+                backgroundColors.push('rgb(125, 232, 160)')
+            }
+            else if(data[i]>60){
+                backgroundColors.push('rgb(162, 185, 229)')
+            }
+            else if(data[i]>40){
+                backgroundColors.push('rgb(208, 214, 57)')
+            }
+            else if(data[i] == -1){
+                backgroundColors.push('rgb(0, 0, 0)')
+            }else{
+                backgroundColors.push('rgb(255, 59, 0)')
+            }
+        }
+        
+        let ctx = document.getElementById('testScoreChart').getContext('2d');
+        let showTestScoreInClassChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labelName,
+                datasets: [{
+                    label: '所有小考成績',
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: '所有小考成績(註：成績為-1表示缺考)'
+                },
+                scales: {
+                    xAxes: [{}],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            beginAtZero: true   // minimum value will be 0.
+                        }
+                    }]
+                },
+                pan: {
+                    enabled: true,
+                    mode: 'x',
+                    speed: 1,
+                    threshold: 1
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'x',
+                    speed: 0.5
+                }
+            }
+        });
+    }
+
+    let showVideofinishPersent = function(totalVideo,watchedVideo){
+        Chart.pluginService.register({
+            beforeDraw: function (chart) {
+                if (chart.config.options.elements.center) {
+            //Get ctx from string
+            var ctx = chart.chart.ctx;
+            
+                    //Get options from the center object in options
+            var centerConfig = chart.config.options.elements.center;
+            var fontStyle = centerConfig.fontStyle || 'Arial';
+                    var txt = centerConfig.text;
+            var color = centerConfig.color || '#000';
+            var sidePadding = centerConfig.sidePadding || 20;
+            var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+            //Start with a base font of 30px
+            ctx.font = "30px " + fontStyle;
+            
+                    //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+            var stringWidth = ctx.measureText(txt).width;
+            var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+            // Find out how much the font can grow in width.
+            var widthRatio = elementWidth / stringWidth;
+            var newFontSize = Math.floor(30 * widthRatio);
+            var elementHeight = (chart.innerRadius * 2);
+
+            // Pick a new font size so it will not be larger than the height of label.
+            var fontSizeToUse = Math.min(newFontSize, elementHeight);
+
+                    //Set font settings to draw it correctly.
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+            var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+            ctx.font = fontSizeToUse+"px " + fontStyle;
+            ctx.fillStyle = color;
+            
+            //Draw text in center
+            ctx.fillText(txt, centerX, centerY);
+                }
+            }
+        });
+        let ctx = document.getElementById('VideofinishPersentChart').getContext('2d');
+        let showTestScoreInClassChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    backgroundColor: ["rgb(101, 189, 96)","rgb(230, 230, 230)"],
+                    data: [watchedVideo.length,totalVideo.length-watchedVideo.length]
+                }],
+
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: [
+                    '以觀賞',
+                    '未觀賞'
+                ]
+            },
+            options: {
+                legend: { display: false },
+                elements: {
+                    center: {
+                        text: Math.floor((watchedVideo.length/totalVideo.length)*100)+'%',
+                        color: '#FF6384', // Default is #000000
+                        fontStyle: 'Arial', // Default is Arial
+                        sidePadding: 20 // Defualt is 20 (as a percentage)
+                    }
+                }
+            }
+        });
+    }
+
+    let showTestfinishPersent = function(allTest,userSubmitTest){
+        Chart.pluginService.register({
+            beforeDraw: function (chart) {
+                if (chart.config.options.elements.center) {
+            //Get ctx from string
+            var ctx = chart.chart.ctx;
+            
+                    //Get options from the center object in options
+            var centerConfig = chart.config.options.elements.center;
+            var fontStyle = centerConfig.fontStyle || 'Arial';
+                    var txt = centerConfig.text;
+            var color = centerConfig.color || '#000';
+            var sidePadding = centerConfig.sidePadding || 20;
+            var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+            //Start with a base font of 30px
+            ctx.font = "30px " + fontStyle;
+            
+                    //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+            var stringWidth = ctx.measureText(txt).width;
+            var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+            // Find out how much the font can grow in width.
+            var widthRatio = elementWidth / stringWidth;
+            var newFontSize = Math.floor(30 * widthRatio);
+            var elementHeight = (chart.innerRadius * 2);
+
+            // Pick a new font size so it will not be larger than the height of label.
+            var fontSizeToUse = Math.min(newFontSize, elementHeight);
+
+                    //Set font settings to draw it correctly.
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+            var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+            ctx.font = fontSizeToUse+"px " + fontStyle;
+            ctx.fillStyle = color;
+            
+            //Draw text in center
+            ctx.fillText(txt, centerX, centerY);
+                }
+            }
+        });
+        let ctx = document.getElementById('TestfinishPersentChart').getContext('2d');
+        let showTestScoreInClassChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    backgroundColor: ["rgb(108, 173, 232)","rgb(230, 230, 230)"],
+                    data: [userSubmitTest.length,allTest.length-userSubmitTest.length]
+                }],
+
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: [
+                    '以填答',
+                    '未填答'
+                ]
+            },
+            options: {
+                legend: { display: false },
+                elements: {
+                    center: {
+                        text: Math.floor((userSubmitTest.length/allTest.length)*100)+'%',
+                        color: '#FF6384', // Default is #000000
+                        fontStyle: 'Arial', // Default is Arial
+                        sidePadding: 20 // Defualt is 20 (as a percentage)
+                    }
+                }
+            }
+        });
     }
 </script>
 <% include layout/nobottom-footer %>
