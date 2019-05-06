@@ -188,6 +188,10 @@
             height: 53.4375vw !important;
             margin: 0.5rem;
         }
+        #RFMDiv{
+            width: 95vw !important;
+            margin: 0.5rem;
+        }
     }
 
 </style>
@@ -1184,7 +1188,21 @@
                     },
                     series: dataAndName
                 });
-
+                
+                var width = window.matchMedia("(max-width: 400px)");
+                myFunction(width)
+                width.addListener(myFunction)
+                function myFunction(width) {
+                    let divwidth = $('.videos').width();
+                    if (width.matches) { // If media query matches
+                        console.log(divwidth);
+                        console.log(chart);
+                        
+                        chart.setSize(divwidth)
+                    } else {
+                        document.body.style.backgroundColor = "pink";
+                    }
+                }
 
                 // Add mouse and touch events for rotation
                 (function (H) {
