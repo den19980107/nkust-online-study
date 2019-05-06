@@ -1063,13 +1063,13 @@
                     return map(num,Mmin,Mmax,0,100)
                 })
                 Rcolor = R.map(function(num){
-                    return map(num,0,100,0,230)
+                    return map(num,0,100,0,255)
                 })
                 Fcolor = F.map(function(num){
-                    return map(num,0,100,0,230)
+                    return map(num,0,100,255,0)
                 })
                 Mcolor = M.map(function(num){
-                    return map(num,0,100,0,230)
+                    return map(num,0,100,0,255)
                 })
                 for(let i = 0;i<response.length;i++){
                     let data = [R[i],F[i],M[i]];
@@ -1115,6 +1115,12 @@
                     },
                     subtitle: {
                         text: '下圖為所有觀看此影片的人的RFM分析圖'
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return 'R: <b>' + this.x +
+                                '</b><br> F: <b>' + this.y + '</b><br>' +'M: <b>'+this.point.z+'</b>';
+                        }
                     },
                     plotOptions: {
                         scatter: {
