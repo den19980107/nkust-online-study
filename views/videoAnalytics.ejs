@@ -1122,7 +1122,7 @@
                     },
                     tooltip: {
                         formatter: function () {
-                            return 'R: <b>' + this.x +
+                            return '姓名:'+this.series.name+'<br><br>R: <b>' + this.x +
                                 '</b><br> F: <b>' + this.y + '</b><br>' +'M: <b>'+this.point.z+'</b>';
                         }
                     },
@@ -1200,7 +1200,9 @@
                         
                         chart.setSize(divwidth)
                     } else {
-                        document.body.style.backgroundColor = "pink";
+                        chart.setSize(divwidth*0.7)
+                        console.log(chart);
+                        
                     }
                 }
 
