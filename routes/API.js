@@ -460,20 +460,80 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
 })
 
 //send Userinfo
-router.get('/getuserinfo/:id',function(req,res){
-    User.findById(req.params.id,function(err,userinfo){
+router.get('/getuserinfo/:userid/:videoID',function(req,res){
+    User.findById(req.params.userid,function(err,userinfo){
         if(err){
             console.log(err);
         }
-        let publicInfo = {
-            department: userinfo.department,
-            email: userinfo.email,
-            name: userinfo.name,
-            schoolname: userinfo.schoolname,
-            studentid: userinfo.studentid,
-            username: userinfo.username
-        }
-        res.json(publicInfo)
+        Video.findById(req.params.videoID,function(err,videoinfo){
+            if(err){
+                console.log(err);
+            }
+            Unit.findById(videoinfo.belongUnit,function(err,unitinfo){
+                if(err){
+                    console.log(err);
+                }
+                Class.findById(unitinfo.belongClass,function(err,classinfo){
+                    if(err){
+                        console.log(err);
+                    }
+                    Unit.find({belongClass:classinfo._id},function(err,thisClassUnits){
+                        if(err){
+                            console.log(err);
+                        }
+                        let unitIDs = [];
+                        for(let i = 0;i<thisClassUnits.length;i++){
+                            unitIDs.push(ObjectID(thisClassUnits[i]._id).toString())
+                        }
+                        Test.find({belongUnit:unitIDs},function(err,thisClassTests){
+                            if(err){
+                                console.log(err);
+                            }
+                            studntSubmitTest.find({belongUnit:unitIDs,writer:req.params.userid},function(err,thisUserSubmitTest){
+                                if(err){
+                                    console.log(err);
+                                }
+                                Video.find({belongUnit:unitIDs},function(err,thisClassVideo){
+                                    let VideoIDs = [];
+                                    for(let i = 0;i<thisClassVideo.length;i++){
+                                        VideoIDs.push(ObjectID(thisClassVideo[i]._id).toString())
+                                    }
+                                    Videobehavior.find({videoID:VideoIDs,watcherID:req.params.userid},function(err,thisUserWatchVideo){
+                                        let totalWatchVideo = [];
+                                        for (let i = 0; i < thisUserWatchVideo.length; i++) {
+                                            if(totalWatchVideo.indexOf(thisUserWatchVideo[i].videoID) == -1){
+                                                totalWatchVideo.push(thisUserWatchVideo[i].videoID)
+                                            }
+                                        }
+                                        console.log("---------------------");
+                                        
+                                        console.log(thisUserSubmitTest);
+                                        console.log(thisClassTests);
+                                        console.log("測驗填寫完整度 ＝ "+ thisUserSubmitTest.length/thisClassTests.length);
+                                        console.log("影片觀看完整度 ＝ "+ totalWatchVideo.length/thisClassVideo.length);
+                                        
+                                        let publicInfo = {
+                                            department: userinfo.department,
+                                            email: userinfo.email,
+                                            name: userinfo.name,
+                                            schoolname: userinfo.schoolname,
+                                            studentid: userinfo.studentid,    
+                                            username: userinfo.username,
+                                            thisClassTests:thisClassTests,
+                                            userSubmitTest:thisUserSubmitTest,
+                                            totalWatchVideo:totalWatchVideo,
+                                            thisClassVideo:thisClassVideo,
+                                            classinfo:classinfo
+                                        }
+                                        res.json(publicInfo)
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
     })
 })
 //Access Control
