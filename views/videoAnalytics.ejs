@@ -292,11 +292,11 @@
         </div>
         <div id="analyzingDiv" style="display: none">
             <div id = "videoDiv" style="display: none;">
-                <div class="mobile" style="width:60vw;display: flex;justify-content: flex-end;">
+                <div class="mobile" style="width:80vw;display: flex;justify-content: flex-end;">
                     <button class="btn btn-danger mb-1" onclick="$('#videoDiv').hide();stopVideo();">隱藏影片</button>
                 </div>
                 <div class="mobile-video" class="mt-2 bg-dark" 
-                    style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:36.5vw; width:60vw;">
+                    style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:36.5vw; width:80vw;">
                     <div id="video">
                         <div id="player" class="w-100">
                         </div>
@@ -304,7 +304,7 @@
                 </div>
             </div>
             <div class="mt-2" id="chartDiv"
-                style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:60vw ;">
+                style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:80vw ;">
                 <h5>影片行為分佈圖</h5>
                 <div style="height: 4rem;width: 100%;display: flex;justify-content: start;">
                     <p id="viewer" style="margin-right: 3rem">觀看人數：</p>
@@ -314,7 +314,7 @@
                 <div id="container"></div>
             </div>
             <div class="mt-2" id="resentViewChartDiv"
-                style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:60vw ;">
+                style="padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:80vw ;">
                 <h5 class="p-0 mt-2">最近觀看人數</h5>
                 <canvas id="resentViewChart" style="width: 100px"></canvas>
             </div>
@@ -323,7 +323,7 @@
         <div id = "commentDiv" style="display: none;padding: 1rem 0">
         </div>
         <div class="mt-2" id="RFMDiv"
-            style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:60vw ;display: none">
+            style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:80vw ;display: none">
             <h5 class="p-0 mt-2">RFM分析</h5>
             <div id="RFMcontainer" style="height: 500px"></div>
         </div>
@@ -488,7 +488,7 @@
                 $("#DitalbelongClass").text(response[3].className)
                 $("#watcherNumber").text(response[0].watchersNumber+"人")
                 console.log(response);
-                videDitalDiv.style.cssText = "display:flex;flex-wrap:wrap;align-items: flex-start;width:60vw"
+                videDitalDiv.style.cssText = "display:flex;flex-wrap:wrap;align-items: flex-start;width:80vw"
                 
             }
         })
@@ -1160,12 +1160,10 @@
                     let divwidth = $('.videos').width();
                     if (width.matches) { // If media query matches
                         console.log(divwidth);
-                        console.log(chart);
-                        
                         chart.setSize(divwidth)
                     } else {
-                        chart.setSize(divwidth*0.7)
-                        console.log(chart);
+                        chart.setSize(divwidth)
+                        console.log(divwidth);
                         
                     }
                 }
