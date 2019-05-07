@@ -38,7 +38,7 @@ router.post('/add/inClass/:classID',ensureAuthenticated, function (req, res) {
             currentdate.getMinutes() + ":" +
             currentdate.getSeconds();
         article.postTime = datetime
-        console.log(article);
+        //console.log(article);
 
         article.save(function (err) {
             if (err) {
@@ -114,7 +114,7 @@ router.get('/:id/inClass/:classid', ensureAuthenticated, function (req, res) {
                 studentCommentArticle.find({
                     articleID: article._id
                 }, function (err, articleComments) {
-                    console.log(articleComments);
+                    //console.log(articleComments);
                     if (err) {
                         console.log(err);
                     } else {
@@ -204,7 +204,7 @@ router.get('/inClass/:classid',ensureAuthenticated, function (req, res) {
                             commentsNumber: 0
                         });
                         if (sta[i].articleID == articles[j]._id) {
-                            console.log("equl");
+                            //console.log("equl");
 
                             articles[j].commentsNumber += 1
                         }
@@ -228,8 +228,8 @@ function ensureAuthenticated(req, res, next) {
     } else {
       req.flash('danger', '請先登入');
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      console.log("inuser ensure = "+nextURL);
-      console.log("url = /users/login/?r="+nextURL);
+      //console.log("inuser ensure = "+nextURL);
+      //console.log("url = /users/login/?r="+nextURL);
       
       res.redirect('/users/login/?r='+nextURL);
     }

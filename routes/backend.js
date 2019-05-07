@@ -85,7 +85,7 @@ router.get('/videoBehavior/:id', ensureAuthenticated, function (req, res) {
                     thisvideoBehaviors.push(videoBehaviors[i]);
                 }
             }
-            console.log(thisvideoBehaviors);
+            //console.log(thisvideoBehaviors);
 
             res.render('videoBehavior', {
                 video: video,
@@ -101,7 +101,7 @@ router.get('/uploadCodeQution', ensureAuthenticated, function (req, res) {
 })
 router.post('/uploadCodeQution', ensureAuthenticated, function (req, res) {
     //TODO 把題目存進資料庫
-    console.log(req.body);
+    //console.log(req.body);
     let newQution = CodeQution();
     newQution.title = req.body.title;
     newQution.description = req.body.description;
@@ -348,7 +348,7 @@ router.post('/getSudentAverage',function(req,res){
             }
             for(let i = 0;i<studentWatchVideos.length;i++){
                 let thisStudent = studentWatchVideos[i];
-                console.log(thisStudent.studentID);
+                //console.log(thisStudent.studentID);
                 let thisStudentWatchVideo = []
                 for(let j = 0;j<thisStudent.behaviors.length;j++){
                     if(thisStudentWatchVideo.includes(thisStudent.behaviors[j].videoID)){
@@ -357,7 +357,7 @@ router.post('/getSudentAverage',function(req,res){
                         thisStudentWatchVideo.push(thisStudent.behaviors[j].videoID);
                     }
                 }
-                console.log(thisStudentWatchVideo);
+                //console.log(thisStudentWatchVideo);
                 
             }
             
@@ -372,8 +372,8 @@ function ensureAuthenticated(req, res, next) {
     } else {
       req.flash('danger', '請先登入');
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      console.log("inuser ensure = "+nextURL);
-      console.log("url = /users/login/?r="+nextURL);
+      //console.log("inuser ensure = "+nextURL);
+      //console.log("url = /users/login/?r="+nextURL);
       
       res.redirect('/users/login/?r='+nextURL);
     }

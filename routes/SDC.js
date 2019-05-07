@@ -85,11 +85,11 @@ let studntSubmitHomework = require('../model/studentSubmitHomework');
 
 //學生選課
 router.get('/student/:sid/Take/class/:cid', ensureAuthenticated, function (req, res) {
-    console.log(req.params.cid);
+    //console.log(req.params.cid);
     let classID = req.params.cid;
     let studentID = req.params.sid;
     classID = classID.replace(':', '');
-    console.log(classID);
+    //console.log(classID);
     let stc = new StudebtTakeCourse();
     stc.studentID = studentID;
     stc.classID = classID;
@@ -173,7 +173,7 @@ router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, func
     let d = new Date();
     scv.commentTime = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
-    console.log("scv = " + scv);
+    //console.log("scv = " + scv);
 
     scv.save(function (err) {
         if (err) {
@@ -208,7 +208,7 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuth
     let d = new Date();
     sca.commentTime = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
-    console.log("sca = " + sca);
+    //console.log("sca = " + sca);
 
     sca.save(function (err) {
         if (err) {
@@ -231,7 +231,7 @@ router.get('/deleteArticleComment/:articleID/:commentID/:classID',function(req,r
 //學生對測驗進行填寫
 router.post('/submitTest', ensureAuthenticated, function (req, res) {
     let qutioninfo = req.body
-    console.log(qutioninfo);
+    //console.log(qutioninfo);
     let newsubmit = new studntSubmitTest();
     newsubmit.testName = qutioninfo.testName;
     newsubmit.testID = qutioninfo._id;
@@ -239,7 +239,7 @@ router.post('/submitTest', ensureAuthenticated, function (req, res) {
     newsubmit.belongUnit = qutioninfo.belongUnit;
     newsubmit.testQutionsAndAnswer = qutioninfo.testQutions;
     newsubmit.obtainscore = qutioninfo.obtainscore;
-    console.log(newsubmit);
+    //console.log(newsubmit);
 
     newsubmit.save(function (err) {
         if (err) {
@@ -253,9 +253,9 @@ router.post('/submitTest', ensureAuthenticated, function (req, res) {
 //學生對作業進行填寫
 router.post('/submitHomework', ensureAuthenticated, function (req, res) {
     let qutioninfo = req.body
-    console.log("homework!");
+    //console.log("homework!");
 
-    console.log(qutioninfo);
+    //console.log(qutioninfo);
     let newsubmit = new studntSubmitHomework();
     newsubmit.homeworkName = qutioninfo.testName;
     newsubmit.homeworkID = qutioninfo._id;
@@ -277,8 +277,8 @@ function ensureAuthenticated(req, res, next) {
     } else {
       req.flash('danger', '請先登入');
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      console.log("inuser ensure = "+nextURL);
-      console.log("url = /users/login/?r="+nextURL);
+      //console.log("inuser ensure = "+nextURL);
+      //console.log("url = /users/login/?r="+nextURL);
       
       res.redirect('/users/login/?r='+nextURL);
     }

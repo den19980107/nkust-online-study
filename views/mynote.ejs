@@ -260,7 +260,7 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 let noteNumber = document.getElementById('noteNumber');
                 noteNumber.innerText = `${response.length}個筆記`
                 let noteList = document.getElementById('noteList');
@@ -297,7 +297,7 @@
             title: "無標題",
             body: ""
         }
-        console.log(note);
+        //console.log(note);
         $.ajax({
             url: '/users/note/createNote',
             type: 'POST',
@@ -313,7 +313,7 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 let noteNumber = document.getElementById('noteNumber');
                 noteNumber.innerText = `${response.length}個筆記`
                 let noteList = document.getElementById('noteList');
@@ -365,9 +365,9 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 let title = document.getElementById('title');
-                console.log(title);
+                //console.log(title);
                 title.value = response.title
                 var text = response.body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(
                     /&amp;nbsp;/g, '');
@@ -420,7 +420,7 @@
 
     // });
     let saveNote = function () {
-        console.log("nowWrittingNote" + nowWrittingNote);
+        //console.log("nowWrittingNote" + nowWrittingNote);
         if (nowWrittingNote != '') {
             note = {
                 body: CKEDITOR.instances.Detail.getData(),
@@ -437,7 +437,7 @@
                     cansend = false;
                 },
                 complete: function () {
-                    console.log("saved");
+                    //console.log("saved");
 
                 },
                 success: function (response) {
@@ -496,7 +496,7 @@
                     }
                     CKEDITOR.instances.Detail.setData("");
                     let title = document.getElementById('title');
-                    console.log(title);
+                    //console.log(title);
                     title.value = "請選擇筆記"
                     CKEDITOR.instances.Detail.setReadOnly(true);
 

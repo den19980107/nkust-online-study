@@ -41,9 +41,9 @@ router.post('/register', function (req, res) {
     } else if (req.body.teacher) {
         permission = "teacher";
     }
-    console.log(permission);
+    //console.log(permission);
     if (permission == undefined) {
-        console.log("permission undefind");
+        //console.log("permission undefind");
 
     }
     req.checkBody('name', '名字不得為空').notEmpty();
@@ -80,7 +80,7 @@ router.post('/register', function (req, res) {
                 }
             }
 
-            console.log(errors.length);
+            //console.log(errors.length);
             res.render('register', {
                 user: false,
                 errors: errors
@@ -152,10 +152,10 @@ router.post('/register', function (req, res) {
 
 //Login Form
 router.get('/login', function (req, res) {
-    console.log("get login,url = "+req.originalUrl);
+    //console.log("get login,url = "+req.originalUrl);
     if(req.url.split('/').length>2){
         let url = req.url.split('/')[2].replace("?r=","");
-        console.log("haveNext url = "+url);
+        //console.log("haveNext url = "+url);
         
         res.render('login',{
             nextURL:url.replace(new RegExp('%2F', 'g'),'/')
@@ -170,11 +170,11 @@ router.get('/login', function (req, res) {
 
 //Login process
 router.post('/login', function (req, res, next) {
-    console.log(req.body);
+    //console.log(req.body);
     req.checkBody('username', '帳號未填寫').notEmpty();
     req.checkBody('password', '密碼未填寫').notEmpty(); 
     let errors = req.validationErrors();
-    console.log(errors);
+    //console.log(errors);
     if (errors) {
         res.render('login', {
             errors: errors,
@@ -183,9 +183,9 @@ router.post('/login', function (req, res, next) {
     } else {
         let successRedirectURL = "";
         if(req.body.nextURL != "null"){
-            console.log(req.body.nextURL)
+            //console.log(req.body.nextURL)
             successRedirectURL = req.body.nextURL
-            console.log("successRedirectURL = ",successRedirectURL);
+            //console.log("successRedirectURL = ",successRedirectURL);
             
             passport.authenticate('local', {
                 successRedirect: successRedirectURL,
@@ -219,7 +219,7 @@ router.get('/logout', function (req, res) {
 
 //update user info
 router.post('/updateUserinfo', ensureAuthenticated, function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
 
     let query = {
         _id: req.user.id
@@ -265,7 +265,7 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
             if (err) {
                 console.log(err);
             }
-            console.log(classes);
+            //console.log(classes);
             let findClassInfoQuery = [];
             for (let i = 0; i < classes.length; i++) {
                 findClassInfoQuery.push(ObjectID(classes[i].classID));
@@ -309,7 +309,7 @@ router.get('/mynote', ensureAuthenticated, function (req, res) {
 })
 //新增筆記
 router.post('/note/createNote', ensureAuthenticated, function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     let newNote = new Note();
     newNote.title = req.body.title;
     newNote.body = req.body.body;
@@ -323,7 +323,7 @@ router.post('/note/createNote', ensureAuthenticated, function (req, res) {
     newNote.postTime = datetime
     newNote.author = req.user;
     newNote.author_id = req.user._id;
-    console.log(newNote);
+    //console.log(newNote);
 
     newNote.save(function (err) {
         if (err) {
@@ -332,7 +332,7 @@ router.post('/note/createNote', ensureAuthenticated, function (req, res) {
             Note.find({
                 author_id: req.user._id
             }, function (err, notes) {
-                console.log(notes);
+                //console.log(notes);
                 res.send(notes)
             })
         }
@@ -346,7 +346,7 @@ router.get('/note/getNote', ensureAuthenticated, function (req, res) {
     Note.find({
         author_id: req.user._id
     }, function (err, notes) {
-        console.log(notes);
+       // console.log(notes);
         res.send(notes)
     })
 });
@@ -359,16 +359,16 @@ router.get('/note/getSigleNote/:noteID', function (req, res) {
             console.log(err);
 
         }
-        console.log(note);
+        //console.log(note);
         res.send(note)
     })
 });
 
 //存存編輯中筆記
 router.post('/note/saveNote/:noteID', ensureAuthenticated, function (req, res) {
-    console.log("---------------save body---------------");
-    console.log(req.body);
-    console.log("---------------save body---------------");
+    //console.log("---------------save body---------------");
+    //console.log(req.body);
+    //console.log("---------------save body---------------");
     Note.findById({
         _id: req.params.noteID
     }, function (err, note) {
@@ -385,7 +385,7 @@ router.post('/note/saveNote/:noteID', ensureAuthenticated, function (req, res) {
             if (err) {
                 console.log(err);
             }
-            console.log("saved");
+            //console.log("saved");
             res.send('200')
         })
     })
@@ -419,8 +419,8 @@ function ensureAuthenticated(req, res, next) {
     } else {
       req.flash('danger', '請先登入');
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      console.log("inuser ensure = "+nextURL);
-      console.log("url = /users/login/?r="+nextURL);
+      //console.log("inuser ensure = "+nextURL);
+      //console.log("url = /users/login/?r="+nextURL);
       
       res.redirect('/users/login/?r='+nextURL);
     }

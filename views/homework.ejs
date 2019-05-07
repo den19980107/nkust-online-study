@@ -171,7 +171,7 @@
 <script>
     let answerArray = [];
     let onAnswer = function (qutionType, answer, qutionNumber) {
-        console.log(qutionType + ' ' + answer + ' ' + qutionNumber);
+        //console.log(qutionType + ' ' + answer + ' ' + qutionNumber);
         if (qutionType == 'MCQ') {
             answerArray[qutionNumber - 1] = answer
         }
@@ -185,12 +185,12 @@
         if (qutionType == 'PGQ') {
             answerArray[qutionNumber - 1] = answer
         }
-        console.log(answerArray);
+        //console.log(answerArray);
 
     }
 
     let compile = function (qutionNumber) {
-        console.log(qutionNumber);
+        //console.log(qutionNumber);
         let script = document.getElementById('code' + qutionNumber);
         let input = document.getElementById('input' + qutionNumber);
         let language = document.getElementById('language' + qutionNumber);
@@ -201,13 +201,13 @@
             language: language.value,
             id: "001"
         }
-        console.log(scriptData);
+        //console.log(scriptData);
 
         var socket = io();
         socket.emit('script', scriptData);
         output.innerHTML = "編譯中....\n";
         socket.on('answer', function (obj) {
-            console.log(obj);
+            //console.log(obj);
             output.innerHTML = "輸出:\n" + obj.body.output;
 
             //記錄到答案中
@@ -261,7 +261,7 @@
             qutions.testQutions[i].userAnswer = answerArray[i]
         }
         qutions.writer = "<%=user._id%>"
-        console.log(qutions);
+        //console.log(qutions);
         $.ajax({
             url: '/SDC/submitHomework',
             type: 'POST',

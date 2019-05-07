@@ -52,9 +52,9 @@ const upload = multer({
 
 //上傳照片到教材
 router.post('/', ensureAuthenticated, upload.any(), function (req, res) {
-    console.log(req.url);
+    //console.log(req.url);
 
-    console.log("/uploader/image/" + req.files[0].filename);
+    //console.log("/uploader/image/" + req.files[0].filename);
     var CKEcallback = req.query.CKEditorFuncNum;
     var fileUrl = "/uploader/image/" + req.files[0].filename;
     var msg = "";
@@ -94,8 +94,8 @@ function ensureAuthenticated(req, res, next) {
     } else {
       req.flash('danger', '請先登入');
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      console.log("inuser ensure = "+nextURL);
-      console.log("url = /users/login/?r="+nextURL);
+      //console.log("inuser ensure = "+nextURL);
+      //console.log("url = /users/login/?r="+nextURL);
       
       res.redirect('/users/login/?r='+nextURL);
     }

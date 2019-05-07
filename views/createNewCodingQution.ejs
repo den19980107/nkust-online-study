@@ -108,7 +108,7 @@
     let testarray = [];
     let addNewTest = function () {
         let TestInputList = document.getElementById('TestInputList');
-        console.log(TestInputList);
+        //console.log(TestInputList);
 
         let exitTestNumber = testarray.length; //現在裡面有幾個側資
         testarray.push(exitTestNumber + 1);
@@ -135,7 +135,7 @@
         `
         TestInputList.appendChild(card)
 
-        console.log(testarray);
+        //console.log(testarray);
     }
     let deleteTest = function (id) {
         let test = document.getElementById('test' + id);
@@ -160,8 +160,8 @@
             }
             testData.push(data)
         }
-        console.log(testData);
-        console.log(CKEDITOR.instances.Detail.getData());
+        //console.log(testData);
+        //console.log(CKEDITOR.instances.Detail.getData());
         let title = document.getElementById('title').value;
         let qution = {
             title: title,

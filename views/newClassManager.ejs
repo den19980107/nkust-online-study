@@ -595,7 +595,7 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 let unitNameText =document.getElementById('unitNameText');
                 unitNameText.innerHTML = renameMaterialName;
                 let unitListNameText = document.getElementById(renameMaterialID);
@@ -732,12 +732,12 @@
                     loader.style.display = "none"
                 },
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
                     window.location = "/class/newClassManager/<%=classinfo._id%>";
                     alert('刪除成功!');
                 },
                 error: function (err) {
-                    console.log(err);
+                    //console.log(err);
                 }
             });
         }else{
@@ -1073,7 +1073,7 @@
 
         if (pos != -1) {
             url = videoURL.substring(pos + 8, end);
-            console.log("url=" + url);
+            //console.log("url=" + url);
         }
         let verifyYoutubeUrl = 'https://www.youtube.com/';
         let verifyYoutube = verifyYoutubeUrl.indexOf(verifyYoutubeUrl);

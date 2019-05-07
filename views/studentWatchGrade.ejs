@@ -79,7 +79,7 @@
 <script>
     let allSubmits = <%-JSON.stringify(submits)%> //全部的作答紀錄
     let submiter = <%-JSON.stringify(submiter)%>
-    console.log(allSubmits);
+    //console.log(allSubmits);
     let nowUnit;
     let nowQuiz;
     let getScore;
@@ -121,7 +121,7 @@
         let canCheckQuestionAndAnswer = ""
         let publishScoreNow = ""
         let tests = <%-JSON.stringify(tests)%>
-        console.log(tests)
+        //console.log(tests)
         for (i = 0; i < tests.length; i++) {
             if (tests[i]._id == nowQuiz) {
                 canCheckQuestionAndAnswer = tests[i].canCheckQuestionAndAnswer
@@ -133,13 +133,13 @@
         let isSubmited = 0;
         for (i = 0; i < allSubmits.length; i++) {
             if ((allSubmits[i].testID == nowQuiz) && (allSubmits[i].writer == nowStudent)) {
-                console.log('--------------studentQuiz---------------');
-                console.log(allSubmits[i]);
+                //console.log('--------------studentQuiz---------------');
+                //console.log(allSubmits[i]);
                 //老師設定自動公布成績
                 if(publishScoreNow == true){
                   document.getElementById('showgrade').innerHTML = allSubmits[i].obtainscore;
                 }else{
-                  console.log("不公布");
+                  //console.log("不公布");
                   let grade = document.getElementById('showgrade');
                   grade.innerHTML = '...';
                 }

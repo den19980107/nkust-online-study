@@ -43,7 +43,7 @@ router.get('/getVideoInUnit/:unitID', function (req, res) {
         if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}');
         } else {
-            console.log(videos);
+            //console.log(videos);
 
             studentCommentVideo.find({}, function (err, comments) {
                 if (err) {
@@ -95,7 +95,7 @@ function append(videos, comments, behaviors) {
 
     for (let i = 0; i < data.length; i++) {
         for (j = 0; j < behaviors.length; j++) {
-            console.log(data[i]._id, behaviors[j].videoID);
+            //console.log(data[i]._id, behaviors[j].videoID);
 
             if (data[i]._id == behaviors[j].videoID) {
                 data[i].watchTime++;
@@ -109,7 +109,7 @@ function append(videos, comments, behaviors) {
 router.post('/deleteUnit/:unitID',function(req,res){
     Unit.remove({_id:req.params.unitID},function(err){
         if(err){
-            console.log(err);
+            //console.log(err);
             res.send('{"error" : "刪除失敗", "status" : 500}');
         }else{
             res.send('{"success" : "儲存成功"}');
@@ -120,13 +120,13 @@ router.post('/deleteUnit/:unitID',function(req,res){
 
 //rename單元
 router.post('/renameUnit/:unitID',function(req,res){
-    console.log(req.body);
+    //console.log(req.body);
 
     let myquery = { _id: req.params.unitID };
     let newvalues = { $set: {unitName: req.body.unitName} };
     Unit.updateOne(myquery,newvalues,function(err){
         if(err){
-            console.log(err);
+            //console.log(err);
             res.send('{"error" : "更改失敗", "status" : 500}');
         }else{
             res.send('{"success" : "儲存成功"}');
@@ -186,7 +186,7 @@ router.get('/getVideoDetial/:videoID', function (req, res) {
                             "belongClass": belongClass,
                             "watchersNumber": watchersNumber
                         }
-                        console.log(data);
+                        //console.log(data);
                         res.send(`[{
                             "videoName":${JSON.stringify(videoName)},
                             "videoWatchTime":"${JSON.stringify(videoWatchTime)}",
@@ -223,7 +223,7 @@ router.get('/getVideoComment/:videoID', function (req, res) {
 router.post('/deleteVideo/:videoID',function(req,res){
     Video.remove({_id:req.params.videoID},function(err){
         if(err){
-            console.log(err);
+            //console.log(err);
             res.send('{"error" : "刪除失敗", "status" : 500}');
         }else{
             res.send('{"success" : "儲存成功"}');
@@ -239,7 +239,7 @@ router.get('/getChapterInUnit/:chapterID', function (req, res) {
         if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}');
         } else {
-            console.log(chapters);
+            //console.log(chapters);
 
             studentCommentChapter.find({}, function (err, comments) {
                 if (err) {
@@ -360,10 +360,10 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                         if(studentBehavior[count].lastwatchTime<new Date(Date.UTC(year,month-1,day,hr,mm,ss))){
                             studentBehavior[count].lastwatchTime =new Date(Date.UTC(year,month-1,day,hr,mm,ss));
                         }
-                        console.log(year,month,day,hr,mm,ss);
+                        //console.log(year,month,day,hr,mm,ss);
 
                     }else{
-                        console.log("------------------------");
+                        //console.log("------------------------");
                         nowWatcherID = videobehaviors[i].watcherID;
                         count++;
                         studentBehavior[count] = {
@@ -390,20 +390,20 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                 //TODO 濾掉無效紀錄
                 for(let i = 0;i<studentBehavior.length;i++){
                     let tempbehaviors = []
-                    console.log("學生："+studentBehavior[i].studentID);
-                    console.log("濾掉之前有"+studentBehavior[i].behaviors.length+"筆紀錄");
-                    console.log("影片時間 = "+vtime);
+                    //console.log("學生："+studentBehavior[i].studentID);
+                    //console.log("濾掉之前有"+studentBehavior[i].behaviors.length+"筆紀錄");
+                    //console.log("影片時間 = "+vtime);
 
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
-                        console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
+                        //console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
 
                         if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/10){
                             tempbehaviors.push(studentBehavior[i].behaviors[j])
                         }
                     }
                     studentBehavior[i].behaviors = tempbehaviors
-                    console.log("濾掉之後有"+studentBehavior[i].behaviors.length+"筆紀錄");
-                    console.log("------------------");
+                    //console.log("濾掉之後有"+studentBehavior[i].behaviors.length+"筆紀錄");
+                    //console.log("------------------");
 
                 }
                 let studentRFM = []
@@ -425,7 +425,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                 let mm = time.split(":")[1];
                 let ss = time.split(":")[2].split(".")[0];
                 let nowTime = new Date(Date.UTC(year,month-1,day,hr,mm,ss));
-                console.log("nowTime = ",nowTime);
+                //console.log("nowTime = ",nowTime);
 
                 let studentIDs = []
                 for(let i = 0;i<studentRFM.length;i++){
@@ -436,7 +436,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                         studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1])
                         studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(0).join().split("note").length-1)//筆記次數
                     }
-                    console.log("---------------------------");
+                    //console.log("---------------------------");
 
                     studentRFM[i].studentID = studentBehavior[i].studentID;
                     studentIDs.push(ObjectID(studentBehavior[i].studentID).toString())
@@ -451,7 +451,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                             }
                         }
                     }
-                    console.log(studentRFM);
+                    //console.log(studentRFM);
                     res.json(studentRFM)
                 })
             }
@@ -505,12 +505,12 @@ router.get('/getuserinfo/:userid/:videoID',function(req,res){
                                                 totalWatchVideo.push(thisUserWatchVideo[i].videoID)
                                             }
                                         }
-                                        console.log("---------------------");
+                                        //console.log("---------------------");
                                         
-                                        console.log(thisUserSubmitTest);
-                                        console.log(thisClassTests);
-                                        console.log("測驗填寫完整度 ＝ "+ thisUserSubmitTest.length/thisClassTests.length);
-                                        console.log("影片觀看完整度 ＝ "+ totalWatchVideo.length/thisClassVideo.length);
+                                        //console.log(thisUserSubmitTest);
+                                        //console.log(thisClassTests);
+                                        //console.log("測驗填寫完整度 ＝ "+ thisUserSubmitTest.length/thisClassTests.length);
+                                        //console.log("影片觀看完整度 ＝ "+ totalWatchVideo.length/thisClassVideo.length);
                                         
                                         let publicInfo = {
                                             department: userinfo.department,

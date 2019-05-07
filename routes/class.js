@@ -98,7 +98,7 @@ let maxClassInPage = 8;
 router.get('/', ensureAuthenticated, function (req, res) {
   Class.find({}, function (err, classes) {
     classes = classes.reverse(); //讓最新課的排在最前面
-    console.log(classes);
+    //console.log(classes);
     let totalPage = Math.ceil(classes.length / maxClassInPage);
     let allClass = [];
     let classIMG = [];
@@ -113,11 +113,11 @@ router.get('/', ensureAuthenticated, function (req, res) {
         }
       }
     }
-    console.log(allClass);
-    console.log(classIMG);
+    //console.log(allClass);
+    //console.log(classIMG);
 
     if (err) {
-      console.log(err);
+      //console.log(err);
     } else {
       // res.render('class', {
       //     classes: classes
@@ -128,7 +128,7 @@ router.get('/', ensureAuthenticated, function (req, res) {
           $in: classIMG
         }
       }).toArray((err, imgs) => {
-        console.log(imgs);
+       // console.log(imgs);
 
         if (!imgs || imgs.length === 0) {
           res.render('class', {
@@ -160,17 +160,17 @@ router.get('/', ensureAuthenticated, function (req, res) {
 
 //顯示所有課程with page
 router.get('/page/:page', ensureAuthenticated, function (req, res) {
-  console.log(req.params.page);
+  //console.log(req.params.page);
   let page = req.params.page - 1;
   Class.find({}, function (err, classes) {
     classes = classes.reverse(); //讓最新課的排在最前面
-    console.log(classes);
+    //console.log(classes);
     let totalPage = Math.ceil(classes.length / maxClassInPage);
     let allClass = [];
     let classIMG = [];
     for (let i = 0; i < classes.length; i++) {
       if (classes[i].isLunched == true) {
-        console.log(classes[i].isLunched);
+        //console.log(classes[i].isLunched);
         allClass.push(classes[i])
         if (classes[i].classImage != undefined) {
           classIMG.push(classes[i].classImage)
@@ -183,10 +183,10 @@ router.get('/page/:page', ensureAuthenticated, function (req, res) {
         sendClass.push(allClass[i])
       }
     }
-    console.log("-------------");
+    //console.log("-------------");
 
-    console.log(sendClass);
-    console.log(classIMG);
+    //console.log(sendClass);
+    //console.log(classIMG);
 
     if (err) {
       console.log(err);
@@ -200,7 +200,7 @@ router.get('/page/:page', ensureAuthenticated, function (req, res) {
           $in: classIMG
         }
       }).toArray((err, imgs) => {
-        console.log(imgs);
+        //console.log(imgs);
 
         if (!imgs || imgs.length === 0) {
           res.render('class', {
@@ -248,7 +248,7 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
   // req.checkBody('credit', '學分不得為空').notEmpty();
   // req.checkBody('classroom', '教室不得為空').notEmpty();
   // req.checkBody('chooseClassTime', '上課時間不得為空').notEmpty();
-  console.log(req);
+  //console.log(req);
 
   let errors = req.validationErrors();
   if (errors) {
@@ -283,14 +283,14 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
         res.redirect('/users/myclass'); //?
       }
     });
-    console.log(newclass);
+    //console.log(newclass);
 
   }
 });
 
 //查看課程內容
 router.get('/:id', ensureAuthenticated, function (req, res) {
-  console.log("in");
+  //console.log("in");
   Class.findById(req.params.id, function (error, classinfo) {
     if (error) {
       res.render('notExist', {
@@ -330,7 +330,7 @@ router.get('/:id', ensureAuthenticated, function (req, res) {
                   } else {
                     img.isImage = false;
                   }
-                  console.log(img);
+                  //console.log(img);
 
                   res.render('classDashboard', {
                     id: req.params.id,
@@ -406,7 +406,7 @@ router.get('/classManager/:id', ensureAuthenticated, function (req, res) {
 //新版管理課程內容
 router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.id, function (error, classinfo) {
-    console.log(classinfo);
+    //console.log(classinfo);
 
     if (error) {
       res.render('notExist', {
@@ -483,7 +483,7 @@ router.get('/LunchClass/:cid', ensureAuthenticated, function (req, res) {
       let query = {
         _id: classinfo._id
       }
-      console.log(updateClass);
+      //console.log(updateClass);
 
       Class.update(query, updateClass, function (err) {
         if (err) {
@@ -498,9 +498,9 @@ router.get('/LunchClass/:cid', ensureAuthenticated, function (req, res) {
 
 //修改課程資訊
 router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, function (req, res) {
-  console.log(req.params.classID, req.params.part, req.params.text);
+  //console.log(req.params.classID, req.params.part, req.params.text);
   if (req.params.part == 'title') {
-    console.log("intitle");
+    //console.log("intitle");
 
     var myquery = {
       _id: ObjectID(req.params.classID)
@@ -514,7 +514,7 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
       if (err) {
         console.log(err);
       } else {
-        console.log('update success');
+        //console.log('update success');
       }
     });
   }
@@ -531,12 +531,12 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
       if (err) {
         console.log(err);
       } else {
-        console.log('update success');
+        //console.log('update success');
       }
     });
   }
   if (req.params.part == 'classTime') {
-    console.log(req.body);
+    //console.log(req.body);
 
     var myquery = {
       _id: ObjectID(req.params.classID)
@@ -550,7 +550,7 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
       if (err) {
         console.log(err);
       } else {
-        console.log('update success');
+        //console.log('update success');
         res.send('200')
       }
     });
@@ -565,13 +565,13 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
         classRoom: req.params.text
       }
     };
-    console.log(newvalues);
+    //console.log(newvalues);
     
     Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
       } else {
-        console.log('update success');
+        //console.log('update success');
         res.send('200')
       }
     });
@@ -590,7 +590,7 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
       if (err) {
         console.log(err);
       } else {
-        console.log('update success');
+        //console.log('update success');
         res.send('200')
       }
     });
@@ -619,7 +619,7 @@ router.get('/:id/addUnit/:unitName', ensureAuthenticated, function (req, res) {
     let newUnit = new Unit();
     newUnit.unitName = req.params.unitName;
     newUnit.belongClass = classId;
-    console.log(newUnit);
+    //console.log(newUnit);
     newUnit.save(function (err) {
       if (err) {
         console.log(err);
@@ -691,15 +691,15 @@ router.get('/:classID/showUnit/:unitID', ensureAuthenticated, function (req, res
                 if (err) {
                   console.log(err);
                 }
-                console.log(homeworks);
+                //console.log(homeworks);
 
                 studntSubmitTest.find({}, function (err, TestSubmitRecords) {
                   if (err) {
                     console.log(err);
                   }
-                  console.log(TestSubmitRecords);
-                  console.log(tests);
-                  console.log("start");
+                  //console.log(TestSubmitRecords);
+                  //console.log(tests);
+                  //console.log("start");
                   for (let i = 0; i < TestSubmitRecords.length; i++) {
                     for (let j = 0; j < tests.length; j++) {
                       if (TestSubmitRecords[i].writer == req.user._id) {
@@ -763,10 +763,10 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
     req.flash('danger', "講義標題與內容不得為空");
     res.redirect('/class/' + req.body.classID + '/showUnit/' + req.body.unitID);
   } else {
-    console.log("---------------");
-    console.log(req.body.classID);
-    console.log(req.body.title);
-    console.log(req.body.body);
+    //console.log("---------------");
+    //console.log(req.body.classID);
+    //console.log(req.body.title);
+    //console.log(req.body.body);
 
     let chapter = new Chapter();
     chapter.chapterName = req.body.title;
@@ -800,7 +800,7 @@ router.get('/editChapter/:chapterID',function(req,res){
 })
 //儲存編輯結果
 router.post('/saveEditedChapter',function(req,res){
-  console.log(req.body);
+  //console.log(req.body);
   
   let myquery = { _id: req.body.chapterID };
   let newvalues = { $set: {chapterName: req.body.chapterName,body:req.body.body} };
@@ -847,7 +847,7 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
     _id: req.params.id
   }
   Chapter.findById(query, function (err, chapter) {
-    console.log(chapter);
+    //console.log(chapter);
 
     if (err || chapter == null) {
       res.render('notExist', {
@@ -892,7 +892,7 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
 
 //新增影片
 router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, function (req, res) {
-  console.log(req.body.date);
+  //console.log(req.body.date);
 
   let newVideo = new Video();
   newVideo.videoName = req.params.videoName;
@@ -900,7 +900,7 @@ router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, fun
   newVideo.belongUnit = req.params.unitID;
   newVideo.vtime = "";
   newVideo.postTime = req.body.date
-  console.log(newVideo);
+  //console.log(newVideo);
 
   newVideo.save(function (err) {
     if (err) {
@@ -913,7 +913,7 @@ router.post('/:unitID/addvideo/:videoName/:videoURLid', ensureAuthenticated, fun
 
 //刪除影片
 router.delete('/deletevideo/:videoID', ensureAuthenticated, function (req, res) {
-  console.log(req.user._id);
+  //console.log(req.user._id);
 
   if (!req.user._id) {
     req.flash('danger', '請先登入');
@@ -990,7 +990,7 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
 
 //新增測驗
 router.post('/addTest/class/:cid/unit/:uid', ensureAuthenticated, function (req, res) {
-  console.log(req.body);
+  //console.log(req.body);
   if (req.body.testName == '' || req.body.testName == undefined) {
     res.status(500).send({
       msg: '測驗名稱不得為空'
@@ -1005,7 +1005,7 @@ router.post('/addTest/class/:cid/unit/:uid', ensureAuthenticated, function (req,
     newTest.EndpublicTime = req.body.EndpublicTime;
     newTest.publishScoreNow = req.body.publishScoreNow;
     newTest.canCheckQuestionAndAnswer = req.body.canCheckQuestionAndAnswer;
-    console.log(newTest);
+    //console.log(newTest);
     newTest.save(function (err) {
       if (err) {
         console.log(err);
@@ -1020,7 +1020,7 @@ router.post('/addTest/class/:cid/unit/:uid', ensureAuthenticated, function (req,
 
 //刪除測驗
 router.delete('/deletetest/:testID', ensureAuthenticated, function (req, res) {
-  console.log(req.user._id);
+  //console.log(req.user._id);
 
   if (!req.user._id) {
     req.flash('danger', '請先登入');
@@ -1104,7 +1104,7 @@ router.post('/publicTest/:testID', ensureAuthenticated, function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      console.log('update success');
+      //console.log('update success');
       res.json({
         success: 1
       });
@@ -1126,7 +1126,7 @@ router.post('/EndpublicTest/:testID', ensureAuthenticated, function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      console.log('update success');
+      //console.log('update success');
       res.json({
         success: 1
       });
@@ -1151,8 +1151,8 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
     }
   }
   Test.findById(query, function (err, testinfo) {
-    console.log("testinfo = ");
-    console.log(testinfo)
+    //console.log("testinfo = ");
+    //console.log(testinfo)
     if (err || testinfo == null) {
       res.render('notExist', {
         title: "喔喔！此測驗不存在...",
@@ -1163,7 +1163,7 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
         if (err) {
           console.log(err);
         } else {
-          console.log('update success');
+          //console.log('update success');
           res.json({
             success: 1
           });
@@ -1176,7 +1176,7 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
 
 //新增作業
 router.post('/addHomeWork/class/:cid/unit/:uid', ensureAuthenticated, function (req, res) {
-  console.log(req.body);
+  //console.log(req.body);
   if (req.body.testName == '' || req.body.testName == undefined) {
     res.status(500).send({
       msg: '作業名稱不得為空'
@@ -1186,7 +1186,7 @@ router.post('/addHomeWork/class/:cid/unit/:uid', ensureAuthenticated, function (
     newHomeWork.homeworkName = req.body.testName;
     newHomeWork.testQutions = req.body.QuationList;
     newHomeWork.belongUnit = req.body.belongUnit;
-    console.log(newHomeWork);
+    //console.log(newHomeWork);
     newHomeWork.save(function (err) {
       if (err) {
         console.log(err);
@@ -1246,7 +1246,7 @@ router.get('/showHomeWork/:homeworkID', ensureAuthenticated, function (req, res)
 
 //刪除作業
 router.delete('/deletehomework/:homeworkID', ensureAuthenticated, function (req, res) {
-  console.log(req.user._id);
+  //console.log(req.user._id);
 
   if (!req.user._id) {
     req.flash('danger', '請先登入');
@@ -1292,7 +1292,7 @@ router.get('/correctTestIn/:classID', ensureAuthenticated, function (req, res) {
       query = {
         belongUnit: querytext
       }
-      console.log("query = " + query);
+      //console.log("query = " + query);
 
       Test.find(query, function (err, tests) {
         if (err) {
@@ -1341,12 +1341,12 @@ router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, r
         testinfo = testinfo[i];
       }
     }
-    console.log("writer = " + req.params.writerID);
+    //console.log("writer = " + req.params.writerID);
 
-    console.log("-----------------");
+    //console.log("-----------------");
 
-    console.log(testinfo);
-    console.log("-----------------");
+    //console.log(testinfo);
+    //console.log("-----------------");
 
     let updatetestinfo = {};
     updatetestinfo.testQutionsAndAnswer = testinfo.testQutionsAndAnswer
@@ -1364,11 +1364,11 @@ router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, r
       } else if (req.body.markArray[i] == "wrong") {
         updatetestinfo.testQutionsAndAnswer[i].isCorrect = false;
       } else {
-        console.log("markArray is none");
+        //console.log("markArray is none");
       }
     }
-    console.log(updatetestinfo);
-    console.log("testinfoID = " + testinfo._id);
+    //console.log(updatetestinfo);
+    //console.log("testinfoID = " + testinfo._id);
 
     studntSubmitTest.update({
       _id: testinfo._id
@@ -1377,7 +1377,7 @@ router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, r
         console.log("err");
         res.status(500).send();
       } else {
-        console.log("ok");
+        //console.log("ok");
         res.send('200');
       }
     })
@@ -1477,7 +1477,7 @@ router.get('/search/:className', ensureAuthenticated, function (req, res) {
         let allClass = [];
         for (let i = 0; i < classes.length; i++) {
           if (classes[i].isLunched == true) {
-            console.log(classes[i].isLunched);
+            //console.log(classes[i].isLunched);
             allClass.push(classes[i])
           }
         }
@@ -1512,12 +1512,12 @@ router.get('/search/:className', ensureAuthenticated, function (req, res) {
 
 //看課程內同學的個人頁面
 router.get('/:id/showClassmateInfo/:sid', ensureAuthenticated, function (req, res) {
-  console.log(req.params.sid);
+  //console.log(req.params.sid);
 
   User.findById({
     _id: req.params.sid
   }, function (err, student) {
-    console.log(student);
+    //console.log(student);
 
     res.render('userinfo', {
       user: student,
@@ -1611,7 +1611,7 @@ router.get('/checkStudent/:sid/unit/:classID', ensureAuthenticated, function (re
       w: 1
     }, function (err, result) {
       if (err) throw err;
-      console.log('Document Updated Successfully');
+      //console.log('Document Updated Successfully');
       User.findById({
         _id: sidarray[i]
       }, function (err, student) {
@@ -1631,7 +1631,7 @@ router.get('/checkStudent/:sid/unit/:classID', ensureAuthenticated, function (re
               pass: 'kkc060500'
             }
           });
-          console.log(student.email);
+          //console.log(student.email);
           var mailOptions = {
             from: 'nkust.online.study@gmail.com',
             to: student.email,
@@ -1643,7 +1643,7 @@ router.get('/checkStudent/:sid/unit/:classID', ensureAuthenticated, function (re
             if (error) {
               console.log(error);
             } else {
-              console.log('Email sent: ' + info.response);
+              //console.log('Email sent: ' + info.response);
             }
           });
         });
@@ -1723,7 +1723,7 @@ router.get('/checkAssistant/:sid/unit/:classID', ensureAuthenticated, function (
           w: 1
         }, function (err, result) {
           if (err) throw err;
-          console.log('Assistant Document Updated Successfully');
+          //console.log('Assistant Document Updated Successfully');
         });
       } else {
         User.find({
@@ -1732,7 +1732,7 @@ router.get('/checkAssistant/:sid/unit/:classID', ensureAuthenticated, function (
           if (err) {
             console.log(err);
           }
-          console.log('Assistant Document Create Successfully');
+          //console.log('Assistant Document Create Successfully');
           let newAssistant = new StudebtTakeCourse;
           newAssistant.studentID = sidarray[i];
           newAssistant.classID = req.params.classID;
@@ -1767,7 +1767,7 @@ router.get('/deleteAssistant/:id/unit/:classID', ensureAuthenticated, function (
       if (err) {
         console.log(err);
       } else {
-        console.log('Assistant Permission Delete Successfully');
+        //console.log('Assistant Permission Delete Successfully');
       }
     })
   }
@@ -1805,7 +1805,7 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
         if (err) {
           console.log(err);
         } else {
-          console.log('Assistant Permission Updated Successfully');
+          //console.log('Assistant Permission Updated Successfully');
         }
       });
     } else {
@@ -1830,7 +1830,7 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
         if (err) {
           console.log(err);
         } else {
-          console.log('Assistant Permission Updated Successfully');
+          //console.log('Assistant Permission Updated Successfully');
         }
       });
     }
@@ -1859,7 +1859,7 @@ router.get('/showVideoSituation/:classID', ensureAuthenticated, function (req, r
       query = {
         belongUnit: querytext
       }
-      console.log("query = " + query);
+      //console.log("query = " + query);
 
       Video.find(query, function (err, videos) {
         if (err) {
@@ -1889,7 +1889,7 @@ router.get('/showVideoSituation/:classID', ensureAuthenticated, function (req, r
               console.log(err);
 
             }
-            console.log(watcher);
+            //console.log(watcher);
 
             res.render('showVideoSituation', {
               classinfo: classinfo,
@@ -1940,7 +1940,7 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
       query = {
         belongUnit: querytext
       }
-      console.log("query = " + query);
+      //console.log("query = " + query);
 
       Test.find(query, function (err, tests) {
         if (err) {
@@ -1996,7 +1996,7 @@ router.get('/showGradeAndTestPercent/:classID', function (req, res) {
       query = {
         belongUnit: querytext
       }
-      console.log("query = " + query);
+      //console.log("query = " + query);
 
       Test.find(query, function (err, tests) {
         if (err) {
@@ -2040,8 +2040,8 @@ function ensureAuthenticated(req, res, next) {
   } else {
     req.flash('danger', '請先登入');
     let nextURL = req.originalUrl.replace(new RegExp('/', 'g'), '%2F');
-    console.log("inuser ensure = " + nextURL);
-    console.log("url = /users/login/?r=" + nextURL);
+    //console.log("inuser ensure = " + nextURL);
+    //console.log("url = /users/login/?r=" + nextURL);
 
     res.redirect('/users/login/?r=' + nextURL);
   }

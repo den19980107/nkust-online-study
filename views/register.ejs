@@ -63,7 +63,7 @@
     let submit = document.getElementById('submit');
 
     studentCheckbox.onclick = function () {
-        console.log(studentCheckbox.checked);
+        //console.log(studentCheckbox.checked);
         submit.disabled = false;
         if (studentCheckbox.checked) {
             teacherCheckbox.checked = false;
@@ -75,7 +75,7 @@
         }
     }
     teacherCheckbox.onclick = function () {
-        console.log(teacherCheckbox.checked);
+        //console.log(teacherCheckbox.checked);
         submit.disabled = false;
         if (teacherCheckbox.checked) {
             studentCheckbox.checked = false;

@@ -40,7 +40,7 @@
 <script>
     let addTag = function(){
         let tagName = document.getElementById('tagName').value;
-        console.log(tagName);
+        //console.log(tagName);
         $.ajax({
             url: '/coding/addTag',
             type: 'POST',
@@ -54,11 +54,11 @@
 
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 window.location = "/coding/editTag"
             },
             error: function (err) {
-                console.log(err);
+                //console.log(err);
                 alert('錯誤訊息：' + code);
             }
         });
@@ -77,10 +77,10 @@
 
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
             },
             error: function (err) {
-                console.log(err);
+                //console.log(err);
                 alert('錯誤訊息：' + code);
             }
         });

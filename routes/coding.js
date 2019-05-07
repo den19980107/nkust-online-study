@@ -7,15 +7,15 @@ let CodeTags = require("../model/codeTags");
 router.get('/', ensureAuthenticated, function (req, res) {
     CodeQution.find({}, function (err, qutions) {
         CodingSubmitRecord.find({}, function (err, submitRecord) {
-            console.log(qutions.length);
-            console.log(submitRecord.length);
+            //console.log(qutions.length);
+            //console.log(submitRecord.length);
             for (let i = 0; i < qutions.length; i++) {
                 qutions[i].submitTime = 0;
                 qutions[i].acceptTime = 0;
                 qutions[i].isWritten = "Not";
             }
-            console.log(submitRecord);
-            console.log(req.user._id);
+            //console.log(submitRecord);
+            //console.log(req.user._id);
 
             for (let i = 0; i < qutions.length; i++) {
                 for (let j = 0; j < submitRecord.length; j++) {
@@ -69,18 +69,18 @@ router.get('/select/:tagName',function(req,res){
             }
         }
         qutions = newQutionList;
-        console.log(qutions);
+        //console.log(qutions);
         
         CodingSubmitRecord.find({}, function (err, submitRecord) {
-            console.log(qutions.length);
-            console.log(submitRecord.length);
+            //console.log(qutions.length);
+            //console.log(submitRecord.length);
             for (let i = 0; i < qutions.length; i++) {
                 qutions[i].submitTime = 0;
                 qutions[i].acceptTime = 0;
                 qutions[i].isWritten = "Not";
             }
-            console.log(submitRecord);
-            console.log(req.user._id);
+            //console.log(submitRecord);
+            //console.log(req.user._id);
 
             for (let i = 0; i < qutions.length; i++) {
                 for (let j = 0; j < submitRecord.length; j++) {
@@ -141,7 +141,7 @@ router.post('/addQution', ensureAuthenticated, function (req, res) {
     newQuestion.body = req.body.body;
     newQuestion.testData = req.body.testData;
     newQuestion.tags = req.body.tags;
-    console.log(req.body.testData);
+    //console.log(req.body.testData);
     newQuestion.save(function (err) {
         if (err) {
             res.send('{"error" : "新增失敗", "status" : 500}');
@@ -187,7 +187,7 @@ router.post('/saveRecord', ensureAuthenticated, function (req, res) {
     newRecord.script = req.body.script
     newRecord.status = req.body.status
     newRecord.submitTime = req.body.submitTime
-    console.log(newRecord);
+    //console.log(newRecord);
     newRecord.save(function (err) {
         if (err) {
             res.send('{"error" : "儲存失敗", "status" : 500}');
@@ -220,8 +220,8 @@ router.post('/editQution', ensureAuthenticated, function (req, res) {
         if (err) {
             console.log(err);
         }
-        console.log("qutionData = ");
-        console.log(qutionData);
+        //console.log("qutionData = ");
+        //console.log(qutionData);
 
         CodingSubmitRecord.find({
             codingQutionID: qutionData._id,
@@ -230,9 +230,9 @@ router.post('/editQution', ensureAuthenticated, function (req, res) {
             if (err) {
                 console.log(err);
             }
-            console.log(qutionData);
-            console.log(qutionData.testData);
-            console.log(submitRecord);
+            // console.log(qutionData);
+            // console.log(qutionData.testData);
+            // console.log(submitRecord);
             res.render('showCodingQution', {
                 qutionData: qutionData,
                 testData: qutionData.testData,
@@ -263,7 +263,7 @@ router.get('/editTag',function(req,res){
 
 //管理員新增標籤
 router.post('/addTag',function(req,res){
-    console.log(req.body.tagName);
+    // console.log(req.body.tagName);
     let newTag = new CodeTags();
     newTag.tagName = req.body.tagName;
     newTag.save(function(err){
@@ -282,7 +282,7 @@ router.post('/addTag',function(req,res){
 
 //管理員刪除標籤
 router.post('/deleteTag',function(req,res){
-    console.log(req.body.id);
+    // console.log(req.body.id);
     CodeTags.remove({_id:req.body.id},function(err){
         if(err){
             console.log(err);     
@@ -301,8 +301,8 @@ function ensureAuthenticated(req, res, next) {
     } else {
       req.flash('danger', '請先登入');
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      console.log("inuser ensure = "+nextURL);
-      console.log("url = /users/login/?r="+nextURL);
+      //console.log("inuser ensure = "+nextURL);
+      //console.log("url = /users/login/?r="+nextURL);
       
       res.redirect('/users/login/?r='+nextURL);
     }

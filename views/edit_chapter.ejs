@@ -104,7 +104,7 @@
     let saveEditedChapter = function(chapterID){
         let chapterName = document.getElementById('chapterName').value;
         let body = CKEDITOR.instances.Detail.getData();
-        console.log(body);
+        //console.log(body);
         $.ajax({
             type: 'POST',
             url: '/class/saveEditedChapter',
@@ -125,12 +125,12 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 window.location = "/class/editChapter/"+chapterID
                 alert('更改成功!');
             },
             error: function (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
     }

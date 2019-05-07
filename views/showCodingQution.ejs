@@ -330,12 +330,12 @@
     window.onload = function () {
         let fromEditScript = `<%if(locals.script){%><%=script%><%}%>`;
         let fromEditLanguage = `<%if(locals.language){%><%=language%><%}%>`;
-        console.log(fromEditScript);
+        //console.log(fromEditScript);
         fromEditScript = fromEditScript.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#39;/g, "'");
         let loader = document.getElementById('loader');
         loader.style.display = "none";
-        console.log(fromEditScript);
-        console.log(fromEditLanguage);
+        //console.log(fromEditScript);
+        //console.log(fromEditLanguage);
         if (fromEditScript != "" && fromEditLanguage !== "") {
             editor.session.setValue(fromEditScript);
             let language = document.getElementById('language');
@@ -354,7 +354,7 @@
         let output = document.getElementById('output');
         let inputTab = document.getElementById('inputTab');
         let outputTab = document.getElementById('outputTab');
-        console.log(input, output, inputTab, outputTab);
+        //console.log(input, output, inputTab, outputTab);
 
         if (type == "discription") {
             discriptionTab.className = "nav-link active"
@@ -385,7 +385,7 @@
 
     let changeLanguage = function () {
         let language = $('#language').val();
-        console.log(language);
+        //console.log(language);
 
         if (language == "python3") {
             editor.session.setMode("ace/mode/python");
@@ -414,7 +414,7 @@
         output.innerHTML = "編譯中....\n";
         changeTab("output");
         socket.on('answer', function (obj) {
-            console.log(obj);
+            //console.log(obj);
             output.innerHTML = obj.body.output;
         });
     }
@@ -422,7 +422,7 @@
     let submit = function () {
         if (confirm('確定要提交媽？提交過後的資訊將會被儲存在提交紀錄中')) {
             let testData = <%- JSON.stringify(testData) %>
-            console.log(testData);
+            //console.log(testData);
             let loader = document.getElementById('loader');
             loader.style.display = "block"
             let userid = "<%user._id%>"
@@ -495,7 +495,7 @@
                             }
                         })
                     }
-                    console.log(isRight);
+                    //console.log(isRight);
 
 
                 });
