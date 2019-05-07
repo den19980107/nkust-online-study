@@ -1017,7 +1017,8 @@
                     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
                 }
                 R = R.map(function(num){
-                    return map(num,Rmin,Rmax,0,100)
+                    //720代表 一個月 = 30天 = 30x24小時 = 720  這邊可以自行設定區間
+                    return map(num,Rmin,720,0,100)
                 })
                 F = F.map(function(num){
                     return map(num,Fmin,Fmax,0,100)

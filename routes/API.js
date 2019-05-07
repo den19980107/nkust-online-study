@@ -429,7 +429,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
 
                 let studentIDs = []
                 for(let i = 0;i<studentRFM.length;i++){
-                    studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600;
+                    studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600000;
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
                         //console.log(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1]);
