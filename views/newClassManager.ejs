@@ -199,17 +199,19 @@
         </div>
         <ul class="chapterList">
             <%let i = 0%>
+            <%let nounit = 0 %>
 <%units.forEach(function(unit){%>
 <li class="chapter" aria-haspopup="true" aria-expanded="false">
     <a href="#" id="unit<%=i%>"><p style="padding: 0;margin: 0" id="<%=unit._id%>" onclick="selectUnit('unit<%=i%>','<%=unit._id%>','<%=unit.unitName%>')"><%=unit.unitName%></p> <%if(isTA || user._id == classinfo.teacher){%><i class="fas fa-trash-alt" onclick="deleteUnit('<%=unit.unitName%>','<%=unit._id%>')" style="position: absolute;right: 1rem;"></i><%}%></a>
 </li>
+<%nounit++%>
 <%i++%>
 <%})%>
 </ul>
 </div>
 <div class="col-lg-10 col-sm-12 h-100 videos">
     <h5 id = "unitNameText" class="m-0" style="padding: 1rem;display: inline-block"></h5>
-    <%if(isTA || user._id == classinfo.teacher){%>
+    <%if(nounit != 0){%>
     <i class="fas fa-pen" onclick="renameUnit()"></i>
     <%}%>
     <ul class="nav nav-tabs">
@@ -247,16 +249,16 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">上傳影片</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">新增影片</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs" id="tabContent" style="border: none">
-                        <li class="mr-2"><a href="#fileTab" class="badge badge-info" data-toggle="tab">檔案</a>
+                        <li class="mr-2"><a href="#fileTab" class="badge badge-info" data-toggle="tab"><span style="font-size:2em;">檔案</span></a>
                         </li>
-                        <li><a href="#URLTab" class="badge badge-info" data-toggle="tab">網址</a></li>
+                        <li><a href="#URLTab" class="badge badge-info" data-toggle="tab"><span style="font-size:2em;">網址</span></a></li>
                     </ul>
                     <br>
                     <div class="tab-content">
@@ -535,11 +537,11 @@
     let selectedUnit = "unit0"
     window.onload = function () {
         //console.log("--------onload----------");
-        let unit0 = document.getElementById('unit0'); 
+        let unit0 = document.getElementById('unit0');
         //console.log("unit0 = ");
-        
+
         //console.log(unit0);
-        
+
         if (unit0 != null && unit0 != undefined) {
             unit0.childNodes[0].click();
             //console.log("in unit0 click");
@@ -576,7 +578,7 @@
     }
     let saveUnitRename = function(){
         //console.log("saveUnitRename");
-        
+
         renameMaterialName = document.getElementById('newName').value;
         $.ajax({
             type: 'POST',
@@ -595,7 +597,7 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                //console.log(response);
+                console.log(response);
                 let unitNameText =document.getElementById('unitNameText');
                 unitNameText.innerHTML = renameMaterialName;
                 let unitListNameText = document.getElementById(renameMaterialID);
@@ -617,7 +619,7 @@
 
     let showVideo = function () {
         //console.log("in showVideo");
-        
+
         videoTab.className = "nav-link active";
         chapterTab.className = "nav-link ";
         testTab.className = "nav-link ";
@@ -640,7 +642,7 @@
                 loader.style.display = "none"
             },
             error: function (error) {
-                alert(error.error);
+                alert("請先新增單元");
             },
             success: function (response) {
                 response = JSON.parse(response);
@@ -717,7 +719,7 @@
     }
     let deleteUnit = function(unitName,unitID){
         //console.log(unitName,unitID);
-        
+
         if(confirm('確定要刪除"'+unitName+'"單元嗎?')){
             $.ajax({
                 type: 'POST',
@@ -732,12 +734,12 @@
                     loader.style.display = "none"
                 },
                 success: function (response) {
-                    //console.log(response);
+                    console.log(response);
                     window.location = "/class/newClassManager/<%=classinfo._id%>";
                     alert('刪除成功!');
                 },
                 error: function (err) {
-                    //console.log(err);
+                    console.log(err);
                 }
             });
         }else{
@@ -769,7 +771,7 @@
                 loader.style.display = "none"
             },
             error: function (error) {
-                alert(error.error);
+                alert("請先新增單元");
             },
             success: function (response) {
                 response = JSON.parse(response);
@@ -784,7 +786,7 @@
                         style="position: fixed;bottom: 5%;right: 5%;border-radius:50%;box-shadow:0.2rem 0.2rem 0.2rem;border:1px solid rgb(78,167,150);background:white;z-index:30;font-size: 3rem;color: rgb(78,167,150)";data-toggle="modal" onclick="$('#addLecture').modal();" data-target="#addLecture">
                     </i>`;
                 }
-                
+
                 videoTable.style.cssText =
                     "display:flex;flex-wrap:wrap;justify-content: start;"
                 for (let i = 0; i < chapters.length; i++) {
@@ -839,7 +841,7 @@
                 loader.style.display = "none"
             },
             error: function (error) {
-                alert(error.error);
+                alert("請先新增單元");
             },
             success: function (response) {
                 response = JSON.parse(response);
@@ -850,13 +852,13 @@
                 let isDisplay2 = "none";
                 //console.log(isDisplay2);
                 if(canManage){
-                    isDisplay2 = "block";   
+                    isDisplay2 = "block";
                     videoTable.innerHTML = `
                     <i class="fas fa-plus-circle"
                         style="position: fixed;bottom: 5%;right: 5%;border-radius:50%;box-shadow:0.2rem 0.2rem 0.2rem;border:1px solid rgb(78,167,150);background:white;z-index:30;font-size: 3rem;color: rgb(78,167,150)" data-toggle="modal" data-target="#uploadTestModal" onclick="TestModel()">
                     </i>`;
                 }
-                
+
 
                 for (let i = 0; i < tests.length; i++) {
                     videoTable.innerHTML += `
@@ -888,7 +890,7 @@
     let renameMaterialID = "";//要被命名的教材(講義or測驗)的id
     let renameMaterialName = "";//要被命名的教材(講義or測驗)的新名稱
 
-    
+
     //講義重新命名
     let renameChapter = function(chapteName,chapterID){
         $('#renameModal').modal();
@@ -906,7 +908,7 @@
         let saveRenameBTN = document.getElementById('saveRenameBTN');
         saveRenameBTN.setAttribute('onclick','saveTestRename()');//把改名視窗的儲存按鈕的onclick設定成儲存測驗名稱
         //console.log(saveRenameBTN);
-        
+
         newNameText.value = testName;//把原本的名字設定上
         renameMaterialID = TestID
     }
@@ -944,7 +946,7 @@
 
     let saveTestRename = function(){
         renameMaterialName = document.getElementById('newName').value;
-        
+
         $.ajax({
             type: 'POST',
             url: '/api/renameTest/'+ renameMaterialID,
@@ -1073,7 +1075,7 @@
 
         if (pos != -1) {
             url = videoURL.substring(pos + 8, end);
-            //console.log("url=" + url);
+            console.log("url=" + url);
         }
         let verifyYoutubeUrl = 'https://www.youtube.com/';
         let verifyYoutube = verifyYoutubeUrl.indexOf(verifyYoutubeUrl);
