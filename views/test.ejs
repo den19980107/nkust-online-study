@@ -66,7 +66,7 @@
                                                     </div>
                                             </div>
                                             <div class="form-group row mb-0"style="height:7%">
-                                                    <label for="staticEmail" class="col-sm-3 col-form-label "  >結束時間</label>
+                                                    <label for="staticEmail" class="col-sm-3 col-form-label ">結束時間</label>
                                                     <div class="col-sm-9">
                                                         <input type="datetime-local" class="form-control" id="EndpublicTime">
                                                     </div>
@@ -241,10 +241,10 @@
         this.previous = this.checked;
     });
     let onAnswer = function (qutionType, qutionNumber, answer) {
-        //console.log(qutionType,answer,qutionNumber);
+        console.log(qutionType,answer,qutionNumber);
         // console.log(qutionType + ' ' + answer + ' ' + qutionNumber);
         if (qutionType == 'MCQ') {
-            //console.log(qutionNumber);
+            console.log(qutionNumber);
             if(answerArray[qutionNumber-1]==undefined){
               answerArray[qutionNumber-1] = {studentAnswer:[],isCorrect:""}
               answerArray[qutionNumber-1].studentAnswer[answer]="1"
@@ -285,10 +285,10 @@
             answerArray[qutionNumber-1].language = language
           }
         }
-        //console.log(answerArray);
+        console.log(answerArray);
     }
     let compile = function (qutionNumber) {
-        //console.log(qutionNumber);
+        console.log(qutionNumber);
         let script = document.getElementById('code' + qutionNumber);
         let input = document.getElementById('input' + qutionNumber);
         let language = document.getElementById('language' + qutionNumber);
@@ -303,7 +303,7 @@
         socket.emit('script', scriptData);
         output.innerHTML = "編譯中....\n";
         socket.on('answer', function (obj) {
-            //console.log(obj);
+            console.log(obj);
             output.innerHTML = "輸出:\n" + obj.body.output;
             //記錄到答案中
             // onAnswer('PGQ', {
@@ -374,7 +374,7 @@
                         qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
                     }
                 }else{
-                    //console.log(answerArray[i]);
+                    console.log(answerArray[i]);
 
                     if(typeof answerArray[i] === 'undefined'){
                         qutions.testQutions[i].studentAnswer = -1
@@ -393,13 +393,13 @@
                 let studentAnswers = [];
                 for(let j = 0;j<qution.selection.length;j++){
                     //console.log("j = "+qution.studentAnswer[j]);
-                    //console.log(qution.studentAnswer);
+                    console.log(qution.studentAnswer);
 
                     if(qution.studentAnswer[j]=="1"){
                         studentAnswers.push(qution.selection[j]);
                     }
                 }
-                //console.log(studentAnswers);
+                console.log(studentAnswers);
                 let isCorrect = true;
                 if(studentAnswers.length!=qution.correctAnswers.length){
                     isCorrect=false;
@@ -435,15 +435,15 @@
                     language: qution.language,
                     id: "001"
                 }
-                //console.log("testverification = -------");
-                //console.log(testverification);
+                console.log("testverification = -------");
+                console.log(testverification);
 
                 var socket = io();
                 socket.emit('script', testverification);
                 socket.on('answer', function (obj) {
-                    //console.log(obj);
-                    //console.log(obj.body.output);
-                    //console.log(qution.language);
+                    console.log(obj);
+                    console.log(obj.body.output);
+                    console.log(qution.language);
                     if(typeof obj.body.output === 'undefined' || obj.body.output === null){
 
                     }else{
@@ -476,23 +476,23 @@
     }
     var delay = function(s){
       return new Promise(function(resolve,reject){
-        //console.log("3s");
+        console.log("3s");
         setTimeout(resolve,s);
       });
     };
 
     let answermodifyend = function(qutions){
       let obtainscore = 0
-      //console.log(qutions);
-      //console.log("到");
+      console.log(qutions);
+      console.log("到");
       for(let i=0;i < qutions.testQutions.length;i++){
           if(qutions.testQutions[i].isCorrect == true){
               obtainscore += Number(qutions.testQutions[i].score);
           }
       }
-      //console.log(obtainscore);
+      console.log(obtainscore);
       qutions.obtainscore = obtainscore
-      //console.log(qutions);
+      console.log(qutions);
       $.ajax({
           url: '/SDC/submitTest',
           type: 'POST',
@@ -512,16 +512,16 @@
     let user = <%- JSON.stringify(user) %>;
     let classinfo = <%- JSON.stringify(classinfo)%>;
     if(user._id == classinfo.teacher){
-        //console.log("isTeacher");
+        console.log("isTeacher");
         let questionList = document.getElementById('questionList');
         let today = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
-        //console.log("today = ",today);
+        console.log("today = ",today);
         let split = today.split(" ");
         let ymd = split[0];
         let hm = split[1];
-        //console.log("hm = ",hm);
+        console.log("hm = ",hm);
         ymd = ymd.split("/");
-        //console.log("ymd = ",ymd);
+        console.log("ymd = ",ymd);
         let yyyy = ymd[0];
         let mm = ymd[1];
         if(parseInt(mm)<10){
@@ -531,8 +531,8 @@
         if(parseInt(dd)<10){
             dd = "0"+dd
         }
-        //console.log("yyyy = ",yyyy," mm = ",mm," dd = ",dd);
-        //console.log("hm = ",hm);
+        console.log("yyyy = ",yyyy," mm = ",mm," dd = ",dd);
+        console.log("hm = ",hm);
         let hh = "";
         let minute = "";
         if(hm.indexOf("上午")!=-1){
@@ -558,22 +558,30 @@
             }
         }
         today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
-        //console.log(today);
+        console.log(today);
         document.getElementById("publicTime").setAttribute("min",today);
         document.getElementById("publicTime").value = today
         document.getElementById("EndpublicTime").setAttribute("min",today)
         document.getElementById("EndpublicTime").value = today
     }
     let EditTest = function(){
-        //console.log(Test)
+        console.log(Test)
         let testNameinput = document.getElementById('testNameinput');
+        let publishScoreNow = document.getElementById('publishScoreNow');
+        let canCheckQuestionAndAnswer = document.getElementById('canCheckQuestionAndAnswer');
+        if(Test.publishScoreNow == true){
+            publishScoreNow.checked = true;
+        }
+        if(Test.canCheckQuestionAndAnswer == true){
+            canCheckQuestionAndAnswer.checked = true;
+        }
         testNameinput.value = Test.testName
         QuationList = Test.testQutions;
         updateQutionList();
     }
     //當使用者選擇發佈時間時 要將結束時間設定成發佈時間之後
     let setEndTime = function(startTime){
-            //console.log(startTime.value);
+            console.log(startTime.value);
             document.getElementById("EndpublicTime").setAttribute("min",startTime.value)
             document.getElementById("EndpublicTime").value = startTime.value
     }
@@ -601,12 +609,12 @@
                 let publicTimeCounter = setInterval(function(){
                     if(isEnd == true){
                         clearInterval(publicTimeCounter)
-                        //console.log("asd");
+                        console.log("asd");
                         $.ajax({
                             url: '/class/EndpublicTest/'+Test._id,
                             type: 'POST',
                             success: function (response) {
-                                //console.log(response);
+                                console.log(response);
                                 window.location = "/class/showTest/"+Test._id;
                             },
                             error: function (err) {
@@ -643,7 +651,7 @@
                         url: '/class/publicTest/'+Test._id,
                         type: 'POST',
                         success: function (response) {
-                            //console.log(response);
+                            console.log(response);
                             window.location = "/class/showTest/"+Test._id;
                         },
                         error: function (err) {
@@ -657,7 +665,7 @@
             }
         }
         if(state == "onpublic"){
-            //console.log("onpublic");
+            console.log("onpublic");
             if(user.permission == "student"){
                 questionList.style.cssText="display:block";
             }
@@ -672,7 +680,7 @@
             let ss = Math.floor(totoalSec);
             publicTimeText.innerHTML = "距離結束時間還剩下："+ hr +"小時 "+ mm + "分鐘 "+ss+"秒 "
             if(totoalSec<0){
-                //console.log("isEND");
+                console.log("isEND");
                 publicTimeText.innerHTML = "時間計算中..."
                 return true;
             }else{
@@ -688,12 +696,12 @@
         }
     }
     let publicTest = function(){
-        //console.log('/class/publicTest/'+Test._id);
+        console.log('/class/publicTest/'+Test._id);
         $.ajax({
             url: '/class/publicTest/'+Test._id,
             type: 'POST',
             success: function (response) {
-                //console.log(response);
+                console.log(response);
                 alert('開放成功');
                 window.location = "/class/showTest/"+Test._id;
             },
