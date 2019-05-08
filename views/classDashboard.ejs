@@ -60,7 +60,9 @@
         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
         display: inline;
     }
-
+    .fas:hover{
+        cursor: pointer;
+    }
 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.0/css/all.css">
@@ -559,7 +561,7 @@
             let outlineDIV = document.getElementById('outlineDIV');
             outlineDIV.innerHTML =
                 `<h5 class=" scrollText ">
-                            課程簡介：
+                            課程說明：
                             <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
                                 onclick="updateClassInfo('outline')"></i>
                         </h5>
@@ -745,7 +747,7 @@
                 let outlineDIV = document.getElementById('outlineDIV');
                 outlineDIV.innerHTML =
                     `<h5 class=" scrollText ">
-                                課程簡介：
+                                課程說明：
                                 <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
                                     onclick="updateClassInfo('outline')"></i>
                             </h5>
