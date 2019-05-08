@@ -161,30 +161,30 @@
         let nowSubmiterName;
         let nowStudent;
         let nowTest;
-        console.log("tests = ");
-        console.log(studentSubmits);
+        //console.log("tests = ");
+        //console.log(studentSubmits);
 
         let submiter = <%-JSON.stringify(submiter)%>
         let getScore;
         let totalScore;
         let showTestInUnit = function (unit) {
-            console.log("-------showTestInUnit ------");
+            //console.log("-------showTestInUnit ------");
             let unitID = unit.getAttribute('unitID');
             nowUnit = unit;
-            console.log("nowUnit = " + nowUnit);
+            //console.log("nowUnit = " + nowUnit);
             let unitName = unit.getAttribute('unitName');
             let unitNameField = document.getElementById('unitNameField');
             let testList = document.getElementById('testList');
             let studentList = document.getElementById('studentList');
             let leftbox = document.getElementById('leftbox');
-            console.log(unitID);
-            console.log(unitName);
-            console.log(tests);
-            console.log(unitNameField);
-            console.log(testList);
-            console.log(studentList);
-            console.log(leftbox);
-            console.log("-------------");
+            // console.log(unitID);
+            // console.log(unitName);
+            // console.log(tests);
+            // console.log(unitNameField);
+            // console.log(testList);
+            // console.log(studentList);
+            // console.log(leftbox);
+            // console.log("-------------");
 
             leftbox.innerHTML = '';
             unitNameField.innerText = unitName;
@@ -199,24 +199,24 @@
         }
 
         let showTestInUnit2 = function (unitID, unitName) {
-            console.log("-------showTestInUnit2 ------");
+            //console.log("-------showTestInUnit2 ------");
             let unitNameField = document.getElementById('unitNameField');
             let testList = document.getElementById('testList');
             let studentList = document.getElementById('studentList');
             let leftbox = document.getElementById('leftbox');
-            console.log("unitID" + unitID);
-            console.log("unitName" + unitName);
-            console.log("tests" + tests);
-            console.log("unitNameField" + unitNameField);
-            console.log("testList" + testList);
-            console.log("studentList" + studentList);
-            console.log("leftbox" + leftbox);
-            console.log("-------------");
+            // console.log("unitID" + unitID);
+            // console.log("unitName" + unitName);
+            // console.log("tests" + tests);
+            // console.log("unitNameField" + unitNameField);
+            // console.log("testList" + testList);
+            // console.log("studentList" + studentList);
+            // console.log("leftbox" + leftbox);
+            // console.log("-------------");
             leftbox.innerHTML = '';
             unitNameField.innerText = unitName;
             testList.innerHTML = '';
             for (let i = 0; i < tests.length; i++) {
-                console.log(tests[i].belongUnit, unitID);
+                //console.log(tests[i].belongUnit, unitID);
                 if (tests[i].belongUnit == unitID) {
                     testList.innerHTML +=
                         `<li class="unitList" onclick = 'showSubmiter("${tests[i]._id}",this)'>${tests[i].testName}</li>`
@@ -259,19 +259,19 @@
             }
         }
         let showSubmiter2 = function (testID, e) {
-            console.log("e = " + e);
+            //console.log("e = " + e);
 
             nowTest = testID;
             studentList.innerHTML = '';
             let leftbox = document.getElementById('leftbox');
             leftbox.innerHTML = '';
             let testList = document.getElementById('testList');
-            console.log("testList.children.length = " + testList.children.length);
+            //console.log("testList.children.length = " + testList.children.length);
 
             for (let i = 0; i < testList.children.length; i++) {
                 if (i == e) {
-                    console.log("match");
-                    console.log(testList.children[i]);
+                    //console.log("match");
+                    //console.log(testList.children[i]);
                     testList.children[i].style.cssText = "background:rgb(193, 190, 190)";
                 } else {
                     testList.children[i].style.cssText = "background:rgb(150, 216, 168)";
@@ -299,7 +299,7 @@
                 studentList.children[i].style.cssText = "background:white";
             }
             e.style.cssText = "background:rgb(194, 190, 190)";
-            console.log("-------------start--------------");
+            //console.log("-------------start--------------");
             let leftbox = document.getElementById('leftbox');
             let bightml = ''
             let test;
@@ -320,7 +320,7 @@
             for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
                 totalScore += parseInt(test.testQutionsAndAnswer[i].score);
             }
-            console.log("totoal score = " + totalScore);
+            //console.log("totoal score = " + totalScore);
             let msg = "未批閱"
             let color = "warning"
             if (test.isTeacherMarked) {
@@ -366,22 +366,22 @@
                         //判斷答案是否正確
                         let studentAnswers = [];
                         for(let i = 0;i<qution.selection.length;i++){
-                            console.log("i = "+qution.studentAnswer[i]);
+                            //console.log("i = "+qution.studentAnswer[i]);
                             if(qution.studentAnswer[i]=="1"){
                                 studentAnswers.push(qution.selection[i]);
                             }
                         }
-                        console.log(studentAnswers);
+                        //console.log(studentAnswers);
                         let isCorrect = true;
-                        console.log(studentAnswers.length,qution.correctAnswers.length);
+                        //console.log(studentAnswers.length,qution.correctAnswers.length);
 
                         if(studentAnswers.length!=qution.correctAnswers.length){
                             isCorrect=false;
                         }
-                        console.log(isCorrect);
+                        //console.log(isCorrect);
 
                         for(let i =0;i<qution.correctAnswers.length;i++){
-                            console.log(studentAnswers.indexOf(qution.correctAnswers[i]));
+                            //console.log(studentAnswers.indexOf(qution.correctAnswers[i]));
                             if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
                                 isCorrect=false;
                             }
@@ -612,7 +612,7 @@
                             </p>`
                         }
                     } else {
-                        console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFf");
+                        //console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFf");
                         let isCorrect = false;
                         var testverification = {
                           input: qution.intputTest,
@@ -623,9 +623,9 @@
                         var socket = io();
                         socket.emit('script', testverification);
                         socket.on('answer', function (obj) {
-                            console.log(obj);
-                            console.log(obj.body.output);
-                            console.log(qution.language);
+                            // console.log(obj);
+                            // console.log(obj.body.output);
+                            // console.log(qution.language);
                             obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
                             if(obj.body.output == qution.outputTest){
                                 isCorrect = true
@@ -721,7 +721,7 @@ ${qution.outputExample}
         }
 
         let saveMark = function (submiterID, testID, qutionlength) {
-            console.log(submiterID, testID, qutionlength);
+            //console.log(submiterID, testID, qutionlength);
             let notMarkedQutionNumber = 0;
             let markArray = []
             for (let i = 0; i < qutionlength; i++) {
@@ -737,8 +737,8 @@ ${qution.outputExample}
                     markArray[i] = 'wrong'
                 }
             }
-            console.log(notMarkedQutionNumber);
-            console.log(markArray);
+            // console.log(notMarkedQutionNumber);
+            // console.log(markArray);
             if (notMarkedQutionNumber > 0) {
                 alert('還有' + notMarkedQutionNumber + '題題目沒改完喔！')
             } else {
@@ -754,8 +754,8 @@ ${qution.outputExample}
                     dataType: 'json',
                     success: function (response) {
                         alert('儲存成功');
-                        console.log("nowUnit = ");
-                        console.log(nowUnit);
+                        // console.log("nowUnit = ");
+                        // console.log(nowUnit);
 
                         localStorage.setItem("nowUnit", nowUnit.outerHTML);
                         localStorage.setItem("nowE", nowE);
@@ -825,7 +825,7 @@ ${qution.outputExample}
 
         }
         let compile = function (qutionNumber) {
-            console.log(qutionNumber);
+            //console.log(qutionNumber);
             let script = document.getElementById('code' + qutionNumber);
             let input = document.getElementById('input' + qutionNumber);
             let language = document.getElementById('language' + qutionNumber);
@@ -836,13 +836,13 @@ ${qution.outputExample}
                 language: language.value,
                 id: "001"
             }
-            console.log(scriptData);
+            //console.log(scriptData);
 
             var socket = io();
             socket.emit('script', scriptData);
             output.innerHTML = "編譯中....\n";
             socket.on('answer', function (obj) {
-                console.log(obj);
+                //console.log(obj);
                 output.innerHTML = "輸出:\n" + obj.body.output;
 
                 //記錄到答案中
@@ -867,7 +867,7 @@ ${qution.outputExample}
             nowSubmiterName = localStorage.getItem("nowSubmiterName");
             nowStudent = localStorage.getItem("nowStudent");
             nowTest = localStorage.getItem("nowTest");
-            console.log(nowUnit);
+            //console.log(nowUnit);
 
             if (nowUnit != undefined && nowE != undefined && nowSubmiterName != undefined && nowStudent !=
                 undefined && nowTest != undefined) {
@@ -876,9 +876,9 @@ ${qution.outputExample}
                 nowUnitID = nowUnit.getAttribute('unitid');
                 nowUnitName = nowUnit.getAttribute('unitname');
                 showTestInUnit2(nowUnitID, nowUnitName);
-                console.log("nowE = ");
+                // console.log("nowE = ");
 
-                console.log(nowE);
+                // console.log(nowE);
 
                 showSubmiter2(nowTest, nowE);
             }
@@ -895,7 +895,7 @@ ${qution.outputExample}
                     }
                 }
                 let qutionlength = testData.testQutions.length; //這張考卷有幾題
-                console.log(testData);
+                //console.log(testData);
 
                 //再把所有有寫這份考卷並改過的考卷找進來
                 let studentAnswers = []; //這份考卷所有學生的回答
@@ -915,8 +915,8 @@ ${qution.outputExample}
                         this.data = ''
                     }
                 }
-                console.log(studentAnswers);
-                console.log(qutionlength);
+                // console.log(studentAnswers);
+                // console.log(qutionlength);
                 //把題目放進去
                 for (let i = 0; i < qutionlength; i++) {
                     console.log(testData.testQutions[i].title);
@@ -924,14 +924,14 @@ ${qution.outputExample}
                     sendforchatData[i].title = testData.testQutions[i].title;
                 }
                 //把統計的數字放到data
-                console.log("student submit data");
+                //console.log("student submit data");
 
                 let b = [];
                 let eachQutionAnswers = [];
                 for (let i = 0; i < studentAnswers.length; i++) {
-                    console.log(studentAnswers[i]);
+                    //console.log(studentAnswers[i]);
                     for (let j = 0; j < studentAnswers[i].markArray.length; j++) {
-                        console.log(studentAnswers[i].markArray[j]);
+                        //console.log(studentAnswers[i].markArray[j]);
                         b.push(studentAnswers[j].markArray[i])
                     }
                     let right = 0;
@@ -947,8 +947,8 @@ ${qution.outputExample}
                     eachQutionAnswers[i] = [right, wrong];
                     b = [];
                 }
-                console.log("eachQutionAnswers ==");
-                console.log(eachQutionAnswers);
+                // console.log("eachQutionAnswers ==");
+                // console.log(eachQutionAnswers);
 
 
 
@@ -968,7 +968,7 @@ ${qution.outputExample}
 
                 }
                 for (let i = 0; i < qutionlength; i++) {
-                    console.log(testData[i]);
+                    //console.log(testData[i]);
 
                     ctx[i] = document.getElementById("myChart" + i).getContext('2d');
                     myChart[i] = new Chart(ctx[i], {

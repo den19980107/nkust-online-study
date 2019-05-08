@@ -418,11 +418,11 @@
         list4.className = "";
         for(let i = 1;i<=4;i++){
             let selectChapter = document.getElementById('list'+id);
-            console.log(id,i);
+            // console.log(id,i);
             if(id == i){
-                console.log(selectChapter.className);
+                // console.log(selectChapter.className);
                 selectChapter.className = "chapterFocus"
-                console.log(selectChapter.className);
+                // console.log(selectChapter.className);
                 
             }
         }
@@ -487,7 +487,7 @@
                 $("#DitalbelongUnit").text(response[2].unitName)
                 $("#DitalbelongClass").text(response[3].className)
                 $("#watcherNumber").text(response[0].watchersNumber+"人")
-                console.log(response);
+                // console.log(response);
                 videDitalDiv.style.cssText = "display:flex;flex-wrap:wrap;align-items: flex-start;width:80vw"
                 
             }
@@ -519,7 +519,7 @@
             },
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response)
+                // console.log(response)
                 showVideoDistribution(response); //顯示影片在不同秒數所做的播放，暫停，快轉等動作
                 showVideoResentView(response); //顯示影片最近觀看紀錄
                 analyzingDiv.style.display = "block";
@@ -552,7 +552,7 @@
             },
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response)
+                // console.log(response)
                 commentDiv.innerHTML = ""
                 commentDiv.style.display = "block";
                 if(response.comments.length == 0){
@@ -587,7 +587,7 @@
 
         let videoTimeLine = []; //每一秒代表陣列中的一格
         let behaviorRecord = response.behaviors;
-        console.log("behaviorRecord = "+behaviorRecord);
+        // console.log("behaviorRecord = "+behaviorRecord);
         for (let k = 0; k < parseInt(response.videoinfo.vtime); k++) {
             videoTimeLine[k] = {
                 start: 0,
@@ -688,7 +688,7 @@
                 type:'spline',
                 events:{
                     click:function(event){
-                        console.log( event.xAxis[0].value);
+                        // console.log( event.xAxis[0].value);
                         if(event.xAxis[0].value!=undefined){
                             //console.log(activePoints[0]._index);
                             showVideo();
@@ -895,7 +895,7 @@
     var player;
 
     function onYouTubeIframeAPIReady() {
-        console.log("youtube api ready");
+        // console.log("youtube api ready");
 
         let width = document.getElementById('videoDiv').clientWidth * 0.96;
         let height = (document.getElementById('videoDiv').clientWidth * 9) / 16;
@@ -966,13 +966,13 @@
                 alert(error.error);
             },
             success: function (response) {
-                console.log(response);
+                // console.log(response);
                 let analyzingDiv = document.getElementById('analyzingDiv');
                 let commentDiv = document.getElementById('commentDiv');
                 let videDitalDiv =document.getElementById('videDitalDiv');
                 let RFMDiv = document.getElementById('RFMDiv');
                 RFMDiv.style.display = "block"
-                console.log(RFMDiv);
+                // console.log(RFMDiv);
                 
                 videDitalDiv.style.display = "none"
                 analyzingDiv.style.display = "none";
@@ -1010,9 +1010,9 @@
                         Mmin = response[i].M
                     }
                 }
-                console.log("Rmax = ",Rmax,"Rmin = ",Rmin);
-                console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
-                console.log("Mmax = ",Mmax,"Rmin = ",Mmin);
+                // console.log("Rmax = ",Rmax,"Rmin = ",Rmin);
+                // console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
+                // console.log("Mmax = ",Mmax,"Rmin = ",Mmin);
                 const map = (num, in_min, in_max, out_min, out_max) => {
                     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
                 }
@@ -1039,7 +1039,7 @@
                     let data = [R[i],F[i],M[i]];
                     myData.push(data)
                 }
-                console.log(myData);
+                // console.log(myData);
                 let dataAndName = []
                 for(let i =0;i<myData.length;i++){
                     dataAndName.push({
@@ -1052,7 +1052,7 @@
                         }
                     })
                 }
-                console.log(dataAndName);
+                // console.log(dataAndName);
                 // Set up the chart
                 var chart = new Highcharts.Chart({
                     chart: {
@@ -1096,7 +1096,7 @@
                             cursor: 'pointer',
                             events: {
                                 click: function (e) {
-                                    console.log(e.point.series.userOptions.id);
+                                    // console.log(e.point.series.userOptions.id);
                                     let userID = e.point.series.userOptions.id
                                     $.ajax({
                                         url: '/api/getuserinfo/'+userID+'/<%=videoinfo._id%>',
@@ -1113,7 +1113,7 @@
                                             alert(error.error);
                                         },
                                         success: function (response) {
-                                            console.log(response);
+                                            // console.log(response);
                                             document.getElementById('username').innerHTML = "帳號:  "+response.username;
                                             document.getElementById('name').innerHTML = "姓名:  "+response.name
                                             document.getElementById('schoolname').innerHTML = "就讀學校:  "+response.schoolname
@@ -1160,11 +1160,11 @@
                 function myFunction(width) {
                     let divwidth = $('.videos').width();
                     if (width.matches) { // If media query matches
-                        console.log(divwidth);
+                        // console.log(divwidth);
                         chart.setSize(divwidth)
                     } else {
                         chart.setSize(divwidth)
-                        console.log(divwidth);
+                        // console.log(divwidth);
                         
                     }
                 }
@@ -1230,19 +1230,19 @@
                 testNameAndScore[userSubmitTest[j].testName] = parseInt(userSubmitTest[j].obtainscore)
             }
         }
-        console.log('testNameAndScore = ');
+        // console.log('testNameAndScore = ');
         
-        console.log(testNameAndScore);
+        // console.log(testNameAndScore);
         
         let labelName = Object.keys(testNameAndScore)
-        console.log(labelName.length);
+        // console.log(labelName.length);
         
         let data = []
         for(let i = 0;i<labelName.length;i++){
             data[i] = parseInt(testNameAndScore[labelName[i]])
         }
-        console.log(labelName);
-        console.log(data);
+        // console.log(labelName);
+        // console.log(data);
         let backgroundColors = [];
         for(let i = 0;i<data.length;i++){
             if(data[i]>80){

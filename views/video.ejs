@@ -244,7 +244,7 @@
 </div>
 <script>
     let user = <%- JSON.stringify(user)%>;
-    console.log(user);
+    //console.log(user);
     
     let notes = <%- JSON.stringify(notes) %>
     let recommandVideo = <%- JSON.stringify(recommandVideo) %>;
@@ -271,11 +271,11 @@
         ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
         ymdB = postTimeB[0].split("/");
         ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
-        console.log(ymdA, ymdB);
+        //console.log(ymdA, ymdB);
 
         return new Date(ymdA) - new Date(ymdB);
     });
-    console.log(notes);
+    //console.log(notes);
 
 
 
@@ -294,8 +294,8 @@
     function onYouTubeIframeAPIReady() {
         let width = document.getElementsByClassName('col-lg-8')[0].clientWidth * 0.96;
         let height = (document.getElementsByClassName('col-lg-8')[0].clientWidth * 9) / 16;
-        console.log(width);
-        console.log(height);
+        //console.log(width);
+        //console.log(height);
         player = new YT.Player('player', {
             height: height,
             width: width,
@@ -322,7 +322,7 @@
                 // 'playsinline': 1 //在iOS的播放器中全屏播放，0:全屏(默認)，1:內嵌
             }
         });
-        console.log(document.getElementById('player'));
+        //console.log(document.getElementById('player'));
     }
     var yt = yt || {};
     let action = [];
@@ -339,7 +339,7 @@
 
             // console.log(event.data);
             if (event.data == 1) {
-                console.log("播放"+Math.floor(slider.value));
+                //console.log("播放"+Math.floor(slider.value));
                 if(user.permission == "student"){
                     socket.emit('videoAction', {
                         type: 'play',
@@ -353,7 +353,7 @@
                 }
             }
             if (event.data == 2) {
-                console.log("暫停"+Math.floor(slider.value));
+                //console.log("暫停"+Math.floor(slider.value));
                 action.push("暫停:" + parseInt(nowtime) / 60)
                 //console.table(action);
                 if (PlayPauseBtn.className == pause) {
@@ -406,7 +406,7 @@
     window.onload = function () {
 
         $(window).resize(function () {
-            console.log("asd");
+            //console.log("asd");
             let width = document.getElementsByClassName('col-8')[0].clientWidth * 0.95;
             let height = (document.getElementsByClassName('col-8')[0].clientWidth * 9) / 16;
             player.setSize(width, height);
@@ -414,12 +414,12 @@
 
 
         slider.onchange = function () { 
-            console.log(slider.value);
-            console.log(nowtime);
+            //console.log(slider.value);
+            //console.log(nowtime);
             
             let beginTime = nowtime;
             player.seekTo(slider.value);
-            console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
+            //console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
             if(user.permission == "student"){
                 socket.emit('videoAction', {
                     type: 'fastTurn',
@@ -488,11 +488,11 @@
                     ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
                     ymdB = postTimeB[0].split("/");
                     ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
-                    console.log(ymdA, ymdB);
+                    //console.log(ymdA, ymdB);
 
                     return new Date(ymdA) - new Date(ymdB);
                 });
-                console.log(response);
+                //console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
                     noteList.innerHTML +=
@@ -599,7 +599,7 @@
                 },
                 focus:function(e){
                     let slider = document.getElementById('slider');
-                    console.log("focus");
+                    //console.log("focus");
                     if(user.permission == "student"){
                         socket.emit('videoAction', {
                             type: 'note',
@@ -636,7 +636,7 @@
         } else if (e.className == fullscreen) {
 
         } else if (e.id = 'volume') {
-            console.log(e.value);
+            //console.log(e.value);
             player.setVolume(e.value)
         }
     }
@@ -719,7 +719,7 @@
             title: "無標題",
             body: ""
         }
-        console.log(note);
+        //console.log(note);
         $.ajax({
             url: '/users/note/createNote',
             type: 'POST',
@@ -735,7 +735,7 @@
                 loader.style.display = "none"
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
 
                 let noteList = document.getElementById('noteList');
                 noteList.innerHTML = '';
@@ -795,13 +795,13 @@
 
 
     let showNote = function (noteID) {
-        console.log(noteID);
+        //console.log(noteID);
         let note = document.getElementById('noteView');
         note.style.cssText = "display:block"
         let noteList = document.getElementById('noteList');
         noteList.style.cssText = "display:none"
 
-        console.log(document.getElementById('note'));
+        //console.log(document.getElementById('note'));
         CKEDITOR.instances.note.setData("");
 
         nowWrittingNote = noteID
@@ -840,7 +840,7 @@
         let title = document.getElementById('title');
         title.value = "筆記本"
         title.disabled = true
-        console.log(note);
+        //console.log(note);
         note.style.cssText = "display:none"
         let noteList = document.getElementById('noteList');
         noteList.style.cssText = 'margin-top: 3.6rem;height: 28rem;overflow-y: scroll'
@@ -871,11 +871,11 @@
                     ymdA = ymdA[1] + "/" + ymdA[0] + "/" + ymdA[2];
                     ymdB = postTimeB[0].split("/");
                     ymdB = ymdB[1] + "/" + ymdB[0] + "/" + ymdB[2];
-                    console.log(ymdA, ymdB);
+                    //console.log(ymdA, ymdB);
 
                     return new Date(ymdA) - new Date(ymdB);
                 });
-                console.log(response);
+                //console.log(response);
                 for (let i = 0; i < response.length; i++) {
                     let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
                     noteList.innerHTML +=
@@ -930,14 +930,14 @@
         });
     }
     let saveNote = function () {
-        console.log("nowWrittingNote = " + nowWrittingNote);
+        //console.log("nowWrittingNote = " + nowWrittingNote);
 
         if (nowWrittingNote != '') {
             note = {
                 body: CKEDITOR.instances.note.getData(),
                 title: document.getElementById('title').value
             }
-            console.log(note);
+            //console.log(note);
 
 
             $.ajax({
@@ -970,7 +970,7 @@
     }
 
     let deleteComment = function(commentID){
-        console.log(commentID);
+        //console.log(commentID);
         if (window.confirm('您確定要刪除嗎？') == true) {
             window.location = "/SDC/deleteVideoComment/<%=video._id%>/"+commentID;
         } else {
