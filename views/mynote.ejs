@@ -185,7 +185,7 @@
             <div class="row mt-3">
                 <div class="col">
                     <p class="text-info" id="noteNumber">n個筆記</p>
-                    <hr style="border-color: rgb(187, 187, 187)">
+                    <!-- <hr style="border-color: rgb(187, 187, 187)"> -->
                 </div>
             </div>
         </div>
@@ -239,7 +239,9 @@
                 $(function () {
                     var dynamic = '請選擇筆記';
                     $('#cke_1_top').after(
-                        `<input class=" p-3 w-100 titleinput" id= "title" style="font-size:36px;font-weight: 200;color: rgb(180,180,180);border:none" placeholder="${dynamic}"></input>`
+                        `<input class=" p-3 w-100 titleinput" id= "title" style="font-size:36px;font-weight: 200;color: rgb(180,180,180);border:none" placeholder="${dynamic}"></input>
+                        <hr style="margin-top:0">
+                        `
                     );
                 });
                 CKEDITOR.instances.Detail.setReadOnly(true);
