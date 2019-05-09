@@ -554,9 +554,10 @@
             }
         }
         today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
-        console.log(Test.publicTime.substring(0,16));
         let originalPublicTime = Test.publicTime.substring(0,16);
         let originalEndPublicTime = Test.EndpublicTime.substring(0,16);
+        console.log(originalPublicTime);
+        console.log(originalEndPublicTime);
         document.getElementById("publicTime").setAttribute("min",originalPublicTime);
         document.getElementById("publicTime").value = originalPublicTime
         document.getElementById("EndpublicTime").setAttribute("min",originalEndPublicTime)
