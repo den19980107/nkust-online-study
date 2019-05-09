@@ -1134,6 +1134,10 @@ router.post('/EndpublicTest/:testID', ensureAuthenticated, function (req, res) {
   });
 })
 
+Date.prototype.addHours = function(h) {    
+  this.setTime(this.getTime() + (h*60*60*1000)); 
+  return this;   
+}
 //更改測驗
 router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
   console.log(req.body);
@@ -1143,13 +1147,15 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
   var newvalues = {
     $set: {
       testName: req.body.testName,
-      publicTime: req.body.publicTime,
-      EndpublicTime: req.body.EndpublicTime,
+      publicTime: new Date(req.body.publicTime).addHours(8),
+      EndpublicTime: new Date(req.body.EndpublicTime).addHours(8),
       testQutions: req.body.QuationList,
       publishScoreNow: req.body.publishScoreNow,
       canCheckQuestionAndAnswer: req.body.canCheckQuestionAndAnswer
     }
   }
+  console.log(newvalues);
+  
   Test.findById(query, function (err, testinfo) {
     //console.log("testinfo = ");
     //console.log(testinfo)
