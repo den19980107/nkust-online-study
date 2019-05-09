@@ -262,10 +262,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <ul class="nav nav-tabs" id="tabContent" style="border: none">
-                        <li class="mr-2"><a href="#fileTab" class="badge badge-info" data-toggle="tab"><span style="font-size:2em;">檔案</span></a>
+                    <ul class="nav nav-tabs" id="tabContent">
+                        <li class="nav-item"><a href="#fileTab" id="fileUpload" class="nav-link active" data-toggle="tab">檔案</a>
                         </li>
-                        <li><a href="#URLTab" class="badge badge-info" data-toggle="tab"><span style="font-size:2em;">網址</span></a></li>
+                        <li class="nav-item"><a href="#URLTab" id="URLUpload" class="nav-link" data-toggle="tab">網址</a></li>
                     </ul>
                     <br>
                     <div class="tab-content">
@@ -370,6 +370,24 @@
                         <!-- end of URL upload panel -->
                     </div>
                 </div>
+                <script>
+                    let fileUpload = document.getElementById('fileUpload');
+                    let URLUpload = document.getElementById('URLUpload');
+                    let fileTab = document.getElementById('fileTab');
+                    let URLTab = document.getElementById('URLTab');
+                    fileUpload.onclick = function(){
+                        fileUpload.className = "nav-link active";
+                        URLUpload.className = "nav-link"
+                        fileTab.style.cssText = "display:block";
+                        URLTab.style.cssText = "display:none";
+                    }
+                    URLUpload.onclick = function(){
+                        fileUpload.className = "nav-link";
+                        URLUpload.className = "nav-link active"
+                        fileTab.style.cssText = "display:none";
+                        URLTab.style.cssText = "display:block";
+                    }
+                </script>
 
             </div>
         </div>
