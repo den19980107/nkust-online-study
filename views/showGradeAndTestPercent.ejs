@@ -135,9 +135,14 @@
                 }
             }
             let testInUnit = 0;
-            for(let i = 0;i<allSubmits.length;i++){
-                if(allSubmits[i].belongUnit == nowUnit){
+            let allTest =  <%-JSON.stringify(tests)%>
+            for(let i = 0;i<allTest.length;i++){
+                console.log(allTest[i].belongUnit,nowUnit);
+                
+                if(allTest[i].belongUnit == nowUnit){
                     testInUnit++;
+                    console.log(testInUnit);
+                    
                 }
             }
             //console.log(allSubmits.length);
