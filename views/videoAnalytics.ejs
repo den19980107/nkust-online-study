@@ -140,11 +140,11 @@
         width: 100%;
         height: 100%;
         padding: 1rem
-    } 
+    }
     .card{
         width: auto;
         flex: 1 auto;
-    } 
+    }
     @media only screen and (max-width:400px){
         .topNavgation{
             display: none !important;
@@ -192,6 +192,56 @@
             width: 95vw !important;
             margin: 0.5rem;
         }
+    }
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 20px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+    .slider:hover {
+      opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 20px;
+      background: rgb(230, 65, 54);
+      cursor: pointer;
+    }
+    .slider::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      background: rgb(230, 65, 54);
+      cursor: pointer;
+    }
+    .slidermark {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 20px;
+      background: #FFEE99;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+    .slidermark:hover {
+      opacity: 1;
+    }
+
+    .slidermark::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 20px;
+      background: #FFEE99;
+      cursor: pointer;
     }
 
 </style>
@@ -303,13 +353,13 @@
                 <div class="card-body">
                     <p class="card-text" id = "DitalbelongClass"></p>
                 </div>
-            </div> 
+            </div>
             <div class="card detialcard m-2">
                 <h5 class="card-header">所屬單元</h5>
                 <div class="card-body">
                     <p class="card-text" id = "DitalbelongUnit"></p>
                 </div>
-            </div>  
+            </div>
             <div class="card detialcard m-2">
                 <h5 class="card-header">影片名稱</h5>
                 <div class="card-body">
@@ -327,21 +377,21 @@
                 <div class="card-body">
                     <p class="card-text" id = "DitalvideoTime"></p>
                 </div>
-            </div>      
+            </div>
             <div class="card detialcard m-2">
                 <h5 class="card-header">觀看人數</h5>
                 <div class="card-body">
                     <p class="card-text" id = "watcherNumber"></p>
                 </div>
-            </div>       
+            </div>
             <div class="card detialcard m-2">
                 <h5 class="card-header">觀看名單</h5>
                 <div class="card-body">
                     <table class="table" id = "DitalwatcherList">
-        
+
                     </table>
                 </div>
-            </div> 
+            </div>
 
         </div>
         <div id="analyzingDiv" style="display: none">
@@ -349,7 +399,7 @@
                 <div class="mobile" style="width:80vw;display: flex;justify-content: flex-end;">
                     <button class="btn btn-danger mb-1" onclick="$('#videoDiv').hide();stopVideo();">隱藏影片</button>
                 </div>
-                <div class="mobile-video" class="mt-2 bg-dark" 
+                <div class="mobile-video" class="mt-2 bg-dark"
                     style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:36.5vw; width:80vw;">
                     <div id="video">
                         <div id="player" class="w-100">
@@ -388,7 +438,7 @@
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">關看者資訊</h5>
-            <button type="button" class="關閉" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -434,7 +484,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
         </div>
         </div>
     </div>
@@ -452,7 +502,17 @@
         </div>
         <div class="modal-body">
             <div>
-                <div id="SelectFocalPointPlayer" class="w-100 mb-2">
+                <div id="SelectFocalPointPlayer" class="w-100">
+                </div>
+                <div id="progress" style="position:relative;">
+                    <input type="range" id="slider" value="0" class="slider" style="width: 100%;">
+                </div>
+                <div id="progressmark" style="position:relative;">
+                    <input type="range" id="slidermark" value="0" class="slidermark" style="width: 100%;" onclick="slidermarkonclick()">
+                </div>
+                <div id="controler" style="position:relative;padding: 17px 10px;background: rgba(0,0,0,0.8)">
+                    <i class="fas fa-play mr-2" style="position:absolute;top:20%;left:3%;color: white;" id="PlayPauseBtn" onclick="controlVideo(this)"></i>
+                    <p class="mr-2" style="position:absolute;top:5%;left:7%;color:white;display:inline-block;width: 5rem;margin: 0" id="videoTime">00:00:00</p>
                 </div>
                 <div id="focusPointSlider"></div>
             </div>
@@ -503,7 +563,7 @@
                 // console.log(selectChapter.className);
                 selectChapter.className = "chapterFocus"
                 // console.log(selectChapter.className);
-                
+
             }
         }
     }
@@ -563,14 +623,14 @@
                         </tr>
                     </tbody>
                     `
-                } 
+                }
 
                 $("#DitalbelongUnit").text(response[2].unitName)
                 $("#DitalbelongClass").text(response[3].className)
                 $("#watcherNumber").text(response[0].watchersNumber+"人")
                 // console.log(response);
                 videDitalDiv.style.cssText = "display:flex;flex-wrap:wrap;align-items: flex-start;width:80vw"
-                
+
             }
         })
     }
@@ -654,7 +714,7 @@
                         </div>
                         `
                     }
-                }   
+                }
             }
         })
     }
@@ -856,7 +916,7 @@
         // document.getElementById('myChart').onclick = function (evt) {
         //     var activePoints = chart.getElementsAtEvent(evt);
         //     //console.log(activePoints[0]);
-            
+
         //     if(activePoints[0]!=undefined){
         //         //console.log(activePoints[0]._index);
         //         showVideo();
@@ -872,14 +932,14 @@
     let showVideoResentView = function (response) {
         let behaviors = response.behaviors; //所有觀看影片紀錄
         //console.log(behaviors);
-        
+
         let dateName = []; //所有觀看紀錄的觀看時間存成陣列當作lalbel
         let data = {};
 
         for (let i = 0; i < behaviors.length; i++) {
             let date = behaviors[i].watchTime.split(" ")[0].split("/");
             //console.log(date);
-            
+
             let time = behaviors[i].watchTime.split(" ")[2];
             let hh = time.split(":")[0]
             let mm = time.split(":")[1]
@@ -894,8 +954,8 @@
             }
         }
         //console.log(dateName);
-        
-        
+
+
         //console.log(data);
 
         let t = Object.keys(data)
@@ -987,7 +1047,7 @@
             width: width,
             videoId: "<%=videoinfo.videoURL%>",
             events: {
-                'onReady': onPlayerReady,
+                //'onReady': onPlayerReady,
                 'onStateChange': yt.onPlayerStateChange
             },
             playerVars: {
@@ -1005,12 +1065,12 @@
         SelectFocalPointPlayer = new YT.Player('SelectFocalPointPlayer', {
             videoId: "<%=videoinfo.videoURL%>",
             events: {
-                // 'onReady': onPlayerReady,
-                // 'onStateChange': yt.onPlayerStateChange
+                 'onReady': onPlayerReady,
+                 'onStateChange': yt.onPlayerStateChange
             },
             playerVars: {
                 autoplay: 0,
-                controls: 1,
+                controls: 0,
                 disablekb: 1,
                 modestbranding: 1,
                 iv_load_policy: 3,
@@ -1022,23 +1082,75 @@
         });
         //console.log(document.getElementById('player'));
     }
+    var yt = yt || {};
+    let action = [];
+    let vtime = 0;
+    let nowtime = 0;
+    yt = {
+        onPlayerStateChange: function (event) {
+            let play = "fas fa-play mr-2";
+            let pause = "fas fa-pause mr-2";
+            let PlayPauseBtn = document.getElementById('PlayPauseBtn');
 
-
-
-
+            // console.log(event.data);
+            if (event.data == 1) {
+                console.log("播放"+Math.floor(slider.value));
+                action.push("播放:" + parseInt(event.target.getCurrentTime()) / 60)
+                //console.table(action);
+                if (PlayPauseBtn.className == play) {
+                    PlayPauseBtn.className = pause;
+                }
+            }
+            if (event.data == 2) {
+                console.log("暫停"+Math.floor(slider.value));
+                action.push("暫停:" + parseInt(nowtime) / 60)
+                //console.table(action);
+                if (PlayPauseBtn.className == pause) {
+                    PlayPauseBtn.className = play;
+                }
+            }
+        }
+    }
 
     // 4. The API will call this function when the video player is ready.
     function onPlayerReady(event) {
-
+        slider.max = SelectFocalPointPlayer.getDuration();
+        slidermark.max = SelectFocalPointPlayer.getDuration();
     }
 
     // 5. The API calls this function when the player's state changes.
     //    The function indicates that when playing a video (state=1),
     //    the player should play for six seconds and then stop.
+    var slider = document.getElementById('slider');
+    var slidermark = document.getElementById('slidermark');
+    console.log("!!!!!!!!!");
+    console.log(slidermark);
+    console.log(slider);
     var done = false;
-
-
-    function stopVideo() {
+    slider.onmousedown = function(){
+      console.log("clickvalue = "+slider.value);
+    }
+    slider.onchange = function () {
+      console.log(slider.value);
+      console.log(nowtime);
+      let beginTime = nowtime;
+      SelectFocalPointPlayer.seekTo(slider.value);
+      console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
+      let play = "fas fa-play mr-2";
+      let isplay = document.getElementById('PlayPauseBtn');
+     }
+     var slidertemp;
+     var slidermarktime;
+     let slidermarkonclick = function () {
+       slidermarktime = slidertemp;
+       slidertemp = slidermark.value;
+       console.log("startime:"+slidermark.value);
+       let beginTime = nowtime;
+       SelectFocalPointPlayer.seekTo(slidermark.value);
+       let play = "fas fa-play mr-2";
+       let isplay = document.getElementById('PlayPauseBtn');
+      }
+    function stopVideo(){
         player.stopVideo();
     }
 
@@ -1066,7 +1178,7 @@
                 let RFMDiv = document.getElementById('RFMDiv');
                 // RFMDiv.style.display = "block"
                 // // console.log(RFMDiv);
-                
+
                 // videDitalDiv.style.display = "none"
                 // analyzingDiv.style.display = "none";
                 // commentDiv.style.display = "none";
@@ -1226,9 +1338,9 @@
                                             showVideofinishPersent(response.thisClassVideo,response.totalWatchVideo);
                                             showTestfinishPersent(response.thisClassTests,response.userSubmitTest)
                                             $('#watcherInfoModal').modal()
-                                        }         
-                                    })      
-                                }   
+                                        }
+                                    })
+                                }
                             }
                         }
                     },
@@ -1266,7 +1378,7 @@
                     } else {
                         chart.setSize(divwidth,divheight);
                         // console.log(divwidth);
-                        
+
                     }
                 }
 
@@ -1332,12 +1444,12 @@
             }
         }
         // console.log('testNameAndScore = ');
-        
+
         // console.log(testNameAndScore);
-        
+
         let labelName = Object.keys(testNameAndScore)
         // console.log(labelName.length);
-        
+
         let data = []
         for(let i = 0;i<labelName.length;i++){
             data[i] = parseInt(testNameAndScore[labelName[i]])
@@ -1361,7 +1473,7 @@
                 backgroundColors.push('rgb(255, 59, 0)')
             }
         }
-        
+
         let ctx = document.getElementById('testScoreChart').getContext('2d');
         let showTestScoreInClassChart = new Chart(ctx, {
             type: 'bar',
@@ -1412,7 +1524,7 @@
                 if (chart.config.options.elements.center) {
             //Get ctx from string
             var ctx = chart.chart.ctx;
-            
+
                     //Get options from the center object in options
             var centerConfig = chart.config.options.elements.center;
             var fontStyle = centerConfig.fontStyle || 'Arial';
@@ -1422,7 +1534,7 @@
             var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
             //Start with a base font of 30px
             ctx.font = "30px " + fontStyle;
-            
+
                     //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
             var stringWidth = ctx.measureText(txt).width;
             var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
@@ -1442,7 +1554,7 @@
             var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
             ctx.font = fontSizeToUse+"px " + fontStyle;
             ctx.fillStyle = color;
-            
+
             //Draw text in center
             ctx.fillText(txt, centerX, centerY);
                 }
@@ -1483,7 +1595,7 @@
                 if (chart.config.options.elements.center) {
             //Get ctx from string
             var ctx = chart.chart.ctx;
-            
+
                     //Get options from the center object in options
             var centerConfig = chart.config.options.elements.center;
             var fontStyle = centerConfig.fontStyle || 'Arial';
@@ -1493,7 +1605,7 @@
             var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
             //Start with a base font of 30px
             ctx.font = "30px " + fontStyle;
-            
+
                     //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
             var stringWidth = ctx.measureText(txt).width;
             var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
@@ -1513,7 +1625,7 @@
             var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
             ctx.font = fontSizeToUse+"px " + fontStyle;
             ctx.fillStyle = color;
-            
+
             //Draw text in center
             ctx.fillText(txt, centerX, centerY);
                 }
@@ -1547,6 +1659,70 @@
             }
         });
     }
+    function controlVideo(e) {
+        let play = "fas fa-play mr-2";
+        let pause = "fas fa-pause mr-2";
+        let PlayPauseBtn = document.getElementById('PlayPauseBtn');
+        if (e.className == play) {
+            console.log("11111111");
+            PlayPauseBtn.className = pause;
+            SelectFocalPointPlayer.playVideo();
+        } else if (e.className == pause) {
+            PlayPauseBtn.className = play;
+            SelectFocalPointPlayer.pauseVideo();
+        }
+    }
+    let watchtime = 0;
+    let videoTime = document.getElementById('videoTime');
+    setInterval(function () {
+        watchtime++;
+        nowtime = SelectFocalPointPlayer.getCurrentTime();
+        slider.value = nowtime;
+        console.log(slider.value);
+        var hr = Math.floor(nowtime / 3600);
+        var min = Math.floor((nowtime - (hr * 3600)) / 60);
+        var sec = parseInt(nowtime - (hr * 3600) - (min * 60));
+        if (hr < 10) {
+            hr = '0' + hr
+        }
+        if (sec < 10) {
+            sec = '0' + sec
+        }
+        if (min < 10) {
+            min = '0' + min
+        }
+        //console.log(videoTime);
 
+        videoTime.innerText = hr + ':' + min + ':' + sec
+    }, 1000);
+
+    //選重點
+    let allFocusPoint = []
+    var emphasis = emphasis || {};
+    var pointnumber = 0;
+    $('#slidermark').dblclick(function(){
+        console.log("endtime:"+slidermark.value);
+        let beginTime = slidermarktime;
+        console.log("seek from2:" + Math.floor(beginTime) + " to:" + Math.floor(slidermark.value));
+        let maxvalue = document.getElementById("slider").max;
+        let startslider = Number(beginTime)/Number(maxvalue)*100;
+        let endslider = Number(slidermark.value)/Number(maxvalue)*100;
+        let rangeslider = Number(endslider)-Number(startslider);
+        if(rangeslider == 0){
+              $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#3377FF;width:10px;height:20px;" onclick="deleteslidermark(this)"><div>`)
+        }else{
+            $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#3377FF;width:`+rangeslider+`%;height:20px;" onclick="deleteslidermark(this)"><div>`)
+        }
+        emphasis = {start:beginTime,stop:Number(slidermark.value)}
+        console.log(emphasis);
+        allFocusPoint.push(emphasis);
+        pointnumber ++;
+    });
+    let deleteslidermark = function(e){
+        let deletedata = $("#"+e.id).attr("data-id")
+        allFocusPoint.splice(deletedata,1);
+        e.remove();
+
+    }
 </script>
 <% include layout/nobottom-footer %>
