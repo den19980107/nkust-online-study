@@ -558,11 +558,13 @@
             }
         }
         today = yyyy+'-'+mm+'-'+dd+"T"+hh+":"+minute;
-        //console.log(today);
-        document.getElementById("publicTime").setAttribute("min",today);
-        document.getElementById("publicTime").value = today
-        document.getElementById("EndpublicTime").setAttribute("min",today)
-        document.getElementById("EndpublicTime").value = today
+        console.log(Test.publicTime.substring(0,16));
+        let originalPublicTime = Test.publicTime.substring(0,16);
+        let originalEndPublicTime = Test.EndpublicTime.substring(0,16);
+        document.getElementById("publicTime").setAttribute("min",originalPublicTime);
+        document.getElementById("publicTime").value = originalPublicTime
+        document.getElementById("EndpublicTime").setAttribute("min",originalEndPublicTime)
+        document.getElementById("EndpublicTime").value = originalEndPublicTime
     }
     let EditTest = function(){
         //console.log(Test)
