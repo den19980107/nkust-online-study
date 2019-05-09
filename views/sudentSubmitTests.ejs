@@ -343,6 +343,8 @@
             `;
             for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
                 let qution = test.testQutionsAndAnswer[i];
+                console.log(qution);
+                
                 let html =
                     `
                     <div class="qution" id="qution${i}">
@@ -353,13 +355,13 @@
                             html +=
                                 `
                             <p style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1"><i class="fas fa-check mr-1"></i>題目:
-                                ${qution.title} （選擇題）
+                                ${qution.qutionName} （選擇題）
                             </p>`
                         } else {
                             html +=
                                 `
                             <p style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1"><i class="fas fa-times mr-1"></i>題目:
-                                ${qution.title} （選擇題）
+                                ${qution.qutionName} （選擇題）
                             </p>`
                         }
                     } else {
@@ -738,7 +740,7 @@ ${qution.outputExample}
                 }
             }
             // console.log(notMarkedQutionNumber);
-            // console.log(markArray);
+            console.log(markArray);
             if (notMarkedQutionNumber > 0) {
                 alert('還有' + notMarkedQutionNumber + '題題目沒改完喔！')
             } else {
