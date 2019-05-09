@@ -197,6 +197,7 @@
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 <div id="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
     <div class="indeterminate"></div>
 </div>
@@ -226,12 +227,12 @@
                     <p>留言</p>
                 </a>
             </li>
-            <li class="chapter">
+            <!-- <li class="chapter">
                 <a id="list4" href="#" onclick="showRFM()">
                     <i class="fas fa-chart-line"></i>
                     <p>分析</p>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
 
@@ -243,7 +244,60 @@
             <h3 style="display:flex;justify-content:center;flex-direction: column;padding: 0;margin: 0;">
                 <%=videoinfo.videoName%></h3>
         </div>
+
         <div id = "videDitalDiv"style="display: none;overflow-x:scroll">
+            <div id="RFMDiv" style="display: flex;height: auto;width: 100%;">
+                <div id="RFMcontainer" style="height: 100%;flex: 1"></div>
+                <div style="flex: 1;margin-left: 1rem">
+                    <div class="card p-3 mb-2">
+                        <h5>重點選取</h5>
+                        <div style="display: flex;">
+                            <p style="flex: 5;margin: 0.5rem 0;">點擊“選取”按鈕來選取影片重點</p>
+                            <button style="flex: 1" class="btn btn-primary" onclick="$('#SelectFocalPointModal').modal()">選取</button>
+                        </div>
+                    </div>
+                    <div class="card p-3">
+                        <h5>參數調整</h5>
+                        <div style="display: flex;justify-content: space-between">
+                            <div class="input-group mb-3" style="flex: 1;padding-right: 1rem">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">α</label>
+                                </div>
+                                <input type="number" class="form-control" max="100" min="0" value="50">
+                            </div>
+                            <div class="input-group mb-3" style="flex: 1;padding-right: 1rem">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">β</label>
+                                </div>
+                                <input type="number" class="form-control" max="100" min="0" value="50">
+                            </div>
+                            <div class="input-group mb-3" style="flex: 1;padding-right: 1rem">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">γ</label>
+                                </div>
+                                <input type="number" class="form-control" max="100" min="0" value="50">
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="flex: 1;padding-right: 1rem">
+                                <p>α所代表的意思是：</p>
+                                <p>您希望這一部影片被觀看的完整度是多少，我們會根據您設定的參數來調整學生觀看此影片的評分，最低是0最高是100</p>
+                            </div>
+                            <div style="flex: 1;padding-right: 1rem">
+                                <p>β所代表的意思是：</p>
+                                <p>您希望這一部影片學生觀看到您設定的重點區域的加成分數為多少，此參數設定的越高表示您希望學生觀看您所設定的重點次數越多，反之越少，最低是0最高是100</p>
+                            </div>
+                            <div style="flex: 1;padding-right: 1rem">
+                                <p>γ所代表的意思是：</p>
+                                <p>您希望這一部影片學生寫筆記所獲得的影片評分家成為多少，越高表示您覺得這部影片需要寫下的筆記越多，反之越少，最低是0最高是100</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2" style="display: flex;justify-content: flex-end">
+                        <button class="btn btn-success" onclick = "sendRFMparameter()">分析</button>
+                    </div>
+                </div>
+            </div>
             <div class="card detialcard m-2">
                 <h5 class="card-header">所屬課程</h5>
                 <div class="card-body">
@@ -322,11 +376,11 @@
 
         <div id = "commentDiv" style="display: none;padding: 1rem 0">
         </div>
-        <div class="mt-2" id="RFMDiv"
+        <!-- <div class="mt-2" id="RFMDiv"
             style="width: 100%;padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:80vw ;display: none">
             <h5 class="p-0 mt-2">RFM分析</h5>
             <div id="RFMcontainer" style="height: 500px"></div>
-        </div>
+        </div> -->
     </div>
 </div>
 <div class="modal" id = "watcherInfoModal" tabindex="-1" role="dialog">
@@ -385,6 +439,31 @@
         </div>
     </div>
 </div>
+
+<!-- 選取影片重點modal -->
+<div class="modal fade" id="SelectFocalPointModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">影片重點選取</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div id="SelectFocalPointPlayer" class="w-100 mb-2">
+                </div>
+                <div id="focusPointSlider"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -402,6 +481,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 
 
+
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -415,8 +495,8 @@
         list1.className = "";
         list2.className = "";
         list3.className = "";
-        list4.className = "";
-        for(let i = 1;i<=4;i++){
+        //list4.className = "";
+        for(let i = 1;i<=3;i++){
             let selectChapter = document.getElementById('list'+id);
             // console.log(id,i);
             if(id == i){
@@ -434,9 +514,10 @@
         let commentDiv = document.getElementById('commentDiv');
         let videDitalDiv =document.getElementById('videDitalDiv');
         let RFMDiv = document.getElementById('RFMDiv');
-        RFMDiv.style.display = "none"
+        //RFMDiv.style.display = "none"
         analyzingDiv.style.display = "none";
         commentDiv.style.display = "none";
+        showRFM();
         $.ajax({
             url: '/api/getVideoDetial/' + videoID,
             type: 'GET',
@@ -500,7 +581,7 @@
         let commentDiv = document.getElementById('commentDiv');
         let videDitalDiv =document.getElementById('videDitalDiv');
         let RFMDiv = document.getElementById('RFMDiv');
-        RFMDiv.style.display = "none"
+        //RFMDiv.style.display = "none"
         commentDiv.style.display = "none";
         videDitalDiv.style.display = "none";
         $.ajax({
@@ -533,7 +614,7 @@
         let commentDiv = document.getElementById('commentDiv');
         let videDitalDiv =document.getElementById('videDitalDiv');
         let RFMDiv = document.getElementById('RFMDiv');
-        RFMDiv.style.display = "none"
+        //RFMDiv.style.display = "none"
         analyzingDiv.style.display = "none";
         videDitalDiv.style.display = "none";
         $.ajax({
@@ -893,7 +974,7 @@
     // 3. This function creates an <iframe> (and YouTube player)
     //    after the API code downloads.
     var player;
-
+    let SelectFocalPointPlayer;
     function onYouTubeIframeAPIReady() {
         // console.log("youtube api ready");
 
@@ -919,12 +1000,24 @@
                 rel: 0,
                 showinfo: 0,
                 ecver: 2
-                // 'controls': 1, //控制列，0:隱藏，1:顯示(默認)
-                // 'fs': 0, //全屏按鈕，0:隱藏，1:顯示(默認)
-                // 'iv_load_policy': 3, //影片註釋，1:顯示(默認)，3:不顯示
-                // 'rel': 0, //顯示相關視頻，0:不顯示，1:顯示(默認)
-                // 'modestbranding': 1, //YouTube標籤，0:顯示(默認)，1:不顯示    
-                // 'playsinline': 1 //在iOS的播放器中全屏播放，0:全屏(默認)，1:內嵌
+            }
+        });
+        SelectFocalPointPlayer = new YT.Player('SelectFocalPointPlayer', {
+            videoId: "<%=videoinfo.videoURL%>",
+            events: {
+                // 'onReady': onPlayerReady,
+                // 'onStateChange': yt.onPlayerStateChange
+            },
+            playerVars: {
+                autoplay: 0,
+                controls: 1,
+                disablekb: 1,
+                modestbranding: 1,
+                iv_load_policy: 3,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0,
+                ecver: 2
             }
         });
         //console.log(document.getElementById('player'));
@@ -950,7 +1043,7 @@
     }
 
     let showRFM = function(){
-        changeLeftList(4);
+        // changeLeftList(4);
         $.ajax({
             url: '/api/showRFMAnalizying/<%=videoinfo._id%>',
             type: 'GET',
@@ -971,12 +1064,12 @@
                 let commentDiv = document.getElementById('commentDiv');
                 let videDitalDiv =document.getElementById('videDitalDiv');
                 let RFMDiv = document.getElementById('RFMDiv');
-                RFMDiv.style.display = "block"
-                // console.log(RFMDiv);
+                // RFMDiv.style.display = "block"
+                // // console.log(RFMDiv);
                 
-                videDitalDiv.style.display = "none"
-                analyzingDiv.style.display = "none";
-                commentDiv.style.display = "none";
+                // videDitalDiv.style.display = "none"
+                // analyzingDiv.style.display = "none";
+                // commentDiv.style.display = "none";
                 let myData = [];
                 let R = [];
                 let Rmax = -1;
@@ -1056,6 +1149,13 @@
                 // Set up the chart
                 var chart = new Highcharts.Chart({
                     chart: {
+                        events:{
+                            load:function(){
+                                let divwidth = $('#RFMcontainer').width();
+                                let divheight = $('#RFMDiv').height();
+                                this.setSize(divwidth,divheight);
+                            }
+                        },
                         renderTo: 'RFMcontainer',
                         margin: 100,
                         type: 'scatter3d',
@@ -1153,17 +1253,18 @@
                     },
                     series: dataAndName
                 });
-                
+
                 var width = window.matchMedia("(max-width: 400px)");
                 myFunction(width)
                 width.addListener(myFunction)
                 function myFunction(width) {
-                    let divwidth = $('.videos').width();
+                    let divwidth = $('#RFMcontainer').width();
+                    let divheight = $('#RFMDiv').height();
                     if (width.matches) { // If media query matches
                         // console.log(divwidth);
-                        chart.setSize(divwidth)
+                        chart.setSize(divwidth,divheight);
                     } else {
-                        chart.setSize(divwidth)
+                        chart.setSize(divwidth,divheight);
                         // console.log(divwidth);
                         
                     }
@@ -1446,5 +1547,6 @@
             }
         });
     }
+
 </script>
 <% include layout/nobottom-footer %>
