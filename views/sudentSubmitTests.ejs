@@ -226,7 +226,7 @@
 
         }
 
-
+        
         let showSubmiter = function (testID, e) {
             nowTest = testID;
             studentList.innerHTML = '';
@@ -776,6 +776,15 @@ ${qution.outputExample}
 
         let changeCorrection = function (isCorrect, qutionNumber, titletext, score) {
             let title = document.getElementById('title' + qutionNumber);
+            titletext = "";
+            for(let i =0;i<tests.length;i++){
+                if(tests[i]._id == nowTest){
+                    titletext = tests[i].testQutions[qutionNumber].qutionName;
+                    break;
+                }
+            }
+            console.log(titletext);
+            
             if (isCorrect) {
                 title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
                 if (title.className == '' || title.className == "bg-danger p-1") {
