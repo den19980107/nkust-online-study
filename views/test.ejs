@@ -51,7 +51,7 @@
                               </button>
                           </div>
                             <div class="modal-body">
-                              <div class="row pr-3" style="height:75%">
+                              <div class="row pr-3" style="height:75vh">
                                       <div class="col-5 h-100">
                                             <div class="form-group row mb-0" style="height:7%">
                                                 <label for="staticEmail" id="testName" class="col-sm-3 col-form-label">測驗名稱</label>
@@ -120,9 +120,8 @@
     <%i++%>
     <div class="qution" id="qution<%=i%>">
         <%if(qution.type=='選擇題'){%>
-        <p style="font-size: 20px">題目:
-            <%=qution.qutionName%> （選擇題）
-        </p>
+        <p style="font-size: 20px">題目:</p>    
+        <pre style="font-size: 20px"><%=qution.qutionName%> （選擇題）</pre>
         <div>
             <div class="row">
                 <%let MCQindex = 0%>
@@ -138,9 +137,8 @@
         </div>
         <%}%>
         <%if(qution.type=='是非題'){%>
-        <p style="font-size: 20px">題目:
-            <%=qution.qutionName%> （是非題）
-        </p>
+        <p style="font-size: 20px">題目:</p>    
+        <pre style="font-size: 20px"><%=qution.qutionName%> （是非題）</pre>
         <div>
             <div class="row">
                 <div class="col-2"><input class="radioClick" name="textmode<%=i%>" onclick="onAnswer('YNQ','<%=i%>','yes')" type="radio"> 是</div>
@@ -151,9 +149,8 @@
         </div>
         <%}%>
         <%if(qution.type=='填空題'){%>
-        <p style="font-size: 20px">題目:
-            <%=qution.qutionName%> （填空題）
-        </p>
+        <p style="font-size: 20px">題目:</p>    
+        <pre style="font-size: 20px"><%=qution.qutionName%> （填空題）</pre>
         <div>
             <div class="form-group row">
                 <div class="col">
@@ -166,9 +163,8 @@
         </div>
         <%}%>
         <%if(qution.type=='程式題'){%>
-        <p style="font-size: 20px">題目:
-            <%=qution.qutionName%>（程式題）
-        </p>
+        <p style="font-size: 20px">題目:</p>    
+        <pre style="font-size: 20px"><%=qution.qutionName%> （程式題）</pre>
         <div>
             <p>輸入說明:
                 <%=qution.inputDescription%>
