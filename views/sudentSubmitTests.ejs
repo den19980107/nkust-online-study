@@ -431,8 +431,8 @@
                         </p>
                         <div class="row">
                             <div class="col">
-                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.qutionName}','${qution.score}')">正確</button>
-                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
+                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.score}')">正確</button>
+                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.score}')">不正確</button>
                             </div>
                         </div>    
                     </div>
@@ -493,8 +493,8 @@
                     </p>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.qutionName}','${qution.score}')">正確</button>
-                            <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
+                            <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.score}')">正確</button>
+                            <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.score}')">不正確</button>
                         </div>
                     </div>
                 </div>
@@ -556,8 +556,8 @@
                         </p>
                         <div class="row">
                             <div class="col">
-                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.qutionName}','${qution.score}')">正確</button>
-                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
+                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.score}')">正確</button>
+                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.score}')">不正確</button>
                             </div>
                         </div>
                     </div>
@@ -629,9 +629,9 @@
                             obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
                             if(obj.body.output == qution.outputTest){
                                 isCorrect = true
-                                changeCorrection1(isCorrect,i,qution.qutionName,qution.score)
+                                changeCorrection1(isCorrect,i,qution.score)
                             }else{
-                                changeCorrection1(isCorrect,i,qution.qutionName,qution.score)
+                                changeCorrection1(isCorrect,i,qution.score)
                             }
                         });
                         html +=
@@ -774,9 +774,9 @@ ${qution.outputExample}
         }
 
 
-        let changeCorrection = function (isCorrect, qutionNumber, titletext, score) {
+        let changeCorrection = function (isCorrect, qutionNumber, score) {
             let title = document.getElementById('title' + qutionNumber);
-            titletext = "";
+            let titletext = "";
             for(let i =0;i<tests.length;i++){
                 if(tests[i]._id == nowTest){
                     titletext = tests[i].testQutions[qutionNumber].qutionName;
@@ -808,8 +808,15 @@ ${qution.outputExample}
             scoreField.innerHTML = `得分:${getScore}/${totalScore}`
 
         }
-        let changeCorrection1 = function (isCorrect, qutionNumber, titletext, score) {
+        let changeCorrection1 = function (isCorrect, qutionNumber, score) {
             let title = document.getElementById('title' + qutionNumber);
+            let titletext = "";
+            for(let i =0;i<tests.length;i++){
+                if(tests[i]._id == nowTest){
+                    titletext = tests[i].testQutions[qutionNumber].qutionName;
+                    break;
+                }
+            }
             if (isCorrect) {
                 title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
                 if (title.className == '' || title.className == "bg-danger p-1") {
