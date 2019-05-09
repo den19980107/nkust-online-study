@@ -985,7 +985,7 @@
 
 
     let deleteChapter = function(chapteName,chapterID){
-        if(confirm('確定要刪除"'+chapteName+'"講義嗎?')){
+        if(confirm('確定要刪除"'+chapteName+'"教材嗎?')){
             $.ajax({
                 type: 'POST',
                 url: '/api/deleteChapter/'+ chapterID,
@@ -1012,7 +1012,7 @@
         }
     }
     let deleteTest = function(testName,testID){
-        if(confirm('確定要刪除"'+testName+'"講義嗎?')){
+        if(confirm('確定要刪除"'+testName+'"測驗嗎?')){
             $.ajax({
                 type: 'POST',
                 url: '/api/deleteTest/'+ testID,
