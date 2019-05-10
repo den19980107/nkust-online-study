@@ -130,7 +130,7 @@
             <!--如果他是本班的學生-->
             <%if(students[j].permission == "11111"){%>
             <!--且他只是本班(不是助教)就可以被選為助教-->
-            <li style="position:relative;"><input type="checkbox" value="<%=users[i]._id%>" style="zoom: 1.5;position:absolute;left:-3%;top:25%;"><span>&nbsp;&nbsp;
+            <li style="position:relative;"><input type="checkbox" value="<%=users[i]._id%>" style="zoom: 1.5;position:absolute;left:0%;top:25%;"><span>&nbsp;&nbsp;&nbsp;&nbsp;
                 <%=users[i].name%><span>&nbsp;&nbsp;<%=users[i].username%></span></span></span></li>
             <%}%>
             <%}%>
@@ -153,14 +153,14 @@
         <%if(classinfo.teacher == user._id){%>
         <div class="row" style="display:flex;align-items:center;flex-wrap: nowrap;">
           <div style="position:absolute;left:10%;top:50%;transform: translate(-50%, -50%);">
-            <button class="btn div-left" onclick="deleteAssistant()"><i class="fa fa-trash " style="opacity: 0.4;cursor: not-allowed;height:23px;" id="selectstatus"></i></button>
+            <button class="btn div-left" onclick="deleteAssistant()"><i class="fas fa-trash-alt" style="opacity: 0.4;cursor: not-allowed;" id="selectstatus"></i></button>
           </div>
           <div style="position:absolute;left:50%;top:50%;transform: translate(-50%, -50%);">
             <input type="checkbox" name="all" onclick="check_all(this,'c')" style="zoom: 2" id="allstatus">
           </div>
           <div class="dropdown" style="position:absolute;left:80%;top:50%;transform: translate(-50%, -50%);">
             <button class="btn" style="padding:0px" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-angle-down"></i>
+              <i class="fas fa-angle-down" style="display:none;"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="min-width: 4rem;padding:0px">
               <a class="dropdown-item" href="#" style="padding:0 10px" onclick="allselect('c')">全選</a>
