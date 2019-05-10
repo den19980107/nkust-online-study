@@ -131,7 +131,7 @@
             <%if(students[j].permission == "11111"){%>
             <!--且他只是本班(不是助教)就可以被選為助教-->
             <li style="position:relative;"><input type="checkbox" value="<%=users[i]._id%>" style="zoom: 1.5;position:absolute;left:-3%;top:25%;"><span>&nbsp;&nbsp;
-                <%=users[i].name%><span style="display:none;">-<%=users[i].username%></span></span></span></li>
+                <%=users[i].name%><span>&nbsp;&nbsp;<%=users[i].username%></span></span></span></li>
             <%}%>
             <%}%>
             <%}%>
