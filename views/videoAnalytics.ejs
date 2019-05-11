@@ -1225,9 +1225,9 @@
                         Mmin = response[i].M
                     }
                 }
-                // console.log("Rmax = ",Rmax,"Rmin = ",Rmin);
-                // console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
-                // console.log("Mmax = ",Mmax,"Rmin = ",Mmin);
+                console.log("Rmax = ",Rmax,"Rmin = ",Rmin);
+                console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
+                console.log("Mmax = ",Mmax,"Rmin = ",Mmin);
                 const map = (num, in_min, in_max, out_min, out_max) => {
                     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
                 }
@@ -1251,10 +1251,14 @@
                     return map(num,0,100,0,255)
                 })
                 for(let i = 0;i<response.length;i++){
+                    if(isNaN(M[i])){
+                        M[i] = 0
+                    }
+                    
                     let data = [R[i],F[i],M[i]];
                     myData.push(data)
                 }
-                // console.log(myData);
+                console.log(myData);
                 let dataAndName = []
                 for(let i =0;i<myData.length;i++){
                     dataAndName.push({
