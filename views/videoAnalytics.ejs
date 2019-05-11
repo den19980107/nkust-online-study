@@ -278,7 +278,7 @@
                 </a>
             </li>
             <!-- <li class="chapter">
-                <a id="list4" href="#" onclick="showRFM()">
+                <a id="list4" href="#" onclick="showRFM(50,50,50,[])">
                     <i class="fas fa-chart-line"></i>
                     <p>分析</p>
                 </a>
@@ -313,19 +313,19 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">α</label>
                                 </div>
-                                <input type="number" class="form-control" max="100" min="0" value="50">
+                                <input type="number" id="a" class="form-control" max="100" min="0" value="50">
                             </div>
                             <div class="input-group mb-3" style="flex: 1;padding-right: 1rem">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">β</label>
                                 </div>
-                                <input type="number" class="form-control" max="100" min="0" value="50">
+                                <input type="number" id="b" class="form-control" max="100" min="0" value="50">
                             </div>
                             <div class="input-group mb-3" style="flex: 1;padding-right: 1rem">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">γ</label>
                                 </div>
-                                <input type="number" class="form-control" max="100" min="0" value="50">
+                                <input type="number" id="r" class="form-control" max="100" min="0" value="50">
                             </div>
                         </div>
                         <div style="display: flex;">
@@ -577,7 +577,7 @@
         //RFMDiv.style.display = "none"
         analyzingDiv.style.display = "none";
         commentDiv.style.display = "none";
-        showRFM();
+        showRFM(50,50,50,[]);
         $.ajax({
             url: '/api/getVideoDetial/' + videoID,
             type: 'GET',
@@ -1154,11 +1154,21 @@
         player.stopVideo();
     }
 
-    let showRFM = function(){
+    let showRFM = function(a,b,r,focusPoint){
+        console.log(a,b,r,focusPoint);
+        let data = {
+            a:a,
+            b:b,
+            r:r,
+            focusPoint:focusPoint
+        }
         // changeLeftList(4);
         $.ajax({
             url: '/api/showRFMAnalizying/<%=videoinfo._id%>',
-            type: 'GET',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json',
             beforeSend: function () {
                 let loader = document.getElementById('line-loader');
                 loader.style.display = "block"
@@ -1722,7 +1732,21 @@
         let deletedata = $("#"+e.id).attr("data-id")
         allFocusPoint.splice(deletedata,1);
         e.remove();
+        console.log(allFocusPoint);
+        
+    }
 
+    //送出選好的重點與參數
+    let sendRFMparameter = function(){
+        let a = document.getElementById('a').value;
+        let b = document.getElementById('b').value;
+        let r = document.getElementById('r').value;
+        // console.log("a = "+a);
+        // console.log("b = "+b);
+        // console.log("r = "+r);
+        // console.log(allFocusPoint);
+        showRFM(a,b,r,allFocusPoint)
+        
     }
 </script>
 <% include layout/nobottom-footer %>

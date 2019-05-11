@@ -108,7 +108,6 @@
             selectQuiz.length=testLength;
             onchangeQuiz(nowQuiz);
         }
-
         let onchangeUnit = function(unitId){
             let i;
             nowUnit=unitId;
@@ -123,7 +122,6 @@
             onchangeQuiz(nowQuiz);
             selectQuiz.length=testLength;	// 刪除多餘的選項
         }
-
         let onchangeQuiz = function(quizId){
             nowQuiz = quizId;
             let isSubmited = 0;
@@ -137,12 +135,8 @@
             let testInUnit = 0;
             let allTest =  <%-JSON.stringify(tests)%>
             for(let i = 0;i<allTest.length;i++){
-                console.log(allTest[i].belongUnit,nowUnit);
-                
                 if(allTest[i].belongUnit == nowUnit){
                     testInUnit++;
-                    console.log(testInUnit);
-                    
                 }
             }
             //console.log(allSubmits.length);
@@ -218,12 +212,10 @@
                     isSubmited++;
                     bightml += html;
                 }
-
             }
             currentGrade.innerHTML = bightml;
             isSubmited = 0;
         }
-
         let showPercent = function (allReply) {
             let i,j;
             let question = [];
@@ -236,7 +228,6 @@
                   question = tests[i].testQutions;  //題型
                 }
             }
-
             for(i=0;i<question.length;i++){
                 let newDiv = document.createElement('div');
                 newDiv.id = 'box'+i;
@@ -244,8 +235,6 @@
                 newDiv.innerHTML = '';
                 rightbox.appendChild(newDiv);
             }
-
-
             for(i=0;i<question.length;i++){
                 let questionName = question[i].qutionName;
                 if(question[i].type == '選擇題'){
@@ -258,7 +247,6 @@
                     for(j=0;j<allReply.length;j++){
                         let k;
                         for(k=0;k<selection.length;k++){
-
                           if(parseInt(allReply[j].testQutionsAndAnswer[i].studentAnswer[k])==1)
                               studentAnswers[k] += 1;
                               //studentAnswers[k] += parseInt(allReply[j].testQutionsAndAnswer[i].studentAnswer[k]);
@@ -275,12 +263,13 @@
                       let data = new google.visualization.DataTable();
                       data.addColumn('string', 'choose');
                       data.addColumn('number', 'percent');
-                      data.addRows(predata);
+                      data.addRows(predata);     
                       let options = {'title':questionName+'(選擇題)',
                                      'width':400,
                                      'height':300,
                                      'fontSize':14,
-                                     'sliceVisibilityThreshold':0};
+                                     'sliceVisibilityThreshold':0
+                                    };
                       let chart = new google.visualization.PieChart(document.getElementById('box'+i));
                       chart.draw(data, options);
                     }
@@ -383,7 +372,6 @@
                 }
             }
         }
-
     </script>
 
 <% include layout/footer %>

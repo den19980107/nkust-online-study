@@ -323,7 +323,12 @@ router.get('/getTestInUnit/:chapterID', function (req, res) {
 })
 
 //RFM分析
-router.get('/showRFMAnalizying/:videoID',function(req,res){
+router.post('/showRFMAnalizying/:videoID',function(req,res){
+    console.log(req.body);
+    let a = req.body.a;
+    let b = req.body.b;
+    let r = req.body.r;
+    let focusPoint = req.body.focusPoint
     let videoID = req.params.videoID;
     Video.findById(videoID,function(err,videoinfo){
         if(err){
@@ -431,12 +436,56 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                 for(let i = 0;i<studentRFM.length;i++){
                     studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600000;
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
-                    for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
-                        //console.log(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1]);
-                        studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1])
-                        studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(0).join().split("note").length-1)//筆記次數
+                    let videoTimeLine = []
+                    for(let k = 0;k<vtime;k++){
+                        videoTimeLine[k] = 0;
                     }
-                    //console.log("---------------------------");
+                    let finishPersent = 0; //影片觀看完整度
+                    let focusPointCompleteTimes = 0; //重點完成次數
+                    let noteTimes = 0 //筆記次數
+                    for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
+                        //console.log(studentBehavior[i].behaviors[j]);
+                        for(let k =0;k<studentBehavior[i].behaviors[j].length;k++){
+                            let action = studentBehavior[i].behaviors[j][k].split(":")[0]
+                            if(action == "note"){
+                                noteTimes++
+                            }
+                            if(action == "play"){
+                                let start = parseInt(studentBehavior[i].behaviors[j][k].split(":")[1])
+                                let end = parseInt(studentBehavior[i].behaviors[j][k+1].split(":")[1])
+                                for(let l = start;l<=end;l++){
+                                    videoTimeLine[l]+=1;
+                                }
+                            }
+                        }
+                        // studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1])
+                        // studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(0).join().split("note").length-1)//筆記次數
+                
+                    }
+                    console.log(videoTimeLine);
+                    let watchedSecond = 0;
+                    for(let q = 0;q<vtime;q++){ //影片完成率迴圈
+                        if(videoTimeLine[q]!=0){
+                            watchedSecond++;
+                        }
+                    }
+                    for(let q = 0;q<focusPoint.length;q++){ //重點完成率迴圈
+                        for(let p = parseInt(focusPoint[q].start);p<=parseInt(focusPoint[q].stop);p++){
+                            if(videoTimeLine[p]!=0){
+                                focusPointCompleteTimes+=videoTimeLine[p];
+                            }
+                        }
+                    }
+                    finishPersent = watchedSecond/vtime;
+                    // console.log("finishPersent = "+finishPersent);
+                    // console.log("focusPointCompleteTimes = "+focusPointCompleteTimes);
+                    // console.log("noteTimes = "+noteTimes);
+                    
+                    //最終公式
+                    studentRFM[i].M = a*finishPersent + b*focusPointCompleteTimes + r*noteTimes
+                    console.log(studentRFM[i].R,studentRFM[i].F,studentRFM[i].M);
+                    
+                    console.log("---------------------------");
 
                     studentRFM[i].studentID = studentBehavior[i].studentID;
                     studentIDs.push(ObjectID(studentBehavior[i].studentID).toString())
@@ -445,7 +494,7 @@ router.get('/showRFMAnalizying/:videoID',function(req,res){
                 User.find({_id:studentIDs},function(err,studentinfo){
                     for(let i = 0;i<studentRFM.length;i++){
                         for(let j = 0;j<studentinfo.length;j++){
-                            console.log(studentRFM[i].studentID,studentinfo[j]);
+                            //console.log(studentRFM[i].studentID,studentinfo[j]);
                             if(studentRFM[i].studentID == studentinfo[j]._id){
                                 studentRFM[i].studentName = studentinfo[j].name;
                             }
