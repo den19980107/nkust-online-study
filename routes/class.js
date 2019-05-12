@@ -34,6 +34,8 @@ let studntSubmitHomework = require('../model/studentSubmitHomework');
 let studentWatchChapter = require('../model/studentWatchChapter');
 //bring note model
 let Note = require('../model/note')
+//bring RFM model
+let RFM = require('../model/RFM')
 //寄email的工具
 var nodemailer = require('nodemailer');
 
@@ -566,7 +568,7 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
       }
     };
     //console.log(newvalues);
-    
+
     Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
@@ -801,7 +803,7 @@ router.get('/editChapter/:chapterID',function(req,res){
 //儲存編輯結果
 router.post('/saveEditedChapter',function(req,res){
   //console.log(req.body);
-  
+
   let myquery = { _id: req.body.chapterID };
   let newvalues = { $set: {chapterName: req.body.chapterName,body:req.body.body} };
   Chapter.updateOne(myquery,newvalues,function(err){
@@ -1134,9 +1136,9 @@ router.post('/EndpublicTest/:testID', ensureAuthenticated, function (req, res) {
   });
 })
 
-Date.prototype.addHours = function(h) {    
-  this.setTime(this.getTime() + (h*60*60*1000)); 
-  return this;   
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + (h*60*60*1000));
+  return this;
 }
 //更改測驗
 router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
@@ -1155,7 +1157,7 @@ router.post('/saveTest/:testID', ensureAuthenticated, function (req, res) {
     }
   }
   console.log(newvalues);
-  
+
   Test.findById(query, function (err, testinfo) {
     //console.log("testinfo = ");
     //console.log(testinfo)
@@ -1917,9 +1919,22 @@ router.get('/showVideoSituation/:classID', ensureAuthenticated, function (req, r
 router.get('/videoAnalytics/:videoID', ensureAuthenticated, function (req, res) {
   Video.findById(req.params.videoID, function (err, videoinfo) {
     Unit.findById(videoinfo.belongUnit, function (err, unit) {
-      res.render('videoAnalytics', {
-        videoinfo: videoinfo,
-        unit: unit
+      RFM.findOne({videoID:req.params.videoID}, function (err, rfm) {
+        if(rfm){
+          console.log("rfm=" + rfm);
+          res.render('videoAnalytics', {
+            videoinfo: videoinfo,
+            unit: unit,
+            rfm: rfm
+          })
+        }else{
+          console.log("rfm is none");
+          res.render('videoAnalytics', {
+            videoinfo: videoinfo,
+            unit: unit,
+            rfm: 0
+          })
+        }
       })
     })
   })

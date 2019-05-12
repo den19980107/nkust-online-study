@@ -32,6 +32,8 @@ let studntSubmitTest = require('../model/studentSubmitTest');
 let studntSubmitHomework = require('../model/studentSubmitHomework');
 //bring note model
 let Note = require('../model/note')
+//bring RFM model
+let RFM = require('../model/RFM')
 //bring studentWatchChapter modal
 let studentWatchChapter = require('../model/studentWatchChapter');
 
@@ -324,12 +326,35 @@ router.get('/getTestInUnit/:chapterID', function (req, res) {
 
 //RFM分析
 router.post('/showRFMAnalizying/:videoID',function(req,res){
-    console.log(req.body);
     let a = req.body.a;
     let b = req.body.b;
     let r = req.body.r;
     let focusPoint = req.body.focusPoint
     let videoID = req.params.videoID;
+    RFM.findOne({videoID:req.params.videoID}, function (err, urfm) {
+      if(urfm){
+        RFM.updateMany({videoID:req.params.videoID}, {$set: {focusPoint:req.body.focusPoint,Rvalue:a,Fvalue:b,Mvalue:r}}, {w: 1},function(err){
+          if (err) {
+              console.log(err);
+          }
+          //console.log("rfm update success");
+        })
+      }else{
+        let rfm = new  RFM();
+        rfm.videoID = videoID;
+        rfm.Rvalue = a;
+        rfm.Fvalue = b;
+        rfm.Mvalue = r;
+        rfm.focusPoint = req.body.focusPoint;
+        console.log(rfm);
+        rfm.save(function (err) {
+            if (err) {
+                console.log(err);
+            }
+            //console.log("rfm save success");
+        });
+      }
+    })
     Video.findById(videoID,function(err,videoinfo){
         if(err){
             console.log(err);
@@ -460,7 +485,7 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                         }
                         // studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(-1).pop().split(":")[1])
                         // studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(0).join().split("note").length-1)//筆記次數
-                
+
                     }
                     console.log(videoTimeLine);
                     let watchedSecond = 0;
@@ -480,11 +505,11 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     // console.log("finishPersent = "+finishPersent);
                     // console.log("focusPointCompleteTimes = "+focusPointCompleteTimes);
                     // console.log("noteTimes = "+noteTimes);
-                    
+
                     //最終公式
                     studentRFM[i].M = a*finishPersent + b*focusPointCompleteTimes + r*noteTimes
                     console.log(studentRFM[i].R,studentRFM[i].F,studentRFM[i].M);
-                    
+
                     console.log("---------------------------");
 
                     studentRFM[i].studentID = studentBehavior[i].studentID;
@@ -555,18 +580,18 @@ router.get('/getuserinfo/:userid/:videoID',function(req,res){
                                             }
                                         }
                                         //console.log("---------------------");
-                                        
+
                                         //console.log(thisUserSubmitTest);
                                         //console.log(thisClassTests);
                                         //console.log("測驗填寫完整度 ＝ "+ thisUserSubmitTest.length/thisClassTests.length);
                                         //console.log("影片觀看完整度 ＝ "+ totalWatchVideo.length/thisClassVideo.length);
-                                        
+
                                         let publicInfo = {
                                             department: userinfo.department,
                                             email: userinfo.email,
                                             name: userinfo.name,
                                             schoolname: userinfo.schoolname,
-                                            studentid: userinfo.studentid,    
+                                            studentid: userinfo.studentid,
                                             username: userinfo.username,
                                             thisClassTests:thisClassTests,
                                             userSubmitTest:thisUserSubmitTest,
