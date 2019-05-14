@@ -512,6 +512,9 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
 
                     //最終公式
                     studentRFM[i].M = a*finishPersent + b*focusPointCompleteTimes + r*noteTimes
+                    console.log("完成比率:",finishPersent);
+                    console.log("重點完成率:",focusPointCompleteTimes);
+                    console.log("筆記次數:",noteTimes);
                     console.log(studentRFM[i].R,studentRFM[i].F,studentRFM[i].M);
 
                     console.log("---------------------------");
