@@ -270,6 +270,24 @@ router.post('/submitHomework', ensureAuthenticated, function (req, res) {
         }
     })
 });
+
+router.get('/likeChapter/:chapterID',function(req,res){
+    var myquery = {
+        _id: ObjectID(req.params.chapterID)
+    };
+    var newvalues = {
+        $inc: {
+            like: 1
+        }
+    };
+    Chapter.updateOne(myquery, newvalues, function (err, res) {
+    if (err) {
+        console.log(err);
+    } else {
+        //console.log('update success');
+    }
+    });
+})
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

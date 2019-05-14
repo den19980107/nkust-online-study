@@ -15,6 +15,9 @@ let chapterSchema = mongoose.Schema({
     },
     images: {
         type: Array
+    },
+    like:{
+        type: Number,
     }
 });
 

@@ -111,8 +111,12 @@
                     <%=chapter.body%>
                 </p>
                 <br>
-                <button id="likeBtn" class="btn btn-primary">Like</button>
-                <span id="likenumber">0</span>
+                <button id="likeBtn" onclick="like()" class="btn btn-primary">Like</button>
+                <%if(chapter.like == "" || chapter.like == undefined){%>
+                    <span id="likenumber">0</span>
+                <%}else{%>
+                    <span id="likenumber"><%=chapter.like%></span>
+                <%}%>
 
                 <!-- <div class="float-right">
                     TODO:修改講義的部分先不要管他
@@ -692,6 +696,14 @@
         }else{
 
         }
+    }
+
+    let like = function(){
+        fetch('/SDC/likeChapter/<%=chapter._id%>');
+        let likenumber = document.getElementById('likenumber');
+        let newLike = parseInt(likenumber.innerText)+1;
+        likenumber.innerText = newLike;
+        document.getElementById('likeBtn').disabled = true
     }
 </script>
 <!--  -->
