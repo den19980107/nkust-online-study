@@ -487,7 +487,7 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                         // studentRFM[i].M += parseInt(studentBehavior[i].behaviors[j].slice(0).join().split("note").length-1)//筆記次數
 
                     }
-                    console.log(videoTimeLine);
+                    //console.log(videoTimeLine);
                     let watchedSecond = 0;
                     for(let q = 0;q<vtime;q++){ //影片完成率迴圈
                         if(videoTimeLine[q]!=0){
