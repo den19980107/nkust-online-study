@@ -628,13 +628,15 @@
                             // console.log(obj);
                             // console.log(obj.body.output);
                             // console.log(qution.language);
-                            obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
-                            if(obj.body.output == qution.outputTest){
-                                isCorrect = true
-                                changeCorrection1(isCorrect,i,qution.score)
-                            }else{
-                                changeCorrection1(isCorrect,i,qution.score)
-                            }
+                            setTimeout(function(){
+                                obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
+                                if(obj.body.output == qution.outputTest){
+                                    isCorrect = true
+                                    changeCorrection1(isCorrect,i,qution.score)
+                                }else{
+                                    changeCorrection1(isCorrect,i,qution.score)
+                                }
+                            },5000)
                         });
                         html +=
                             `
@@ -812,36 +814,35 @@ ${qution.outputExample}
         }
         let changeCorrection1 = function (isCorrect, qutionNumber, score) {
             let title = document.getElementById('title' + qutionNumber);
-            if(title != null){
-                let titletext = "";
-                for(let i =0;i<tests.length;i++){
-                    if(tests[i]._id == nowTest){
-                        titletext = tests[i].testQutions[qutionNumber].qutionName;
-                        break;
-                    }
+            let titletext = "";
+            for(let i =0;i<tests.length;i++){
+                if(tests[i]._id == nowTest){
+                    titletext = tests[i].testQutions[qutionNumber].qutionName;
+                    break;
                 }
-                if (isCorrect) {
-                    title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
-                    if (title.className == '' || title.className == "bg-danger p-1") {
-                        getScore += parseInt(score);
-                    }
-                    title.className = "bg-success p-1";
-                    title.innerHTML = '';
-                    title.innerHTML = `<i class="fas fa-check mr-1 pr-1 pl-1"style="width:2rem"></i>題目：` + titletext +
-                        ' (程式題)'
-                } else {
-                    title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
-                    if (title.className == "bg-success p-1") {
-                        getScore -= parseInt(score);
-                    }
-                    title.className = "bg-danger p-1";
-                    title.innerHTML = '';
-                    title.innerHTML = `<i class="fas fa-times mr-1  pl-2" style="width:2rem"></i>題目：` + titletext +
-                        ' (程式題)'
-                }
-                let scoreField = document.getElementById('scoreField');
-                scoreField.innerHTML = `得分:${getScore}/${totalScore}`
             }
+            if (isCorrect) {
+                title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
+                if (title.className == '' || title.className == "bg-danger p-1") {
+                    getScore += parseInt(score);
+                }
+                title.className = "bg-success p-1";
+                title.innerHTML = '';
+                title.innerHTML = `<i class="fas fa-check mr-1 pr-1 pl-1"style="width:2rem"></i>題目：` + titletext +
+                    ' (程式題)'
+            } else {
+                title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
+                if (title.className == "bg-success p-1") {
+                    getScore -= parseInt(score);
+                }
+                title.className = "bg-danger p-1";
+                title.innerHTML = '';
+                title.innerHTML = `<i class="fas fa-times mr-1  pl-2" style="width:2rem"></i>題目：` + titletext +
+                    ' (程式題)'
+            }
+            let scoreField = document.getElementById('scoreField');
+            scoreField.innerHTML = `得分:${getScore}/${totalScore}`
+
         }
         let compile = function (qutionNumber) {
             //console.log(qutionNumber);
