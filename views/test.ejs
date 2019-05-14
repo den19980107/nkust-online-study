@@ -126,7 +126,7 @@
             <div class="row">
                 <%let MCQindex = 0%>
                 <%qution.selection.forEach(function(selection){%>
-                  <div class="col-2"><input class="radioClick" onclick="onAnswer('MCQ','<%=i%>','<%=MCQindex%>')" type="radio">
+                  <div class="col-12"><input class="radioClick" onclick="onAnswer('MCQ','<%=i%>','<%=MCQindex%>')" type="radio">
                       <%=selection%>
                   </div>
                 <%MCQindex+=1%>
