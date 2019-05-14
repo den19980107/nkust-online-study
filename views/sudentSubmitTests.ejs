@@ -625,18 +625,16 @@
                         var socket = io();
                         socket.emit('script', testverification);
                         socket.on('answer', function (obj) {
-                            // console.log(obj);
+                            console.log(obj);
                             // console.log(obj.body.output);
                             // console.log(qution.language);
-                            setTimeout(function(){
-                                obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
-                                if(obj.body.output == qution.outputTest){
-                                    isCorrect = true
-                                    changeCorrection1(isCorrect,i,qution.score)
-                                }else{
-                                    changeCorrection1(isCorrect,i,qution.score)
-                                }
-                            },5000)
+                            obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
+                            if(obj.body.output == qution.outputTest){
+                                isCorrect = true
+                                changeCorrection1(isCorrect,i,qution.score)
+                            }else{
+                                changeCorrection1(isCorrect,i,qution.score)
+                            }
                         });
                         html +=
                             `
