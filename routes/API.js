@@ -428,7 +428,7 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
                         //console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
                         
-                        if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/10){
+                        if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/20){
                             tempbehaviors.push(studentBehavior[i].behaviors[j])
                         }
                     }
