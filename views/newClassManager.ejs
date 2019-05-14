@@ -218,7 +218,7 @@
 </div>
 <div class="col-lg-10 col-sm-12 h-100 videos">
     <h5 id = "unitNameText" class="m-0" style="padding: 1rem;display: inline-block"></h5>
-    <%if(nounit != 0){%>
+    <%if(nounit != 0 && (classinfo.teacher == user._id || isTA)){%>
     <i class="fas fa-pen" onclick="renameUnit()"></i>
     <%}%>
     <ul class="nav nav-tabs">
