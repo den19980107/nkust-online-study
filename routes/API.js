@@ -461,6 +461,8 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                 for(let i = 0;i<studentRFM.length;i++){
                     studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600000;
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
+                    console.log(studentRFM[i].F);
+                    
                     let videoTimeLine = []
                     for(let k = 0;k<vtime;k++){
                         videoTimeLine[k] = 0;
