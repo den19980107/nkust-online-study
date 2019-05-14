@@ -1229,6 +1229,9 @@
                 console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
                 console.log("Mmax = ",Mmax,"Rmin = ",Mmin);
                 const map = (num, in_min, in_max, out_min, out_max) => {
+                    if(in_min == in_max){
+                        return in_min
+                    }
                     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
                 }
                 R = R.map(function(num){
@@ -1242,13 +1245,13 @@
                     return map(num,Mmin,Mmax,0,100)
                 })
                 Rcolor = R.map(function(num){
-                    return map(num,0,100,0,255)
+                    return map(num,0,100,0,200)
                 })
                 Fcolor = F.map(function(num){
-                    return map(num,0,100,255,0)
+                    return map(num,0,100,200,0)
                 })
                 Mcolor = M.map(function(num){
-                    return map(num,0,100,0,255)
+                    return map(num,0,100,0,200)
                 })
                 for(let i = 0;i<response.length;i++){
                     if(isNaN(M[i])){

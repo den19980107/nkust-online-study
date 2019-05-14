@@ -423,10 +423,11 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     //console.log("學生："+studentBehavior[i].studentID);
                     //console.log("濾掉之前有"+studentBehavior[i].behaviors.length+"筆紀錄");
                     //console.log("影片時間 = "+vtime);
-
+                    console.log("觀看者:"+studentBehavior[i].watcherID);
+                    console.log("原始的觀看行為記錄次數 = ",studentBehavior[i].behaviors.length);
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
                         //console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
-
+                        
                         if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/10){
                             tempbehaviors.push(studentBehavior[i].behaviors[j])
                         }
@@ -461,7 +462,8 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                 for(let i = 0;i<studentRFM.length;i++){
                     studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600000;
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
-                    console.log(studentRFM[i].F);
+                    console.log("觀看者:"+studentBehavior[i].watcherID);
+                    console.log("過濾後的觀看行為記錄次數 = ",studentRFM[i].F );
                     
                     let videoTimeLine = []
                     for(let k = 0;k<vtime;k++){
