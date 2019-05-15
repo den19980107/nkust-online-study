@@ -140,7 +140,7 @@
                 }
             }
             //console.log(allSubmits.length);
-            
+
             if(testInUnit ==0){
                 let rightbox = document.getElementById('showPercent');
                 rightbox.innerHTML='';
@@ -235,140 +235,139 @@
                 newDiv.innerHTML = '';
                 rightbox.appendChild(newDiv);
             }
-            for(i=0;i<question.length;i++){
-                let questionName = question[i].qutionName;
-                if(question[i].type == '選擇題'){
-                    let selection = question[i].selection;
-                    let correctAnswers = question[i].correctAnswers;
-                    let studentAnswers = [];
-                    for(j=0;j<selection.length;j++){
-                        studentAnswers.push(parseInt(0));
-                    }
-                    for(j=0;j<allReply.length;j++){
-                        let k;
-                        for(k=0;k<selection.length;k++){
-                          if(parseInt(allReply[j].testQutionsAndAnswer[i].studentAnswer[k])==1)
-                              studentAnswers[k] += 1;
-                              //studentAnswers[k] += parseInt(allReply[j].testQutionsAndAnswer[i].studentAnswer[k]);
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                for(i=0;i<question.length;i++){
+                    let questionName = question[i].qutionName;
+                    if(question[i].type == '選擇題'){
+                        questionName += '(選擇題)';
+                        let selection = question[i].selection;
+                        let correctAnswers = question[i].correctAnswers;
+                        let studentAnswers = [];
+                        for(j=0;j<selection.length;j++){
+                            studentAnswers.push(parseInt(0));
                         }
-                    }
-                    predata.length=0;
-                    for(j=0;j<selection.length;j++){
-                        predata.push([selection[j],studentAnswers[j]]);
-                    }
-                    
-                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
-                    google.charts.setOnLoadCallback(drawChart(i));
-                    function drawChart(i) {
-                      let data = new google.visualization.DataTable();
-                      data.addColumn('string', 'choose');
-                      data.addColumn('number', 'percent');
-                      data.addRows(predata);     
-                      let options = {'title':questionName+'(選擇題)',
-                                     'width':400,
-                                     'height':300,
-                                     'fontSize':14,
-                                     'sliceVisibilityThreshold':0
-                                    };
-                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
-                      chart.draw(data, options);
-                    }
-                }
-                if(question[i].type == '是非題') {
-                    let isTure=0;
-                    let isFalse=0;
-                    let correctAnswers = question[i].correctAnswers;
-                    for(j=0;j<allReply.length;j++){
-                        if(allReply[j].testQutionsAndAnswer[i].studentAnswer=='yes'){
-                            isTure += 1;
-                        }else {
-                            isFalse += 1;
+                        for(j=0;j<allReply.length;j++){
+                            let k;
+                            for(k=0;k<selection.length;k++){
+                              if(parseInt(allReply[j].testQutionsAndAnswer[i].studentAnswer[k])==1)
+                                  studentAnswers[k] += 1;
+                            }
                         }
-                    }
-                    predata.length=0;
-                    predata.push(['是',isTure]);
-                    predata.push(['否',isFalse]);
-                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
-                    google.charts.setOnLoadCallback(drawChart(i));
-                    function drawChart(i) {
-                      let data = new google.visualization.DataTable();
-                      data.addColumn('string', 'choose');
-                      data.addColumn('number', 'percent');
-                      data.addRows(predata);
-                      let options = {'title':questionName+'(是非題)',
-                                     'width':400,
-                                     'height':300,
-                                     'fontSize':14,
-                                     'sliceVisibilityThreshold':0};
-                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
-                      chart.draw(data, options);
-                    }
-                    isTure=0;
-                    isFalse=0;
-                }
-                if(question[i].type == '填空題') {
-                    let isCorrect=0;
-                    let isError=0;
-                    let correctAnswers = question[i].correctAnswers;
-                    for(j=0;j<allReply.length;j++){
-                        if(allReply[j].testQutionsAndAnswer[i].isCorrect==true){
-                            isCorrect += 1;
-                        }else {
-                            isError += 1;
+                        predata.length=0;
+                        for(j=0;j<selection.length;j++){
+                            predata.push([selection[j],studentAnswers[j]]);
                         }
+                        //--------放入資料-----------
+                        let data = new google.visualization.DataTable();
+                        data.addColumn('string', 'choose');
+                        data.addColumn('number', 'percent');
+                        data.addRows(predata);
+                        let options = {'title':questionName,
+                                       'width':400,
+                                       'height':300,
+                                       'fontSize':14,
+                                       'sliceVisibilityThreshold':0,
+                                       'pieSliceText':'none',
+                                       'pieHole':0.4
+                                      };
+                        let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                        chart.draw(data, options);
+
                     }
-                    predata.length=0;
-                    predata.push(['對',isCorrect]);
-                    predata.push(['錯',isError]);
-                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
-                    google.charts.setOnLoadCallback(drawChart(i));
-                    function drawChart(i) {
-                      let data = new google.visualization.DataTable();
-                      data.addColumn('string', 'choose');
-                      data.addColumn('number', 'percent');
-                      data.addRows(predata);
-                      let options = {'title':questionName+'(填空題)',
-                                     'width':400,
-                                     'height':300,
-                                     'fontSize':14,
-                                     'sliceVisibilityThreshold':0};
-                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
-                      chart.draw(data, options);
-                    }
-                    isCorrect=0;
-                    isError=0;
-                }
-                if(question[i].type == '程式題') {
-                    let isCorrect=0;
-                    let isError=0;
-                    let correctAnswers = question[i].correctAnswers;
-                    for(j=0;j<allReply.length;j++){
-                        if(allReply[j].testQutionsAndAnswer[i].isCorrect==true){
-                            isCorrect += 1;
-                        }else {
-                            isError += 1;
+                    if(question[i].type == '是非題') {
+                        let isTure=0;
+                        let isFalse=0;
+                        let correctAnswers = question[i].correctAnswers;
+                        for(j=0;j<allReply.length;j++){
+                            if(allReply[j].testQutionsAndAnswer[i].studentAnswer=='yes'){
+                                isTure += 1;
+                            }else {
+                                isFalse += 1;
+                            }
                         }
+                        predata.length=0;
+                        predata.push(['是',isTure]);
+                        predata.push(['否',isFalse]);
+                        let data = new google.visualization.DataTable();
+                        data.addColumn('string', 'choose');
+                        data.addColumn('number', 'percent');
+                        data.addRows(predata);
+                        let options = {'title':questionName+'(是非題)',
+                                       'width':400,
+                                       'height':300,
+                                       'fontSize':14,
+                                       'sliceVisibilityThreshold':0,
+                                       'pieSliceText':'none',
+                                       'pieHole':0.4
+                                      };
+                        let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                        chart.draw(data, options);
+                        isTure=0;
+                        isFalse=0;
                     }
-                    predata.length=0;
-                    predata.push(['對',isCorrect]);
-                    predata.push(['錯',isError]);
-                    google.charts.load('current', {'packages':['corechart'],'language':'zh-cn'});    //load goole.chart
-                    google.charts.setOnLoadCallback(drawChart(i));
-                    function drawChart(i) {
-                      let data = new google.visualization.DataTable();
-                      data.addColumn('string', 'choose');
-                      data.addColumn('number', 'percent');
-                      data.addRows(predata);
-                      let options = {'title':questionName+'(程式題)',
-                                     'width':400,
-                                     'height':300,
-                                     'fontSize':14,
-                                     'sliceVisibilityThreshold':0};
-                      let chart = new google.visualization.PieChart(document.getElementById('box'+i));
-                      chart.draw(data, options);
+                    if(question[i].type == '填空題') {
+                        let isCorrect=0;
+                        let isError=0;
+                        let correctAnswers = question[i].correctAnswers;
+                        for(j=0;j<allReply.length;j++){
+                            if(allReply[j].testQutionsAndAnswer[i].isCorrect==true){
+                                isCorrect += 1;
+                            }else {
+                                isError += 1;
+                            }
+                        }
+                        predata.length=0;
+                        predata.push(['對',isCorrect]);
+                        predata.push(['錯',isError]);
+                        let data = new google.visualization.DataTable();
+                        data.addColumn('string', 'choose');
+                        data.addColumn('number', 'percent');
+                        data.addRows(predata);
+                        let options = {'title':questionName+'(填空題)',
+                                       'width':400,
+                                       'height':300,
+                                       'fontSize':14,
+                                       'sliceVisibilityThreshold':0,
+                                       'pieSliceText':'none',
+                                       'pieHole':0.4
+                                     };
+                        let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                        chart.draw(data, options);
+                        isCorrect=0;
+                        isError=0;
                     }
-                    isCorrect=0;
-                    isError=0;
+                    if(question[i].type == '程式題') {
+                        let isCorrect=0;
+                        let isError=0;
+                        let correctAnswers = question[i].correctAnswers;
+                        for(j=0;j<allReply.length;j++){
+                            if(allReply[j].testQutionsAndAnswer[i].isCorrect==true){
+                                isCorrect += 1;
+                            }else {
+                                isError += 1;
+                            }
+                        }
+                        predata.length=0;
+                        predata.push(['對',isCorrect]);
+                        predata.push(['錯',isError]);
+                        let data = new google.visualization.DataTable();
+                        data.addColumn('string', 'choose');
+                        data.addColumn('number', 'percent');
+                        data.addRows(predata);
+                        let options = {'title':questionName+'(程式題)',
+                                       'width':400,
+                                       'height':300,
+                                       'fontSize':14,
+                                       'sliceVisibilityThreshold':0,
+                                       'pieSliceText':'none',
+                                       'pieHole':0.4
+                                      };
+                        let chart = new google.visualization.PieChart(document.getElementById('box'+i));
+                        chart.draw(data, options);
+                        isCorrect=0;
+                        isError=0;
+                    }
                 }
             }
         }
