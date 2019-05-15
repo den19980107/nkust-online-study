@@ -320,6 +320,8 @@
                     classtimelist.appendChild(li);
                 }
             }
+            var units = <%- JSON.stringify(units) %>;
+            
         </script>
 
         <%if(user.permission == "teacher"){%>
@@ -327,9 +329,15 @@
         <%if(classinfo.isLunched){%>
         <a href="/class/showAssistantIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">助教管理</a>
         <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">本班成員</a>
-        <a href="/class/correctTestIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">批閱測驗</a>
-        <a href="/class/showGradeAndTestPercent/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">學習狀況</a>
-        <a href="/class/showVideoSituation/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">影片觀看情形</a>
+        <%if(units.length != 0){%>
+          <a href="/class/correctTestIn/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">批閱測驗</a>
+          <a href="/class/showGradeAndTestPercent/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">學習狀況</a>
+          <a href="/class/showVideoSituation/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">影片觀看情形</a>
+        <%}else{%>
+          <a class="btn btn-info form-control mb-2" style="color: white" onclick="alert('目前沒有單元哦!請先新增單元')">批閱測驗</a>
+          <a class="btn btn-info form-control mb-2" style="color: white" onclick="alert('目前沒有單元哦!請先新增單元')">學習狀況</a>
+          <a class="btn btn-info form-control mb-2" style="color: white" onclick="alert('目前沒有單元哦!請先新增單元')">影片觀看情形</a>
+        <%}%>
         <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">討論區</a>
         <%}else{%>
         <a href="/class/LunchClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">課程上架</a>
