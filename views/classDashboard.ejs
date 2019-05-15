@@ -321,7 +321,7 @@
                 }
             }
             var units = <%- JSON.stringify(units) %>;
-            
+
         </script>
 
         <%if(user.permission == "teacher"){%>
@@ -747,7 +747,17 @@
                 <%if(user._id == classinfo.teacher){%>
                 <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
                     onclick="updateClassInfo('title')"></i>
-                <%}%>`
+                <%}%>
+
+                <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                <%if(thisClassStudents[i].studentID==user._id){%>
+                <%if(thisClassStudents[i].permission[3]=='A'){%>
+                <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                    onclick="updateClassInfo('title')"></i>
+                <%}%>
+                <%}%>
+                <%}%>
+                `
         }
         if (part == 'outline') {
             setTimeout(function () {
@@ -756,8 +766,19 @@
                 outlineDIV.innerHTML =
                     `<h5 class=" scrollText ">
                                 課程說明：
+                                <%if(user._id == classinfo.teacher){%>
                                 <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
                                     onclick="updateClassInfo('outline')"></i>
+                                <%}%>
+
+                                <%for(let i = 0;i < thisClassStudents.length;i++){%>
+                                <%if(thisClassStudents[i].studentID==user._id){%>
+                                <%if(thisClassStudents[i].permission[3]=='A'){%>
+                                <i class="fas fa-pen ml-2" style="color: rgb(92, 138, 236);padding-top: 0.2rem;font-size: 16px;"
+                                    onclick="updateClassInfo('outline')"></i>
+                                <%}%>
+                                <%}%>
+                                <%}%>
                             </h5>
                    `
                 outline.readOnly = true;
