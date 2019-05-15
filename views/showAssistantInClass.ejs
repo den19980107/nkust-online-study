@@ -257,10 +257,14 @@
     $("input[type=checkbox]:checked").each(function () {
       c.push($(this).val());
     });
-    result = window.confirm("你確定加入這些助教嗎？");
-    if (result == true) {
-      window.location = "/class/checkAssistant/" + c + "/unit/<%=classID%>"
-    } else {}
+    if(c.length == 0){
+      result = window.confirm("請先勾選欲新增成助教的學生");
+    }else{
+      result = window.confirm("你確定加入這些助教嗎？");
+      if (result == true) {
+        window.location = "/class/checkAssistant/" + c + "/unit/<%=classID%>"
+      } else {}
+    }
   }
 </script>
 <script>
