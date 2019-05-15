@@ -324,7 +324,40 @@
                 // 'playsinline': 1 //在iOS的播放器中全屏播放，0:全屏(默認)，1:內嵌
             }
         });
-        //console.log(document.getElementById('player'));
+        document.onkeydown = checkKey;
+
+        function checkKey(e) {
+
+            e = e || window.event;
+
+            if (e.keyCode == '37') {
+                // console.log('l');
+                let start = parseInt(document.getElementById('slider').value)
+                //console.log(start,start-5)
+                player.seekTo(start-5);
+                if(user.permission == "student"){
+                    socket.emit('videoAction', {
+                        type: 'fastTurn',
+                        beginTime: Math.floor(start),
+                        endTime: Math.floor(start-5)
+                    });
+                }
+            }
+            else if (e.keyCode == '39') {
+                // console.log('r')
+                let start = parseInt(document.getElementById('slider').value)
+                player.seekTo(start+5);
+                //console.log(start,start+5)
+                if(user.permission == "student"){
+                    socket.emit('videoAction', {
+                        type: 'fastTurn',
+                        beginTime: Math.floor(start),
+                        endTime: Math.floor(start+5)
+                    });
+                }
+            }
+
+        }
     }
     var yt = yt || {};
     let action = [];
