@@ -225,7 +225,7 @@
       -webkit-appearance: none;
       width: 100%;
       height: 20px;
-      background: #FFEE99;
+      background: #439fd3;
       outline: none;
       opacity: 0.7;
       -webkit-transition: .2s;
@@ -240,7 +240,7 @@
       appearance: none;
       width: 10px;
       height: 20px;
-      background: #FFEE99;
+      background: #439fd3;
       cursor: pointer;
     }
 
@@ -629,7 +629,7 @@
                 $("#watcherNumber").text(response[0].watchersNumber+"人")
                 // console.log(response);
                 videDitalDiv.style.cssText = "display:flex;flex-wrap:wrap;align-items: flex-start;width:80vw"
-                
+
                 let vidoeTime = `<%=videoinfo.vtime%>`;
                 videoTime = parseInt(videoTime)
                 showRFM(50,50,50,[0,vidoeTime]);
@@ -1259,7 +1259,7 @@
                     if(isNaN(M[i])){
                         M[i] = 0
                     }
-                    
+
                     let data = [R[i],F[i],M[i]];
                     myData.push(data)
                 }
@@ -1692,12 +1692,14 @@
         }
     }
     let watchtime = 0;
-    let videoTime = document.getElementById('videoTime');
+    // let videoTime = document.getElementById('videoTime');
+    // console.log("videoTime");
+    // console.log(videoTime);
     setInterval(function () {
         watchtime++;
         nowtime = SelectFocalPointPlayer.getCurrentTime();
         slider.value = nowtime;
-        console.log(slider.value);
+        //console.log("nowtime ="+ slider.value);
         var hr = Math.floor(nowtime / 3600);
         var min = Math.floor((nowtime - (hr * 3600)) / 60);
         var sec = parseInt(nowtime - (hr * 3600) - (min * 60));
@@ -1710,8 +1712,9 @@
         if (min < 10) {
             min = '0' + min
         }
-        //console.log(videoTime);
-
+        let videoTime = document.getElementById('videoTime');
+        console.log(videoTime);
+        console.log("hr min sec = "+hr+" "+min+" "+sec);
         videoTime.innerText = hr + ':' + min + ':' + sec
     }, 1000);
 
@@ -1728,21 +1731,84 @@
         let endslider = Number(slidermark.value)/Number(maxvalue)*100;
         let rangeslider = Number(endslider)-Number(startslider);
         if(rangeslider == 0){
-              $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#3377FF;width:10px;height:20px;" onclick="deleteslidermark(this)"><div>`)
+            $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#f6b128;width:10px;height:20px;" onclick="deleteslidermark(this)"><div>`)
         }else{
-            $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#3377FF;width:`+rangeslider+`%;height:20px;" onclick="deleteslidermark(this)"><div>`)
+            $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#f6b128;width:`+rangeslider+`%;height:20px;" onclick="deleteslidermark(this)"><div>`)
         }
-        emphasis = {start:beginTime,stop:Number(slidermark.value)}
-        console.log(emphasis);
-        allFocusPoint.push(emphasis);
-        pointnumber ++;
+        if(rangeslider < 0){
+          rangeslider = (-1)*rangeslider;
+          startslider = Number(slidermark.value)/Number(maxvalue)*100;
+          $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#f6b128;width:`+rangeslider+`%;height:20px;" onclick="deleteslidermark(this)"><div>`)
+            emphasis = {start:Number(slidermark.value),stop:Number(beginTime),pointnumber:pointnumber}
+            console.log(emphasis);
+            allFocusPoint.push(emphasis);
+            confirmallFocusPoint();
+            pointnumber ++;
+            console.log(allFocusPoint);
+        }else{
+          emphasis = {start:Number(beginTime),stop:Number(slidermark.value),pointnumber:pointnumber}
+          console.log(emphasis);
+          allFocusPoint.push(emphasis);
+          confirmallFocusPoint();
+          pointnumber ++;
+          console.log(allFocusPoint);
+        }
     });
+    let confirmallFocusPoint = function(){
+        //排序
+        for(let isort=0;isort<allFocusPoint.length;isort++){
+          for(let jsort=0;jsort<allFocusPoint.length-isort-1;jsort++){
+            console.log(allFocusPoint[jsort].start);
+            if(allFocusPoint[jsort].start > allFocusPoint[jsort+1].start){
+              let temp;
+              temp = allFocusPoint[jsort];
+              allFocusPoint[jsort] = allFocusPoint[jsort+1];
+              allFocusPoint[jsort+1] = temp;
+            }
+          }
+        }
+        //識別重複
+        for(let i=0;i<allFocusPoint.length;i++){
+          if(i == false){
+            for(let j=i+1;j<allFocusPoint.length;j++){
+              if(allFocusPoint[i].stop > allFocusPoint[j].start){
+                  if(allFocusPoint[i].stop < allFocusPoint[j].stop){
+                    allFocusPoint[i].stop = allFocusPoint[j].stop;
+                    let e = document.getElementById("slidermark"+allFocusPoint[i].pointnumber);
+                    let maxvalue = document.getElementById("slider").max;
+                    let start = Number(allFocusPoint[i].start)/Number(maxvalue)*100;
+                    let end = Number(allFocusPoint[i].stop)/Number(maxvalue)*100;
+                    let range = Number(end)-Number(start);
+                    e.style.width = range + "%";
+                  }
+                  allFocusPoint[j] = {start:0,stop:0,pointnumber:allFocusPoint[j].pointnumber};
+                  i = false;
+              }
+            }
+          }
+        }
+        //清除空資料
+        for(let iclear=0;iclear<allFocusPoint.length;iclear++){
+          if(allFocusPoint[iclear].start==0 && allFocusPoint[iclear].stop==0){
+            let e = document.getElementById("slidermark"+allFocusPoint[iclear].pointnumber);
+            deleteslidermark(e);
+          }
+        }
+    }
+
+    //刪除重點區域
     let deleteslidermark = function(e){
         let deletedata = $("#"+e.id).attr("data-id")
-        allFocusPoint.splice(deletedata,1);
+        for(let i=0;i<allFocusPoint.length;i++){
+          console.log(deletedata,allFocusPoint[i].pointnumber);
+          if(deletedata == allFocusPoint[i].pointnumber){
+            allFocusPoint.splice(i,1);
+            console.log("刪除");
+          }
+        }
         e.remove();
         console.log(allFocusPoint);
-        
+
     }
 
     //送出選好的重點與參數
@@ -1755,7 +1821,7 @@
         // console.log("r = "+r);
         // console.log(allFocusPoint);
         showRFM(a,b,r,allFocusPoint)
-        
+
     }
 </script>
 <% include layout/nobottom-footer %>
