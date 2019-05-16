@@ -290,6 +290,31 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
   }
 });
 
+//換課程封面照片
+router.post('/changeClassImg/:classID', upload.any(), ensureAuthenticated,function(req,res){
+  console.log(req.files)
+  if (req.files.length > 0) {
+    let classImage = req.files[0].filename;
+    var myquery = {
+      _id: ObjectID(req.params.classID)
+    };
+    var newvalues = {
+      $set: {
+        classImage: classImage
+      }
+    };
+    Class.updateOne(myquery, newvalues, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(req.params.classID)
+        res.redirect('/class/'+req.params.classID);
+      }
+    });
+  } 
+
+})
+
 //查看課程內容
 router.get('/:id', ensureAuthenticated, function (req, res) {
   //console.log("in");

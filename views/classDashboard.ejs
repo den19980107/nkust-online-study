@@ -124,12 +124,24 @@
                 <div class="mb-3" style="height: 14.5rem;background: black;overflow: hidden;display: flex;justify-content: center;flex-direction: column;">
                     <div class="row box">
                         <img class="card-img-top bg-light w-100 img" src="/class/image/<%=img.filename%>" style="border: 1px solid lightslategray;height: 15rem;overflow: hidden;">
+                        <%if(user._id == classinfo.teacher){%>
+                            <form method="POST" action="/class/changeClassImg/<%=classinfo._id%>" id="form" enctype="multipart/form-data">
+                                <input id="file" type="file" name="classImg" style="display:none;" />
+                                <input class="btn btn-primary" type="button" value="編輯" onclick="document.getElementById('file').click();" style="position: absolute;right: 0;"></input>
+                            </form>   
+                        <%}%>
                     </div>
                 </div>
                 <%}else{%>
                 <div class="mb-3" style="height: 14.5rem;background: black;overflow: hidden;display: flex;justify-content: center;flex-direction: column;">
                     <div class="box">
                         <img class="img w-100" src="/img/NoImage.png" style="border: 1px solid rgb(226, 226, 226);">
+                        <%if(user._id == classinfo.teacher){%>
+                            <form method="POST" action="/class/changeClassImg/<%=classinfo._id%>" id="form" enctype="multipart/form-data">
+                                <input id="file" type="file" name="classImg" style="display:none;" />
+                                <input class="btn btn-primary" type="button" value="編輯" onclick="document.getElementById('file').click();" style="position: absolute;right: 0;"></input>
+                            </form>                      
+                        <%}%>                    
                     </div>
                 </div>
                 <%}%>
@@ -827,6 +839,10 @@
             selectedTimeDiv.appendChild(div);
         }
     }
+
+    document.getElementById("file").onchange = function() {
+        document.getElementById("form").submit();
+    };
 
     function deleteChooseTime(e) {
         chooseClassTime.pop(parseInt(e.getAttribute("index")));
