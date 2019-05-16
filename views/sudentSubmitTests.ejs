@@ -5,18 +5,15 @@
     .list-group-item .fa {
         margin-right: 5px;
     }
-
     /* 文字超過自動省略成... */
     .ellipsisText {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: inherit;
-
     }
     .alert:hover {
         background: rgb(228, 227, 225);
     }
-
     .unit {
         width: 100%;
         text-align: center;
@@ -25,7 +22,6 @@
         color: rgb(90, 88, 88);
         border-radius: 25px;
     }
-
     .test {
         width: 100%;
         text-align: center;
@@ -34,11 +30,9 @@
         color: rgb(255, 255, 255);
         border-radius: 25px;
     }
-
     a {
         text-decoration: none;
     }
-
     a:hover {
         text-decoration: none;
     }
@@ -49,7 +43,6 @@
         list-style: none;
         margin-bottom: 0.6rem
     }
-
     .studentUl{
         width: 100%;
         padding: 0;
@@ -137,10 +130,8 @@
         let nowSubmiterName;
         let nowStudent;
         let nowTest;
-
         let getScore;
         let totalScore;
-
         let onchangeUnit = function (unitId) {
             let i;
             nowUnit = unitId;
@@ -172,7 +163,6 @@
             nowTest = quizId;
             let canCheckQuestionAndAnswer = ""
             let publishScoreNow = ""
-
             let rightbox = document.getElementById('leftbox');
             rightbox.innerHTML='';
             for (i = 0; i < tests.length; i++) {
@@ -182,9 +172,7 @@
                 }
             }
             showSubmiter(nowTest);
-
         }
-
         let showSubmiter = function (testID) {
             nowTest = testID;
             studentList.innerHTML = '';
@@ -202,22 +190,18 @@
                     }
                 }
             }
-
             if(totalSubmitter == 0){
                 studentList.innerHTML = "<p class='col-sm-12 alert alert-danger' style ='text-align:center;'>還沒有人提交測驗喔!</p>"
-
             }
         }
         let showSubmiter2 = function (testID, e) {
             //console.log("e = " + e);
-
             nowTest = testID;
             studentList.innerHTML = '';
             let leftbox = document.getElementById('leftbox');
             leftbox.innerHTML = '';
             let testList = document.getElementById('testList');
             //console.log("testList.children.length = " + testList.children.length);
-
             for (let i = 0; i < testList.children.length; i++) {
                 if (i == e) {
                     //console.log("match");
@@ -240,7 +224,6 @@
                 }
             }
         }
-
         let showSubmiterAnswer = function (submiterID, testID, submiterName, e) {
             nowStudent = submiterID;
             nowSubmiterName = submiterName;
@@ -266,7 +249,6 @@
             } else {
                 getScore = 0;
             }
-
             for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
                 totalScore += parseInt(test.testQutionsAndAnswer[i].score);
             }
@@ -277,7 +259,6 @@
                 msg = "已批閱"
                 color = "success"
             }
-
             bightml +=
                 `
             <div class="row">
@@ -287,14 +268,12 @@
                     ${msg}
                     </p>
                 </div>
-
                 <div class="col text-right" style="padding:12px"><h5 id="scoreField">得分:</h5></div>
             </div>
             `;
             for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
                 let qution = test.testQutionsAndAnswer[i];
                 console.log(qution);
-
                 let html =
                     `
                     <div class="qution" id="qution${i}">
@@ -304,21 +283,15 @@
                         if (test.markArray[i] == 'right') {
                             html +=
                                 `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                                正確
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(選擇題)</p>
-                            `
+                            <div style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         } else {
                             html +=
                                 `
-                            <div style="font-size: 20px;display:flex;justify-content:center;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                                錯誤
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(選擇題)</p>
-                            `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         }
                     } else {
                         //判斷答案是否正確
@@ -332,12 +305,10 @@
                         //console.log(studentAnswers);
                         let isCorrect = true;
                         //console.log(studentAnswers.length,qution.correctAnswers.length);
-
                         if(studentAnswers.length!=qution.correctAnswers.length){
                             isCorrect=false;
                         }
                         //console.log(isCorrect);
-
                         for(let i =0;i<qution.correctAnswers.length;i++){
                             //console.log(studentAnswers.indexOf(qution.correctAnswers[i]));
                             if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
@@ -347,22 +318,16 @@
                         if (isCorrect) {
                             getScore += parseInt(qution.score);
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                                正確
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(選擇題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         } else {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                                錯誤
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(選擇題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         }
                     }
                     let selection = "";
@@ -414,46 +379,33 @@
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                                正確
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(是非題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         } else {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                                錯誤
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(是非題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         }
                     } else {
                         if (qution.studentAnswer == qution.correctAnswers) {
                             getScore += parseInt(qution.score);
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                                正確
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(是非題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         } else {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                                錯誤
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(是非題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         }
                     }
-
                     html +=
                         `
                 <p>學生答案:</p>
@@ -476,27 +428,20 @@
                 </div>
         `
                 }
-
                 if (qution.type == '填空題') {
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                                正確
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(填空題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         } else {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                                錯誤
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(填空題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         }
                     } else {
                         let isCorrect = false;
@@ -508,25 +453,18 @@
                         if (isCorrect) {
                             getScore += parseInt(qution.score);
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                                正確
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(填空題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         } else {
                             html +=
-                             `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                                錯誤
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(填空題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;" id ="title${i}"class="bg-danger p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         }
                     }
-
                     html +=
                         `
                     <p>學生答案:</p>
@@ -535,9 +473,7 @@
                             <div class="col">
                                 <pre>${qution.studentAnswer}</pre>
                             </div>
-
                         </div>
-
                         <p>正確答案：${qution.correctAnswers}</p>
                         <p>(配分:
                             ${qution.score})
@@ -551,7 +487,6 @@
                     </div>
                     `
                 }
-
                 if (qution.type == '程式題') {
                     if (qution.userAnswer == '' || qution.userAnswer == undefined) {
                         qution.userAnswer = {
@@ -559,12 +494,9 @@
                                 language: '未填寫',
                                 script: '未填寫',
                                 input: '未填寫'
-
                             },
                             output: "未填寫"
-
                         }
-
                     }
                     let languageValue = ''
                     switch (qution.userAnswer.scriptData.language) {
@@ -574,7 +506,6 @@
                         case 'c++':
                             languageValue = 'cpp'
                             break;
-
                         case 'c':
                             languageValue = 'c'
                             break;
@@ -584,26 +515,19 @@
                         default:
                             break;
                     }
-
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                                正確
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(程式題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         } else {
                             html +=
-                            `
-                            <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                                錯誤
-                            </div>
-                            <pre style="font-size:20px">題目:${qution.qutionName} </pre>
-                            <p style="font-size:20px">(程式題)</p>
-                            `
+                                `
+                            <div style="font-size: 20px;color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
+                                <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
+                            </div>`
                         }
                     } else {
                         //console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFf");
@@ -631,8 +555,7 @@
                         html +=
                             `
                         <div style="font-size: 20px" id ="title${i}">
-                            <pre >題目:${qution.qutionName} </pre>
-                            <p >(程式題)</p>
+                            <pre style="color:white">題目:${qution.qutionName} </pre>
                         </div>`
                     }
                     html +=
@@ -692,7 +615,6 @@ ${qution.outputExample}
                                 <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
                             </div>
                         </div>
-
                 </div>
                 `
                 }
@@ -712,9 +634,7 @@ ${qution.outputExample}
             } else {
                 scoreField.innerHTML = `得分:${getScore}/${totalScore}`
             }
-
         }
-
         let saveMark = function (submiterID, testID, qutionlength) {
             //console.log(submiterID, testID, qutionlength);
             let notMarkedQutionNumber = 0;
@@ -751,13 +671,11 @@ ${qution.outputExample}
                         alert('儲存成功');
                         // console.log("nowUnit = ");
                         // console.log(nowUnit);
-
                         localStorage.setItem("nowUnit", nowUnit.outerHTML);
                         localStorage.setItem("nowE", nowE);
                         localStorage.setItem("nowSubmiterName", nowSubmiterName);
                         localStorage.setItem("nowStudent", nowStudent);
                         localStorage.setItem("nowTest", nowTest);
-
                         location.reload();
                     },
                     error: function (err) {
@@ -765,10 +683,7 @@ ${qution.outputExample}
                     }
                 });
             }
-
         }
-
-
         let changeCorrection = function (isCorrect, qutionNumber, score) {
             let title = document.getElementById('title' + qutionNumber);
             let titletext = "";
@@ -779,7 +694,6 @@ ${qution.outputExample}
                 }
             }
             console.log(titletext);
-
             if (isCorrect) {
                 title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
                 if (title.className == '' || title.className == "bg-danger p-1") {
@@ -787,13 +701,7 @@ ${qution.outputExample}
                 }
                 title.className = "bg-success p-1";
                 title.innerHTML = '';
-                title.innerHTML = `
-                <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                    正確
-                </div>
-                <pre style="font-size:20px">題目:${titletext} </pre>
-                <p style="font-size:20px">(程式題)</p>
-                `
+                title.innerHTML = `<pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${titletext} </pre>`
             } else {
                 title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
                 if (title.className == "bg-success p-1") {
@@ -801,17 +709,11 @@ ${qution.outputExample}
                 }
                 title.className = "bg-danger p-1";
                 title.innerHTML = '';
-                title.innerHTML = `
-                <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                    錯誤
-                </div>
-                <pre style="font-size:20px">題目:${titletext} </pre>
-                <p style="font-size:20px">(程式題)</p>
-                `
+                title.innerHTML = `<pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${titletext} </pre>`
+
             }
             let scoreField = document.getElementById('scoreField');
             scoreField.innerHTML = `得分:${getScore}/${totalScore}`
-
         }
         let changeCorrection1 = function (isCorrect, qutionNumber, score) {
             let title = document.getElementById('title' + qutionNumber);
@@ -827,31 +729,22 @@ ${qution.outputExample}
                 if (title.className == '' || title.className == "bg-danger p-1") {
                     getScore += parseInt(score);
                 }
+                title.className = "bg-success p-1";
                 title.innerHTML = '';
-                title.innerHTML = `
-                <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-success p-1">
-                    正確
-                </div>
-                <pre style="font-size:20px">題目:${titletext} </pre>
-                <p style="font-size:20px">(程式題)</p>
-                `
+                title.innerHTML = `<i class="fas fa-check mr-1 pr-1 pl-1"style="width:2rem"></i>題目：` + titletext +
+                    ' (程式題)'
             } else {
                 title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
                 if (title.className == "bg-success p-1") {
                     getScore -= parseInt(score);
                 }
+                title.className = "bg-danger p-1";
                 title.innerHTML = '';
-                title.innerHTML = `
-                <div style="font-size: 20px;display:flex;justify-content:center; color:white;border-radius: 5px;"id ="title${i}" class="bg-danger p-1">
-                    錯誤
-                </div>
-                <pre style="font-size:20px">題目:${titletext} </pre>
-                <p style="font-size:20px">(程式題)</p>
-                `
+                title.innerHTML = `<i class="fas fa-times mr-1  pl-2" style="width:2rem"></i>題目：` + titletext +
+                    ' (程式題)'
             }
             let scoreField = document.getElementById('scoreField');
             scoreField.innerHTML = `得分:${getScore}/${totalScore}`
-
         }
         let compile = function (qutionNumber) {
             //console.log(qutionNumber);
@@ -866,14 +759,12 @@ ${qution.outputExample}
                 id: "001"
             }
             //console.log(scriptData);
-
             var socket = io();
             socket.emit('script', scriptData);
             output.innerHTML = "編譯中....\n";
             socket.on('answer', function (obj) {
                 //console.log(obj);
                 output.innerHTML = "輸出:\n" + obj.body.output;
-
                 //記錄到答案中
                 // onAnswer('PGQ', {
                 //     scriptData: scriptData,
@@ -888,15 +779,12 @@ ${qution.outputExample}
                 }
             }
         }
-
-
         window.onload = function () {
             nowUnit = localStorage.getItem("nowUnit");
             nowE = localStorage.getItem("nowE");
             nowSubmiterName = localStorage.getItem("nowSubmiterName");
             nowStudent = localStorage.getItem("nowStudent");
             nowTest = localStorage.getItem("nowTest");
-
             /*if (nowUnit != undefined && nowE != undefined && nowSubmiterName != undefined && nowStudent !=
                 undefined && nowTest != undefined) {
                 nowUnit = new DOMParser().parseFromString(nowUnit, "text/xml").firstChild;
@@ -908,7 +796,6 @@ ${qution.outputExample}
                 // console.log(nowE);
                 showSubmiter2(nowTest, nowE);
             }*/
-
             let i;
             for (i = 0; i < units.length; i++) {
                 if (i == 0) {
@@ -936,9 +823,6 @@ ${qution.outputExample}
                 onchangeQuiz(nowTest);
             }
             selectQuiz.length = testLength;
-
-
-
             let showDataBtn = document.getElementById('showDataBtn');
             showDataBtn.onclick = function () {
                 let leftbox = document.getElementById('leftbox');
@@ -951,7 +835,6 @@ ${qution.outputExample}
                 }
                 let qutionlength = testData.testQutions.length; //這張考卷有幾題
                 //console.log(testData);
-
                 //再把所有有寫這份考卷並改過的考卷找進來
                 let studentAnswers = []; //這份考卷所有學生的回答
                 for (let i = 0; i < studentSubmits.length; i++) {
@@ -980,7 +863,6 @@ ${qution.outputExample}
                 }
                 //把統計的數字放到data
                 //console.log("student submit data");
-
                 let b = [];
                 let eachQutionAnswers = [];
                 for (let i = 0; i < studentAnswers.length; i++) {
@@ -1004,10 +886,6 @@ ${qution.outputExample}
                 }
                 // console.log("eachQutionAnswers ==");
                 // console.log(eachQutionAnswers);
-
-
-
-
                 //先清空leftbox
                 leftbox.innerHTML = '';
                 //加title
@@ -1020,11 +898,9 @@ ${qution.outputExample}
                         <div class="chart-container" style="position: relative; height:20vh; width:100%">
                             <canvas id="myChart${i}"></canvas>
                         </div>`;
-
                 }
                 for (let i = 0; i < qutionlength; i++) {
                     //console.log(testData[i]);
-
                     ctx[i] = document.getElementById("myChart" + i).getContext('2d');
                     myChart[i] = new Chart(ctx[i], {
                         type: 'horizontalBar',
@@ -1065,11 +941,7 @@ ${qution.outputExample}
                             }
                         }
                     });
-
                 }
-
-
-
             }
         };
     </script>
