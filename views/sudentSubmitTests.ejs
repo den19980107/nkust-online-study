@@ -94,59 +94,51 @@
         transition: all 200ms ease-in;
         transform: scale(1.005);
     }
+    .space {
+        display: flex;
+        margin-bottom: 1rem
+    }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css">
-<div class="row">
-    <div class="col">
-        <div class="row">
-            <a href="/class/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程資訊頁面</i></a>
-        </div>
-    </div>
-</div>
+
+<a href="/class/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程資訊頁面</i></a>
+
+<h3>學習狀況</h3>
+<hr>
 <div class="row">
     <!-- 左邊的匡 -->
-    <div class="col-3">
+    <div class="col-lg-3 col-sm-12">
         <div class="row">
             <div class="dropdown w-100">
-                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    選擇單元
-                </button>
-                <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-                    <%units.forEach(function(unit){%>
-                    <a class="dropdown-item" href="#" unitID="<%=unit._id%>" unitName="<%=unit.unitName%>" onclick="showTestInUnit(this)">
-                        <%=unit.unitName%></a>
-                    <%})%>
+                <div class="space">
+                    <label class="col-sm-4 col-form-label">選擇單元</label>
+                    <div class="col-sm-8">
+                        <select id="selectUnit" class="form-control" onchange="onchangeUnit(this.value)">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="space">
+                    <label class="col-sm-4 col-form-label">選擇測驗</label>
+                    <div class="col-sm-8">
+                        <select id="selectQuiz" class="form-control" onchange="onchangeQuiz(this.value)">
+
+                        </select>
+                    </div>
+                </div>
+                <div class=" p-1 mb-0 pb-0" style="border: 0.3px solid rgb(192, 192, 192);">                  
+                      <ul class="studentUl" id="studentList">
+
+                      </ul>
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
-                <h6 class="w-100" style="text-align:center;" id='unitNameField'>請選擇單元</h6>
-                <hr>
-            </div>
-        </div>
-        <div class="row">
-            <ul class="unitUl" id="testList">
-            </ul>
-        </div>
 
-        <div class="row mb-3 mt-3 pb-0">
-            <div class="col p-0">
-                <!-- <button class="btn btn-primary form-control" id="showDataBtn">觀看測驗情形</button> -->
-            </div>
-        </div>
-
-        <div class="row p-1 mb-0 pb-0" style="border: 0.3px solid rgb(192, 192, 192);">
-            <ul class="studentUl" id="studentList">
-
-            </ul>
-        </div>
     </div>
 
 
     <!-- 右邊的匡 -->
-    <div class="col-9" id='leftbox'>
+    <div class="col-lg-9 col-sm-12" id='leftbox'>
 
     </div>
 
@@ -154,20 +146,98 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
     <script>
+        var units = <%- JSON.stringify(units) %>;
         let tests = <%- JSON.stringify(tests) %>;
         let studentSubmits = <%-JSON.stringify(submits)%>
+        let submiter = <%-JSON.stringify(submiter)%>
         let nowUnit;
         let nowE;
         let nowSubmiterName;
         let nowStudent;
         let nowTest;
-        //console.log("tests = ");
-        //console.log(studentSubmits);
 
-        let submiter = <%-JSON.stringify(submiter)%>
         let getScore;
         let totalScore;
-        let showTestInUnit = function (unit) {
+
+        let onchangeUnit = function (unitId) {
+            let i;
+            nowUnit = unitId;
+            selectQuiz.length = 0;
+            let testLength = 0;
+            for (i = 0; i < tests.length; i++) {
+                if (tests[i].belongUnit == nowUnit) {
+                    if (testLength == 0) nowTest = tests[i]._id;
+                    selectQuiz.options[testLength++] = new Option(tests[i].testName, tests[i]._id); // 設定新選項
+                }
+            }
+            onchangeQuiz(nowTest);
+            selectQuiz.length = testLength; // 刪除多餘的選項
+        }
+        let onchangeQuiz = function (quizId) {
+            nowTest = quizId;
+            let canCheckQuestionAndAnswer = ""
+            let publishScoreNow = ""
+            //console.log(tests)
+            for (i = 0; i < tests.length; i++) {
+                if (tests[i]._id == nowTest) {
+                    canCheckQuestionAndAnswer = tests[i].canCheckQuestionAndAnswer
+                    publishScoreNow = tests[i].publishScoreNow
+                }
+            }
+
+            showSubmiter(nowTest);
+            //let nowStudent = "5ca577446c5b2903acb7fd20"; //學生id
+            //let nowStudent = "<%=user._id%>";
+            /*let isSubmited = 0;
+            for (i = 0; i < allSubmits.length; i++) {
+                if ((allSubmits[i].testID == nowTest) && (allSubmits[i].writer == nowStudent)) {
+                    //console.log('--------------studentQuiz---------------');
+                    //console.log(allSubmits[i]);
+                    //老師設定自動公布成績
+                    if(publishScoreNow == true){
+                      document.getElementById('showgrade').innerHTML = allSubmits[i].obtainscore;
+                    }else{
+                      //console.log("不公布");
+                      let grade = document.getElementById('showgrade');
+                      grade.innerHTML = '...';
+                    }
+                    if(canCheckQuestionAndAnswer == true){
+                      showSubmiterAnswer(allSubmits[i]); //執行顯示資料
+                    }else{
+                      let rightbox = document.getElementById('rightbox');
+                      rightbox.innerHTML = '';
+                      let alertDiv = document.createElement('div');
+                      alertDiv.innerHTML = '未開放觀看題目';
+                      alertDiv.style = 'text-align:center;';
+                      alertDiv.className = 'col-sm-12 alert alert-warning';
+                      rightbox.appendChild(alertDiv);
+                    }
+                    if(canCheckQuestionAndAnswer == false && publishScoreNow == false){
+                      let rightbox = document.getElementById('rightbox');
+                      rightbox.innerHTML = '';
+                      let alertDiv = document.createElement('div');
+                      alertDiv.innerHTML = '未開放觀看成績';
+                      alertDiv.style = 'text-align:center;';
+                      alertDiv.className = 'col-sm-12 alert alert-warning';
+                      rightbox.appendChild(alertDiv);
+
+                    }
+                    isSubmited++;
+                }
+            }
+            if (isSubmited == 0) {
+                let rightbox = document.getElementById('rightbox');
+                rightbox.innerHTML = '';
+                let alertDiv = document.createElement('div');
+                alertDiv.innerHTML = '您未填寫測驗';
+                alertDiv.style = 'text-align:center;';
+                alertDiv.className = 'col-sm-12 alert alert-danger';
+                rightbox.appendChild(alertDiv);
+            }
+            isSubmited = 0;*/
+        }
+
+        /*let showTestInUnit = function (unit) {
             //console.log("-------showTestInUnit ------");
             let unitID = unit.getAttribute('unitID');
             nowUnit = unit;
@@ -224,22 +294,21 @@
                 }
             }
 
-        }
+        }*/
 
-        
-        let showSubmiter = function (testID, e) {
+        let showSubmiter = function (testID) {
             nowTest = testID;
             studentList.innerHTML = '';
-            let leftbox = document.getElementById('leftbox');
-            leftbox.innerHTML = '';
-            let testList = document.getElementById('testList');
-            for (let i = 0; i < testList.children.length; i++) {
+            //let leftbox = document.getElementById('leftbox');
+            //leftbox.innerHTML = '';
+            //let testList = document.getElementById('testList');
+          /*  for (let i = 0; i < testList.children.length; i++) {
                 if (testList.children[i] == e) {
                     nowE = i;
                 }
                 testList.children[i].style.cssText = "background:rgb(150, 216, 168)";
-            }
-            e.style.cssText = "background:rgb(194, 190, 190)";
+            }*/
+            //e.style.cssText = "background:rgb(194, 190, 190)";
             let totalSubmitter = 0;
             for (let i = 0; i < studentSubmits.length; i++) {
                 let submiterName = ''
@@ -344,7 +413,7 @@
             for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
                 let qution = test.testQutionsAndAnswer[i];
                 console.log(qution);
-                
+
                 let html =
                     `
                     <div class="qution" id="qution${i}">
@@ -436,7 +505,7 @@
                                 <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.score}')">正確</button>
                                 <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.score}')">不正確</button>
                             </div>
-                        </div>    
+                        </div>
                     </div>
                     `
                 }
@@ -786,7 +855,7 @@ ${qution.outputExample}
                 }
             }
             console.log(titletext);
-            
+
             if (isCorrect) {
                 title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
                 if (title.className == '' || title.className == "bg-danger p-1") {
@@ -887,7 +956,7 @@ ${qution.outputExample}
             nowTest = localStorage.getItem("nowTest");
             //console.log(nowUnit);
 
-            if (nowUnit != undefined && nowE != undefined && nowSubmiterName != undefined && nowStudent !=
+            /*if (nowUnit != undefined && nowE != undefined && nowSubmiterName != undefined && nowStudent !=
                 undefined && nowTest != undefined) {
                 nowUnit = new DOMParser().parseFromString(nowUnit, "text/xml").firstChild;
                 // nowE = new DOMParser().parseFromString(nowE, "text/xml").firstChild;
@@ -895,11 +964,27 @@ ${qution.outputExample}
                 nowUnitName = nowUnit.getAttribute('unitname');
                 showTestInUnit2(nowUnitID, nowUnitName);
                 // console.log("nowE = ");
-
                 // console.log(nowE);
-
                 showSubmiter2(nowTest, nowE);
+            }*/
+
+            let i;
+            for (i = 0; i < units.length; i++) {
+                if (i == 0) {
+                    nowUnit = units[i]._id;
+                }
+                selectUnit.options[i] = new Option(units[i].unitName, units[i]._id);
             }
+            selectQuiz.length = 0;
+            let testLength = 0;
+            for (i = 0; i < tests.length; i++) {
+                if (tests[i].belongUnit == nowUnit) {
+                    if (testLength == 0) nowTest = tests[i]._id;
+                    selectQuiz.options[testLength++] = new Option(tests[i].testName, tests[i]._id);
+                }
+            }
+            selectQuiz.length = testLength;
+            onchangeQuiz(nowTest);
 
 
             let showDataBtn = document.getElementById('showDataBtn');
