@@ -13,7 +13,6 @@
         text-overflow: inherit;
 
     }
-
     .alert:hover {
         background: rgb(228, 227, 225);
     }
@@ -43,23 +42,6 @@
     a:hover {
         text-decoration: none;
     }
-
-    .unitList{
-        width: 100%;
-        padding: 0.6rem;
-        text-align: center;
-        background: rgb(130, 218, 164);
-        list-style: none;
-        border-radius: 5px;
-        margin-bottom: 0.6rem;
-    }
-    .unitUl{
-        width: 100%;
-        padding: 0;
-        height: 10rem;
-        overflow: scroll;
-        margin-bottom: 0;
-    }
     .studentList{
         width: 100%;
         padding: 0.6rem;
@@ -71,7 +53,7 @@
     .studentUl{
         width: 100%;
         padding: 0;
-        height: 30rem;
+        height: 35rem;
         overflow-y: scroll;
     }
     .qution{
@@ -112,21 +94,21 @@
             <div class="dropdown w-100">
                 <div class="space">
                     <label class="col-sm-4 col-form-label">選擇單元</label>
-                    <div class="col-sm-8">
-                        <select id="selectUnit" class="form-control" onchange="onchangeUnit(this.value)">
+                    <div class="col-sm-8" style="padding-right:0px;">
+                        <select id="selectUnit" class="form-control"  onchange="onchangeUnit(this.value)">
 
                         </select>
                     </div>
                 </div>
                 <div class="space">
                     <label class="col-sm-4 col-form-label">選擇測驗</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" style="padding-right:0px;">
                         <select id="selectQuiz" class="form-control" onchange="onchangeQuiz(this.value)">
 
                         </select>
                     </div>
                 </div>
-                <div class=" p-1 mb-0 pb-0" style="border: 0.3px solid rgb(192, 192, 192);">                  
+                <div class=" p-1 mb-0 pb-0" style="border: 0.3px solid rgb(192, 192, 192); margin-top:1rem; margin-left: 1rem;">
                       <ul class="studentUl" id="studentList">
 
                       </ul>
@@ -164,151 +146,48 @@
             nowUnit = unitId;
             selectQuiz.length = 0;
             let testLength = 0;
+            let rightbox = document.getElementById('leftbox');
+            rightbox.innerHTML='';
             for (i = 0; i < tests.length; i++) {
                 if (tests[i].belongUnit == nowUnit) {
                     if (testLength == 0) nowTest = tests[i]._id;
                     selectQuiz.options[testLength++] = new Option(tests[i].testName, tests[i]._id); // 設定新選項
                 }
             }
-            onchangeQuiz(nowTest);
+            if(testLength==0){
+                let rightbox = document.getElementById('leftbox');
+                rightbox.innerHTML='';
+                let alertDiv = document.createElement('div');
+                alertDiv.innerHTML='此單元尚未建立測驗';
+                alertDiv.style='text-align:center; margin-top:10px;';
+                alertDiv.className='col-sm-12 alert alert-danger';
+                rightbox.appendChild(alertDiv);
+                studentList.innerHTML='';
+            }else{
+                onchangeQuiz(nowTest);
+            }
             selectQuiz.length = testLength; // 刪除多餘的選項
         }
         let onchangeQuiz = function (quizId) {
             nowTest = quizId;
             let canCheckQuestionAndAnswer = ""
             let publishScoreNow = ""
-            //console.log(tests)
+
+            let rightbox = document.getElementById('leftbox');
+            rightbox.innerHTML='';
             for (i = 0; i < tests.length; i++) {
                 if (tests[i]._id == nowTest) {
                     canCheckQuestionAndAnswer = tests[i].canCheckQuestionAndAnswer
                     publishScoreNow = tests[i].publishScoreNow
                 }
             }
-
             showSubmiter(nowTest);
-            //let nowStudent = "5ca577446c5b2903acb7fd20"; //學生id
-            //let nowStudent = "<%=user._id%>";
-            /*let isSubmited = 0;
-            for (i = 0; i < allSubmits.length; i++) {
-                if ((allSubmits[i].testID == nowTest) && (allSubmits[i].writer == nowStudent)) {
-                    //console.log('--------------studentQuiz---------------');
-                    //console.log(allSubmits[i]);
-                    //老師設定自動公布成績
-                    if(publishScoreNow == true){
-                      document.getElementById('showgrade').innerHTML = allSubmits[i].obtainscore;
-                    }else{
-                      //console.log("不公布");
-                      let grade = document.getElementById('showgrade');
-                      grade.innerHTML = '...';
-                    }
-                    if(canCheckQuestionAndAnswer == true){
-                      showSubmiterAnswer(allSubmits[i]); //執行顯示資料
-                    }else{
-                      let rightbox = document.getElementById('rightbox');
-                      rightbox.innerHTML = '';
-                      let alertDiv = document.createElement('div');
-                      alertDiv.innerHTML = '未開放觀看題目';
-                      alertDiv.style = 'text-align:center;';
-                      alertDiv.className = 'col-sm-12 alert alert-warning';
-                      rightbox.appendChild(alertDiv);
-                    }
-                    if(canCheckQuestionAndAnswer == false && publishScoreNow == false){
-                      let rightbox = document.getElementById('rightbox');
-                      rightbox.innerHTML = '';
-                      let alertDiv = document.createElement('div');
-                      alertDiv.innerHTML = '未開放觀看成績';
-                      alertDiv.style = 'text-align:center;';
-                      alertDiv.className = 'col-sm-12 alert alert-warning';
-                      rightbox.appendChild(alertDiv);
-
-                    }
-                    isSubmited++;
-                }
-            }
-            if (isSubmited == 0) {
-                let rightbox = document.getElementById('rightbox');
-                rightbox.innerHTML = '';
-                let alertDiv = document.createElement('div');
-                alertDiv.innerHTML = '您未填寫測驗';
-                alertDiv.style = 'text-align:center;';
-                alertDiv.className = 'col-sm-12 alert alert-danger';
-                rightbox.appendChild(alertDiv);
-            }
-            isSubmited = 0;*/
-        }
-
-        /*let showTestInUnit = function (unit) {
-            //console.log("-------showTestInUnit ------");
-            let unitID = unit.getAttribute('unitID');
-            nowUnit = unit;
-            //console.log("nowUnit = " + nowUnit);
-            let unitName = unit.getAttribute('unitName');
-            let unitNameField = document.getElementById('unitNameField');
-            let testList = document.getElementById('testList');
-            let studentList = document.getElementById('studentList');
-            let leftbox = document.getElementById('leftbox');
-            // console.log(unitID);
-            // console.log(unitName);
-            // console.log(tests);
-            // console.log(unitNameField);
-            // console.log(testList);
-            // console.log(studentList);
-            // console.log(leftbox);
-            // console.log("-------------");
-
-            leftbox.innerHTML = '';
-            unitNameField.innerText = unitName;
-            testList.innerHTML = '';
-            for (let i = 0; i < tests.length; i++) {
-                if (tests[i].belongUnit == unitID) {
-                    testList.innerHTML +=
-                        `<li class="unitList" onclick = 'showSubmiter("${tests[i]._id}",this)'>${tests[i].testName}</li>`
-                }
-            }
 
         }
-
-        let showTestInUnit2 = function (unitID, unitName) {
-            //console.log("-------showTestInUnit2 ------");
-            let unitNameField = document.getElementById('unitNameField');
-            let testList = document.getElementById('testList');
-            let studentList = document.getElementById('studentList');
-            let leftbox = document.getElementById('leftbox');
-            // console.log("unitID" + unitID);
-            // console.log("unitName" + unitName);
-            // console.log("tests" + tests);
-            // console.log("unitNameField" + unitNameField);
-            // console.log("testList" + testList);
-            // console.log("studentList" + studentList);
-            // console.log("leftbox" + leftbox);
-            // console.log("-------------");
-            leftbox.innerHTML = '';
-            unitNameField.innerText = unitName;
-            testList.innerHTML = '';
-            for (let i = 0; i < tests.length; i++) {
-                //console.log(tests[i].belongUnit, unitID);
-                if (tests[i].belongUnit == unitID) {
-                    testList.innerHTML +=
-                        `<li class="unitList" onclick = 'showSubmiter("${tests[i]._id}",this)'>${tests[i].testName}</li>`
-
-                }
-            }
-
-        }*/
 
         let showSubmiter = function (testID) {
             nowTest = testID;
             studentList.innerHTML = '';
-            //let leftbox = document.getElementById('leftbox');
-            //leftbox.innerHTML = '';
-            //let testList = document.getElementById('testList');
-          /*  for (let i = 0; i < testList.children.length; i++) {
-                if (testList.children[i] == e) {
-                    nowE = i;
-                }
-                testList.children[i].style.cssText = "background:rgb(150, 216, 168)";
-            }*/
-            //e.style.cssText = "background:rgb(194, 190, 190)";
             let totalSubmitter = 0;
             for (let i = 0; i < studentSubmits.length; i++) {
                 let submiterName = ''
@@ -323,8 +202,10 @@
                     }
                 }
             }
+
             if(totalSubmitter == 0){
-                studentList.innerHTML = "<p style = 'text-align:center'>還沒有人提交測驗喔!</p>"
+                studentList.innerHTML = "<p class='col-sm-12 alert alert-danger' style ='text-align:center;'>還沒有人提交測驗喔!</p>"
+
             }
         }
         let showSubmiter2 = function (testID, e) {
@@ -954,7 +835,6 @@ ${qution.outputExample}
             nowSubmiterName = localStorage.getItem("nowSubmiterName");
             nowStudent = localStorage.getItem("nowStudent");
             nowTest = localStorage.getItem("nowTest");
-            //console.log(nowUnit);
 
             /*if (nowUnit != undefined && nowE != undefined && nowSubmiterName != undefined && nowStudent !=
                 undefined && nowTest != undefined) {
@@ -983,8 +863,19 @@ ${qution.outputExample}
                     selectQuiz.options[testLength++] = new Option(tests[i].testName, tests[i]._id);
                 }
             }
+            if(testLength==0){
+                let rightbox = document.getElementById('leftbox');
+                rightbox.innerHTML='';
+                let alertDiv = document.createElement('div');
+                alertDiv.innerHTML='此單元尚未建立測驗';
+                alertDiv.style='text-align:center; margin-top:10px;';
+                alertDiv.className='col-sm-12 alert alert-danger';
+                rightbox.appendChild(alertDiv);
+            }else{
+                onchangeQuiz(nowTest);
+            }
             selectQuiz.length = testLength;
-            onchangeQuiz(nowTest);
+
 
 
             let showDataBtn = document.getElementById('showDataBtn');
