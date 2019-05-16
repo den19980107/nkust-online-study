@@ -13,11 +13,11 @@
     -webkit-transition: .2s;
     transition: opacity .2s;
   }
-  
+
   .slider:hover {
     opacity: 1;
   }
-  
+
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -26,7 +26,7 @@
     background: rgb(230, 65, 54);
     cursor: pointer;
   }
-  
+
   .slider::-moz-range-thumb {
     width: 10px;
     height: 10px;
@@ -194,7 +194,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <%}%>                    
+                                    <%}%>
                                 </div>
                                 <div class="">
                                     <p style="width: 100%;word-wrap:break-word;padding-right: 5px;">
@@ -231,9 +231,9 @@
             <div class="bottom-nav">
                 <div class="w-100 bg-dark" style="height: 3rem;position: absolute;bottom: 0px;display: flex;justify-content: center">
                 </div>
-                <img src="/img/addbtn.png" onclick="createNewNote()" style="height: 3rem;position: absolute;bottom: 0.7rem;left: 50%;margin-left: -1.5rem">
-                <i class="fas fa-list fa-1x" onclick="showNoteList()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 25%;margin-left: -1.5rem"></i>
-                <i class="fas fa-save fa-1x" onclick="saveNote()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 75%;margin-left: 1rem"></i>
+                <img src="/img/addbtn.png" onclick="createNewNote()" style="height: 3rem;position: absolute;bottom: 0.7rem;left: 50%;margin-left: -1.5rem;cursor:pointer">
+                <i class="fas fa-list fa-1x" onclick="showNoteList()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 25%;margin-left: -1.5rem;cursor:pointer"></i>
+                <i class="fas fa-save fa-1x" onclick="saveNote()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 75%;margin-left: 1rem;cursor:pointer"></i>
             </div>
         </div>
         <%}%>
@@ -247,7 +247,7 @@
 <script>
     let user = <%- JSON.stringify(user)%>;
     //console.log(user);
-    
+
     let notes = <%- JSON.stringify(notes) %>
     let recommandVideo = <%- JSON.stringify(recommandVideo) %>;
     let videoinfo = <%- JSON.stringify(video) %>;
@@ -262,7 +262,7 @@
             `
         }
     }
-    
+
 
     notes.sort(function (a, b) {
         // Turn your strings into dates, and then subtract them
@@ -320,7 +320,7 @@
                 // 'fs': 0, //全屏按鈕，0:隱藏，1:顯示(默認)
                 // 'iv_load_policy': 3, //影片註釋，1:顯示(默認)，3:不顯示
                 // 'rel': 0, //顯示相關視頻，0:不顯示，1:顯示(默認)
-                // 'modestbranding': 1, //YouTube標籤，0:顯示(默認)，1:不顯示    
+                // 'modestbranding': 1, //YouTube標籤，0:顯示(默認)，1:不顯示
                 // 'playsinline': 1 //在iOS的播放器中全屏播放，0:全屏(默認)，1:內嵌
             }
         });
@@ -448,10 +448,10 @@
         });
 
 
-        slider.onchange = function () { 
+        slider.onchange = function () {
             //console.log(slider.value);
             //console.log(nowtime);
-            
+
             let beginTime = nowtime;
             player.seekTo(slider.value);
             //console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
@@ -552,27 +552,27 @@
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                     `
@@ -645,7 +645,7 @@
             },
         });
 
-        
+
     }
 
     function controlVideo(e) {
@@ -797,27 +797,27 @@
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                     `
@@ -934,27 +934,27 @@
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                         <a class="list-group-item list-group-item-action mb-2 note" style="background:none;border:none">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
-                                    
+
                                 </h5>
                                 <small>
-                                        
+
                                     </small>
                             </div>
                             <p class="mb-1 p2">
-                               
+
                             </p>
                         </a>
                     `
