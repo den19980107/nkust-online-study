@@ -1,4 +1,5 @@
 <% include layout/navbar %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <style>
     html, body {
         height: 100%;
@@ -130,8 +131,15 @@
     width: 1px;
     white-space: nowrap;
 }
-
+hr{
+  margin-top:0px;
+}
 </style>
+<div style="margin:0px 15px;">
+<a href="/class/<%=units[0].belongClass%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程資訊頁面</i></a>
+<h3 style="font-family:微軟正黑體">影片觀看情況</h3>
+<hr>
+</div>
 <div id ="line-loader" class="linear-activity w-100 pt-0 pb-0 mb-0" style="display: none;margin-top: -0.7rem">
     <div class="indeterminate"></div>
 </div>
@@ -152,10 +160,10 @@
             <%})%>
         </ul>
     </div>
-    
+
     <div class="col-lg-10 col-sm-12 videos" style="overflow-x: scroll" >
         <table class="table" id= "videoTable">
-            
+
         </table>
     </div>
 </div>
