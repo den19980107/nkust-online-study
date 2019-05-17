@@ -4,6 +4,12 @@
     .banner a:hover{
       color:#DDD;
   }
+  
+  @media only screen and (max-width:400px){
+    .hideInMobile{
+      display: none;
+    }
+  }
 </style>
 <div>
     <span style="font-size:30px;">待審核名單</span>
@@ -32,10 +38,10 @@
               </div>
             </th>
             <th class="text-center" scope="col" width="10%">姓名</th>
-            <th class="text-center" scope="col" width="17%">科系</th>
+            <th class="text-center hideInMobile" scope="col" width="17%">科系</th>
             <th class="text-center" scope="col" width="15%">學號</th>
-            <th class="text-center" scope="col" width="15%">信箱</th>
-            <th class="text-center" scope="col" width="30%">個人網頁</th>
+            <th class="text-center hideInMobile" scope="col" width="15%">信箱</th>
+            <th class="text-center hideInMobile" scope="col" width="30%">個人網頁</th>
         </tr>
     </thead>
     <tbody>
@@ -51,16 +57,16 @@
             <td class="text-center">
                 <%=user.name%>
             </td>
-            <td class="text-center">
+            <td class="text-center hideInMobile">
                 <%=user.department%>
             </td>
             <td class="text-center">
                 <%=user.studentid%>
             </td>
-            <td class="text-center">
+            <td class="text-center hideInMobile">
                 <a href="mailto:<%=user.email%>">電子信箱Email</a>
             </td>
-            <td class="text-center">
+            <td class="text-center hideInMobile">
                 <a href="/class/<%=classID%>/showClassmateInfo/<%=user._id%>">個人網頁Personal WebPage</a>
             </td>
         </tr>

@@ -5,6 +5,12 @@
   .banner a:hover {
     color: #DDD;
   }
+  
+  @media only screen and (max-width:400px){
+    .hideInMobile{
+      display: none;
+    }
+  }
 </style>
 <a href="/class/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程資訊頁面</i></a>
 <div>
@@ -70,10 +76,10 @@
       </th>
       <%}%>
       <th class="text-center" scope="col" width="7%">姓名</th>
-      <th class="text-center" scope="col" width="18%">科系</th>
+      <th class="text-center hideInMobile" scope="col" width="18%">科系</th>
       <th class="text-center" scope="col" width="15%">學號</th>
-      <th class="text-center" scope="col" width="15%">信箱</th>
-      <th class="text-center" scope="col" width="20%">個人網頁</th>
+      <th class="text-center hideInMobile" scope="col" width="15%">信箱</th>
+      <th class="text-center hideInMobile" scope="col" width="20%">個人網頁</th>
     </tr>
   </thead>
   <tbody>
@@ -102,16 +108,16 @@
       <td class="text-center">
         <%=usersss.name%>
       </td>
-      <td class="text-center">
+      <td class="text-center hideInMobile">
         <%=usersss.department%>
       </td>
       <td class="text-center">
         <%=usersss.studentid%>
       </td>
-      <td class="text-center">
+      <td class="text-center hideInMobile">
         <a href="mailto:<%=usersss.email%>">電子信箱Email</a>
       </td>
-      <td class="text-center">
+      <td class="text-center hideInMobile">
         <a href="/class/<%=classID%>/showClassmateInfo/<%=usersss._id%>">個人網頁Personal WebPage</a>
       </td>
     </tr>
