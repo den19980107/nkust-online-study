@@ -141,7 +141,8 @@ router.get('/user/:uid/comment/chapter/:cid/body/:body', ensureAuthenticated, fu
     scc.chapterID = chapterID;
     scc.body = body;
     let d = new Date();
-    scc.commentTime = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+    let month =parseInt(d.getMonth())+1
+    scc.commentTime = d.getFullYear() + '/' + month+ '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
     scc.save(function (err) {
         if (err) {
@@ -171,7 +172,8 @@ router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, func
     scv.body = body;
     scv.userName = userName;
     let d = new Date();
-    scv.commentTime = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+    let month =parseInt(d.getMonth())+1
+    scv.commentTime = d.getFullYear() + '/' + month + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
     //console.log("scv = " + scv);
 
@@ -206,7 +208,8 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuth
     sca.body = body;
     sca.userName = userName;
     let d = new Date();
-    sca.commentTime = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+    let month =parseInt(d.getMonth())+1
+    sca.commentTime = d.getFullYear() + '/' + month + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
     //console.log("sca = " + sca);
 
