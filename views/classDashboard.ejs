@@ -99,7 +99,7 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12">
                 <div class="row container m-0 p-0 mb-2">
-                    <div id="titleDIV" style="display: flex;justify-content:start;height: 36px;" class="w-100">
+                    <div id="titleDIV" style="display: flex;justify-content:start;height: 36px;" class="w-100" title="<%=classinfo.className%>">
                         <h5 class="scrollText" id="title" style="display: inline-block;">
                             課程名稱：
                             <%=classinfo.className%>
@@ -128,7 +128,7 @@
                             <form method="POST" action="/class/changeClassImg/<%=classinfo._id%>" id="form" enctype="multipart/form-data">
                                 <input id="file" type="file" name="classImg" style="display:none;" />
                                 <input class="btn btn-primary" type="button" value="編輯" onclick="document.getElementById('file').click();" style="position: absolute;right: 0;"></input>
-                            </form>   
+                            </form>
                         <%}%>
                     </div>
                 </div>
@@ -140,8 +140,8 @@
                             <form method="POST" action="/class/changeClassImg/<%=classinfo._id%>" id="form" enctype="multipart/form-data">
                                 <input id="file" type="file" name="classImg" style="display:none;" />
                                 <input class="btn btn-primary" type="button" value="編輯" onclick="document.getElementById('file').click();" style="position: absolute;right: 0;"></input>
-                            </form>                      
-                        <%}%>                    
+                            </form>
+                        <%}%>
                     </div>
                 </div>
                 <%}%>
