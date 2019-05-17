@@ -697,8 +697,8 @@
                             <tr>
                             <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
-                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/mqdefault.jpg" style="width:12rem;height:6.75rem;border:1px solid black"></img>
-                                    <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
+                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/mqdefault.jpg" style="width:12rem;height:6.75rem;border:1px solid black;cursor:pointer"></img>
+                                    <span class="videoName" style="margin-left:1rem;;cursor:pointer">${response.videos[i].videoName}</span>
                                 </div>
                             </td>
                             <td>${date}</td>
@@ -728,8 +728,8 @@
                             <tr>
                             <td onclick="window.location='/class/showVideo/${response.videos[i]._id}'">
                                 <div style="display:flex">
-                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/mqdefault.jpg" style="width:12rem;height:6.75rem"></img>
-                                    <span class="videoName" style="margin-left:1rem">${response.videos[i].videoName}</span>
+                                    <img src="https://img.youtube.com/vi/${response.videos[i].videoURL}/mqdefault.jpg" style="width:12rem;height:6.75rem;cursor:pointer"></img>
+                                    <span class="videoName" style="margin-left:1rem;cursor:pointer">${response.videos[i].videoName}</span>
                                 </div>
                             </td>
                             <td>${date}</td>
@@ -817,7 +817,7 @@
                 for (let i = 0; i < chapters.length; i++) {
                     videoTable.innerHTML += `
                     <div class="card mt-3 mr-3" style="width: 12rem;height:16.97rem;">
-                        <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" >
+                        <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" title="${chapters[i].chapterName}">
                             <div style="display:flex;justify-content: space-between">
                                 <i class="fas fa-file-alt" style="padding:0.5rem;font-size:22px;color:rgb(83,132,246)"></i>
                                 <div class="dropdown" style="display:${isDisplay}">
@@ -828,9 +828,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <p style="margin:0;padding:0.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${chapters[i].chapterName}</p>
+                            <p style="margin:0;padding:0.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;cursor:default">${chapters[i].chapterName}</p>
                         </div>
-                        <div class="card-body p-2" style="height:11.8rem;background: linear-gradient(rgb(250,250,250) 10%,white 90%);" onclick = "window.location = '/class/showChapter/${chapters[i]._id}'">
+                        <div class="card-body p-2" style="height:11.8rem;background: linear-gradient(rgb(250,250,250) 10%,white 90%);cursor:pointer" onclick = "window.location = '/class/showChapter/${chapters[i]._id}'">
                             <div class="card-text h-100" style="width:100%;height:95%;overflow:hidden;font-size:1px">${chapters[i].body}</div>
                         </div>
                     </div>
@@ -888,7 +888,7 @@
                 for (let i = 0; i < tests.length; i++) {
                     videoTable.innerHTML += `
                     <div class="card mt-3 mr-3" style="width: 12rem;height:16.97rem;">
-                        <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" >
+                        <div style="height:5rem;display:flex;justify-content: center;flex-direction:column;text-align:left;border-bottom:1px solid rgb(200,200,200)" title="${tests[i].testName}">
                             <div style="display:flex;justify-content: space-between">
                                 <i class="fas fa-pen-alt" style="padding:0.5rem;font-size:22px;color:black"></i>
                                 <div class="dropdown" style="display:${isDisplay2}">
@@ -899,9 +899,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <p style="margin:0;padding:0.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${tests[i].testName}</p>
+                            <p style="margin:0;padding:0.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;cursor:default">${tests[i].testName}</p>
                         </div>
-                        <div class="card-body p-2" style="height:11.8rem;background: linear-gradient(rgb(250,250,250) 10%,white 90%);" onclick = "window.location = '/class/showTest/${tests[i]._id}'">
+                        <div class="card-body p-2" style="height:11.8rem;background: linear-gradient(rgb(250,250,250) 10%,white 90%);cursor:pointer" onclick = "window.location = '/class/showTest/${tests[i]._id}'">
                             <div class="card-text h-100" style="width:100%;height:95%;overflow:hidden;white-space:nowrap;display: flex;justify-content: center;flex-direction: column;text-align: center;font-size:5rem;color:rgb(246,194,155)"><i class="fas fa-align-left"></i></div>
                         </div>
                     </div>
