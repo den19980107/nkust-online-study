@@ -27,12 +27,12 @@
 
 <hr>
 <nav class="navbar navbar-light ">
-    <form class="form-inline">
-        <div style="display: flex;justify-content: space-between">
-            <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success " type="submit">Search</button>
-        </div>
-    </form>
+    <!--<form class="form-inline mb-0 w-50">-->
+      <div class="w-50" style="display: flex;justify-content: space-between">
+          <input class="form-control mr-2 w-100" type="search" placeholder="欲搜尋文章名稱" aria-label="Search" id="searchname">
+          <button class="btn btn-outline-success " type="submit" onclick="searcharticles()">搜尋</button>
+      </div>
+    <!--</form>-->
     <div class="float-left">
         <button style="margin-right: 5px;" type="button" class="btn btn-success my-2 my-sm-0" data-toggle="modal"
             data-target=".bd-example-modal-lg">
@@ -92,8 +92,9 @@
 <hr>
 
 <div class="list-group" id="list">
+    <%listtemp = 0%>
     <%articles.forEach(function(article){%>
-    <a href="/articles/<%=article._id%>/inClass/<%=belongclass%>" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="/articles/<%=article._id%>/inClass/<%=belongclass%>" class="list-group-item list-group-item-action flex-column align-items-start" id="articlelist<%=listtemp%>">
         <div class="row">
             <div class="col-1">
                 <img src="https://image.flaticon.com/icons/svg/265/265674.svg" class="img-fluid" alt="Responsive image">
@@ -101,7 +102,7 @@
                     <%=article.author%>
                 </small>
             </div>
-            <div class="col-9">
+            <div class="col-11">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
                         <%=article.title%>
@@ -120,30 +121,9 @@
                 <small class="text-muted">
                     <%=article.commentsNumber%>則回覆</small>
             </div>
-            <div class="col-1">
-                <div class="row">
-                    <div class="col">
-                        <p class="text-center">Like</p>
-
-                    </div>
-                    <div class="col">
-                        <h5 class="text-center">13</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-1">
-                <div class="row">
-                    <div class="col">
-                        <p class="text-center">View</p>
-
-                    </div>
-                    <div class="col">
-                        <h5 class="text-center">20</h5>
-                    </div>
-                </div>
-            </div>
         </div>
     </a>
+    <%listtemp++%>
     <%})%>
 
 </div>
@@ -188,6 +168,46 @@
             }
         ]
     });
+
+    let searcharticles = function(){
+      let searchname = document.getElementById("searchname").value;
+      console.log(searchname);
+      let article = <%-JSON.stringify(articles)%>;
+      for(let i=0;i<article.length;i++){
+        let searchlength = false;
+        for(let j=0;j<article[i].title.length;j++){
+          //等於第一個字
+          if(searchname[0] == article[i].title[j]){
+            let temp = j;
+            searchlength = true;
+            for(let z=1;z<searchname.length;z++){
+              if(searchname[z] != article[i].title[temp+z]){
+                searchlength = false;
+                break;
+              }else{
+                searchlength = true;
+              }
+            }
+          }
+          //比對成功
+          if(searchlength == true){
+            break;
+          }
+        }
+        if(searchname == ""){
+          let articleid = document.getElementById("articlelist"+i);
+          articleid.style.display = "block";
+        }else{
+          if(searchlength == true){
+            let articleid = document.getElementById("articlelist"+i);
+            articleid.style.display = "block";
+          }else{
+            let articleid = document.getElementById("articlelist"+i);
+            articleid.style.display = "none";
+          }
+        }
+      }
+    }
 </script>
 
 <% include layout/footer %>
