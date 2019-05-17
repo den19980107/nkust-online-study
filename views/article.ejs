@@ -52,9 +52,9 @@
                 <textarea style="display: none" id="hidedata">
                     <%=article.body%>
                 </textarea>
-                <p id="Detail">
-                    <%=article.body%>
-                </p>
+                <div id="Detail">
+
+                </div>
                 <br>
                 <!-- <button id="likeBtn" class="btn btn-primary">Like</button> -->
                 <!--<span id="likenumber">0</span> -->
@@ -154,30 +154,30 @@
 <script>
     let hidedata = document.getElementById('hidedata');
 
-    CKEDITOR.replace('Detail', {
-        height: 600,
-        on: {
-            instanceReady: function (evt) {
-                // Hide the editor top bar.
-                document.getElementById('cke_1_top').style.display = 'none';
-            }
-        },
-        readOnly: true,
-        removePlugins: 'resize'
-    });
-    var text = hidedata.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
-    CKEDITOR.instances.Detail.setData(text);
+    // CKEDITOR.replace('Detail', {
+    //     height: 600,
+    //     on: {
+    //         instanceReady: function (evt) {
+    //             // Hide the editor top bar.
+    //             document.getElementById('cke_1_top').style.display = 'none';
+    //         }
+    //     },
+    //     readOnly: true,
+    //     removePlugins: 'resize'
+    // });
+    // var text = hidedata.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
+    // CKEDITOR.instances.Detail.setData(text);
 
-    CKEDITOR.on('instanceReady', function (ev) {
-        editor = ev.editor;
-        toggleReadOnly(true);
-    });
+    // CKEDITOR.on('instanceReady', function (ev) {
+    //     editor = ev.editor;
+    //     toggleReadOnly(true);
+    // });
 
-    function toggleReadOnly(isReadOnly) {
-        // Change the read-only state of the editor.
-        // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setReadOnly
-        editor.setReadOnly(isReadOnly);
-    }
+    // function toggleReadOnly(isReadOnly) {
+    //     // Change the read-only state of the editor.
+    //     // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_editor.html#method-setReadOnly
+    //     editor.setReadOnly(isReadOnly);
+    // }
     window.onload = function () {
         $('.delete-article').on('click', function (e) {
             $target = $(e.target);
@@ -195,7 +195,10 @@
                 }
             });
         })
-
+        let hidedata = document.getElementById('hidedata');
+        let text = hidedata.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
+        console.log(text)
+        document.getElementById('Detail').innerHTML = text
 
         let replyInput = document.getElementById('replyInput');
         let submitComment = document.getElementById('submitComment');
