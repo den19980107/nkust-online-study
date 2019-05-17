@@ -839,10 +839,12 @@
             selectedTimeDiv.appendChild(div);
         }
     }
-
-    document.getElementById("file").onchange = function() {
-        document.getElementById("form").submit();
-    };
+    let fileBtn = document.getElementById("file");
+    if(fileBtn!=null){
+      fileBtn.onchange = function() {
+          document.getElementById("form").submit();
+      };
+    }
 
     function deleteChooseTime(e) {
         chooseClassTime.pop(parseInt(e.getAttribute("index")));
