@@ -1125,19 +1125,19 @@
     //    the player should play for six seconds and then stop.
     var slider = document.getElementById('slider');
     var slidermark = document.getElementById('slidermark');
-    console.log("!!!!!!!!!");
-    console.log(slidermark);
-    console.log(slider);
+    // console.log("!!!!!!!!!");
+    // console.log(slidermark);
+    // console.log(slider);
     var done = false;
     slider.onmousedown = function(){
-      console.log("clickvalue = "+slider.value);
+      //console.log("clickvalue = "+slider.value);
     }
     slider.onchange = function () {
-      console.log(slider.value);
-      console.log(nowtime);
+    //   console.log(slider.value);
+    //   console.log(nowtime);
       let beginTime = nowtime;
       SelectFocalPointPlayer.seekTo(slider.value);
-      console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
+    //   console.log("seek from:" + Math.floor(beginTime) + " to:" + Math.floor(slider.value));
       let play = "fas fa-play mr-2";
       let isplay = document.getElementById('PlayPauseBtn');
      }
@@ -1146,7 +1146,7 @@
      let slidermarkonclick = function () {
        slidermarktime = slidertemp;
        slidertemp = slidermark.value;
-       console.log("startime:"+slidermark.value);
+    //    console.log("startime:"+slidermark.value);
        let beginTime = nowtime;
        SelectFocalPointPlayer.seekTo(slidermark.value);
        let play = "fas fa-play mr-2";
@@ -1157,7 +1157,7 @@
     }
 
     let showRFM = function(a,b,r,focusPoint){
-        console.log(a,b,r,focusPoint);
+        // console.log(a,b,r,focusPoint);
         let data = {
             a:a,
             b:b,
@@ -1227,9 +1227,9 @@
                         Mmin = response[i].M
                     }
                 }
-                console.log("Rmax = ",Rmax,"Rmin = ",Rmin);
-                console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
-                console.log("Mmax = ",Mmax,"Mmin = ",Mmin);
+                // console.log("Rmax = ",Rmax,"Rmin = ",Rmin);
+                // console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
+                // console.log("Mmax = ",Mmax,"Mmin = ",Mmin);
                 const map = (num, in_min, in_max, out_min, out_max) => {
                     if(in_min == in_max){
                         return in_min
@@ -1263,7 +1263,7 @@
                     let data = [R[i],F[i],M[i]];
                     myData.push(data)
                 }
-                console.log(myData);
+                // console.log(myData);
                 let dataAndName = []
                 for(let i =0;i<myData.length;i++){
                     dataAndName.push({
@@ -1713,8 +1713,8 @@
             min = '0' + min
         }
         let videoTime = document.getElementById('videoTime');
-        console.log(videoTime);
-        console.log("hr min sec = "+hr+" "+min+" "+sec);
+        // console.log(videoTime);
+        // console.log("hr min sec = "+hr+" "+min+" "+sec);
         videoTime.innerText = hr + ':' + min + ':' + sec
     }, 1000);
 
@@ -1723,9 +1723,9 @@
     var emphasis = emphasis || {};
     var pointnumber = 0;
     $('#slidermark').dblclick(function(){
-        console.log("endtime:"+slidermark.value);
+        // console.log("endtime:"+slidermark.value);
         let beginTime = slidermarktime;
-        console.log("seek from2:" + Math.floor(beginTime) + " to:" + Math.floor(slidermark.value));
+        // console.log("seek from2:" + Math.floor(beginTime) + " to:" + Math.floor(slidermark.value));
         let maxvalue = document.getElementById("slider").max;
         let startslider = Number(beginTime)/Number(maxvalue)*100;
         let endslider = Number(slidermark.value)/Number(maxvalue)*100;
@@ -1740,25 +1740,25 @@
           startslider = Number(slidermark.value)/Number(maxvalue)*100;
           $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#f6b128;width:`+rangeslider+`%;height:20px;" onclick="deleteslidermark(this)"><div>`)
             emphasis = {start:Number(slidermark.value),stop:Number(beginTime),pointnumber:pointnumber}
-            console.log(emphasis);
+            // console.log(emphasis);
             allFocusPoint.push(emphasis);
             confirmallFocusPoint();
             pointnumber ++;
-            console.log(allFocusPoint);
+            // console.log(allFocusPoint);
         }else{
           emphasis = {start:Number(beginTime),stop:Number(slidermark.value),pointnumber:pointnumber}
-          console.log(emphasis);
+        //   console.log(emphasis);
           allFocusPoint.push(emphasis);
           confirmallFocusPoint();
           pointnumber ++;
-          console.log(allFocusPoint);
+        //   console.log(allFocusPoint);
         }
     });
     let confirmallFocusPoint = function(){
         //排序
         for(let isort=0;isort<allFocusPoint.length;isort++){
           for(let jsort=0;jsort<allFocusPoint.length-isort-1;jsort++){
-            console.log(allFocusPoint[jsort].start);
+            // console.log(allFocusPoint[jsort].start);
             if(allFocusPoint[jsort].start > allFocusPoint[jsort+1].start){
               let temp;
               temp = allFocusPoint[jsort];
