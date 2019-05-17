@@ -219,9 +219,9 @@
                 <div class="bottom-nav">
                     <div class="w-100 bg-dark" style="height: 3rem;position: absolute;bottom: 0px;display: flex;justify-content: center">
                     </div>
-                    <img src="/img/addbtn.png" onclick="createNewNote()" style="height: 3rem;position: absolute;bottom: 0.7rem;left: 50%;margin-left: -1.5rem;cursor:pointer">
-                    <i class="fas fa-list fa-1x" onclick="showNoteList()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 25%;margin-left: -1.5rem;cursor:pointer"></i>
-                    <i class="fas fa-save fa-1x" onclick="saveNote()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 75%;margin-left: 1rem;cursor:pointer"></i>
+                    <img src="/img/addbtn.png" onclick="createNewNote()" style="height: 3rem;position: absolute;bottom: 0.7rem;left: 50%;margin-left: -1.5rem;cursor:pointer" title="新增筆記">
+                    <i class="fas fa-list fa-1x" onclick="showNoteList()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 25%;margin-left: -1.5rem;cursor:pointer" title="回到列表"></i>
+                    <i class="fas fa-save fa-1x" onclick="saveNote()" style="height: 3rem;color: white;position: absolute;bottom: -1rem;left: 75%;margin-left: 1rem;cursor:pointer" title="儲存"></i>
                 </div>
             </div>
         </div>
@@ -439,6 +439,7 @@
             title: "無標題",
             body: ""
         }
+        let responsedisplay;
         //console.log(note);
         $.ajax({
             url: '/users/note/createNote',
@@ -456,7 +457,9 @@
             },
             success: function (response) {
                 //console.log(response);
-
+                responsedisplay = response[0]._id;
+                // console.log(response);
+                // console.log(response[0]._id);
                 let noteList = document.getElementById('noteList');
                 noteList.innerHTML = '';
                 for (let i = 0; i < response.length; i++) {
@@ -506,16 +509,18 @@
                             </p>
                         </a>
                     `
+                    //showNote(responsedisplay);
             },
             error: function (err) {
                 alert('錯誤訊息：' + err);
             }
         });
+        showNoteList();
     }
 
 
     let showNote = function (noteID) {
-        //console.log(noteID);
+        console.log(noteID);
         let note = document.getElementById('noteView');
         note.style.cssText = "display:block"
         let noteList = document.getElementById('noteList');
