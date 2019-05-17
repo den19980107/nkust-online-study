@@ -156,7 +156,7 @@ router.get('/login', function (req, res) {
     if(req.url.split('/').length>2){
         let url = req.url.split('/')[2].replace("?r=","");
         //console.log("haveNext url = "+url);
-        
+
         res.render('login',{
             nextURL:url.replace(new RegExp('%2F', 'g'),'/')
         });
@@ -172,7 +172,7 @@ router.get('/login', function (req, res) {
 router.post('/login', function (req, res, next) {
     //console.log(req.body);
     req.checkBody('username', '帳號未填寫').notEmpty();
-    req.checkBody('password', '密碼未填寫').notEmpty(); 
+    req.checkBody('password', '密碼未填寫').notEmpty();
     let errors = req.validationErrors();
     //console.log(errors);
     if (errors) {
@@ -186,7 +186,7 @@ router.post('/login', function (req, res, next) {
             //console.log(req.body.nextURL)
             successRedirectURL = req.body.nextURL
             //console.log("successRedirectURL = ",successRedirectURL);
-            
+
             passport.authenticate('local', {
                 successRedirect: successRedirectURL,
                 failureRedirect: '/users/login/?r='+successRedirectURL.replace(new RegExp('/', 'g'),'%2F'),
@@ -202,7 +202,7 @@ router.post('/login', function (req, res, next) {
     }
 });
 
-//User info 
+//User info
 router.get('/userinfo', ensureAuthenticated, function (req, res) {
     res.render('userinfo', {
         authenticate: true
@@ -210,7 +210,7 @@ router.get('/userinfo', ensureAuthenticated, function (req, res) {
 });
 
 
-//Logout 
+//Logout
 router.get('/logout', function (req, res) {
     req.logout();
     req.flash('success', '您已登出！');
@@ -265,7 +265,8 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
             if (err) {
                 console.log(err);
             }
-            //console.log(classes);
+            // console.log("class = ");
+            // console.log(classes);
             let findClassInfoQuery = [];
             for (let i = 0; i < classes.length; i++) {
                 findClassInfoQuery.push(ObjectID(classes[i].classID));
@@ -276,9 +277,12 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
                 if (err) {
                     console.log(err);
                 }
+
                 res.render("myclass", {
                     title: "個人修課清單",
-                    classes: classesInfo
+                    classesInfo: classesInfo,
+                    classes:classes
+
                 })
             })
 
@@ -293,7 +297,7 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
             }
             res.render("myclass", {
                 title: "個人開課清單",
-                classes: classes
+                classesInfo: classes
             })
         })
     }
@@ -421,7 +425,7 @@ function ensureAuthenticated(req, res, next) {
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
       //console.log("inuser ensure = "+nextURL);
       //console.log("url = /users/login/?r="+nextURL);
-      
+
       res.redirect('/users/login/?r='+nextURL);
     }
 }
