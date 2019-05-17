@@ -80,7 +80,7 @@
                                 <%}%>
                             </th>
                             <th scope="row">
-                                <%=i%>
+                                <%=i+1%>
                             </th>
                             <td>
                                 <a href="/coding/showCodingQution/<%=qutions[i]._id%>"><%=qutions[i].title%></a>
@@ -124,14 +124,13 @@
                 <div style="width: 100%;height: 18rem;border: 1px solid rgb(235, 235, 235);border-radius: 5px">
                     <canvas id="myChart" style="width: 100%;height: 15rem;"></canvas>
                     <div style="width: 100%;height: 3rem;display: flex;justify-content: space-around">
-                        <p id = "finish" style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(70, 120, 178)"></p>
-                        <p id = "notfinish"  style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(97, 158, 85)"></p>
-                        <p id = "last"  style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(224, 184, 104)"></p>
+                        <p id = "finish" style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(97, 158, 85)"></p>
+                        <p id = "last"  style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(224, 15, 15)"></p>
                     </div>
                 </div>
                 <h5 class="mt-4">最近提交紀錄</h5>
                 <div class="mt-2"style="width: 100%;height: 18rem;" id = "submitRecord">
-                
+
                 </div>
             </div>
         </div>
@@ -151,15 +150,15 @@
         qutions[i].isWritten = "Not";
         qutions[i].acceptTime = 0;
     }
-    for (let i = 0; i < qutions.length; i++) {  
+    for (let i = 0; i < qutions.length; i++) {
         for (let j = 0; j < myRecord.length; j++) {
             if (qutions[i]._id == myRecord[j].codingQutionID) {
                 qutions[i].submitTime += 1;
                 if (myRecord[j].status == "Accepted") {
                     qutions[i].acceptTime += 1;
                 }
-                
-                if (myRecord[j].status == "Accepted") {    
+
+                if (myRecord[j].status == "Accepted") {
                     if (qutions[i].isWritten == "Not" || qutions[i].isWritten == "Wrong") {
                         qutions[i].isWritten = "Right"
                     }
@@ -169,7 +168,7 @@
                         qutions[i].isWritten = "Wrong"
                     }
                 }
-                
+
             }
         }
     }
@@ -180,12 +179,9 @@
     }
 
     let finish = document.getElementById('finish');
-    let notfinish = document.getElementById('notfinish');
     let last = document.getElementById('last');
-    //console.log(finish,notfinish,last);
-    
+
     finish.innerHTML = "已完成："+totalRight;
-    notfinish.innerHTML = "未完成："+ qutions.length;
     last.innerHTML = "待解決："+ (qutions.length - totalRight);
     //console.log("totalRight = ",totalRight);
     //console.log("totalQuestion = ",qutions.length);
@@ -196,7 +192,7 @@
         labels:['已完成','待解決'],
         datasets: [{
             data: [totalRight, qutions.length-totalRight],
-            backgroundColor: ['rgb(100, 201, 99)','rgb(223, 100, 106)',]
+            backgroundColor: ['rgb(52, 191, 73)','rgb(255, 76, 76)',]
         }]
     };
     var myDoughnutChart = new Chart(ctx, {
