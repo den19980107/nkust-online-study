@@ -104,7 +104,12 @@
                         <%=article.title%>
                     </h5>
                     <span class="text-muted">
-                        <%=article.postTime%></span>
+                        <%let postDate=article.postTime.split(" ")[0]%>
+                        <%let postTime=article.postTime.split(" ")[1]%>
+                        <%postDate=postDate.split("/")[2]+"/"+postDate.split("/")[1]+"/"+postDate.split("/")[0]%>
+                        <%article.postTime = postDate+" "+postTime%>
+                        <%=article.postTime%>
+                    </span>
                 </div>
                 <p class="mb-1">
                     <%=article.body%>

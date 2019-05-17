@@ -45,6 +45,10 @@
                         </a>
                         <%if(typeof(article.postTime)!=undefined){%>
                         <span>
+                            <%let postDate=article.postTime.split(" ")[0]%>
+                            <%let postTime=article.postTime.split(" ")[1]%>
+                            <%postDate=postDate.split("/")[2]+"/"+postDate.split("/")[1]+"/"+postDate.split("/")[0]%>
+                            <%article.postTime = postDate+" "+postTime%>
                             <%=article.postTime%>
                         </span>
                         <%}%>
