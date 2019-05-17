@@ -330,13 +330,15 @@
                     let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
                     noteList.innerHTML +=
                         `
-                        <a onclick="showNote('${response[i]._id}')" class="list-group-item list-group-item-action mb-2 note">
+                        <a onclick="showNote('${response[i]._id}')" style="cursor: pointer;" class="list-group-item list-group-item-action mb-2 note">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">
+                                <h5 class="mb-0">
                                     ${response[i].title}
                                 </h5>
                                 <small>
-                                        ${response[i].postTime}</small>
+                                        ${response[i].postTime}
+                                </small>
+                                <i class="fas fa-trash-alt" style="cursor: pointer;" onclick = "deleteNote('${response[i]._id}')"></i>
                             </div>
                             <p class="mb-1 p2">
                                 ${body}
@@ -466,13 +468,15 @@
                     let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
                     noteList.innerHTML +=
                         `
-                        <a onclick="showNote('${response[i]._id}')" class="list-group-item list-group-item-action mb-2 note">
+                        <a onclick="showNote('${response[i]._id}')" style="cursor: pointer;" class="list-group-item list-group-item-action mb-2 note">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">
+                                <h5 class="mb-0">
                                     ${response[i].title}
                                 </h5>
                                 <small>
-                                        ${response[i].postTime}</small>
+                                        ${response[i].postTime}
+                                </small>
+                                <i class="fas fa-trash-alt" style="cursor: pointer;" onclick = "deleteNote('${response[i]._id}')"></i>
                             </div>
                             <p class="mb-1 p2">
                                 ${body}
@@ -605,13 +609,15 @@
                     let body = response[i].body.replace(/<(?:.|\n)*?>/gm, '');
                     noteList.innerHTML +=
                         `
-                        <a onclick="showNote('${response[i]._id}')" class="list-group-item list-group-item-action mb-2 note">
+                        <a onclick="showNote('${response[i]._id}')" style="cursor: pointer;" class="list-group-item list-group-item-action mb-2 note">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">
+                                <h5 class="mb-0">
                                     ${response[i].title}
                                 </h5>
                                 <small>
-                                        ${response[i].postTime}</small>
+                                        ${response[i].postTime}
+                                </small>
+                                <i class="fas fa-trash-alt" style="cursor: pointer;" onclick = "deleteNote('${response[i]._id}')"></i>
                             </div>
                             <p class="mb-1 p2">
                                 ${body}
@@ -709,6 +715,35 @@
         let newLike = parseInt(likenumber.innerText)+1;
         likenumber.innerText = newLike;
         document.getElementById('likeBtn').disabled = true
+    }
+
+    let deleteNote = function(noteID){
+        if(window.confirm("確定要刪除此筆記？") == true){
+            $.ajax({
+                url: '/users/note/deleteNote/' + noteID,
+                type: 'DELETE',
+                beforeSend: function () {
+                    let loader = document.getElementById('loader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('loader');
+                    loader.style.display = "none"
+                },
+                success: function (response) {
+                    alert('刪除成功');
+                    showNoteList();
+
+                },
+                error: function (err) {
+                    alert('錯誤訊息：' + err.msg);
+                }
+            })
+        }else{
+            setTimeout(function(){
+                showNoteList();
+            },500);
+        }
     }
 </script>
 <!--  -->
