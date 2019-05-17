@@ -58,7 +58,6 @@
         margin: auto;
     }
 </style>
-
 <div class="container">
     <h3>
         <%=title%>
@@ -72,13 +71,13 @@
 
     <div class="row">
         <%if(user.permission == "teacher"){%>
-        <%for(var i=0; i<classes.length; i++){%>
-        <%if(classes[i].isLunched){%>
+        <%for(var i=0; i<classesInfo.length; i++){%>
+        <%if(classesInfo[i].isLunched){%>
         <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="card" style="width: 100%;margin-top: 20px" onclick="window.location = '/class/<%=classes[i]._id%>'">
-                <%if(classes[i].classImage){%>
+            <div class="card" style="width: 100%;margin-top: 20px" onclick="window.location = '/class/<%=classesInfo[i]._id%>'">
+                <%if(classesInfo[i].classImage){%>
                 <div class="box">
-                    <img class="img w-100" src="/class/image/<%=classes[i].classImage%>" style="border: 1px solid rgb(226, 226, 226);">
+                    <img class="img w-100" src="/class/image/<%=classesInfo[i].classImage%>" style="border: 1px solid rgb(226, 226, 226);">
                 </div>
                 <%}else{%>
                 <div class="box">
@@ -87,12 +86,12 @@
                 <%}%>
                 <div class="card-body" style="height: 13rem;border-top: 4px solid rgb(255, 160, 35)">
                     <h5 class="card-title ellipsisText" id="cardTitle">
-                        <%=classes[i].className%>
+                        <%=classesInfo[i].className%>
                     </h5>
                     <div class="card-text p2" id="cardOutline" style="height: 4.5rem">
-                        <%=classes[i].outline%>
+                        <%=classesInfo[i].outline%>
                     </div>
-                    <a href="/class/<%=classes[i]._id%>" class="btn btn-primary">查看課程</a>
+                    <a href="/class/<%=classesInfo[i]._id%>" class="btn btn-primary">查看課程</a>
 
                 </div>
             </div>
@@ -101,38 +100,41 @@
         <%}%>
 
         <%}else{%>
-        <%if(classes.length == 0){%>
+        <%if(classesInfo.length == 0){%>
         <div class="col mt-5">
             <h5 class="text-center">你還沒有修過任何課喔！快到課程頁面選擇想修的課吧！</h5>
         </div>
 
         <%}%>
-        <% for(var i=0; i<classes.length; i++) {%>
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="card" style="width: 100%;margin-top: 20px" onclick="window.location = '/class/<%=classes[i]._id%>'">
-                <%if(classes[i].classImage){%>
-                <div class="box">
-                    <img class="img w-100" src="/class/image/<%=classes[i].classImage%>" style="border: 1px solid rgb(226, 226, 226);">
-                </div>
-                <%}else{%>
-                <div class="box">
-                    <img class="img w-100" src="/img/NoImage.png" style="border: 1px solid rgb(226, 226, 226);">
-                </div>
-                <%}%>
-                <div class="card-body" style="height: 13rem;border-top: 4px solid rgb(255, 160, 35)">
-                    <h5 class="card-title ellipsisText" id="cardTitle">
-                        <%=classes[i].className%>
-                    </h5>
-                    <div class="card-text p2" id="cardOutline" style="height: 4.5rem">
-                        <%=classes[i].outline%>
+        <% for(var i=0; i<classesInfo.length; i++) {%>
+          <% for(var j=0; j<classes.length; j++) {%>
+            <%if(classesInfo[i]._id==classes[j].classID && classes[j].permission!="00000"){%>
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <div class="card" style="width: 100%;margin-top: 20px" onclick="window.location = '/class/<%=classesInfo[i]._id%>'">
+                    <%if(classesInfo[i].classImage){%>
+                    <div class="box">
+                        <img class="img w-100" src="/class/image/<%=classesInfo[i].classImage%>" style="border: 1px solid rgb(226, 226, 226);">
                     </div>
+                    <%}else{%>
+                    <div class="box">
+                        <img class="img w-100" src="/img/NoImage.png" style="border: 1px solid rgb(226, 226, 226);">
+                    </div>
+                    <%}%>
+                    <div class="card-body" style="height: 13rem;border-top: 4px solid rgb(255, 160, 35)">
+                        <h5 class="card-title ellipsisText" id="cardTitle">
+                            <%=classesInfo[i].className%>
+                        </h5>
+                        <div class="card-text p2" id="cardOutline" style="height: 4.5rem">
+                            <%=classesInfo[i].outline%>
+                        </div>
 
-                    <a href="/class/<%=classes[i]._id%>" class="btn btn-primary">查看課程</a>
+                        <a href="/class/<%=classesInfo[i]._id%>" class="btn btn-primary">查看課程</a>
 
+                    </div>
                 </div>
             </div>
-        </div>
-
+            <%}%>
+          <%}%>
         <%}%>
         <%}%>
     </div>
@@ -145,13 +147,13 @@
     <div class="row">
 
         <%if(user.permission == "teacher"){%>
-        <% for(var i=0; i<classes.length; i++) {%>
-        <%if(classes[i].isLunched != true){%>
+        <% for(var i=0; i<classesInfo.length; i++) {%>
+        <%if(classesInfo[i].isLunched != true){%>
         <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="card" style="width: 100%;margin-top: 20px" onclick="window.location = '/class/<%=classes[i]._id%>'">
-                <%if(classes[i].classImage){%>
+            <div class="card" style="width: 100%;margin-top: 20px" onclick="window.location = '/class/<%=classesInfo[i]._id%>'">
+                <%if(classesInfo[i].classImage){%>
                 <div class="box">
-                    <img class="img w-100" src="/class/image/<%=classes[i].classImage%>" style="border: 1px solid rgb(226, 226, 226);">
+                    <img class="img w-100" src="/class/image/<%=classesInfo[i].classImage%>" style="border: 1px solid rgb(226, 226, 226);">
                 </div>
                 <%}else{%>
                 <div class="box">
@@ -160,12 +162,12 @@
                 <%}%>
                 <div class="card-body" style="height: 13rem;">
                     <h5 class="card-title ellipsisText" id="cardTitle">
-                        <%=classes[i].className%>
+                        <%=classesInfo[i].className%>
                     </h5>
                     <div class="card-text p2" id="cardOutline" style="height: 4.5rem">
-                        <%=classes[i].outline%>
+                        <%=classesInfo[i].outline%>
                     </div>
-                    <a href="/class/<%=classes[i]._id%>" class="btn btn-primary">查看課程</a>
+                    <a href="/class/<%=classesInfo[i]._id%>" class="btn btn-primary">查看課程</a>
 
                 </div>
             </div>
