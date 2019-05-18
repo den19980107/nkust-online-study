@@ -24,6 +24,8 @@ let Note = require('../model/note');
 router.get('/register', function (req, res) {
     res.render('register');
 });
+//寄email的工具
+var nodemailer = require('nodemailer');
 
 //Register Process
 router.post('/register', function (req, res) {
@@ -200,6 +202,75 @@ router.post('/login', function (req, res, next) {
             })(req, res, next);
         }
     }
+});
+
+//User renewpassword
+router.get('/renewpassword/:username', function (req, res) {
+    if(req.params.username != 0){
+      res.render('confirmpassword', {
+      });
+    }else{
+      res.render('renewpassword', {
+      });
+    }
+});
+
+//User renewpassword Confirm
+router.get('/renewconfirm/:username/:email', function (req, res) {
+    console.log(req.params.username);
+    console.log(req.params.email);
+    User.find({username:req.params.username,email:req.params.email}, function (err, users) {
+      console.log(users);
+      if (err) {
+          res.send('{"error" : "要求失敗", "status" : 500}');
+      } else {
+          if(users.length == 0){
+            res.send(false);
+          }else{
+            res.send(true);
+            var transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                user: 'nkust.online.study@gmail.com',
+                pass: 'kkc060500'
+              }
+            });
+            //console.log(student.email);
+            let random = Math.round((Math.random() * 2 + 1)*1000);
+            var mailOptions = {
+              from: 'nkust.online.study@gmail.com',
+              to: req.params.email,
+              subject: 'nkust線上學習平台',
+              text: '親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\nhttps://c33f3c55.ngrok.io/users/renewpassword/' +random+ req.params.username
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                //console.log('Email sent: ' + info.response);
+              }
+            });
+          }
+      }
+    });
+});
+
+//User confirmpassword
+router.get('/confirmpassword/:password/:username', function (req, res) {
+    const password = req.params.password
+    const username = req.params.username
+    const saltRounds = 10;
+    // 加密
+    bcrypt.hash(password, saltRounds).then(function (hash) {
+      // Store hash in your password DB.
+      console.log(hash);
+      User.updateMany({username:username}, {$set: {password: hash}}, {w: 1}, function (err, result) {
+        if (err) throw err;
+        res.render('login', {
+        });
+      })
+    });
+
 });
 
 //User info
