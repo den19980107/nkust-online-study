@@ -9,6 +9,11 @@
         border: 1px solid rgb(194, 190, 190);
         width: 50%
     }
+    .alert{
+        background: white;
+        color: white;
+        border-color: white;
+    }
     @media screen and (max-width: 400px) {
       .renewDiv{
           margin-bottom: 2rem;
@@ -20,7 +25,7 @@
       }
     }
 </style>
-<div class="h-75 renewDiv m-auto" style="position:relative">
+<div class="renewDiv m-auto" style="position:relative">
   <h3>
       登入
   </h3>
@@ -45,8 +50,8 @@
       </div>
       <div class="form-group alert p-0">
       </div>
-      <input type="submit" class="btn btn-primary" value="登入" style="position:absolute;left:5%;bottom:10%">
-      <a href="/users/renewpassword/0" style="position:absolute;right:5%;bottom:10%">忘記密碼</a>
+      <input type="submit" class="btn btn-primary" value="登入" >
+      <a href="/users/renewpassword/0">忘記密碼</a>
   </form>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
 <script>
