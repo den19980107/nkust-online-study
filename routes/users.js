@@ -236,12 +236,20 @@ router.get('/renewconfirm/:username/:email', function (req, res) {
               }
             });
             //console.log(student.email);
-            let random = Math.round((Math.random() * 2 + 1)*1000);
+            let random = Math.random().toString(36);
+            let random1 = "";
+            let random2 = "";
+            for(let i=2;i<6;i++){
+              random1 += random[i]
+            }
+            for(let j=6;j<10;j++){
+              random2 += random[j]
+            }
             var mailOptions = {
               from: 'nkust.online.study@gmail.com',
               to: req.params.email,
               subject: 'nkust線上學習平台',
-              text: '親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\nhttps://c33f3c55.ngrok.io/users/renewpassword/' +random+ req.params.username
+              text: '親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\nhttps://c33f3c55.ngrok.io/users/renewpassword/' +random1+ req.params.username +random2
             };
             transporter.sendMail(mailOptions, function (error, info) {
               if (error) {
