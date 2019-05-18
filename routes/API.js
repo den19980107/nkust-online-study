@@ -30,6 +30,8 @@ let Homework = require('../model/homework');
 let studntSubmitTest = require('../model/studentSubmitTest');
 //bring student submit homework model
 let studntSubmitHomework = require('../model/studentSubmitHomework');
+//寄email的工具
+var nodemailer = require('nodemailer');
 //bring note model
 let Note = require('../model/note')
 //bring RFM model
@@ -616,6 +618,36 @@ router.get('/getuserinfo/:userid/:videoID',function(req,res){
             })
         })
     })
+})
+router.post('/sendEmail',function(req,res){
+    let title = req.body.title;
+    let sender = req.body.sender;
+    let recever = req.body.recever.split(',');
+    let body = req.body.body;
+    for(let i = 0;i<recever.length;i++){
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'nkust.online.study@gmail.com',
+              pass: 'kkc060500'
+            }
+        });
+        //console.log(student.email);
+        var mailOptions = {
+            from: sender,
+            to: recever[i],
+            subject: title,
+            text: body
+        };
+    
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.sendStatus(500)
+            } else {
+                res.sendStatus(200)
+            }
+        });
+    }
 })
 //Access Control
 function ensureAuthenticated(req, res, next) {

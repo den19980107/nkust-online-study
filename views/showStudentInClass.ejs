@@ -5,7 +5,9 @@
   .banner a:hover {
     color: #DDD;
   }
-  
+  #body:focus{
+    outline: none;
+  }
   @media only screen and (max-width:400px){
     .hideInMobile{
       display: none;
@@ -24,6 +26,7 @@
   <%})%>
   <%if(classinfo.teacher == user._id){%>
   <button class="btn btn-primary btn-sm waitcheck" style="float:right">待審核名單</button>
+  <button class="btn btn-success float-right mr-2" onclick="sendMailToALl()" style="height: 31px;"><i class="far fa-envelope"></i></button>
   <%}%>
 </div>
 <table class="table">
@@ -126,6 +129,41 @@
     <%})%>
   </tbody>
 </table>
+<div class="modal fade" id="MailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">寄送信件給全班</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+              <div class="form-group">
+                <label>標題</label>
+                <input id="title" type="text" class="form-control" >
+              </div>
+              <div class="form-group">
+                <label>寄件人</label>
+                <input id = "sender" type="email" class="form-control" >
+              </div>
+              <div class="form-group">
+                <label>收信人</label>
+                <input id = "recever" type="text" class="form-control">
+              </div>
+              <div class="form-group">
+                <label >信件內容</label>
+                <textarea id = "body" style="width: 100%;height: 10rem;border: 1px solid rgb(173, 173, 173);border-radius: 5px"></textarea>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="sendMail()" class="btn btn-primary">寄送</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
 <script>
   function deleteclick() {
@@ -197,6 +235,74 @@
     for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = false}
     document.getElementById("allstatus").checked = false
     document.getElementById("selectstatus").style = "opacity: 0.4;cursor: not-allowed;"
+  }
+
+
+  let sendMailToALl = function(){
+    let students =  <%- JSON.stringify(students) %>
+    let users = <%- JSON.stringify(users) %>
+    let teacherEmail = "<%=user.email%>"
+    let inclassStudent = [];
+    for(let i = 0;i<students.length;i++){
+      if(students[i].permission!="00000"){
+        inclassStudent.push(students[i])
+      }
+    }
+    let Mails = [];
+    let MailsText = ""
+    for(let i = 0;i<users.length;i++){
+      for(let j = 0;j<inclassStudent.length;j++){
+        if(users[i]._id == inclassStudent[j].studentID){
+          // console.log(users[i])
+          Mails.push(users[i].email);
+          MailsText+=users[i].email+","
+        }
+      }
+    }
+
+    $("#MailModal").modal();
+    let sender = document.getElementById('sender');
+    sender.value = teacherEmail;
+    let recever = document.getElementById('recever');
+    recever.value = MailsText
+  }
+
+  let sendMail = async function(){
+    let title = document.getElementById('title').value;
+    let sender = document.getElementById('sender').value;
+    let recever = document.getElementById('recever').value;
+    let body = document.getElementById('body').value;
+    let msg = ""
+    if(title == ""){
+      msg+="標題 "
+    }
+    if(sender == ""){
+      msg+="寄見人 "
+    }
+    if(recever == ""){
+      msg+="收件人 "
+    }
+    if(body == ""){
+      msg+="信件內容 "
+    }
+    if(msg.length!=0){
+      alert(msg+"不得為空!");
+    }else{
+      let data = {
+        title:title,
+        sender:sender,
+        recever:recever,
+        body:body
+      }
+      let response = await fetch('/api/sendEmail', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        },
+      })
+      $('#MailModal').modal('hide');
+    }
   }
 </script>
 
