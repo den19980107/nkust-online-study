@@ -189,6 +189,7 @@
             margin: 0.5rem;
         }
         #RFMDiv{
+            flex-direction: column;
             width: 95vw !important;
             margin: 0.5rem;
         }
@@ -297,7 +298,7 @@
 
         <div id = "videDitalDiv"style="display: none;overflow-x:scroll">
             <div id="RFMDiv" style="display: flex;height: auto;width: 100%;">
-                <div id="RFMcontainer" style="height: 100%;flex: 1"></div>
+                <div id="RFMcontainer" style="flex: 1"></div>
                 <div style="flex: 1;margin-left: 1rem">
                     <div class="card p-3 mb-2">
                         <h5>重點選取</h5>
@@ -1283,7 +1284,15 @@
                         events:{
                             load:function(){
                                 let divwidth = $('#RFMcontainer').width();
-                                let divheight = $('#RFMDiv').height();
+                                let divheight;
+                                if($(window).width()<400){
+                                    document.getElementsByName("highcharts-container  highcharts-3d-chart")[0].style.height = "500px";
+                                    divheight = 500;
+                                }else{
+                                    divheight = $('#RFMDiv').height();
+                                }
+                                console.log(divheight);
+                                
                                 this.setSize(divwidth,divheight);
                             }
                         },
