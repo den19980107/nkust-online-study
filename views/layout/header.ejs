@@ -109,11 +109,13 @@
 
   <div class="container">
     <%- messages('message', locals) %>
+          <div class = "alertlogin">
           <!-- ejs 的if如果要確定他有沒有傳過來的話是要用typeof -->
           <% if(typeof errors !== 'undefined') { %>
           <%errors.forEach(function(error){%>
-          <div class="alert alert-danger">
-            <%=error.msg%>
-          </div>
+            <div class="alert alert-danger">
+              <%=error.msg%>
+            </div>
           <%})%>
           <%}%>
+          </div>
