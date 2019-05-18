@@ -1,27 +1,89 @@
 <% include layout/header %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<style>
+    .renewDiv{
+        margin-bottom: 2rem;
+        padding: 20px;
+        border-radius:20px;
+        background-color:rgb(255, 255, 255);
+        border: 1px solid rgb(194, 190, 190);
+        width: 50%
+    }
+    @media screen and (max-width: 400px) {
+      .renewDiv{
+          margin-bottom: 2rem;
+          padding: 20px;
+          border-radius:20px;
+          background-color:rgb(255, 255, 255);
+          border: 1px solid rgb(194, 190, 190);
+          width: 100%
+      }
+    }
+</style>
+<div class="h-75 renewDiv m-auto" style="position:relative">
+  <h3>
+      登入
+  </h3>
+  <br>
+  <form method="POST" action="/users/login">
+      <%if(locals.nextURL){%>
+          <%if(nextURL == null){%>
+              <input type="text" name="nextURL" value="null" style="display: none">
+          <%}else{%>
+              <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
+          <%}%>
+      <%}else{%>
+          <input type="text" name="nextURL" value="null" style="display: none">
+      <%}%>
+      <div class="form-group">
+          <label>帳號:</label>
+          <input type="text" class="form-control" placeholder="請輸入帳號" name="username">
+      </div>
+      <div class="form-group">
+          <label>密碼:</label>
+          <input type="password" class="form-control" placeholder="請輸入密碼" name="password">
+      </div>
+      <div class="form-group alert p-0">
+      </div>
+      <input type="submit" class="btn btn-primary" value="登入" style="position:absolute;left:5%;bottom:10%">
+      <a href="/users/renewpassword/0" style="position:absolute;right:5%;bottom:10%">忘記密碼</a>
+  </form>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
+<script>
 
-<h3>
-    登入
-</h3>
-<form method="POST" action="/users/login">
-    <%if(locals.nextURL){%>
-        <%if(nextURL == null){%>
-            <input type="text" name="nextURL" value="null" style="display: none">
-        <%}else{%>
-            <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
-        <%}%>
-    <%}else{%>
-        <input type="text" name="nextURL" value="null" style="display: none">
-    <%}%>
-    <div class="form-group">
-        <label>帳號:</label>
-        <input type="text" class="form-control" placeholder="請輸入帳號" name="username">
-    </div>
-    <div class="form-group">
-        <label>密碼:</label>
-        <input type="password" class="form-control" placeholder="請輸入密碼" name="password">
-    </div>
-    <input type="submit" class="btn btn-primary" value="登入">
-</form>
+  $( document ).ready(function() {
+    let alertlogin = document.getElementsByClassName("alertlogin");
+    if(alertlogin.length != 0){
+      alertlogin[0].style.display = "none";
+    }
+    let alertsuccesslogin = document.getElementsByClassName("alert alert-success");
+    if(alertsuccesslogin.length != 0){
+      alertsuccesslogin[0].style.display = "none";
+    }
+    let alerterrorlogin = document.getElementsByClassName("alert alert-error");
+    if(alerterrorlogin.length != 0){
+      alerterrorlogin[0].style.display = "none";
+    }
+    let alertdangerlogin = document.getElementsByClassName("alert alert-danger");
+    if(alertdangerlogin.length != 0){
+      alertdangerlogin[0].style.display = "none";
+    }
 
+    let alert = document.getElementsByClassName("alert alert-danger");
+    for(let i=0;i<alert.length;i++){
+    $(".form-group.alert").append(`<p class="m-0" style="color:red"><i class="fas fa-exclamation-triangle" style="color:red"></i>`+alert[i].innerHTML+`</p>`)
+    }
+
+    let alerterror = document.getElementsByClassName("alert alert-error");
+    for(let i=0;i<alerterror.length;i++){
+    $(".form-group.alert").append(`<p class="m-0" style="color:red"><i class="fas fa-exclamation-triangle" style="color:red"></i>`+alerterror[i].innerHTML+`</p>`)
+    }
+
+    let alertsuccess = document.getElementsByClassName("alert alert-success");
+    for(let i=0;i<alertsuccess.length;i++){
+    $(".form-group.alert").append(`<p class="m-0" style="color:green"><i class="fas fa-exclamation-triangle" style="color:green"></i>`+alertsuccess[i].innerHTML+`</p>`)
+    }
+  });
+</script>
+</div>
 <% include layout/footer %>
