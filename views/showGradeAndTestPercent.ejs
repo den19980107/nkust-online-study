@@ -243,7 +243,6 @@
                 for(i=0;i<question.length;i++){
                     let questionName = question[i].qutionName;
                     if(question[i].type == '選擇題'){
-                        questionName += '(選擇題)';
                         let selection = question[i].selection;
                         let correctAnswers = question[i].correctAnswers;
                         let studentAnswers = [];
@@ -266,7 +265,7 @@
                         data.addColumn('string', 'choose');
                         data.addColumn('number', 'percent');
                         data.addRows(predata);
-                        let options = {'title':questionName,
+                        let options = {'title':questionName + '(選擇題)',
                                        'width':400,
                                        'height':300,
                                        'fontSize':14,
