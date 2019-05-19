@@ -214,6 +214,16 @@ router.get('/renewpassword/:username', function (req, res) {
       });
     }
 });
+//renewpassword status
+router.get('/login/renewpassword/:status', function (req, res) {
+    if(req.params.status == "0"){
+      req.flash('danger', '您已經取消密碼更改！');
+      res.redirect('/users/login');
+    }else{
+      req.flash('success', '完成身分認證，請至信箱收取信件！');
+      res.redirect('/users/login');
+    }
+});
 
 //User renewpassword Confirm
 router.get('/renewconfirm/:username/:email', function (req, res) {
@@ -274,8 +284,8 @@ router.get('/confirmpassword/:password/:username', function (req, res) {
       console.log(hash);
       User.updateMany({username:username}, {$set: {password: hash}}, {w: 1}, function (err, result) {
         if (err) throw err;
-        res.render('login', {
-        });
+        req.flash('success', '密碼更新成功！您現在已經可以使用新密碼登入了！');
+        res.redirect('/users/login');
       })
     });
 
