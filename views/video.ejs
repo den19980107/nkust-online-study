@@ -177,11 +177,19 @@
                                     <div style="display: flex">
                                         <%if(comment.userID == classinfo.teacher){%>
                                         <h5 style="margin-right: 10px;color: rgb(101, 119, 68)">
-                                            <%=comment.userName%>老師回復：
+                                            <%users.forEach(function(userss){%>
+                                              <%if(userss.username == comment.userName){%>
+                                                <%=userss.name%>老師回復：
+                                              <%}%>
+                                            <%})%>
                                         </h5>
                                         <%}else{%>
                                         <h5 style="margin-right: 10px;">
-                                            <%=comment.userName%>
+                                            <%users.forEach(function(userss){%>
+                                              <%if(userss.username == comment.userName){%>
+                                                <%=userss.name%>
+                                              <%}%>
+                                            <%})%>
                                         </h5>
                                         <%}%>
                                         <p>
