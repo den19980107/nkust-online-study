@@ -118,12 +118,21 @@ router.get('/:id/inClass/:classid', ensureAuthenticated, function (req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        res.render('article', {
-                            article: article,
-                            author: user,
-                            belongclass: req.params.classid,
-                            comments: articleComments,
-                            classinfo: classinfo
+                        let findcommentsID = [];
+                        for (let i = 0; i < articleComments.length; i++) {
+                          findcommentsID .push(articleComments[i].userID.toString());
+                        }
+                        console.log(findcommentsID);
+                        User.find({_id: findcommentsID},function(err,users){
+                          console.log(users);
+                          res.render('article', {
+                              article: article,
+                              author: user,
+                              belongclass: req.params.classid,
+                              comments: articleComments,
+                              classinfo: classinfo,
+                              users:users
+                          })
                         })
                     }
                 });
