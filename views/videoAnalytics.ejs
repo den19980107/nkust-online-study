@@ -962,7 +962,6 @@
         console.log(dateName);
 
 
-        console.log(data);
 
         let t = Object.keys(data)
         let data1 = []
@@ -974,8 +973,13 @@
                 y: data[t[i]]
             })
         }
-        //console.log(data1);
-
+        console.log(data1);
+        data1.sort(function(a,b){
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.date) - new Date(a.date);
+        });
+        console.log(data1);
 
         var ctx = document.getElementById('resentViewChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -985,7 +989,6 @@
                 datasets: [{
                     label: '最近觀看',
                     data: data1,
-                    lineTension: 0,
                     pointBackgroundColor: 'rgba(68,144,238,1)',
                     pointBorderColor: 'rgb(255, 255, 255)',
                     borderColor: [
