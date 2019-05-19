@@ -311,7 +311,7 @@ router.post('/changeClassImg/:classID', upload.any(), ensureAuthenticated,functi
         res.redirect('/class/'+req.params.classID);
       }
     });
-  } 
+  }
 
 })
 
@@ -903,11 +903,18 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
               if(err){
                 console.log(err);
               }
-              res.render('chapter', {
-                chapter: chapter,
-                comments: comments,
-                classinfo: classinfo
-              });
+              let findchaptercommentsID = [];
+              for (let i = 0; i < comments.length; i++) {
+                findchaptercommentsID .push(comments[i].userID.toString());
+              }
+              User.find({_id: findchaptercommentsID},function(err,users){
+                res.render('chapter', {
+                  chapter: chapter,
+                  comments: comments,
+                  classinfo: classinfo,
+                  users:users
+                });
+              })
             })
           })
         })
@@ -998,12 +1005,19 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
               author_id: req.user._id
             }, function (err, notes) {
               Video.find({belongUnit:unit._id},function(err,recommandVideo){
-                res.render('video', {
-                  video: video,
-                  comments: comments,
-                  classinfo: classinfo,
-                  notes: notes,
-                  recommandVideo:recommandVideo
+                let findvideocommentsID = [];
+                for (let i = 0; i < comments.length; i++) {
+                  findvideocommentsID .push(comments[i].userID.toString());
+                }
+                User.find({_id: findvideocommentsID},function(err,users){
+                  res.render('video', {
+                    video: video,
+                    comments: comments,
+                    classinfo: classinfo,
+                    notes: notes,
+                    recommandVideo:recommandVideo,
+                    users:users
+                  });
                 });
               })
             })
