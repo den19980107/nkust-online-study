@@ -960,7 +960,10 @@
             }
         }
         console.log(dateName);
-
+        Date.prototype.addminute = function(m) {    
+            this.setTime(this.getTime() + (m*60*1000)); 
+            return this;   
+        }
 
 
         let t = Object.keys(data)
@@ -971,7 +974,11 @@
             data1.push({
                 x: new Date(t[i]),
                 y: data[t[i]]
-            })
+            },{
+                x: new Date(t[i]).addminute(1),
+                y: 0
+            }
+            )
         }
         console.log(data1);
         data1.sort(function(a,b){
@@ -996,7 +1003,7 @@
                     'rgba(68,144,238,1)'
                     ],
                     pointRadius: 5,
-                    backgroundColor:['rgba(68,144,238,0)'],
+                    backgroundColor:['rgba(68,144,238,0.5)'],
                     borderWidth: 1
                 }]
             },
