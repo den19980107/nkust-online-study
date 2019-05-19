@@ -22,7 +22,7 @@ router.post('/add/inClass/:classID',ensureAuthenticated, function (req, res) {
     let errors = req.validationErrors();
     if (errors) {
         req.flash('danger', "文章標題與內容不得為空");
-        res.redirect('/articles');
+        res.redirect('/articles/inClass/' + req.params.classID);
     } else {
         let article = new Article();
         article.title = req.body.title;
@@ -210,6 +210,8 @@ router.get('/inClass/:classid',ensureAuthenticated, function (req, res) {
                         }
                     }
                 }
+                console.log("classid = " );
+                console.log(req.params.classid);
                 res.render('articles', {
                     title: '討論區',
                     articles: articles,
@@ -230,7 +232,7 @@ function ensureAuthenticated(req, res, next) {
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
       //console.log("inuser ensure = "+nextURL);
       //console.log("url = /users/login/?r="+nextURL);
-      
+
       res.redirect('/users/login/?r='+nextURL);
     }
 }
