@@ -959,10 +959,10 @@
                 data[date] = 1;
             }
         }
-        //console.log(dateName);
+        console.log(dateName);
 
 
-        //console.log(data);
+        console.log(data);
 
         let t = Object.keys(data)
         let data1 = []
@@ -979,19 +979,20 @@
 
         var ctx = document.getElementById('resentViewChart').getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: dateName,
                 datasets: [{
                     label: '最近觀看',
                     data: data1,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 1)'
-                    ],
+                    pointBackgroundColor: 'rgba(68,144,238,1)',
+                    pointBorderColor: 'rgb(255, 255, 255)',
                     borderColor: [
-                        'rgba(255,99,132,1)'
+                    'rgba(68,144,238,1)'
                     ],
-                    borderWidth: 5
+                    pointRadius: 5,
+                    backgroundColor:['rgba(68,144,238,0)'],
+                    borderWidth: 1
                 }]
             },
             options: {
@@ -1003,6 +1004,14 @@
                         },
                         barThickness: 6,
                         distribution: 'linear'
+                    }],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+                            suggestedMax: 5,    // minimum will be 0, unless there is a lower value.
+
+                        }
                     }]
                 },
                 pan: {
