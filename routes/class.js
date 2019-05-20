@@ -537,11 +537,14 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
         className: req.params.text
       }
     };
-    Class.updateOne(myquery, newvalues, function (err, res) {
+    Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
+        res.status(500).send('更新課程名稱失敗！');
+
       } else {
         //console.log('update success');
+        res.status(200).send('更新課程名稱成功！');
       }
     });
   }
@@ -554,16 +557,19 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
         outline: req.params.text
       }
     };
-    Class.updateOne(myquery, newvalues, function (err, res) {
+    Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
+        res.status(500).send('更新課程說明失敗！');
+
       } else {
         //console.log('update success');
+        res.status(200).send('更新課程說明成功！');
       }
     });
   }
   if (req.params.part == 'classTime') {
-    //console.log(req.body);
+    console.log(req.body);
 
     var myquery = {
       _id: ObjectID(req.params.classID)
@@ -576,9 +582,11 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
     Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
+        res.status(500).send('更新課程上課時間失敗！');
+
       } else {
         //console.log('update success');
-        res.send('200')
+        res.status(200).send('更新課程上課時間成功！');
       }
     });
   }
@@ -597,9 +605,11 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
     Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
+        res.status(500).send('更新課程上課教室失敗！');
+
       } else {
         //console.log('update success');
-        res.send('200')
+        res.status(200).send('更新課程上課教室成功！');
       }
     });
   }
@@ -616,9 +626,11 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
     Class.updateOne(myquery, newvalues, function (err) {
       if (err) {
         console.log(err);
+        res.status(500).send('更新課程學分失敗！');
+
       } else {
         //console.log('update success');
-        res.send('200')
+        res.status(200).send('更新課程學分成功！');
       }
     });
   }
