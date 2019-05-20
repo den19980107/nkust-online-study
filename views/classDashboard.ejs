@@ -388,8 +388,12 @@
         <%for(let i = 0;i < thisClassStudents.length;i++){%>
         <%if(thisClassStudents[i].studentID==user._id){%>
         <%if(thisClassStudents[i].permission!='00000'){%>
+        <%if(units.length != 0){%>
+          <a href="/class/studentWatchGrade/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">觀看成績</a>
+        <%}else{%>
+          <a  class="btn btn-info form-control mb-2" style="color: white" onclick="alert('目前教師還沒有新增單元哦!')">觀看成績</a>
+        <%}%>
         <a href="/articles/inClass/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">討論區</a>
-        <a href="/class/studentWatchGrade/<%=classinfo.id%>" class="btn btn-info form-control mb-2" style="color: white">觀看成績</a>
         <%}%>
         <%}%>
         <%}%>

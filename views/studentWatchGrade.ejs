@@ -102,7 +102,20 @@
             }
         }
         selectQuiz.length = testLength;
-        onchangeQuiz(nowQuiz);
+        if(testLength==0){
+            let rightbox=document.getElementById('rightbox');
+            rightbox.innerHTML='';
+            let alertDiv=document.createElement('div');
+            alertDiv.innerHTML = '此單元尚未建立測驗';
+            alertDiv.style = 'text-align:center;';
+            alertDiv.className = 'col-sm-12 alert alert-danger';
+            rightbox.appendChild(alertDiv);
+            let grade = document.getElementById('showgrade');
+            grade.innerHTML = '...';
+        }else{
+            onchangeQuiz(nowQuiz);
+        }
+        //onchangeQuiz(nowQuiz);
     }
     let onchangeUnit = function (unitId) {
         let i;
@@ -115,7 +128,19 @@
                 selectQuiz.options[testLength++] = new Option(tests[i].testName, tests[i]._id); // 設定新選項
             }
         }
-        onchangeQuiz(nowQuiz);
+        if(testLength==0){
+            let rightbox=document.getElementById('rightbox');
+            rightbox.innerHTML='';
+            let alertDiv=document.createElement('div');
+            alertDiv.innerHTML = '此單元尚未建立測驗';
+            alertDiv.style = 'text-align:center;';
+            alertDiv.className = 'col-sm-12 alert alert-danger';
+            rightbox.appendChild(alertDiv);
+            let grade = document.getElementById('showgrade');
+            grade.innerHTML = '...';
+        }else{
+            onchangeQuiz(nowQuiz);
+        }
         selectQuiz.length = testLength; // 刪除多餘的選項
     }
     let onchangeQuiz = function (quizId) {
@@ -173,7 +198,6 @@
         if (isSubmited == 0) {
             let rightbox = document.getElementById('rightbox');
             rightbox.innerHTML = '';
-
             let alertDiv = document.createElement('div');
             alertDiv.innerHTML = '您未填寫測驗';
             alertDiv.style = 'text-align:center;';
