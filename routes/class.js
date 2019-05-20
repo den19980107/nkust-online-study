@@ -549,12 +549,14 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
     });
   }
   if (req.params.part == 'outline') {
+   // console.log(req.body);
+    
     var myquery = {
       _id: ObjectID(req.params.classID)
     };
     var newvalues = {
       $set: {
-        outline: req.params.text
+        outline: req.body.outline
       }
     };
     Class.updateOne(myquery, newvalues, function (err) {

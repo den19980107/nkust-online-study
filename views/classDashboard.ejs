@@ -688,17 +688,20 @@
         }
         if (part == 'outline') {
             let outline = document.getElementById('outline').value;
-            console.log(outline);
+            console.log(JSON.stringify(outline));
 
             //把outline update到db中
             $.ajax({
-                url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + '/' + outline,
+                url: '/class/updateClassInfo/<%=classinfo._id%>/' + part + "/edit",
                 type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({"outline":outline}),
+                dataType: 'json',
                 success: function (response) {
-                    alert(response);
+                    alert(response.responseText);
                 },
                 error: function (err) {
-                    alert('錯誤訊息：' + err);
+                    alert(err.responseText);
                 }
             });
 
