@@ -189,7 +189,7 @@
                         <%}%>
                         <%}%>
                         <%for(let i = 0;i < thisClassStudents.length;i++){%>
-                        <%if(thisClassStudents[i].studentID==user._id){%>
+                        <%if(thisClassStudents[i].studentID==user._id && thisClassStudents[i].permission != "00000"){%>
                         <%if(thisClassStudents[i].permission[0]=='A'){%>
                         <a href="/class/newClassManager/<%=classinfo._id%>" class="btn btn-outline-info text-secondary my-2 my-sm-0">管理
                         </a>
@@ -376,7 +376,7 @@
 
         <!--可以管理成員-->
         <%for(let i = 0;i < thisClassStudents.length;i++){%>
-        <%if(thisClassStudents[i].studentID==user._id){%>
+        <%if(thisClassStudents[i].studentID==user._id && thisClassStudents[i].permission != "00000"){%>
         <%if(thisClassStudents[i].permission[1]=='A'){%>
         <a href="/class/showStudentIn/<%=classinfo.id%>" class="btn form-control mb-2" style="color: white;background: rgb(228, 212, 122)">本班成員</a>
         <%}else{%>
