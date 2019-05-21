@@ -185,8 +185,16 @@
             let currentGradeDiv = document.getElementById('currentGrade');
             let isSubmited = 0;
             let bightml = '';
+            let k = 0;
             for (i = 0; i < allSubmits.length; i++) {
+                let bgcolor;
                 if ((allSubmits[i].testID == nowQuiz)) {
+                    if(k%2==0){
+                        bgcolor = "#eee";
+                    }else{
+                        bgcolor = "#fff"
+                    }
+                    k++;
                     let studentName;
                     let studentID;
                     let j;
@@ -200,7 +208,7 @@
                     let html =
                         `
                           <div class="grade" id="grade${isSubmited}">
-                              <ul class="nav nav-pills nav-justified" style="margin-top:8px;">
+                              <ul class="nav nav-pills nav-justified" style="margin-top:8px;background:${bgcolor}">
                                   <li class="nav-item">
                                     <a class="nav-link">${studentName}</a>
                                   </li>
