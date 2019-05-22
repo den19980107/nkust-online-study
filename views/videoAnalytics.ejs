@@ -307,7 +307,7 @@
                         <h5>重點選取</h5>
                         <div style="display: flex;">
                             <p style="flex: 5;margin: 0.5rem 0;">點擊“選取”按鈕來選取影片重點</p>
-                            <button style="flex: 1" class="btn btn-primary" onclick="$('#SelectFocalPointModal').modal()">選取</button>
+                            <button id="analyticsbutton" style="flex: 1" class="btn btn-primary" onclick="$('#SelectFocalPointModal').modal();LoadfocusPoint()" disabled>選取</button>
                         </div>
                     </div>
                     <div class="card p-3">
@@ -495,7 +495,7 @@
 </div>
 
 <!-- 選取影片重點modal -->
-<div class="modal fade" id="SelectFocalPointModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="SelectFocalPointModal" tabindex="-1" aria-hidden="true" data-backdrop="static" role="dialog">
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -522,8 +522,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary">儲存選取重點</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            <button type="button" class="btn btn-primary" onclick="savepoint()">儲存選取重點</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancelsave()">取消</button>
         </div>
         </div>
     </div>
@@ -547,6 +547,8 @@
 
 
 <script>
+    let rfm = <%-JSON.stringify(rfm)%>
+    var pointnumber = 0;
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -636,7 +638,15 @@
 
                 let vidoeTime = `<%=videoinfo.vtime%>`;
                 videoTime = parseInt(videoTime)
-                showRFM(50,50,50,[0,vidoeTime]);
+                if(<%-JSON.stringify(rfm)%> == 0){
+                  showRFM(50,50,50,[{start:0,stop:Number(vidoeTime),pointnumber:""}]);
+                  console.log("初始");
+                }else{
+                  showRFM(rfm.avalue,rfm.bvalue,rfm.rvalue,rfm.focusPoint);
+                  $("#a").attr("value",rfm.avalue);
+                  $("#b").attr("value",rfm.bvalue);
+                  $("#r").attr("value",rfm.rvalue);
+                }
             }
         })
     }
@@ -960,9 +970,9 @@
             }
         }
         console.log(dateName);
-        Date.prototype.addminute = function(m) {    
-            this.setTime(this.getTime() + (m*60*1000)); 
-            return this;   
+        Date.prototype.addminute = function(m) {
+            this.setTime(this.getTime() + (m*60*1000));
+            return this;
         }
 
 
@@ -1009,7 +1019,7 @@
                 datasets: [{
                     label: '最近觀看',
                     data: data1,
-                    lineTension: 0,   
+                    lineTension: 0,
                     pointBackgroundColor: 'rgba(68,144,238,1)',
                     pointBorderColor: 'rgb(255, 255, 255)',
                     borderColor: [
@@ -1156,6 +1166,8 @@
     function onPlayerReady(event) {
         slider.max = SelectFocalPointPlayer.getDuration();
         slidermark.max = SelectFocalPointPlayer.getDuration();
+        let analyticsbutton = document.getElementById("analyticsbutton");
+        analyticsbutton.disabled = false;
     }
 
     // 5. The API calls this function when the player's state changes.
@@ -1202,6 +1214,7 @@
             r:r,
             focusPoint:focusPoint
         }
+        console.log(data);
         // changeLeftList(4);
         $.ajax({
             url: '/api/showRFMAnalizying/<%=videoinfo._id%>',
@@ -1327,7 +1340,7 @@
                                 }else{
                                     divheight = $('#RFMDiv').height();
                                 }
-                                
+
                                 this.setSize(divwidth,divheight);
                             }
                         },
@@ -1368,9 +1381,6 @@
                             depth: 10
                         },
                         series: {
-                            marker: {
-                                radius: 8
-                            },
                             cursor: 'pointer',
                             events: {
                                 click: function (e) {
@@ -1766,9 +1776,28 @@
     }, 1000);
 
     //選重點
-    let allFocusPoint = []
+    let allnosaveFocusPoint = []
     var emphasis = emphasis || {};
-    var pointnumber = 0;
+    let checknumber = 0;
+    let LoadfocusPoint = function(){
+      if(checknumber == 0){
+        Array.prototype.push.apply(allnosaveFocusPoint, rfm.focusPoint);
+        for(let i=0;i<allnosaveFocusPoint.length;i++){
+          allnosaveFocusPoint[i].pointnumber = pointnumber;
+          let maxvalue = document.getElementById("slider").max;
+          let startslider = Number(allnosaveFocusPoint[i].start)/Number(maxvalue)*100;
+          let endslider = Number(allnosaveFocusPoint[i].stop)/Number(maxvalue)*100;
+          let rangeslider = Number(endslider)-Number(startslider);
+          if(rangeslider == 0){
+              $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#f6b128;width:10px;height:20px;" onclick="deleteslidermark(this)"><div>`)
+          }else{
+              $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#f6b128;width:`+rangeslider+`%;height:20px;" onclick="deleteslidermark(this)"><div>`)
+          }
+          pointnumber++;
+        }
+      }
+      checknumber++;
+    }
     $('#slidermark').dblclick(function(){
         // console.log("endtime:"+slidermark.value);
         let beginTime = slidermarktime;
@@ -1788,74 +1817,95 @@
           $("#progressmark").append(`<div id="slidermark`+pointnumber+`" data-id="`+pointnumber+`" style="position:absolute;top:0%;left:`+startslider+`%;background-color:#f6b128;width:`+rangeslider+`%;height:20px;" onclick="deleteslidermark(this)"><div>`)
             emphasis = {start:Number(slidermark.value),stop:Number(beginTime),pointnumber:pointnumber}
             // console.log(emphasis);
-            allFocusPoint.push(emphasis);
+            allnosaveFocusPoint.push(emphasis);
             confirmallFocusPoint();
             pointnumber ++;
-            // console.log(allFocusPoint);
+            // console.log(allnosaveFocusPoint);
         }else{
           emphasis = {start:Number(beginTime),stop:Number(slidermark.value),pointnumber:pointnumber}
         //   console.log(emphasis);
-          allFocusPoint.push(emphasis);
+          allnosaveFocusPoint.push(emphasis);
           confirmallFocusPoint();
           pointnumber ++;
-        //   console.log(allFocusPoint);
+        //   console.log(allnosaveFocusPoint);
         }
     });
     let confirmallFocusPoint = function(){
         //排序
-        for(let isort=0;isort<allFocusPoint.length;isort++){
-          for(let jsort=0;jsort<allFocusPoint.length-isort-1;jsort++){
-            // console.log(allFocusPoint[jsort].start);
-            if(allFocusPoint[jsort].start > allFocusPoint[jsort+1].start){
+        for(let isort=0;isort<allnosaveFocusPoint.length;isort++){
+          for(let jsort=0;jsort<allnosaveFocusPoint.length-isort-1;jsort++){
+            // console.log(allnosaveFocusPoint[jsort].start);
+            if(allnosaveFocusPoint[jsort].start > allnosaveFocusPoint[jsort+1].start){
               let temp;
-              temp = allFocusPoint[jsort];
-              allFocusPoint[jsort] = allFocusPoint[jsort+1];
-              allFocusPoint[jsort+1] = temp;
+              temp = allnosaveFocusPoint[jsort];
+              allnosaveFocusPoint[jsort] = allnosaveFocusPoint[jsort+1];
+              allnosaveFocusPoint[jsort+1] = temp;
             }
           }
         }
         //識別重複
-        for(let i=0;i<allFocusPoint.length;i++){
+        for(let i=0;i<allnosaveFocusPoint.length;i++){
           if(i == false){
-            for(let j=i+1;j<allFocusPoint.length;j++){
-              if(allFocusPoint[i].stop > allFocusPoint[j].start){
-                  if(allFocusPoint[i].stop < allFocusPoint[j].stop){
-                    allFocusPoint[i].stop = allFocusPoint[j].stop;
-                    let e = document.getElementById("slidermark"+allFocusPoint[i].pointnumber);
+            for(let j=i+1;j<allnosaveFocusPoint.length;j++){
+              if(allnosaveFocusPoint[i].stop > allnosaveFocusPoint[j].start){
+                  if(allnosaveFocusPoint[i].stop < allnosaveFocusPoint[j].stop){
+                    allnosaveFocusPoint[i].stop = allnosaveFocusPoint[j].stop;
+                    let e = document.getElementById("slidermark"+allnosaveFocusPoint[i].pointnumber);
                     let maxvalue = document.getElementById("slider").max;
-                    let start = Number(allFocusPoint[i].start)/Number(maxvalue)*100;
-                    let end = Number(allFocusPoint[i].stop)/Number(maxvalue)*100;
+                    let start = Number(allnosaveFocusPoint[i].start)/Number(maxvalue)*100;
+                    let end = Number(allnosaveFocusPoint[i].stop)/Number(maxvalue)*100;
                     let range = Number(end)-Number(start);
                     e.style.width = range + "%";
                   }
-                  allFocusPoint[j] = {start:0,stop:0,pointnumber:allFocusPoint[j].pointnumber};
+                  allnosaveFocusPoint[j] = {start:0,stop:0,pointnumber:allnosaveFocusPoint[j].pointnumber};
                   i = false;
               }
             }
           }
         }
         //清除空資料
-        for(let iclear=0;iclear<allFocusPoint.length;iclear++){
-          if(allFocusPoint[iclear].start==0 && allFocusPoint[iclear].stop==0){
-            let e = document.getElementById("slidermark"+allFocusPoint[iclear].pointnumber);
+        for(let iclear=0;iclear<allnosaveFocusPoint.length;iclear++){
+          if(allnosaveFocusPoint[iclear].start==0 && allnosaveFocusPoint[iclear].stop==0){
+            let e = document.getElementById("slidermark"+allnosaveFocusPoint[iclear].pointnumber);
             deleteslidermark(e);
           }
         }
     }
 
-    //刪除重點區域
+    //點選刪除重點區域
     let deleteslidermark = function(e){
         let deletedata = $("#"+e.id).attr("data-id")
-        for(let i=0;i<allFocusPoint.length;i++){
-          console.log(deletedata,allFocusPoint[i].pointnumber);
-          if(deletedata == allFocusPoint[i].pointnumber){
-            allFocusPoint.splice(i,1);
-            console.log("刪除");
+        for(let i=0;i<allnosaveFocusPoint.length;i++){
+          if(deletedata == allnosaveFocusPoint[i].pointnumber){
+            allnosaveFocusPoint.splice(i,1);
           }
         }
         e.remove();
-        console.log(allFocusPoint);
+    }
 
+    //儲存重點
+    let allFocusPoint = []
+    let savepoint = function(){
+      Array.prototype.push.apply(allFocusPoint, allnosaveFocusPoint);
+      for(let j=allnosaveFocusPoint.length-1;j>=0;j--){
+        allnosaveFocusPoint.splice(j,1);
+      }
+      $('#SelectFocalPointModal').modal('hide');
+      SelectFocalPointPlayer.pauseVideo();
+      SelectFocalPointPlayer.seekTo(0);
+    }
+
+    //取消儲存
+    let cancelsave = function(){
+      for(let i=0;i<allnosaveFocusPoint.length;i++){
+        let alldelete = document.getElementById("slidermark"+allnosaveFocusPoint[i].pointnumber);
+        alldelete.remove()
+      }
+      for(let j=allnosaveFocusPoint.length-1;j>=0;j--){
+        allnosaveFocusPoint.splice(j,1);
+      }
+      SelectFocalPointPlayer.pauseVideo();
+      SelectFocalPointPlayer.seekTo(0);
     }
 
     //送出選好的重點與參數
@@ -1866,7 +1916,7 @@
         // console.log("a = "+a);
         // console.log("b = "+b);
         // console.log("r = "+r);
-        // console.log(allFocusPoint);
+        //console.log(allFocusPoint);
         showRFM(a,b,r,allFocusPoint)
 
     }
