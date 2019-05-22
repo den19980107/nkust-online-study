@@ -332,28 +332,29 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
     let b = req.body.b;
     let r = req.body.r;
     let focusPoint = req.body.focusPoint
+    console.log(focusPoint);
     let videoID = req.params.videoID;
     RFM.findOne({videoID:req.params.videoID}, function (err, urfm) {
       if(urfm){
-        RFM.updateMany({videoID:req.params.videoID}, {$set: {focusPoint:req.body.focusPoint,Rvalue:a,Fvalue:b,Mvalue:r}}, {w: 1},function(err){
+        RFM.updateMany({videoID:req.params.videoID}, {$set: {focusPoint:req.body.focusPoint,avalue:a,bvalue:b,rvalue:r}}, {w: 1},function(err){
           if (err) {
               console.log(err);
           }
-          //console.log("rfm update success");
+          console.log("rfm update success");
         })
       }else{
         let rfm = new  RFM();
         rfm.videoID = videoID;
-        rfm.Rvalue = a;
-        rfm.Fvalue = b;
-        rfm.Mvalue = r;
+        rfm.avalue = a;
+        rfm.bvalue = b;
+        rfm.rvalue = r;
         rfm.focusPoint = req.body.focusPoint;
         console.log(rfm);
         rfm.save(function (err) {
             if (err) {
                 console.log(err);
             }
-            //console.log("rfm save success");
+            console.log("rfm save success");
         });
       }
     })
@@ -429,7 +430,7 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     console.log("原始的觀看行為記錄次數 = ",studentBehavior[i].behaviors.length);
                     for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
                         //console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
-                        
+
                         if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/20){
                             tempbehaviors.push(studentBehavior[i].behaviors[j])
                         }
@@ -466,7 +467,7 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
                     console.log("觀看者:"+studentBehavior[i].watcherID);
                     console.log("過濾後的觀看行為記錄次數 = ",studentRFM[i].F );
-                    
+
                     let videoTimeLine = []
                     for(let k = 0;k<vtime;k++){
                         videoTimeLine[k] = 0;
@@ -639,7 +640,7 @@ router.post('/sendEmail',function(req,res){
             subject: title,
             text: body
         };
-    
+
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 res.sendStatus(500)
