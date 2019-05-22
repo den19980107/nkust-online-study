@@ -6,15 +6,15 @@ let RFMSchema = mongoose.Schema({
       type: String,
       require: true
   },
-  Rvalue: {
+  avalue: {
       type: String,
       require: true
   },
-  Fvalue: {
+  bvalue: {
       type: String,
       require: true
   },
-  Mvalue: {
+  rvalue: {
       type: String,
       require: true
   },
