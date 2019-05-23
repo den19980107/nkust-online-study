@@ -265,14 +265,14 @@
             </li>
             <li class="chapter">
                 <a id="list1" href="#" onclick="showVideoDetial('<%=videoinfo._id%>')">
-                    <i class="fas fa-pen"></i>
-                    <p>詳細資料</p>
+                    <i class="fas fa-chart-bar"></i>
+                    <p>數據分析</p>
                 </a>
             </li>
             <li class="chapter">
                 <a id="list2" href="#" onclick="analyseData('<%=videoinfo._id%>')">
-                    <i class="fas fa-chart-bar"></i>
-                    <p>數據分析</p>
+                    <i class="fas fa-pen"></i>
+                    <p>詳細資料</p>
                 </a>
             </li>
             <li class="chapter">
@@ -422,7 +422,7 @@
                 <div id="container"></div>
             </div>
             <div class="mt-2" id="resentViewChartDiv"
-                style="padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:auto; width:80vw ;">
+                style="padding: 1rem;border: 1px solid rgb(194, 194, 194);border-radius: 5px;position: relative;position: relative; height:480px; width:80vw ;">
                 <h5 class="p-0 mt-2">最近觀看人數</h5>
                 <canvas id="resentViewChart" style="width: 100px"></canvas>
             </div>
@@ -1013,7 +1013,7 @@
 
         var ctx = document.getElementById('resentViewChart').getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: dateName,
                 datasets: [{
@@ -1031,6 +1031,8 @@
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     xAxes: [{
                         type: 'time',
