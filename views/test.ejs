@@ -216,6 +216,12 @@
 <script src="/js/setTest.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script>
+    
+    Date.prototype.addHours = function(h) {
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
+    }
+
     let answerArray = [];
     $('input[type=radio]').click(function(){
         if (this.previous) {
@@ -572,10 +578,20 @@
             document.getElementById("EndpublicTime").value = startTime.value
     }
     window.onload = function(){
+        // console.log(Test.publicTime);
+        // console.log(new Date(Test.publicTime).addHours(-8));
+        // console.log(Test.EndpublicTime);
+        // console.log(new Date(Test.EndpublicTime).addHours(-8));
+        // console.log(new Date()-new Date(Test.EndpublicTime).addHours(-8));
+        
         if(Test.isPublic==false){
             let nowTime = new Date();
-            let endTime = new Date(Test.EndpublicTime);
-            //console.log(endTime-nowTime);
+            console.log(nowTime);
+            
+            let endTime = new Date(Test.EndpublicTime).addHours(-8);   
+            console.log("endTime = ",endTime);
+            
+            console.log(endTime-nowTime);
             if((endTime-nowTime)/1000>0){
                 //console.log("ispublic")
                 let ispublic = countTime("beforePublic");
@@ -622,7 +638,7 @@
             //console.log("beforePublic");
             let nowTime = new Date();
             let publicTimeText = document.getElementById('ToppublicTime');
-            let publicTime = new Date(Test.publicTime);
+            let publicTime = new Date(Test.publicTime).addHours(-8);            
             let totoalSec = (publicTime-nowTime)/1000;
             let hr =  Math.floor(totoalSec/3600);
             totoalSec = Math.floor(totoalSec % 3600);
@@ -657,7 +673,7 @@
             }
             let publicTimeText = document.getElementById('ToppublicTime');
             let nowTime = new Date();
-            let endTime = new Date(Test.EndpublicTime);
+            let endTime = new Date(Test.EndpublicTime).addHours(-8);
             let totoalSec = (endTime-nowTime)/1000;
             let hr =  Math.floor(totoalSec/3600);
             totoalSec = Math.floor(totoalSec % 3600);
