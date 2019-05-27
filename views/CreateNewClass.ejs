@@ -90,19 +90,19 @@
         <form id="classinfoForm" method="POST" action="/class/CreateNewClass" enctype="multipart/form-data">
             <h5>課程名稱 <small style="color: red">*</small></h5>
             <%if(locals.title){%>
-            <input type="text" class="form-control" name="title" id="title" value="<%=title%>"
+            <input type="text" class="form-control" name="title" id="title" placeholder="請輸入課程名稱" value="<%=title%>"
                 style="margin-bottom: 10px;">
             <%}else{%>
-            <input type="text" class="form-control" name="title" id="title" style="margin-bottom: 10px;">
+            <input type="text" class="form-control" name="title" id="title" placeholder="請輸入課程名稱" style="margin-bottom: 10px;">
             <%}%>
             <h5>課程說明</h5>
             <div class="md-form" style="margin-bottom: 10px;">
                 <!-- locals的功能等於typeof(xxx)就是有說定這個變數存不存在 -->
                 <%if(locals.outline){%>
-            <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10"
+            <textarea type="text" id="outline" name="outline" class="md-textarea form-control" placeholder="請輸入課程說明，好的課程說明有益於學生更快瞭解課程主要教學內容！" rows="10"
                 style="resize: none"><%=outline%></textarea>
             <%}else{%>
-            <textarea type="text" id="outline" name="outline" class="md-textarea form-control" rows="10"
+            <textarea type="text" id="outline" name="outline" class="md-textarea form-control" placeholder="請輸入課程說明，好的課程說明有益於學生更快瞭解課程主要教學內容！" rows="10"
                 style="resize: none"></textarea>
             <%}%>
             </div>
