@@ -255,11 +255,14 @@ router.get('/renewconfirm/:username/:email', function (req, res) {
             for(let j=6;j<10;j++){
               random2 += random[j]
             }
+            var url = window.location.href
+            var arr = url.split("/");
+            var websiteDomain = arr[0] + "//" + arr[2]
             var mailOptions = {
               from: 'nkust.online.study@gmail.com',
               to: req.params.email,
               subject: 'nkust線上學習平台',
-              text: '親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\nhttps://c33f3c55.ngrok.io/users/renewpassword/' +random1+ req.params.username +random2
+              text: `親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\n ${websiteDomain}` +random1+ req.params.username +random2
             };
             transporter.sendMail(mailOptions, function (error, info) {
               if (error) {
