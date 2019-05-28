@@ -255,9 +255,8 @@ router.get('/renewconfirm/:username/:email', function (req, res) {
             for(let j=6;j<10;j++){
               random2 += random[j]
             }
-            var url = window.location.href
-            var arr = url.split("/");
-            var websiteDomain = arr[0] + "//" + arr[2]
+            
+            var websiteDomain = "https://a84c698c.ngrok.io/"
             var mailOptions = {
               from: 'nkust.online.study@gmail.com',
               to: req.params.email,
