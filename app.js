@@ -11,9 +11,10 @@ const port = process.env.PORT || 3000;
 
 
 
-mongoose.connect(config.database);
+mongoose.connect(config.database, {
+    useNewUrlParser: true
+});
 let db = mongoose.connection;
-
 
 //check connection
 db.once('open', function () {
@@ -91,12 +92,12 @@ io.on('connection', function (socket) {
             if (obj.type == "fastTurn") {
                 videobehavior.videoActions.push("fastTurn:" + obj.beginTime + ":" + obj.endTime);
             }
-            if(obj.type == "note"){
+            if (obj.type == "note") {
                 videobehavior.videoActions.push("note:" + obj.time + ":" + obj.time);
             }
             if (obj.type == "close") {
-                videobehavior.videoActions.push("close:"+obj.time+":"+obj.time );
-                videobehavior.videoActions.push("totalWatchTime:"+obj.totalTime+":"+obj.totalTime );
+                videobehavior.videoActions.push("close:" + obj.time + ":" + obj.time);
+                videobehavior.videoActions.push("totalWatchTime:" + obj.totalTime + ":" + obj.totalTime);
                 videobehavior.save(function (err) {
                     if (err) {
                         console.log(err);
