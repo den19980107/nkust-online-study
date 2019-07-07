@@ -27,7 +27,7 @@
     "html2plaintext": "^2.1.2",
     "jq-fakeloader": "^2.0.1",
     "method-override": "^3.0.0",
-    "mongoose": "^5.4.6",
+    "mongoose": "^5.6.3",
     "multer": "^1.4.1",
     "multer-gridfs-storage": "^3.2.3",
     "nodemailer": "^5.1.1",
