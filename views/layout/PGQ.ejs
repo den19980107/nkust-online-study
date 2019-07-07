@@ -1,162 +1,169 @@
+<div class="form-group row title">
+    <label class="col col-form-label">題目</label>
+    <div class="col-12">
+        <input type="text" id="PGQtitle" class="form-control title-text" placeholder="請輸入題目">
+    </div>
+</div>
+<div class="form-group row title">
+    <label class="col col-form-label">題目說明</label>
+</div>
+<div id="PGQEditor"></div>
+<!-- <div class="form-group row">
+    <label class="col-sm-3 col-form-label">輸入說明</label>
+    <div class="col-sm-9">
+        <input type="text" id="input-description" class="form-control" placeholder="請輸入輸入說明">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-3 col-form-label">輸出說明</label>
+    <div class="col-sm-9">
+        <input type="text" id="output-description" class="form-control" placeholder="請輸入輸出說明">
+    </div>
+</div> -->
 
-  <div class="form-group row title">
-      <label class="col col-form-label">題目</label>
-      <textarea name="" class="form-control"  id="PGQtitle" style="width: 100%;margin: 0.5rem 1rem;padding: 10px"></textarea>
-      <!-- <div class="col-sm-9 title-col">
-          <input type="text" id ="PGQtitle" class="form-control title-text" placeholder="請輸入題目">
-      </div> -->
-  </div>
-  <div class="form-group row">
-      <label class="col-sm-3 col-form-label">輸入說明</label>
-      <div class="col-sm-9">
-          <input type="text" id="input-description" class="form-control"
-              placeholder="請輸入輸入說明">
-      </div>
-  </div>
-  <div class="form-group row">
-      <label class="col-sm-3 col-form-label">輸出說明</label>
-      <div class="col-sm-9">
-          <input type="text" id="output-description" class="form-control"
-              placeholder="請輸入輸出說明">
-      </div>
-  </div>
-
-  <div class="form-group col " style="padding:0px">
-      <label class="col-3 col-form-label mr-0" style="padding:0px">範例輸入</label>
-      <div class="col w-100" style="padding:0px">
-          <textarea class="w-100 form-control" rows="3" id="input-example"></textarea>
-      </div>
-  </div>
-  <div class="form-group col " style="padding:0px">
-      <label class="col-3 col-form-label mr-0" style="padding:0px">範例輸出</label>
-      <div class="col w-100" style="padding:0px">
-          <textarea class="w-100 form-control" rows="3" id="output-example"></textarea>
-      </div>
-  </div>
-  <div class="form-group col " style="padding:0px">
-      <label class="col-3 col-form-label mr-0" style="padding:0px">測資輸入</label>
-      <div class="col w-100" style="padding:0px">
-          <textarea class="w-100 form-control" rows="3" id="input-test"></textarea>
-      </div>
-  </div>
-  <div class="form-group col " style="padding:0px">
-      <label class="col-3 col-form-label mr-0" style="padding:0px">測資輸出</label>
-      <div class="col w-100" style="padding:0px">
-          <textarea class="w-100 form-control" rows="3" id="output-test"></textarea>
-      </div>
-  </div>
+<div class="form-group col mt-2" style="padding:0px">
+    <label class="col-3 col-form-label mr-0" style="padding:0px">範例輸入</label>
+    <div class="col w-100" style="padding:0px">
+        <textarea class="w-100 form-control" rows="3" id="input-example"></textarea>
+    </div>
+</div>
+<div class="form-group col " style="padding:0px">
+    <label class="col-3 col-form-label mr-0" style="padding:0px">範例輸出</label>
+    <div class="col w-100" style="padding:0px">
+        <textarea class="w-100 form-control" rows="3" id="output-example"></textarea>
+    </div>
+</div>
+<div class="form-group col " style="padding:0px">
+    <label class="col-3 col-form-label mr-0" style="padding:0px">測資輸入</label>
+    <div class="col w-100" style="padding:0px">
+        <textarea class="w-100 form-control" rows="3" id="input-test"></textarea>
+    </div>
+</div>
+<div class="form-group col " style="padding:0px">
+    <label class="col-3 col-form-label mr-0" style="padding:0px">測資輸出</label>
+    <div class="col w-100" style="padding:0px">
+        <textarea class="w-100 form-control" rows="3" id="output-test"></textarea>
+    </div>
+</div>
 
 
 <div class="modal-footer p-0">
     <input type="number" id="PGQscore" class="form-control" placeholder="請輸入配分">
-    <button type="button" id = "PGQaddQution" class="btn btn-secondary" onclick="PGQcreateNewQution()">新增題目</button>
-    <button type="button" id = "PGQeditQution" style="display:none" class="btn btn-secondary" onclick="PGQeditQution()">儲存變更</button>
+    <button type="button" id="PGQaddQution" class="btn btn-secondary" onclick="PGQcreateNewQution()">新增題目</button>
+    <button type="button" id="PGQeditQution" style="display:none" class="btn btn-secondary"
+        onclick="PGQeditQution()">儲存變更</button>
 </div>
 
 <script>
-
-  let PGQcreateNewQution = function(){
-    let title = document.getElementById('PGQtitle');
-    let inputd = document.getElementById('input-description');
-    let outputd = document.getElementById('output-description');
-    let inpute = document.getElementById('input-example');
-    let outpute = document.getElementById('output-example');
-    let inputts = document.getElementById('input-test');
-    let outputts = document.getElementById('output-test');
-    let score = document.getElementById('PGQscore');
-
-    let answer = {
-        type: "程式題",
-        qutionName: title.value,
-        inputDescription: inputd.value,
-        outputDescription: outputd.value,
-        inputExample: inpute.value,
-        outputExample: outpute.value,
-        intputTest: inputts.value,
-        outputTest: outputts.value,
-        score: score.value,
-        answer: false
+    CKEDITOR.replace('PGQEditor', {
+        height: 400,
+        filebrowserUploadUrl: '/uploader',
+        //記得加下面那行  filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form',
+    });
+    let PGQcreateNewQution = function () {
+        let title = document.getElementById('PGQtitle');
+        //let inputd = document.getElementById('input-description');
+        //let outputd = document.getElementById('output-description');
+        let inpute = document.getElementById('input-example');
+        let outpute = document.getElementById('output-example');
+        let inputts = document.getElementById('input-test');
+        let outputts = document.getElementById('output-test');
+        let score = document.getElementById('PGQscore');
+        let qution = CKEDITOR.instances.PGQEditor.getData();
+        let answer = {
+            type: "程式題",
+            qutionName: title.value,
+            qution: qution,
+            inputDescription: "",
+            outputDescription: "",
+            inputExample: inpute.value,
+            outputExample: outpute.value,
+            intputTest: inputts.value,
+            outputTest: outputts.value,
+            score: score.value,
+            answer: false
+        }
+        console.log("裡面的");
+        console.log(answer);
+        updateCreatedQutionList(answer);
+        title.value = '';
+        // inputd.value = '';
+        // outputd.value = '';
+        CKEDITOR.instances.PGQEditor.setData("");
+        inpute.value = '';
+        outpute.value = '';
+        inputts.value = '';
+        outputts.value = '';
+        score.value = '';
     }
-    console.log("裡面的");
-    console.log(answer);
-    console.log(score)
-    updateCreatedQutionList(answer);
-    title.value = '';
-    inputd.value = '';
-    outputd.value = '';
-    inpute.value = '';
-    outpute.value = '';
-    inputts.value = '';
-    outputts.value = '';
-    score.value = '';
-  }
-  let PGQeditQutionID = "";
-  let editPGQ = function(qutionData,id){
-    PGQeditQutionID = id;
-    let title = document.getElementById('PGQtitle');
-    let PGQinputd = document.getElementById('input-description');
-    let PGQoutputd = document.getElementById('output-description');
-    let PGQinpute = document.getElementById('input-example');
-    let PGQoutpute = document.getElementById('output-example');
-    let PGQinputts = document.getElementById('input-test');
-    let PGQoutputts = document.getElementById('output-test');
-    let PGQscore = document.getElementById('PGQscore');
-    let PGQaddQution = document.getElementById('PGQaddQution');
-    let PGQeditQution = document.getElementById('PGQeditQution');
-    PGQaddQution.style.cssText = "display:none";
-    PGQeditQution.style.cssText = "display:block";
-    title.value = qutionData.qutionName;
-    PGQinputd.value = qutionData.inputDescription;
-    PGQoutputd.value = qutionData.outputDescription;
-    PGQinpute.value = qutionData.inputExample;
-    PGQoutpute.value = qutionData.outputExample;
-    PGQinputts.value = qutionData.intputTest;
-    PGQoutputts.value = qutionData.outputTest;
-    if(qutionData.score == "未設定"){
-      PGQscore.value = "";
-    }else{
-      PGQscore.value = parseInt(qutionData.score);
+    let PGQeditQutionID = "";
+    let editPGQ = function (qutionData, id) {
+        PGQeditQutionID = id;
+        let title = document.getElementById('PGQtitle');
+        let PGQinputd = document.getElementById('input-description');
+        let PGQoutputd = document.getElementById('output-description');
+        let PGQinpute = document.getElementById('input-example');
+        let PGQoutpute = document.getElementById('output-example');
+        let PGQinputts = document.getElementById('input-test');
+        let PGQoutputts = document.getElementById('output-test');
+        let PGQscore = document.getElementById('PGQscore');
+        let PGQaddQution = document.getElementById('PGQaddQution');
+        let PGQeditQution = document.getElementById('PGQeditQution');
+        PGQaddQution.style.cssText = "display:none";
+        PGQeditQution.style.cssText = "display:block";
+        title.value = qutionData.qutionName;
+        PGQinputd.value = qutionData.inputDescription;
+        PGQoutputd.value = qutionData.outputDescription;
+        PGQinpute.value = qutionData.inputExample;
+        PGQoutpute.value = qutionData.outputExample;
+        PGQinputts.value = qutionData.intputTest;
+        PGQoutputts.value = qutionData.outputTest;
+        if (qutionData.score == "未設定") {
+            PGQscore.value = "";
+        } else {
+            PGQscore.value = parseInt(qutionData.score);
+        }
     }
-  }
-  let PGQeditQution = function(){
-    let title = document.getElementById('PGQtitle');
-    let PGQinputd = document.getElementById('input-description');
-    let PGQoutputd = document.getElementById('output-description');
-    let PGQinpute = document.getElementById('input-example');
-    let PGQoutpute = document.getElementById('output-example');
-    let PGQinputts = document.getElementById('input-test');
-    let PGQoutputts = document.getElementById('output-test');
-    let PGQscore = document.getElementById('PGQscore');
-    let PGQaddQution = document.getElementById('PGQaddQution');
-    let PGQeditQution = document.getElementById('PGQeditQution');
-    if(PGQscore.value == ""){
-      score = "未設定";
-    }else{
-      score = parseInt(PGQscore.value);
+    let PGQeditQution = function () {
+        let title = document.getElementById('PGQtitle');
+        let PGQinputd = document.getElementById('input-description');
+        let PGQoutputd = document.getElementById('output-description');
+        let PGQinpute = document.getElementById('input-example');
+        let PGQoutpute = document.getElementById('output-example');
+        let PGQinputts = document.getElementById('input-test');
+        let PGQoutputts = document.getElementById('output-test');
+        let PGQscore = document.getElementById('PGQscore');
+        let PGQaddQution = document.getElementById('PGQaddQution');
+        let PGQeditQution = document.getElementById('PGQeditQution');
+        if (PGQscore.value == "") {
+            score = "未設定";
+        } else {
+            score = parseInt(PGQscore.value);
+        }
+        let answer = {
+            type: "程式題",
+            qutionName: title.value,
+            inputDescription: PGQinputd.value,
+            outputDescription: PGQoutputd.value,
+            inputExample: PGQinpute.value,
+            outputExample: PGQoutpute.value,
+            intputTest: PGQinputts.value,
+            outputTest: PGQoutputts.value,
+            score: PGQscore.value,
+            answer: false
+        }
+        QuationList[PGQeditQutionID] = answer;
+        updateQutionList();
+        PGQaddQution.style.cssText = "display:block";
+        PGQeditQution.style.cssText = "display:none";
+        title.value = "";
+        PGQinputd.value = "";
+        PGQoutputd.value = "";
+        PGQinpute.value = "";
+        PGQoutpute.value = "";
+        PGQinputts.value = "";
+        PGQoutputts.value = "";
+        PGQscore.value = "";
     }
-    let answer = {
-        type: "程式題",
-        qutionName: title.value,
-        inputDescription: PGQinputd.value,
-        outputDescription: PGQoutputd.value,
-        inputExample: PGQinpute.value,
-        outputExample: PGQoutpute.value,
-        intputTest: PGQinputts.value,
-        outputTest: PGQoutputts.value,
-        score: PGQscore.value,
-        answer: false
-    }
-    QuationList[PGQeditQutionID] = answer;
-    updateQutionList();
-    PGQaddQution.style.cssText = "display:block";
-    PGQeditQution.style.cssText = "display:none";
-    title.value = "";
-    PGQinputd.value = "";
-    PGQoutputd.value = "";
-    PGQinpute.value = "";
-    PGQoutpute.value = "";
-    PGQinputts.value = "";
-    PGQoutputts.value = "";
-    PGQscore.value = "";
-  }
 </script>

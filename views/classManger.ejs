@@ -838,8 +838,10 @@
 
     let QuationList = [];
     function updateCreatedQutionList(newQution){
-      QuationList.push(newQution);
-      updateQutionList();
+        console.log(QuationList);
+          
+        QuationList.push(newQution);
+        updateQutionList();
     }
     function updateQutionList() {
       let QuationListDIV = document.getElementById('QuationList');
@@ -1001,6 +1003,8 @@
             QuationListDIV.appendChild(div);
         }
         if (newQution.type == '程式題') {
+            console.log("程式題");
+            
             //             div class="alert alert-warning alert-dismissible fade show" role="alert">
             //                 <h5>題目類型：程式題</h5>
             //                 <h6>題目：請用c語言print出下列圖形</h6>
@@ -1025,9 +1029,10 @@
             let h6 = document.createElement('h6');
             h6.innerText = `題目：${newQution.qutionName}`;
             let p1 = document.createElement('p');
-            p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
-            let p2 = document.createElement('p');
-            p2.innerHTML = `輸出說明：${newQution.outputDescription}`;
+            p1.innerHTML = `輸入說明：${newQution.qution}`;
+            // p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
+            // let p2 = document.createElement('p');
+            // p2.innerHTML = `輸出說明：${newQution.outputDescription}`;
             let p3 = document.createElement('pre');
             p3.innerHTML = `輸入範例：\n${newQution.inputExample}`;
             let p4 = document.createElement('pre');
@@ -1049,7 +1054,7 @@
             div.appendChild(h5);
             div.appendChild(h6);
             div.appendChild(p1);
-            div.appendChild(p2);
+            //div.appendChild(p2);
             div.appendChild(p3);
             div.appendChild(p4);
             div.appendChild(p5);
