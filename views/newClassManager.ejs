@@ -85,6 +85,10 @@
         background-color: #4FC3F7;
         animation: indeterminate_second 1.5s infinite ease-in;
     }
+    .fullWidthImgDiv img{
+        word-wrap: break-word;
+        width: 100%;
+    }
 
     @keyframes indeterminate_first {
         0% {
@@ -1413,9 +1417,11 @@
                 h6.innerText = `題目：
                 ${newQution.qutionName}`;
                 let p1 = document.createElement('p');
-                p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
-                let p2 = document.createElement('p');
-                p2.innerHTML = `輸出說明：${newQution.outputDescription}`;
+                p1.innerHTML = `題目內容：\n${newQution.qution}`
+                p1.className = "fullWidthImgDiv";
+                // p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
+                // let p2 = document.createElement('p');
+                // p2.innerHTML = `輸出說明：${newQution.outputDescription}`;
                 let p3 = document.createElement('pre');
                 p3.innerHTML = `輸入範例：\n${newQution.inputExample}`;
                 let p4 = document.createElement('pre');
@@ -1440,7 +1446,7 @@
                 div.appendChild(h5);
                 div.appendChild(h6);
                 div.appendChild(p1);
-                div.appendChild(p2);
+                //div.appendChild(p2);
                 div.appendChild(p3);
                 div.appendChild(p4);
                 div.appendChild(p5);

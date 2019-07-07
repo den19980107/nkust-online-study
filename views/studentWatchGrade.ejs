@@ -29,7 +29,15 @@
         transition: all 200ms ease-in;
         transform: scale(1.005);
     }
-
+    .fullWidthImgDiv{
+        word-wrap: break-word;
+    }
+    .fullWidthImgDiv{
+        display: block;
+    }
+    .fullWidthImgDiv img{
+        width: 100%;
+    }
     .space {
         display: flex;
         margin-bottom: 1rem
@@ -384,13 +392,11 @@
                 html +=
                     `
                     <p>學生答案:</p>
-                    <div>
-                        <p>輸入說明:
-                                ${qution.inputDescription}
+                    <div class = "fullWidthImgDiv">
+                        <p>題目內容:
+                            ${qution.qution}
                         </p>
-                        <p>輸出說明:
-                            ${qution.outputDescription}
-                        </p>
+                        
                         <div class="row">
                             <div class="col ">
                                 <p>輸入範例：</p>

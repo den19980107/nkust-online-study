@@ -8,6 +8,15 @@
         background-color:#ebede6;
         border: 1px solid rgb(194, 190, 190);
     }
+    .fullWidthImgDiv{
+        word-wrap: break-word;
+    }
+    .fullWidthImgDiv{
+        display: block;
+    }
+    .fullWidthImgDiv img{
+        width: 100%;
+    }
 </style>
 <%if(isSubmited){%>
 <a href="/class/newClassManager/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程單元頁面</i></a>
@@ -153,12 +162,8 @@
         <p style="font-size: 20px">題目:</p>
         <pre style="font-size: 20px"><%=qution.qutionName%> （程式題）</pre>
         <div>
-            <p>輸入說明:
-                <%=qution.inputDescription%>
-            </p>
-            <p>輸出說明:
-                <%=qution.outputDescription%>
-            </p>
+            <p id = "hiddenQution<%=i%>" style="display: none"><%=qution.qution%></p>
+            <div id="qutionContent<%=i%>">題目內容:</div>        
             <div class="row">
                 <div class="col ">
                     <pre>輸入範例：
@@ -202,6 +207,13 @@
                 </div>
             </div>
         </div>
+        <script>
+            let hiddenQution = document.getElementById('hiddenQution<%=i%>').innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
+            let qutionContent = document.getElementById('qutionContent<%=i%>');
+            qutionContent.className = "fullWidthImgDiv";
+            console.log(hiddenQution);
+            qutionContent.innerHTML = hiddenQution
+        </script>
         <%}%>
     </div>
     <%})%>
