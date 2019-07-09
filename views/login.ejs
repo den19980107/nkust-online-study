@@ -1,47 +1,50 @@
 <% include layout/header %>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <style>
-    .renewDiv{
+    .renewDiv {
         margin-bottom: 2rem;
         padding: 20px;
-        border-radius:20px;
-        background-color:rgb(255, 255, 255);
+        border-radius: 20px;
+        background-color: rgb(255, 255, 255);
         border: 1px solid rgb(194, 190, 190);
         width: 50%
     }
-    .alert{
+
+    .alert {
         background: white;
         color: white;
         border-color: white;
-        width:0px;
-        height:0px;
+        width: 0px;
+        height: 0px;
     }
+
     @media screen and (max-width: 400px) {
-      .renewDiv{
-          margin-bottom: 2rem;
-          padding: 20px;
-          border-radius:20px;
-          background-color:rgb(255, 255, 255);
-          border: 1px solid rgb(194, 190, 190);
-          width: 100%
-      }
+        .renewDiv {
+            margin-bottom: 2rem;
+            padding: 20px;
+            border-radius: 20px;
+            background-color: rgb(255, 255, 255);
+            border: 1px solid rgb(194, 190, 190);
+            width: 100%
+        }
     }
 </style>
 <div class="renewDiv m-auto" style="position:relative">
-  <h3>
-      登入
-  </h3>
-  <br>
-  <form method="POST" action="/users/login">
-      <%if(locals.nextURL){%>
-          <%if(nextURL == null){%>
-              <input type="text" name="nextURL" value="null" style="display: none">
-          <%}else{%>
-              <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
-          <%}%>
+    <h3>
+        登入
+    </h3>
+    <br>
+    <form method="POST" action="/users/login">
+        <%if(locals.nextURL){%>
+        <%if(nextURL == null){%>
+        <input type="text" name="nextURL" value="null" style="display: none">
+        <%}else{%>
+        <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
+        <%}%>
       <%}else{%>
-          <input type="text" name="nextURL" value="null" style="display: none">
-      <%}%>
+        <input type="text" name="nextURL" value="null" style="display: none">
+        <%}%>
       <div class="form-group">
           <label>帳號:</label>
           <input type="text" class="form-control" placeholder="請輸入帳號" name="username">
@@ -84,7 +87,9 @@
     if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined"){
       let obj = {
         "BookName":json[i].bookName,
-        "BookImg":json[i].bookImg
+        "BookImg":json[i].bookImg,
+        "nowIndex":i,
+        "Length":json.length
       }
       console.log(obj);
       $.ajax({
