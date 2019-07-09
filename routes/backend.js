@@ -17,6 +17,8 @@ let CodeQution = require('../model/codeQution');
 //bring studentTakeCourse model
 let StudentTakeCourse = require('../model/StudentTakeCourse');
 let ObjectID = require('mongodb').ObjectID;
+//bring EBookData model
+let EBookData = require('../model/EBookData');
 
 //進入後台
 router.get('/', ensureAuthenticated, function (req, res) {
@@ -122,13 +124,13 @@ router.get('/training',function(req,res){
 })
 //開始訓練
 router.post('/getAverage',function(req,res){
-    Videobehavior.find({},function(err,behaviors){ 
+    Videobehavior.find({},function(err,behaviors){
         if(err){
             console.log(err);
         }
         let behaviorsInVideo = {};
         //console.log(behaviors[0]._id in behaviorsInVideo);
-       
+
         for(let i = 0;i<behaviors.length;i++){
             if(behaviors[i].videoID in behaviorsInVideo){
                 let key = behaviors[i].videoID
@@ -152,14 +154,14 @@ router.post('/getAverage',function(req,res){
             querytext.push(ObjectID(videos[i]).toString())
         }
         //console.log(querytext);
-        
+
         query = {
             _id: querytext
         }
         Video.find(query,function(err,videosinfo){
             //console.log(videosinfo);
             let data = []
-            
+
             for(let i = 0;i<videos.length;i++){
                 //console.log("video " + i +"有" +behaviorsInVideo[videos[i]].length + " 筆紀錄");
                 let behaviorRecord = behaviorsInVideo[videos[i]].length;//每一部影片有n筆記路
@@ -234,7 +236,7 @@ router.post('/getAverage',function(req,res){
                                     videoTimeLine[k].note += 1
                                 } else if (thisAction[0] == 'play') {
                                     //console.log("play");
-        
+
                                     //console.log(thisAction);
                                     //console.log(nextAction);
                                     if (nextAction != false) {
@@ -251,7 +253,7 @@ router.post('/getAverage',function(req,res){
                                             for (let q = start; q <= end; q++) {
                                                 videoTimeLine[q].play += 1
                                                 //console.log(q,videoTimeLine[q]);
-        
+
                                             }
                                         }
                                     }
@@ -259,7 +261,7 @@ router.post('/getAverage',function(req,res){
                             }
                         }
                     }
-        
+
                 }
                 let start = [];
                 let fastforward = []
@@ -270,7 +272,7 @@ router.post('/getAverage',function(req,res){
                 let label = []
                 let note = []
                 //console.log(videoTimeLine);
-        
+
                 for (let j = 0; j < videoTimeLine.length; j++) {
                     start[j] = videoTimeLine[j].start;
                     fastforward[j] = videoTimeLine[j].fastforward;
@@ -282,7 +284,7 @@ router.post('/getAverage',function(req,res){
                     label[j] = j
                 }
                 let step = Math.floor(vtime/10);
-                
+
                 let splitTimeLine= {
                     start:0,
                     fastforward:0,
@@ -291,9 +293,9 @@ router.post('/getAverage',function(req,res){
                     close:0,
                     play:0,
                     note:0
-                }    
-                
-                
+                }
+
+
                 for(let k = 0;k< vtime;k++){
                     splitTimeLine.start += videoTimeLine[k].start;
                     splitTimeLine.fastforward += videoTimeLine[k].fastforward;
@@ -311,7 +313,7 @@ router.post('/getAverage',function(req,res){
                 splitTimeLine.close = splitTimeLine.close/numberofView;
                 splitTimeLine.play = splitTimeLine.play/numberofView;
                 splitTimeLine.note = splitTimeLine.note/numberofView;
-                              
+
                 //console.log(`--------第${i}個影片 id = ${data[i].behaviors[0].videoID}  觀看次數${data[i].behaviors.length}----------`);
                 //console.log(splitTimeLine);
                 average[i].start = splitTimeLine.start;
@@ -322,12 +324,12 @@ router.post('/getAverage',function(req,res){
                 average[i].play = splitTimeLine.play;
                 average[i].note = splitTimeLine.note;
 
-                
-            }   
+
+            }
             //console.log(average);
             res.contentType('application/json');
             res.send(average);
-        })        
+        })
     })
 })
 router.post('/getSudentAverage',function(req,res){
@@ -358,12 +360,29 @@ router.post('/getSudentAverage',function(req,res){
                     }
                 }
                 //console.log(thisStudentWatchVideo);
-                
+
             }
-            
+
         })
     })
 })
+
+//EBookDataLode
+router.post('/EBookDataload', function (req, res) {
+  let data = req.body;
+  let newBookData= new EBookData();
+  newBookData.BookImg = data.BookImg;
+  newBookData.BookName = data.BookName;
+  newBookData.save(function (err) {
+    if (err) {
+      console.log(err);
+    }
+    console.log(newBookData.BookImg);
+    console.log(newBookData.BookName);
+    console.log("SAVE SUCCESS!!!!!!!!!!");
+    res.send('200');
+  });
+});
 
 //Access Control
 function ensureAuthenticated(req, res, next) {
@@ -374,7 +393,7 @@ function ensureAuthenticated(req, res, next) {
       let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
       //console.log("inuser ensure = "+nextURL);
       //console.log("url = /users/login/?r="+nextURL);
-      
+
       res.redirect('/users/login/?r='+nextURL);
     }
 }
