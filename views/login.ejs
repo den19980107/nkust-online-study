@@ -55,9 +55,58 @@
       <input type="submit" class="btn btn-primary" value="登入" >
       <a href="/users/renewpassword/0">忘記密碼</a>
   </form>
+  <div>
+	   <input type="file" id="files"/>
+  </div>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
 <script>
+  var inputElement = document.getElementById("files");
+  inputElement.addEventListener("change", handleFiles, false);
+  function handleFiles() {
+     var selectedFile = document.getElementById("files").files[0];//獲取讀取的File物件
+     var name = selectedFile.name;//讀取選中檔案的檔名
+     var size = selectedFile.size;//讀取選中檔案的大小
+     console.log("檔名:"+name+"大小："+size);
+     var reader = new FileReader();//這裡是核心！！！讀取操作就是由它完成的。
+    reader.readAsText(selectedFile);//讀取檔案的內容
 
+    reader.onload = function(){
+        // console.log("讀取結果：", this.result);//當讀取完成之後會回撥這個函式，然後此時檔案的內容儲存到了result中。直接操作即可。
+        // console.log("讀取結果轉為JSON：");
+        json = JSON.parse(this.result);
+        saveBook(json,0);
+    };
+
+  }
+  let json
+  let i = 0;
+  function saveBook (json,i){
+    if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined"){
+      let obj = {
+        "BookName":json[i].bookName,
+        "BookImg":json[i].bookImg
+      }
+      console.log(obj);
+      $.ajax({
+          url: '/backend/EBookDataload',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(obj),
+          dataType: 'json',
+          complete: function () {
+            i++;
+            saveBook(json,i);
+          },
+          error: function (err) {
+              console.log(err);
+          }
+      });
+    }else{
+      i++;
+      saveBook(json,i);
+    }
+
+  }
   $( document ).ready(function() {
     let alertlogin = document.getElementsByClassName("alertlogin");
     if(alertlogin.length != 0){
