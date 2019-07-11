@@ -238,6 +238,9 @@
         <li class="nav-item" style="display: none">
             <a class="nav-link disabled" href="#" id="myscheduleTab" tabindex="-1" aria-disabled="true">我的進度</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" id="recommendBookTab" onclick="recommendBook()">推薦書籍</a>
+        </li>
     </ul>
     <div class="w-100" id = "tableContainer" style="overflow-x: scroll">
         <div class="table" id="videoTable">
@@ -520,6 +523,47 @@
         </div>
     </div>
     <!-- end of 測驗上傳Modal -->
+    <!-- 新增書本modal -->
+    <div class="modal fade" id="additionbook" tabindex="-1" role="dialog" aria-labelledby="additionEbookTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" >
+                <div class="modal-header">
+                  <h5 class="modal-title" id="TestORHomeWork">新增書籍</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="overflow-y:auto;height:80vh;">
+                  <div class="input-group mb-3">
+                    <input type="text" id="searchbookinput" class="form-control" aria-label="Default"
+                        aria-describedby="inputGroup-sizing-default" placeholder="請輸入書籍名稱" style="border-radius:3px">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-info" style="border-radius:3px">搜尋</button>
+                    </div>
+                  </div>
+                  <%EBooks.forEach(function(EBook){%>
+                  <div class="row" id="BookContainer" style="width:100%;height:200;">
+                    <div class="BookImgDIV w-40" style="height:200;display:flex;align-items:center;justify-content:center;">
+                      <img src="<%=EBook.BookImg%>" style="width:100;height:150">
+                    </div>
+                    <div class="BookNameDIV w-60" style="height:200;position:relative">
+                      <div style="position:relative;top:15%">
+                        <h5>書本名稱:<br/>
+                          <span><%=EBook.BookName%></span>
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <%})%>
+                </div>
+
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of 新增書本modal -->
 </div>
 </div>
 
@@ -645,6 +689,7 @@
     let chapterTab = document.getElementById('chapterTab');
     let testTab = document.getElementById('testTab');
     let myscheduleTab = document.getElementById('myscheduleTab');
+    let recommendBookTab = document.getElementById('recommendBookTab');
 
     let showVideo = function () {
         //console.log("in showVideo");
@@ -653,6 +698,7 @@
         chapterTab.className = "nav-link ";
         testTab.className = "nav-link ";
         myscheduleTab.className = "nav-link ";
+        recommendBookTab.className = "nav-link";
         let videoTable = document.getElementById('videoTable');
         videoTable.innerHTML = "";
         let videoTable2 = document.getElementById('videoTable2');
@@ -782,6 +828,7 @@
         chapterTab.className = "nav-link active";
         testTab.className = "nav-link ";
         myscheduleTab.className = "nav-link ";
+        recommendBookTab.className = "nav-link";
         let videoTable2 = document.getElementById('videoTable2');
         videoTable2.innerHTML = "";
         let videoTable = document.getElementById('videoTable');
@@ -850,6 +897,7 @@
         chapterTab.className = "nav-link";
         testTab.className = "nav-link active";
         myscheduleTab.className = "nav-link ";
+        recommendBookTab.className = "nav-link";
         let videoTable2 = document.getElementById('videoTable2');
         videoTable2.innerHTML = "";
         let videoTable = document.getElementById('videoTable');
@@ -914,6 +962,48 @@
             }
 
         })
+    }
+
+
+    let recommendBook = function () {
+      videoTab.className = "nav-link";
+      chapterTab.className = "nav-link";
+      testTab.className = "nav-link";
+      myscheduleTab.className = "nav-link ";
+      recommendBookTab.className = "nav-link active";
+      let videoTable2 = document.getElementById('videoTable2');
+      videoTable2.innerHTML = "";
+      let videoTable = document.getElementById('videoTable');
+      videoTable.innerHTML = "";
+      let tableContainer = document.getElementById('tableContainer');
+      tableContainer.style.cssText = "";
+      $.ajax({
+          url: '/api/classEBook/' + selectedUnitID,
+          type: 'GET',
+          beforeSend: function () {
+              let loader = document.getElementById('line-loader');
+              loader.style.display = "block"
+          },
+          complete: function () {
+              let loader = document.getElementById('line-loader');
+              loader.style.display = "none"
+          },
+          error: function (error) {
+              alert("請先新增單元");
+          },
+          success: function (response) {
+              console.log("還沒做");
+              if(canManage){ // 是管理者
+                  videoTable2.innerHTML = `
+                  <i class="fas fa-plus-circle"
+                      style="position: fixed;bottom: 5%;right: 5%;border-radius:50%;box-shadow:0.2rem 0.2rem 0.2rem;border:1px solid rgb(78,167,150);background:white;z-index:30;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
+                      data-toggle="modal" data-target="#additionbook">
+                  </i>`
+              }
+          }
+
+      })
+
     }
 
     let renameMaterialID = "";//要被命名的教材(講義or測驗)的id

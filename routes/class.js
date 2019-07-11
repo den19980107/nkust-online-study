@@ -33,9 +33,13 @@ let studntSubmitHomework = require('../model/studentSubmitHomework');
 //bring studentWatchChapter modal
 let studentWatchChapter = require('../model/studentWatchChapter');
 //bring note model
-let Note = require('../model/note')
+let Note = require('../model/note');
 //bring RFM model
-let RFM = require('../model/RFM')
+let RFM = require('../model/RFM');
+//bring EBookData model
+let EBookData = require('../model/EBookData');
+//bring classEBook model
+let classEBook = require('../model/classEBook');
 //寄email的工具
 var nodemailer = require('nodemailer');
 
@@ -434,7 +438,6 @@ router.get('/classManager/:id', ensureAuthenticated, function (req, res) {
 router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.id, function (error, classinfo) {
     //console.log(classinfo);
-
     if (error) {
       res.render('notExist', {
         title: "喔喔！此課程不存在...",
@@ -444,22 +447,92 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
       Unit.find({
         belongClass: classinfo._id
       }, function (error2, units) {
-        StudebtTakeCourse.find({
-          classID: req.params.id
-        }, function (err, thisClassStudents) {
-          if (err) {
-            console.log(err);
+        classEBook.find({classId:req.params.id,belongUnit:units}),function(err1,classEBooks){
+          if (err1) {
+            console.log(err1);
           }
-          res.render('newClassManager', {
-            id: req.params.id,
-            classinfo: classinfo,
-            units: units,
-            thisClassStudents: thisClassStudents
+          StudebtTakeCourse.find({
+            classID: req.params.id
+          }, function (err, thisClassStudents) {
+            if (err) {
+              console.log(err);
+            }
+            res.render('newClassManager', {
+              id: req.params.id,
+              classinfo: classinfo,
+              units: units,
+              thisClassStudents: thisClassStudents,
+              classEBooks:classEBooks
+            });
           });
-        })
+        });
       })
     }
   });
+});
+
+//getEbookData
+router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) {
+  let getEBooknum = 10;
+  let EndBookId = ObjectID(req.params.EndBookId).toString();
+  EBookData.find(function(err,EBooks){
+    if (err) {
+      console.log(err);
+    }
+    // console.log(EBooks);
+    let wanttoreturndata = [];
+    for(let i = 0;i<EBooks.length;i++){
+      if(ObjectID(EBooks[i]._id).toString() == EndBookId){
+        for(let j = i+1;j<= i+getEBooknum;j++){
+          if(j == EBooks.length){
+            break;
+          }
+          wanttoreturndata.push(ObjectID(EBooks[j]._id).toString());
+        }
+        break;
+      }
+    }
+    console.log(wanttoreturndata);
+    EBookData.find({ _id:wanttoreturndata},function(error,EBookarray){
+      if (error) {
+        console.log(error);
+      }
+      res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)}} `);
+    });
+
+  });
+});
+
+//saveEbookData
+router.get('/saveEbookData/:classId/:UnitID/:EBookarray', ensureAuthenticated, function (req, res) {
+  let classId = req.params.classId;
+  let UnitID = req.params.UnitID;
+  let EBookarray = req.params.EBookarray;
+  for(let i = 0;i<EBookarray.length;i++){
+    classEBook.findOne({
+      BookID: EBookarray[i],
+      classId: classId
+    }, function (err, classEBooks) {
+      if (err) {
+        console.log(err);
+      }
+      if (classEBooks) {
+        //已經有了
+      } else {
+        let addclassEBook = new classEBook;
+        addclassEBook.BookName = EBookarray[i].BookName;
+        addclassEBook.BookImg = EBookarray[i].BookImg;
+        addclassEBook.BookID = EBookarray[i]._id;
+        addclassEBook.classId = classId;
+        addclassEBook.belongUnit = UnitID;
+        addclassEBook.save(function (err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+    });
+  }
 });
 
 //刪除課程
@@ -550,7 +623,7 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
   }
   if (req.params.part == 'outline') {
    // console.log(req.body);
-    
+
     var myquery = {
       _id: ObjectID(req.params.classID)
     };
