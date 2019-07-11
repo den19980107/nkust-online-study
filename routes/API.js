@@ -34,6 +34,8 @@ let studntSubmitHomework = require('../model/studentSubmitHomework');
 var nodemailer = require('nodemailer');
 //bring note model
 let Note = require('../model/note')
+//bring ClassEBook model
+let classEBook = require('../model/classEBook')
 //bring RFM model
 let RFM = require('../model/RFM')
 //bring studentWatchChapter modal
@@ -244,7 +246,6 @@ router.get('/getChapterInUnit/:chapterID', function (req, res) {
             res.send('{"error" : "要求失敗", "status" : 500}');
         } else {
             //console.log(chapters);
-
             studentCommentChapter.find({}, function (err, comments) {
                 if (err) {
                     res.send('{"error" : "要求失敗", "status" : 500}');
@@ -256,6 +257,32 @@ router.get('/getChapterInUnit/:chapterID', function (req, res) {
                     res.send(`{"chapter" : ${JSON.stringify(chapters)},"comment":${JSON.stringify(comments)}} `);
                 }
             })
+        }
+    })
+})
+
+//send電子書資訊
+router.get('/classEBook/:chapterID', function (req, res) {
+    classEBook.find({
+        belongUnit: req.params.chapterID
+    }, function (err, classEBooks) {
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        } else {
+          console.log(classEBooks);
+
+          res.send("2/32/3");
+            // studentCommentChapter.find({}, function (err, comments) {
+            //     if (err) {
+            //         res.send('{"error" : "要求失敗", "status" : 500}');
+            //     } else {
+            //         // processArray(chapters, comments, {}).then(function (chapterinfo) {
+            //         //     console.log("------------");
+            //         //     console.log(chapterinfo);
+            //         // });
+            //         res.send(`{"chapter" : ${JSON.stringify(classEBooks)},"comment":${JSON.stringify(comments)}} `);
+            //     }
+            // })
         }
     })
 })
