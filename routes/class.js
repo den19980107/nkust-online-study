@@ -447,7 +447,7 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
       Unit.find({
         belongClass: classinfo._id
       }, function (error2, units) {
-        classEBook.find({classId:req.params.id,belongUnit:units}),function(err1,classEBooks){
+        classEBook.find({classId:req.params.id,belongUnit:units},function(err1,classEBooks){
           if (err1) {
             console.log(err1);
           }
@@ -474,44 +474,63 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
 //getEbookData
 router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) {
   let getEBooknum = 10;
-  let EndBookId = ObjectID(req.params.EndBookId).toString();
-  EBookData.find(function(err,EBooks){
-    if (err) {
-      console.log(err);
+  let decidepage = 0;
+  if(req.params.EndBookId == "page=1"){
+    decidepage = 1;
+  }
+  if(String(req.params.EndBookId).length != 24 && decidepage != 1){
+    res.send("錯誤資料");
+  }else{
+    if(decidepage != 1){
+      let EndBookId = ObjectID(req.params.EndBookId).toString();
+    }else{
+      let EndBookId = req.params.EndBookId
     }
-    // console.log(EBooks);
-    let wanttoreturndata = [];
-    for(let i = 0;i<EBooks.length;i++){
-      if(ObjectID(EBooks[i]._id).toString() == EndBookId){
-        for(let j = i+1;j<= i+getEBooknum;j++){
-          if(j == EBooks.length){
-            break;
+    EBookData.find(function(err,EBooks){
+      if (err) {
+        console.log(err);
+      }
+      // console.log(EBooks);
+      let wanttoreturndata = [];
+      for(let i = 0;i<EBooks.length;i++){
+        if(decidepage == 1){
+          for(let j = i;j<= i+getEBooknum;j++){
+            if(j == EBooks.length){
+              break;
+            }
+            wanttoreturndata.push(ObjectID(EBooks[j]._id).toString());
           }
-          wanttoreturndata.push(ObjectID(EBooks[j]._id).toString());
+          break;
         }
-        break;
+        if(ObjectID(EBooks[i]._id).toString() == EndBookId ){
+          for(let j = i+1;j<= i+getEBooknum;j++){
+            if(j == EBooks.length){
+              break;
+            }
+            wanttoreturndata.push(ObjectID(EBooks[j]._id).toString());
+          }
+          break;
+        }
       }
-    }
-    console.log(wanttoreturndata);
-    EBookData.find({ _id:wanttoreturndata},function(error,EBookarray){
-      if (error) {
-        console.log(error);
-      }
-      res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)}} `);
+      // console.log(wanttoreturndata);
+      EBookData.find({ _id:wanttoreturndata},function(error,EBookarray){
+        if (error) {
+          console.log(error);
+        }
+        res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)}} `);
+      });
     });
-
-  });
+  }
 });
 
 //saveEbookData
-router.get('/saveEbookData/:classId/:UnitID/:EBookarray', ensureAuthenticated, function (req, res) {
-  let classId = req.params.classId;
+router.get('/saveEbookData/:UnitID/:EBookarray', ensureAuthenticated, function (req, res) {
   let UnitID = req.params.UnitID;
   let EBookarray = req.params.EBookarray;
   for(let i = 0;i<EBookarray.length;i++){
     classEBook.findOne({
       BookID: EBookarray[i],
-      classId: classId
+      UnitID: UnitID
     }, function (err, classEBooks) {
       if (err) {
         console.log(err);
@@ -523,7 +542,6 @@ router.get('/saveEbookData/:classId/:UnitID/:EBookarray', ensureAuthenticated, f
         addclassEBook.BookName = EBookarray[i].BookName;
         addclassEBook.BookImg = EBookarray[i].BookImg;
         addclassEBook.BookID = EBookarray[i]._id;
-        addclassEBook.classId = classId;
         addclassEBook.belongUnit = UnitID;
         addclassEBook.save(function (err) {
           if (err) {

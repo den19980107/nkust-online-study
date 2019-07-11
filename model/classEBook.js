@@ -13,10 +13,6 @@ let classEBookSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    classId: {
-        type: String,
-        require: true
-    },
     belongUnit: {
         type: String,
         require: true
