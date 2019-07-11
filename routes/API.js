@@ -269,20 +269,8 @@ router.get('/classEBook/:chapterID', function (req, res) {
         if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}');
         } else {
-          console.log(classEBooks);
-
-          res.send("2/32/3");
-            // studentCommentChapter.find({}, function (err, comments) {
-            //     if (err) {
-            //         res.send('{"error" : "要求失敗", "status" : 500}');
-            //     } else {
-            //         // processArray(chapters, comments, {}).then(function (chapterinfo) {
-            //         //     console.log("------------");
-            //         //     console.log(chapterinfo);
-            //         // });
-            //         res.send(`{"chapter" : ${JSON.stringify(classEBooks)},"comment":${JSON.stringify(comments)}} `);
-            //     }
-            // })
+          // console.log(classEBooks);
+          res.send(`{"classEBooks" : ${JSON.stringify(classEBooks)}} `);
         }
     })
 })
