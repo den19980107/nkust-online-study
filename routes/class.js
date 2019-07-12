@@ -530,21 +530,22 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
 //saveEbookData
 router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (req, res) {
   let UnitID = req.params.UnitID;
-  let EBookID = req.params.EBookID;
-    classEBook.findOne({
-      BookID: EBookID,
-      UnitID: UnitID
-    }, function (err, classEBooks) {
-      if (err) {
-        console.log(err);
-      }
-      if (classEBooks) {
-        //已經有了
-      } else {
-        let addclassEBook = new classEBook;
-        addclassEBook.BookName = EBookID.BookName;
-        addclassEBook.BookImg = EBookID.BookImg;
-        addclassEBook.BookID = EBookID._id;
+  let EBookID = ObjectID(req.params.EBookID).toString();
+  classEBook.findOne({
+    BookID: EBookID,
+    UnitID: UnitID
+  }, function (err, classEBooks) {
+    if (err) {
+      console.log(err);
+    }
+    if (classEBooks) {
+      //已經有了
+    } else {
+      EBookData.find({_id: EBookID},function(error,EBook){
+        let addclassEBook = new classEBook();
+        addclassEBook.BookName = EBook.BookName;
+        addclassEBook.BookImg = EBook.BookImg;
+        addclassEBook.BookID = EBookID;
         addclassEBook.belongUnit = UnitID;
         addclassEBook.save(function (err) {
           if (err) {
@@ -553,8 +554,9 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
           }
           res.status(200).send("save success!");
         });
-      }
-    });
+      });
+    }
+  });
 
 });
 
