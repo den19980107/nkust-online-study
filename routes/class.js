@@ -567,14 +567,17 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
 });
 
 router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
-  classEBook.remove({
+  classEBook.find({
     BookID: req.params.EBookID,
-    belongUnit: req.params.EBookID
-  },function(err){
-    if(err){
-      res.status(500).send("delete error!");
-    }
-    res.status(200).send("delete success!");
+    belongUnit: req.params.UnitID
+  },function(err,EBook){
+    console.log(EBook);
+    classEBook.remove(EBook,function(err){
+      if(err){
+        res.status(500).send("delete error!");
+      }
+      res.status(200).send("delete success!");
+    });
   });
 });
 //刪除課程
