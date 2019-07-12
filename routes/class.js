@@ -491,13 +491,13 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
       if (err) {
         console.log(err);
       }
-      let totalpage = Math.ceil(EBookData.length/10);
-      // console.log(EBooks);
+      let totalpage = Math.ceil(EBooks.length/10);
+      console.log(totalpage);
       let wanttoreturndata = [];
       for(let i = 0;i<EBooks.length;i++){
         if(decidepage == 1){
+          let newpage = 1;
           for(let j = i;j< i+getEBooknum;j++){
-            let newpage = 1;
             if(j == EBooks.length){
               break;
             }
@@ -521,6 +521,7 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
         if (error) {
           console.log(error);
         }
+        console.log(newpage,totalpage);
         res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${newpage},"totalpage" : ${totalpage}} `);
       });
     });
@@ -533,15 +534,20 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
   let EBookID = ObjectID(req.params.EBookID).toString();
   classEBook.findOne({
     BookID: EBookID,
-    UnitID: UnitID
+    belongUnit: UnitID
   }, function (err, classEBooks) {
     if (err) {
       console.log(err);
+      res.status(500).send("find error!");
     }
     if (classEBooks) {
+      res.status(200).send("already exist!");
       //已經有了
     } else {
-      EBookData.find({_id: EBookID},function(error,EBook){
+      EBookData.findOne({_id: EBookID},function(error,EBook){
+        if(error){
+          res.status(500).send("find error!");
+        }
         let addclassEBook = new classEBook();
         addclassEBook.BookName = EBook.BookName;
         addclassEBook.BookImg = EBook.BookImg;
@@ -550,7 +556,7 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
         addclassEBook.save(function (err) {
           if (err) {
             console.log(err);
-              res.status(500).send("save error!");
+            res.status(500).send("save error!");
           }
           res.status(200).send("save success!");
         });
