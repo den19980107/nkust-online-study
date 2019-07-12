@@ -480,7 +480,7 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
     decidepage = 1;
   }
   if(String(req.params.EndBookId).length != 24 && decidepage != 1){
-    res.send("錯誤資料");
+    res.send("data error");
   }else{
     if(decidepage != 1){
       let EndBookId = ObjectID(req.params.EndBookId).toString();
@@ -492,11 +492,10 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
         console.log(err);
       }
       let totalpage = Math.ceil(EBooks.length/10);
-      console.log(totalpage);
       let wanttoreturndata = [];
       for(let i = 0;i<EBooks.length;i++){
         if(decidepage == 1){
-          let newpage = 1;
+          newpage = 1;
           for(let j = i;j< i+getEBooknum;j++){
             if(j == EBooks.length){
               break;
@@ -521,7 +520,6 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
         if (error) {
           console.log(error);
         }
-        console.log(newpage,totalpage);
         res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${newpage},"totalpage" : ${totalpage}} `);
       });
     });
