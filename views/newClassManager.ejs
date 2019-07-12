@@ -116,6 +116,68 @@
 
     /* end of meterial loader */
 
+
+    .loader,
+.loader:before,
+.loader:after {
+  background: #333;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+.loader {
+  color: #333;
+  text-indent: -9999em;
+  margin: 88px auto;
+  position: relative;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+.loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 1.5em;
+}
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+
+
     .table {
         width: 100%
     }
@@ -157,6 +219,13 @@
       font-family : 微軟正黑體;
       font-weight: medium;
       font-style:medium;
+    }
+    .cut-text { 
+        text-overflow: ellipsis;
+        overflow: hidden; 
+        width: 160px; 
+        height: 1.2em; 
+        white-space: nowrap;
     }
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -542,20 +611,9 @@
                         <button class="btn btn-info" style="border-radius:3px">搜尋</button>
                     </div>
                   </div>
-                  <%EBooks.forEach(function(EBook){%>
-                  <div class="row" id="BookContainer" style="width:100%;height:200;">
-                    <div class="BookImgDIV w-40" style="height:200;display:flex;align-items:center;justify-content:center;">
-                      <img src="<%=EBook.BookImg%>" style="width:100;height:150">
-                    </div>
-                    <div class="BookNameDIV w-60" style="height:200;position:relative">
-                      <div style="position:relative;top:15%">
-                        <h5>書本名稱:<br/>
-                          <span><%=EBook.BookName%></span>
-                        </h5>
-                      </div>
-                    </div>
+                  <div id = "EbookContainer">
+                    <div class="loader" id = "EBookLoader" style="display: none">Loading...</div>
                   </div>
-                  <%})%>
                 </div>
 
                 <div class="modal-footer">
@@ -966,44 +1024,187 @@
 
 
     let recommendBook = function () {
-      videoTab.className = "nav-link";
-      chapterTab.className = "nav-link";
-      testTab.className = "nav-link";
-      myscheduleTab.className = "nav-link ";
-      recommendBookTab.className = "nav-link active";
-      let videoTable2 = document.getElementById('videoTable2');
-      videoTable2.innerHTML = "";
-      let videoTable = document.getElementById('videoTable');
-      videoTable.innerHTML = "";
-      let tableContainer = document.getElementById('tableContainer');
-      tableContainer.style.cssText = "";
-      $.ajax({
-          url: '/api/classEBook/' + selectedUnitID,
-          type: 'GET',
-          beforeSend: function () {
-              let loader = document.getElementById('line-loader');
-              loader.style.display = "block"
-          },
-          complete: function () {
-              let loader = document.getElementById('line-loader');
-              loader.style.display = "none"
-          },
-          error: function (error) {
-              alert("請先新增單元");
-          },
-          success: function (response) {
-              console.log("還沒做");
-              if(canManage){ // 是管理者
-                  videoTable2.innerHTML = `
-                  <i class="fas fa-plus-circle"
-                      style="position: fixed;bottom: 5%;right: 5%;border-radius:50%;box-shadow:0.2rem 0.2rem 0.2rem;border:1px solid rgb(78,167,150);background:white;z-index:30;font-size: 3rem;color: rgb(78,167,150)" id="newVideo"
-                      data-toggle="modal" data-target="#additionbook">
-                  </i>`
-              }
-          }
+        videoTab.className = "nav-link";
+        chapterTab.className = "nav-link";
+        testTab.className = "nav-link";
+        myscheduleTab.className = "nav-link ";
+        recommendBookTab.className = "nav-link active";
+        let videoTable2 = document.getElementById('videoTable2');
+        videoTable2.innerHTML = "";
+        let videoTable = document.getElementById('videoTable');
+        videoTable.innerHTML = "";
+        videoTable.style.cssText = "display:flex;flex-wrap:wrap;justify-content: start;"
 
-      })
+        let tableContainer = document.getElementById('tableContainer');
+        tableContainer.style.cssText = "";
+        $.ajax({
+            url: '/api/classEBook/' + selectedUnitID,
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('line-loader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert("請先新增單元");
+            },
+            success: function (response) {
+                let classEBooks = JSON.parse(response).classEBooks;
+                console.log(classEBooks)
 
+                for(let i = 0;i<classEBooks.length;i++){
+                    videoTable.innerHTML+=`
+                    <div class="card mt-3 mr-3" style="width: 12rem;height:16.97rem;" title= '${classEBooks[i].BookName}'>
+                        <div style="display:flex;justify-content: space-between;height:15%;border-bottom:1px solid #ccc">
+                            <span style="padding:0.5rem;width:70%">推薦書籍</span>
+                            <div class="dropdown">
+                                <i class="fas fa-ellipsis-v" style="padding:0.5rem;font-size:16px;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#" onclick="deleteEbook('${classEBooks[i].BookID}')">刪除</a>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="${classEBooks[i].BookImg}" style="width:100%;height:85%">
+                    </div>
+                    
+                    `
+                }
+                videoTable.innerHTML += `
+                    <i class="fas fa-plus-circle"
+                        style="position: fixed;bottom: 5%;right: 5%;border-radius:50%;box-shadow:0.2rem 0.2rem 0.2rem;border:1px solid rgb(78,167,150);background:white;z-index:30;font-size: 3rem;color: rgb(78,167,150)";data-toggle="modal" onclick="$('#additionbook').modal();showEbook('0');" data-target="#additionbook">
+                    </i>`;
+                
+            }
+
+        })
+
+    }
+
+    //再新增書籍的model顯示資料庫有哪些書
+    function showEbook(page){
+        let EbookContainer = document.getElementById('EbookContainer')
+        let pageNum = page;
+        
+        if(pageNum<1){
+            pageNum = 1;
+        }
+        $.ajax({
+            url: '/class/getEbookData/page=1',
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('EBookLoader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('EBookLoader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert("請先新增單元");
+            },
+            success: function (response) {
+                let BooksData = JSON.parse(response).EBookarray;
+                let nowPage = JSON.parse(response).nowpage;
+                let totalPage = JSON.parse(response).totalpage;
+                console.log(BooksData);
+                console.log(nowPage,totalPage);
+                
+
+                for(let i =0;i<BooksData.length;i++){
+                    EbookContainer.innerHTML+=`
+                        <div class="mb-1" style="display:flex;justify-content: flex-start;border:1px solid #ccc;height:8rem">
+                            <img src="${BooksData[i].BookImg}" style="width:20%;border-right:1px solid #ccc" alt="">
+                            <div class="w-100" style="display:flex;justify-content: space-between;flex-direction: column">
+                                <p class="p-1">${BooksData[i].BookName}</p>
+                                <button class="btn btn-primary" style="width:5rem;margin-left: auto;" onclick = "addEbook('${BooksData[i]._id}')">加入</button>
+                            </div>
+                        </div>
+                    `
+                }
+                EbookContainer.innerHTML +=`
+                    <div class="mb-1" style="display:flex;justify-content: space-between;">
+                        <button class="btn btn-primary" onclick = "showEbook(${nowPage-1})">上一頁</button>
+                        <p>${nowPage}/${totalPage}</p>
+                        <button class="btn btn-primary" onclick = "showEbook(${nowPage+1})">下一頁</button>
+                    </div>
+                `
+                
+            }
+
+        })
+
+    }
+
+    function addEbook(bookId) {
+        if(confirm('確定要加入嗎？')){
+            console.log(bookId);
+            console.log(selectedUnitID);
+            $.ajax({
+                url: '/class/saveEbookData/'+selectedUnitID+'/'+bookId,
+                type: 'POST',
+                beforeSend: function () {
+                    let loader = document.getElementById('EBookLoader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('EBookLoader');
+                    loader.style.display = "none"
+                },
+                error: function (error) {
+                    alert(error);
+                },
+                success: function (response) {
+                    console.log(response);
+                    if(response == "already exist!"){
+                        alert("此本書籍已新增")
+                    }
+                    recommendBook();
+                }
+
+            })
+
+        }
+    }
+
+    function deleteEbook(bookId){
+        if(confirm('確定要刪除嗎？')){
+            console.log(bookId);
+            console.log(selectedUnitID);
+            
+            $.ajax({
+                url: '/class/deleteEbookData/'+selectedUnitID+'/'+bookId,
+                type: 'POST',
+                beforeSend: function () {
+                    let loader = document.getElementById('EBookLoader');
+                    loader.style.display = "block"
+                },
+                complete: function () {
+                    let loader = document.getElementById('EBookLoader');
+                    loader.style.display = "none"
+                },
+                error: function (error) {
+                    alert("新增錯誤！");
+                },
+                success: function (response) {
+                    console.log(response);
+                    recommendBook();
+                }
+
+            })
+
+        }
+    }
+
+    function reflashEbookContainer (allClassEBooks){
+        let EbookContainer = document.getElementById('EbookContainer');
+        for(let i = 0;i<allClassEBooks;i++){
+            EbookContainer.innerHTML += `
+            <p>${allClassEBooks[i].BookName}</p>
+            `
+        }
     }
 
     let renameMaterialID = "";//要被命名的教材(講義or測驗)的id

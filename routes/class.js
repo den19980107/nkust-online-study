@@ -473,6 +473,7 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
 
 //getEbookData
 router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) {
+  
   let getEBooknum = 10;
   let decidepage = 0;
   let newpage = 0 ;
@@ -530,8 +531,10 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
 
 //saveEbookData
 router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (req, res) {
+  console.log("===================================");
   let UnitID = req.params.UnitID;
   let EBookID = ObjectID(req.params.EBookID).toString();
+  
   classEBook.findOne({
     BookID: EBookID,
     belongUnit: UnitID
@@ -567,12 +570,17 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
 });
 
 router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
-  classEBook.find({
+  console.log("deleteEbookdata",req.params.UnitID,req.params.EBookID);
+  
+  classEBook.findOne({
     BookID: req.params.EBookID,
     belongUnit: req.params.UnitID
   },function(err,EBook){
     console.log(EBook);
-    classEBook.remove(EBook,function(err){
+    let query = {
+      _id: EBook._id
+    }
+    classEBook.remove(query,function(err){
       if(err){
         res.status(500).send("delete error!");
       }
@@ -580,6 +588,7 @@ router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
     });
   });
 });
+
 //刪除課程
 router.get('/deleteCourse/:id', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.id, function (error, classinfo) {

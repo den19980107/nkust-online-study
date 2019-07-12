@@ -22,7 +22,7 @@ db.once('open', function () {
 });
 //check for db errors
 db.on('error', function (err) {
-    console.log(err);
+    //console.log(err);
 });
 
 //init app
