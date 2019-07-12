@@ -475,6 +475,7 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
 router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) {
   let getEBooknum = 10;
   let decidepage = 0;
+  let newpage = 0 ;
   if(req.params.EndBookId == "page=1"){
     decidepage = 1;
   }
@@ -490,11 +491,13 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
       if (err) {
         console.log(err);
       }
+      let totalpage = Math.ceil(EBookData.length/10);
       // console.log(EBooks);
       let wanttoreturndata = [];
       for(let i = 0;i<EBooks.length;i++){
         if(decidepage == 1){
-          for(let j = i;j<= i+getEBooknum;j++){
+          for(let j = i;j< i+getEBooknum;j++){
+            let newpage = 1;
             if(j == EBooks.length){
               break;
             }
@@ -503,6 +506,7 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
           break;
         }
         if(ObjectID(EBooks[i]._id).toString() == EndBookId ){
+          let newpage = Math.ceil(i+1/10)+1;
           for(let j = i+1;j<= i+getEBooknum;j++){
             if(j == EBooks.length){
               break;
@@ -517,19 +521,18 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
         if (error) {
           console.log(error);
         }
-        res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)}} `);
+        res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${newpage},"totalpage" : ${totalpage}} `);
       });
     });
   }
 });
 
 //saveEbookData
-router.get('/saveEbookData/:UnitID/:EBookarray', ensureAuthenticated, function (req, res) {
+router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (req, res) {
   let UnitID = req.params.UnitID;
-  let EBookarray = req.params.EBookarray;
-  for(let i = 0;i<EBookarray.length;i++){
+  let EBookID = req.params.EBookID;
     classEBook.findOne({
-      BookID: EBookarray[i],
+      BookID: EBookID,
       UnitID: UnitID
     }, function (err, classEBooks) {
       if (err) {
@@ -539,18 +542,20 @@ router.get('/saveEbookData/:UnitID/:EBookarray', ensureAuthenticated, function (
         //已經有了
       } else {
         let addclassEBook = new classEBook;
-        addclassEBook.BookName = EBookarray[i].BookName;
-        addclassEBook.BookImg = EBookarray[i].BookImg;
-        addclassEBook.BookID = EBookarray[i]._id;
+        addclassEBook.BookName = EBookID.BookName;
+        addclassEBook.BookImg = EBookID.BookImg;
+        addclassEBook.BookID = EBookID._id;
         addclassEBook.belongUnit = UnitID;
         addclassEBook.save(function (err) {
           if (err) {
             console.log(err);
+              res.status(500).send("save error!");
           }
+          res.status(200).send("save success!");
         });
       }
     });
-  }
+
 });
 
 //刪除課程
