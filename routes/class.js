@@ -490,6 +490,7 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
     EBookData.find(function(err,EBooks){
       if (err) {
         console.log(err);
+        res.status(500).send("find error!");
       }
       let totalpage = Math.ceil(EBooks.length/10);
       let wanttoreturndata = [];
@@ -519,8 +520,9 @@ router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) 
       EBookData.find({ _id:wanttoreturndata},function(error,EBookarray){
         if (error) {
           console.log(error);
+          res.status(500).send("find error!");
         }
-        res.send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${newpage},"totalpage" : ${totalpage}} `);
+        res.status(200).send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${newpage},"totalpage" : ${totalpage}} `);
       });
     });
   }
