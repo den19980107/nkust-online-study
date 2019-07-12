@@ -566,6 +566,17 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
 
 });
 
+router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
+  classEBook.remove({
+    BookID: req.params.EBookID,
+    belongUnit: req.params.EBookID
+  },function(err){
+    if(err){
+      res.status(500).send("delete error!");
+    }
+    res.status(200).send("delete success!");
+  });
+});
 //刪除課程
 router.get('/deleteCourse/:id', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.id, function (error, classinfo) {
