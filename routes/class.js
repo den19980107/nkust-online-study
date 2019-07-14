@@ -472,69 +472,38 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
 });
 
 //getEbookData
-router.get('/getEbookData/:EndBookId', ensureAuthenticated, function (req, res) {
-  
-  let getEBooknum = 10;
-  let decidepage = 0;
-  let newpage = 0 ;
-  if(req.params.EndBookId == "page=1"){
-    decidepage = 1;
+router.get('/getEbookData/:page', ensureAuthenticated, function (req, res) {
+  let page = req.params.page;
+  let nowPage = "" ;
+  for(let i = 4;i < page.length;i++){
+    nowPage += page[i];
   }
-  if(String(req.params.EndBookId).length != 24 && decidepage != 1){
-    res.send("data error");
-  }else{
-    if(decidepage != 1){
-      let EndBookId = ObjectID(req.params.EndBookId).toString();
-    }else{
-      let EndBookId = req.params.EndBookId
+  EBookData.find({},function(error,EBooks){
+    if(error){
+      res.status(500).send("find error!")
     }
-    EBookData.find(function(err,EBooks){
-      if (err) {
-        console.log(err);
-        res.status(500).send("find error!");
+    let totalpage = Math.ceil(EBooks.length/10);
+    let wanttoreturndata = [];
+    for(let i = 0 ;i < EBooks.length; i++){
+      if(Math.ceil((i+1)/10) == nowPage){
+        wanttoreturndata.push(ObjectID(EBooks[i]._id).toString());
       }
-      let totalpage = Math.ceil(EBooks.length/10);
-      let wanttoreturndata = [];
-      for(let i = 0;i<EBooks.length;i++){
-        if(decidepage == 1){
-          newpage = 1;
-          for(let j = i;j< i+getEBooknum;j++){
-            if(j == EBooks.length){
-              break;
-            }
-            wanttoreturndata.push(ObjectID(EBooks[j]._id).toString());
-          }
-          break;
-        }
-        if(ObjectID(EBooks[i]._id).toString() == EndBookId ){
-          let newpage = Math.ceil(i+1/10)+1;
-          for(let j = i+1;j<= i+getEBooknum;j++){
-            if(j == EBooks.length){
-              break;
-            }
-            wanttoreturndata.push(ObjectID(EBooks[j]._id).toString());
-          }
-          break;
-        }
+    }
+    EBookData.find({ _id:wanttoreturndata},function(error2,EBookarray){
+      if(error2){
+        res.status(500).send("find error2!");
       }
-      // console.log(wanttoreturndata);
-      EBookData.find({ _id:wanttoreturndata},function(error,EBookarray){
-        if (error) {
-          console.log(error);
-          res.status(500).send("find error!");
-        }
-        res.status(200).send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${newpage},"totalpage" : ${totalpage}} `);
-      });
+      console.log(nowPage);
+      res.status(200).send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${nowPage},"totalpage" : ${totalpage}} `);
     });
-  }
+  });
 });
 
 //saveEbookData
 router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (req, res) {
-  console.log("===================================");
   let UnitID = req.params.UnitID;
   let EBookID = ObjectID(req.params.EBookID).toString();
-  
+
   classEBook.findOne({
     BookID: EBookID,
     belongUnit: UnitID
@@ -569,9 +538,10 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
 
 });
 
+//刪除EBook
 router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
   console.log("deleteEbookdata",req.params.UnitID,req.params.EBookID);
-  
+
   classEBook.findOne({
     BookID: req.params.EBookID,
     belongUnit: req.params.UnitID
@@ -586,6 +556,34 @@ router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
       }
       res.status(200).send("delete success!");
     });
+  });
+});
+
+//搜尋EBook
+router.get('/searchEbook/:searchkeyword/:page',  ensureAuthenticated, function (req, res){
+  let page = req.params.page;
+  let nowPage = "" ;
+  for(let i = 4;i < page.length;i++){
+    nowPage += page[i];
+  }
+  let searchkeyword = req.params.searchkeyword;
+  EBookData.find({},function(error,EBooks){
+    let searchtoEBook = EBooks.filter(function (item) {
+      return item.BookName.toLowerCase().match(searchkeyword.toLowerCase()) == searchkeyword.toLowerCase();
+    });
+    if(searchtoEBook.length == 0){
+      res.status(200).send("No Find Book!")
+    }
+    let totalpage = Math.ceil(searchtoEBook.length/10);
+    let EBookarray = [];
+    for(let i = (nowPage-1)*10;i < nowPage*10;i++){
+      if(searchtoEBook[i] == undefined){
+        break;
+      }
+      EBookarray.push(searchtoEBook[i]);
+    }
+    console.log(EBookarray);
+    res.status(200).send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${nowPage},"totalpage" : ${totalpage}} `);
   });
 });
 

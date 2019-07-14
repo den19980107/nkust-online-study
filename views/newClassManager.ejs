@@ -220,11 +220,11 @@
       font-weight: medium;
       font-style:medium;
     }
-    .cut-text { 
+    .cut-text {
         text-overflow: ellipsis;
-        overflow: hidden; 
-        width: 160px; 
-        height: 1.2em; 
+        overflow: hidden;
+        width: 160px;
+        height: 1.2em;
         white-space: nowrap;
     }
 </style>
@@ -608,7 +608,7 @@
                     <input type="text" id="searchbookinput" class="form-control" aria-label="Default"
                         aria-describedby="inputGroup-sizing-default" placeholder="請輸入書籍名稱" style="border-radius:3px">
                     <div class="input-group-prepend">
-                        <button class="btn btn-info" style="border-radius:3px">搜尋</button>
+                        <button class="btn btn-info" style="border-radius:3px" onclick="searchbtnEBook(1)">搜尋</button>
                     </div>
                   </div>
                   <div id = "EbookContainer">
@@ -1053,7 +1053,7 @@
             },
             success: function (response) {
                 let classEBooks = JSON.parse(response).classEBooks;
-                console.log(classEBooks)
+                // console.log(classEBooks)
 
                 for(let i = 0;i<classEBooks.length;i++){
                     videoTable.innerHTML+=`
@@ -1069,14 +1069,14 @@
                         </div>
                         <img src="${classEBooks[i].BookImg}" style="width:100%;height:85%">
                     </div>
-                    
+
                     `
                 }
                 videoTable.innerHTML += `
                     <i class="fas fa-plus-circle"
                         style="position: fixed;bottom: 5%;right: 5%;border-radius:50%;box-shadow:0.2rem 0.2rem 0.2rem;border:1px solid rgb(78,167,150);background:white;z-index:30;font-size: 3rem;color: rgb(78,167,150)";data-toggle="modal" onclick="$('#additionbook').modal();showEbook('0');" data-target="#additionbook">
                     </i>`;
-                
+
             }
 
         })
@@ -1085,22 +1085,21 @@
 
     //再新增書籍的model顯示資料庫有哪些書
     function showEbook(page){
-        let EbookContainer = document.getElementById('EbookContainer')
+        let EbookContainer = document.getElementById('EbookContainer');
         let pageNum = page;
-        
         if(pageNum<1){
             pageNum = 1;
         }
         $.ajax({
-            url: '/class/getEbookData/page=1',
+            url: '/class/getEbookData/page'+pageNum,
             type: 'GET',
             beforeSend: function () {
                 let loader = document.getElementById('EBookLoader');
-                loader.style.display = "block"
+                loader.style.display = "block";
             },
             complete: function () {
                 let loader = document.getElementById('EBookLoader');
-                loader.style.display = "none"
+                loader.style.display = "none";
             },
             error: function (error) {
                 alert("請先新增單元");
@@ -1109,9 +1108,8 @@
                 let BooksData = JSON.parse(response).EBookarray;
                 let nowPage = JSON.parse(response).nowpage;
                 let totalPage = JSON.parse(response).totalpage;
-                console.log(BooksData);
-                console.log(nowPage,totalPage);
-                
+                // console.log(BooksData);
+                // console.log(nowPage,totalPage);
 
                 for(let i =0;i<BooksData.length;i++){
                     EbookContainer.innerHTML+=`
@@ -1131,7 +1129,7 @@
                         <button class="btn btn-primary" onclick = "showEbook(${nowPage+1})">下一頁</button>
                     </div>
                 `
-                
+
             }
 
         })
@@ -1173,7 +1171,7 @@
         if(confirm('確定要刪除嗎？')){
             console.log(bookId);
             console.log(selectedUnitID);
-            
+
             $.ajax({
                 url: '/class/deleteEbookData/'+selectedUnitID+'/'+bookId,
                 type: 'POST',
@@ -1196,6 +1194,62 @@
             })
 
         }
+    }
+
+    function searchbtnEBook(page){
+      let EbookContainer = document.getElementById('EbookContainer');
+      let pageNum = page;
+      if(pageNum<1){
+          pageNum = 1;
+      }
+      let searchcontent = $("#searchbookinput").val();
+      if(searchcontent.length == 0){
+        showEbook(1);
+      }else{
+        $.ajax({
+            url: '/class/searchEbook/'+searchcontent+'/page'+pageNum,
+            type: 'GET',
+            beforeSend: function () {
+                let loader = document.getElementById('EBookLoader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('EBookLoader');
+                loader.style.display = "none"
+            },
+            error: function (error) {
+                alert("搜尋錯誤！");
+            },
+            success: function (response) {
+                let BooksData = JSON.parse(response).EBookarray;
+                let nowPage = JSON.parse(response).nowpage;
+                let totalPage = JSON.parse(response).totalpage;
+                // console.log(BooksData);
+                // console.log(nowPage,totalPage);
+
+                for(let i =0;i<BooksData.length;i++){
+                    EbookContainer.innerHTML+=`
+                        <div class="mb-1" style="display:flex;justify-content: flex-start;border:1px solid #ccc;height:8rem">
+                            <img src="${BooksData[i].BookImg}" style="width:20%;border-right:1px solid #ccc" alt="">
+                            <div class="w-100" style="display:flex;justify-content: space-between;flex-direction: column">
+                                <p class="p-1">${BooksData[i].BookName}</p>
+                                <button class="btn btn-primary" style="width:5rem;margin-left: auto;" onclick = "addEbook('${BooksData[i]._id}')">加入</button>
+                            </div>
+                        </div>
+                    `
+                }
+                EbookContainer.innerHTML +=`
+                    <div class="mb-1" style="display:flex;justify-content: space-between;">
+                        <button class="btn btn-primary" onclick = "searchbtnEBook(${nowPage-1})">上一頁</button>
+                        <p>${nowPage}/${totalPage}</p>
+                        <button class="btn btn-primary" onclick = "searchbtnEBook(${nowPage+1})">下一頁</button>
+                    </div>
+                `
+
+            }
+
+        })
+      }
     }
 
     function reflashEbookContainer (allClassEBooks){
