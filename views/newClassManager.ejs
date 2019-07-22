@@ -622,6 +622,24 @@
         </div>
     </div>
     <!-- end of 新增書本modal -->
+    <!-- 顯示EBookmodal -->
+    <div class="modal fade" id="EBookModal" tabindex="-1" role="dialog" aria-labelledby="EBookModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" >
+                <div class="modal-header">
+                  <h5 class="modal-title">詳細資料</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="overflow-y:auto;height:80vh;">
+                  <iframe src="https://ebook.nlpi.edu.tw/bookdetail/29506" width="100%" height="100%" id="EBookSid"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--顯示EBookmodal -->
 </div>
 </div>
 
@@ -646,6 +664,7 @@
         </div>
     </div>
 </div>
+
 
 <%if(locals.units[0]){%>
     <script>
@@ -1053,7 +1072,7 @@
             },
             success: function (response) {
                 let classEBooks = JSON.parse(response).classEBooks;
-                // console.log(classEBooks)
+                console.log(classEBooks)
 
                 for(let i = 0;i<classEBooks.length;i++){
                     videoTable.innerHTML+=`
@@ -1067,7 +1086,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="${classEBooks[i].BookImg}" style="width:100%;height:85%">
+                        <img src="${classEBooks[i].BookImg}" style="width:100%;height:85%" onclick="EBookiframe(${classEBooks[i].BookSid})">
                     </div>
 
                     `
@@ -1081,6 +1100,10 @@
 
         })
 
+    }
+    function EBookiframe(BookSid){
+      $('#EBookSid').attr("src","https://ebook.nlpi.edu.tw/bookdetail/"+BookSid);
+      $('#EBookModal').modal();
     }
 
     //再新增書籍的model顯示資料庫有哪些書
@@ -1110,7 +1133,6 @@
                 let totalPage = JSON.parse(response).totalpage;
                 // console.log(BooksData);
                 // console.log(nowPage,totalPage);
-
                 for(let i =0;i<BooksData.length;i++){
                     EbookContainer.innerHTML+=`
                         <div class="mb-1" style="display:flex;justify-content: flex-start;border:1px solid #ccc;height:8rem">

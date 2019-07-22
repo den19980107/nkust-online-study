@@ -375,6 +375,7 @@ router.post('/EBookDataload', function (req, res) {
     let newBookData = new EBookData();
     newBookData.BookImg = data.BookImg;
     newBookData.BookName = data.BookName;
+    newBookData.BookSid = data.BookSid;
     newBookData.save(function (err) {
         if (err) {
             console.log(err);

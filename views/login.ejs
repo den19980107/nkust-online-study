@@ -84,10 +84,11 @@
   let json
   let i = 0;
   function saveBook (json,i){
-    if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined"){
+    if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined" || typeof(json[i].booksid)!=="undefined"){
       let obj = {
         "BookName":json[i].bookName,
         "BookImg":json[i].bookImg,
+        "BookSid":json[i].booksid,
         "nowIndex":i,
         "Length":json.length
       }

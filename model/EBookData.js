@@ -8,6 +8,10 @@ let EBookDataSchema = mongoose.Schema({
     BookImg: {
         type: String,
         require: true
+    },
+    BookSid: {
+        type: String,
+        require: true
     }
 });
 
