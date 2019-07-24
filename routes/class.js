@@ -503,7 +503,6 @@ router.get('/getEbookData/:page', ensureAuthenticated, function (req, res) {
 router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (req, res) {
   let UnitID = req.params.UnitID;
   let EBookID = ObjectID(req.params.EBookID).toString();
-
   classEBook.findOne({
     BookID: EBookID,
     belongUnit: UnitID
@@ -523,6 +522,7 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
         let addclassEBook = new classEBook();
         addclassEBook.BookName = EBook.BookName;
         addclassEBook.BookImg = EBook.BookImg;
+        addclassEBook.BookSid = EBook.BookSid;
         addclassEBook.BookID = EBookID;
         addclassEBook.belongUnit = UnitID;
         addclassEBook.save(function (err) {

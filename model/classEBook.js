@@ -9,6 +9,10 @@ let classEBookSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    BookSid:{
+        type: String,
+        require: true
+    },
     BookID:{
         type: String,
         require: true

@@ -1,4 +1,4 @@
-<% include layout/header %>
+﻿<% include layout/header %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <style>
@@ -81,10 +81,11 @@
   let json
   let i = 0;
   function saveBook (json,i){
-    if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined"){
+    if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined" || typeof(json[i].booksid)!=="undefined"){
       let obj = {
         "BookName":json[i].bookName,
         "BookImg":json[i].bookImg,
+        "BookSid":json[i].booksid,
         "nowIndex":i,
         "Length":json.length
       }
