@@ -21,7 +21,7 @@
 </style>
 <%if(isSubmited){%>
 <a href="/class/newClassManager/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程單元頁面</i></a>
-<h4>考卷名稱:
+<h4>測驗名稱:
     <%=test.testName%>(已提交過此測驗)
 </h4>
 <%}else{%>
@@ -29,7 +29,7 @@
   <a href="/class/newClassManager/<%=classinfo._id%>"><i class="fas fa-arrow-left" style="padding:1rem 0;color:rgb(180, 211, 172)"> 回課程單元頁面</i></a>
 </div>
 <div class="row">
-    <h4 class="col-lg-4 col-sm-12" style="line-height: 3rem">考卷名稱:
+    <h4 class="col-lg-4 col-sm-12" style="line-height: 3rem">測驗名稱:
             <%=test.testName%>
     </h4>
     <p class="col-lg-4 col-sm-12" id = "ToppublicTime"  style="line-height: 3rem;text-align: center"></p>
@@ -164,7 +164,7 @@
         <pre style="font-size: 20px"><%=qution.qutionName%> （程式題）</pre>
         <div>
             <p id = "hiddenQution<%=i%>" style="display: none"><%=qution.qution%></p>
-            <div id="qutionContent<%=i%>">題目內容:</div>        
+            <div id="qutionContent<%=i%>">題目內容:</div>
             <div class="row">
                 <div class="col ">
                     <pre>輸入範例：
@@ -229,7 +229,7 @@
 <script src="/js/setTest.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script>
-    
+
     Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
     return this;
@@ -596,14 +596,14 @@
         // console.log(Test.EndpublicTime);
         // console.log(new Date(Test.EndpublicTime).addHours(-8));
         // console.log(new Date()-new Date(Test.EndpublicTime).addHours(-8));
-        
+
         if(Test.isPublic==false){
             let nowTime = new Date();
             console.log(nowTime);
-            
-            let endTime = new Date(Test.EndpublicTime).addHours(-8);   
+
+            let endTime = new Date(Test.EndpublicTime).addHours(-8);
             console.log("endTime = ",endTime);
-            
+
             console.log(endTime-nowTime);
             if((endTime-nowTime)/1000>0){
                 //console.log("ispublic")
@@ -651,7 +651,7 @@
             //console.log("beforePublic");
             let nowTime = new Date();
             let publicTimeText = document.getElementById('ToppublicTime');
-            let publicTime = new Date(Test.publicTime).addHours(-8);            
+            let publicTime = new Date(Test.publicTime).addHours(-8);
             let totoalSec = (publicTime-nowTime)/1000;
             let hr =  Math.floor(totoalSec/3600);
             totoalSec = Math.floor(totoalSec % 3600);
