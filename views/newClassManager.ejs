@@ -1,4 +1,4 @@
-<% include layout/navbar %>
+﻿<% include layout/navbar %>
 <script src="/ckeditor/ckeditor.js"></script>
 <style>
     html,
@@ -1135,7 +1135,6 @@
                 let totalPage = JSON.parse(response).totalpage;
                 // console.log(BooksData);
                 // console.log(nowPage,totalPage);
-                EbookContainer.innerHTML='';   //-------------------
                 for(let i =0;i<BooksData.length;i++){
                     EbookContainer.innerHTML+=`
                         <div class="mb-1" style="display:flex;justify-content: flex-start;border:1px solid #ccc;height:8rem">
