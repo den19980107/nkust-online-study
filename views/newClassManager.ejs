@@ -611,8 +611,9 @@
                         <button class="btn btn-info" style="border-radius:3px" onclick="searchbtnEBook(1)">搜尋</button>
                     </div>
                   </div>
+                  <div class="loader" id = "EBookLoader" style="display: none;position: fixed;left: 50%">Loading...</div>
                   <div id = "EbookContainer">
-                    <div class="loader" id = "EBookLoader" style="display: none">Loading...</div>
+                    
                   </div>
                 </div>
 
@@ -1120,6 +1121,7 @@
             type: 'GET',
             beforeSend: function () {
                 let loader = document.getElementById('EBookLoader');
+                EbookContainer.innerHTML = "";
                 loader.style.display = "block";
             },
             complete: function () {
@@ -1127,7 +1129,7 @@
                 loader.style.display = "none";
             },
             error: function (error) {
-                alert("請先新增單元");
+                alert("獲取eBook錯誤");
             },
             success: function (response) {
                 let BooksData = JSON.parse(response).EBookarray;
@@ -1235,6 +1237,7 @@
             type: 'GET',
             beforeSend: function () {
                 let loader = document.getElementById('EBookLoader');
+                EbookContainer.innerHTML=""
                 loader.style.display = "block"
             },
             complete: function () {
