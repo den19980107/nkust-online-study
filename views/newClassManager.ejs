@@ -227,6 +227,12 @@
         height: 1.2em;
         white-space: nowrap;
     }
+    .EBookShowDataDiv{
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     ntegrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -613,7 +619,7 @@
                   </div>
                   <div class="loader" id = "EBookLoader" style="display: none;position: fixed;left: 50%">Loading...</div>
                   <div id = "EbookContainer">
-                    
+
                   </div>
                 </div>
 
@@ -1142,7 +1148,7 @@
                         <div class="mb-1" style="display:flex;justify-content: flex-start;border:1px solid #ccc;height:8rem">
                             <img src="${BooksData[i].BookImg}" style="width:20%;border-right:1px solid #ccc" alt="">
                             <div class="w-100" style="display:flex;justify-content: space-between;flex-direction: column">
-                                <p class="p-1">${BooksData[i].BookName}</p>
+                                <p class="p-1 EBookShowDataDiv">${BooksData[i].BookName}</p>
                                 <button class="btn btn-primary" style="width:5rem;margin-left: auto;" onclick = "addEbook('${BooksData[i]._id}')">加入</button>
                             </div>
                         </div>
@@ -1259,7 +1265,7 @@
                         <div class="mb-1" style="display:flex;justify-content: flex-start;border:1px solid #ccc;height:8rem">
                             <img src="${BooksData[i].BookImg}" style="width:20%;border-right:1px solid #ccc" alt="">
                             <div class="w-100" style="display:flex;justify-content: space-between;flex-direction: column">
-                                <p class="p-1">${BooksData[i].BookName}</p>
+                                <p class="p-1 EBookShowDataDiv">${BooksData[i].BookName}</p>
                                 <button class="btn btn-primary" style="width:5rem;margin-left: auto;" onclick = "addEbook('${BooksData[i]._id}')">加入</button>
                             </div>
                         </div>
