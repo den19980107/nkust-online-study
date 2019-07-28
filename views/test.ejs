@@ -496,14 +496,12 @@
     function forceSubmitTest(){
         let qutions = <%- JSON.stringify(test) %>
         for (let i = 0; i < qutions.testQutions.length; i++) {
+            console.log(answerArray[i])
             if(qutions.testQutions[i].type=="程式題"){
                 if(typeof answerArray[i] === 'undefined'){
-                    alert("還有程式題沒有編譯過喔！請編譯過後再提交")
-                    document.getElementById('finishTestBtn').disabled = false;
-                    // qutions.testQutions[i].studentAnswer = null
-                    // qutions.testQutions[i].language = null
-                    // qutions.testQutions[i].isCorrect = false
-                    return;
+                    qutions.testQutions[i].studentAnswer = ""
+                    qutions.testQutions[i].language = "cpp"
+                    qutions.testQutions[i].isCorrect = ""
                 }else{
                     qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
                     qutions.testQutions[i].language = answerArray[i].language
@@ -892,7 +890,7 @@
     
     function openFullScreen(){
         $("#fullScreenModal").modal("hide")
-        let container = document.getElementsByClassName("container")[0];
+        let container = document.documentElement
         container.style.cssText =  "background:white"
         requestFullscreen(container);
     }
