@@ -733,25 +733,28 @@
             document.getElementById("EndpublicTime").value = startTime.value
     }
     window.onload = function(){
-        //彈出要求進入全應募的視窗
-        if("<%=user.permission%>" == "student"){
-            if("<%=isSubmited%>" == "false"){
-                $("#fullScreenModal").modal({
-                    backdrop: 'static',
-                    keyboard: false
-                    }
-                )
+        if(Test.isPublic){
+            //彈出要求進入全應募的視窗
+            if("<%=user.permission%>" == "student"){
+                if("<%=isSubmited%>" == "false"){
+                    $("#fullScreenModal").modal({
+                        backdrop: 'static',
+                        keyboard: false
+                        }
+                    )
+                }
             }
+    
+            document.addEventListener("fullscreenchange", function(e) {
+                if (document.fullscreenElement) {
+                    console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
+                } else {
+                    forceSubmitTest();
+                    alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+                }
+            });
         }
- 
-        document.addEventListener("fullscreenchange", function(e) {
-            if (document.fullscreenElement) {
-                console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
-            } else {
-                forceSubmitTest();
-                alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
-            }
-        });
+        
         // console.log(Test.publicTime);
         // console.log(new Date(Test.publicTime).addHours(-8));
         // console.log(Test.EndpublicTime);
