@@ -225,11 +225,27 @@
     <%}%>
 </div>
 </div>
+
+<div class="modal" id="fullScreenModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">打開全螢幕</h5>
+        </div>
+        <div class="modal-body">
+            <p>請打開全螢幕以開始作答</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="openFullScreen()">打開</button>
+        </div>
+        </div>
+    </div>
+</div>
 <!-- 把出考卷的程式碼分出來放在setTest -->
 <script src="/js/setTest.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script>
-
+    
     Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
     return this;
@@ -476,6 +492,132 @@
             }
         }
     }
+
+    function forceSubmitTest(){
+        let qutions = <%- JSON.stringify(test) %>
+        for (let i = 0; i < qutions.testQutions.length; i++) {
+            if(qutions.testQutions[i].type=="程式題"){
+                if(typeof answerArray[i] === 'undefined'){
+                    alert("還有程式題沒有編譯過喔！請編譯過後再提交")
+                    document.getElementById('finishTestBtn').disabled = false;
+                    // qutions.testQutions[i].studentAnswer = null
+                    // qutions.testQutions[i].language = null
+                    // qutions.testQutions[i].isCorrect = false
+                    return;
+                }else{
+                    qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
+                    qutions.testQutions[i].language = answerArray[i].language
+                    qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
+                }
+            }else if(qutions.testQutions[i].type=="填空題"){
+                if(typeof answerArray[i] === 'undefined'){
+                    qutions.testQutions[i].studentAnswer = null
+                    qutions.testQutions[i].isCorrect = false
+                }else{
+                    qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
+                    qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
+                }
+            }else{
+                //console.log(answerArray[i]);
+
+                if(typeof answerArray[i] === 'undefined'){
+                    qutions.testQutions[i].studentAnswer = -1
+                    qutions.testQutions[i].isCorrect = false
+                }else{
+                    qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
+                    qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
+                }
+            }
+        }
+        qutions.writer = "<%=user._id%>"
+        //改測驗
+        for(let i=0;i<qutions.testQutions.length;i++){
+            let qution = qutions.testQutions[i]
+            if (qution.type == '選擇題') {
+            let studentAnswers = [];
+            for(let j = 0;j<qution.selection.length;j++){
+                //console.log("j = "+qution.studentAnswer[j]);
+                //console.log(qution.studentAnswer);
+
+                if(qution.studentAnswer[j]=="1"){
+                    studentAnswers.push(qution.selection[j]);
+                }
+            }
+            //console.log(studentAnswers);
+            let isCorrect = true;
+            if(studentAnswers.length!=qution.correctAnswers.length){
+                isCorrect=false;
+            }
+            for(let i =0;i<qution.correctAnswers.length;i++){
+                if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
+                    isCorrect=false;
+                }
+            }
+            qution.isCorrect = isCorrect
+            }
+            if (qution.type == '是非題') {
+            let isCorrect = true;
+            if(qution.studentAnswer!=qution.correctAnswers){
+                isCorrect=false;
+            }
+            qution.isCorrect = isCorrect
+            }
+            if (qution.type == '填空題') {
+            let isCorrect = false;
+            for(let i = 0;i<qution.correctAnswers.length;i++){
+                if(qution.studentAnswer == qution.correctAnswers[i]){
+                isCorrect = true;
+                }
+            }
+            qution.isCorrect = isCorrect
+            }
+            if (qution.type == '程式題') {
+            let isCorrect = false;
+            var testverification = {
+                input: qution.intputTest,
+                script: qution.studentAnswer,
+                language: qution.language,
+                id: "001"
+            }
+            //console.log("testverification = -------");
+            //console.log(testverification);
+
+            var socket = io();
+            socket.emit('script', testverification);
+            socket.on('answer', function (obj) {
+                //console.log(obj);
+                //console.log(obj.body.output);
+                //console.log(qution.language);
+                if(typeof obj.body.output === 'undefined' || obj.body.output === null){
+
+                }else{
+                    obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
+                }
+                if(obj.body.output == qution.outputTest){
+                    isCorrect = true
+                    qution.isCorrect = isCorrect
+                    delay(2000).then(function(){
+                        if(i==qutions.testQutions.length-1){
+                            answermodifyend(qutions)
+                        }
+                    });
+                }else{
+                    qution.isCorrect = isCorrect
+                    delay(2000).then(function(){
+                        if(i==qutions.testQutions.length-1){
+                            answermodifyend(qutions)
+                        }
+                    });
+                }
+            });
+            }else{
+            if(i==qutions.testQutions.length-1){
+                answermodifyend(qutions)
+            }
+            }
+        }
+    }
+
     var delay = function(s){
       return new Promise(function(resolve,reject){
         //console.log("3s");
@@ -591,6 +733,25 @@
             document.getElementById("EndpublicTime").value = startTime.value
     }
     window.onload = function(){
+        //彈出要求進入全應募的視窗
+        if("<%=user.permission%>" == "student"){
+            if("<%=isSubmited%>" == "false"){
+                $("#fullScreenModal").modal({
+                    backdrop: 'static',
+                    keyboard: false
+                    }
+                )
+            }
+        }
+ 
+        document.addEventListener("fullscreenchange", function(e) {
+            if (document.fullscreenElement) {
+                console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
+            } else {
+                forceSubmitTest();
+                alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+            }
+        });
         // console.log(Test.publicTime);
         // console.log(new Date(Test.publicTime).addHours(-8));
         // console.log(Test.EndpublicTime);
@@ -724,6 +885,23 @@
                 alert('錯誤訊息：' + err.responseJSON.msg);
             }
         });
+    }
+    
+    function openFullScreen(){
+        $("#fullScreenModal").modal("hide")
+        let container = document.getElementsByClassName("container")[0];
+        container.style.cssText =  "background:white"
+        requestFullscreen(container);
+    }
+
+    function requestFullscreen(element) {
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
     }
 </script>
 
