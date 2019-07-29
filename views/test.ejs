@@ -245,7 +245,7 @@
 <script src="/js/setTest.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script>
-    
+
     Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
     return this;
@@ -470,24 +470,16 @@
                     if(obj.body.output == qution.outputTest){
                         isCorrect = true
                         qution.isCorrect = isCorrect
-                        delay(2000).then(function(){
-                            if(i==qutions.testQutions.length-1){
-                                answermodifyend(qutions)
-                            }
-                        });
+                        answermodifyend(qutions)
                     }else{
                         qution.isCorrect = isCorrect
-                        delay(2000).then(function(){
-                            if(i==qutions.testQutions.length-1){
-                                answermodifyend(qutions)
-                            }
-                        });
+                        answermodifyend(qutions)
                     }
                 });
                 }else{
-                if(i==qutions.testQutions.length-1){
-                    answermodifyend(qutions)
-                }
+                  if(i==qutions.testQutions.length-1){
+                      answermodifyend(qutions)
+                  }
                 }
             }
         }
@@ -594,24 +586,16 @@
                 if(obj.body.output == qution.outputTest){
                     isCorrect = true
                     qution.isCorrect = isCorrect
-                    delay(2000).then(function(){
-                        if(i==qutions.testQutions.length-1){
-                            answermodifyend(qutions)
-                        }
-                    });
+                    answermodifyend(qutions)
                 }else{
                     qution.isCorrect = isCorrect
-                    delay(2000).then(function(){
-                        if(i==qutions.testQutions.length-1){
-                            answermodifyend(qutions)
-                        }
-                    });
+                    answermodifyend(qutions)
                 }
             });
             }else{
-            if(i==qutions.testQutions.length-1){
-                answermodifyend(qutions)
-            }
+              if(i==qutions.testQutions.length-1){
+                  answermodifyend(qutions)
+              }
             }
         }
     }
@@ -742,7 +726,7 @@
                     )
                 }
             }
-    
+
             document.addEventListener("fullscreenchange", function(e) {
                 if (document.fullscreenElement) {
                     console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
@@ -752,7 +736,7 @@
                 }
             });
         }
-        
+
         // console.log(Test.publicTime);
         // console.log(new Date(Test.publicTime).addHours(-8));
         // console.log(Test.EndpublicTime);
@@ -887,7 +871,7 @@
             }
         });
     }
-    
+
     function openFullScreen(){
         $("#fullScreenModal").modal("hide")
         let container = document.documentElement
