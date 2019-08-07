@@ -1,50 +1,50 @@
 ﻿<% include layout/header %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <style>
+  .renewDiv {
+    margin-bottom: 2rem;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(194, 190, 190);
+    width: 400px;
+  }
+
+  .alert {
+    background: white;
+    color: white;
+    border-color: white;
+    width: 0px;
+    height: 0px;
+  }
+
+  @media screen and (max-width: 400px) {
     .renewDiv {
-        margin-bottom: 2rem;
-        padding: 20px;
-        border-radius: 20px;
-        background-color: rgb(255, 255, 255);
-        border: 1px solid rgb(194, 190, 190);
-        width: 400px;
+      margin-bottom: 2rem;
+      padding: 20px;
+      border-radius: 20px;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgb(194, 190, 190);
+      width: 100%
     }
-
-    .alert {
-        background: white;
-        color: white;
-        border-color: white;
-        width: 0px;
-        height: 0px;
-    }
-
-    @media screen and (max-width: 400px) {
-        .renewDiv {
-            margin-bottom: 2rem;
-            padding: 20px;
-            border-radius: 20px;
-            background-color: rgb(255, 255, 255);
-            border: 1px solid rgb(194, 190, 190);
-            width: 100%
-        }
-    }
+  }
 </style>
 <div class="renewDiv m-auto" style="position:relative">
-    <h3>
-        登入
-    </h3>
-    <br>
-    <form method="POST" action="/users/login">
-        <%if(locals.nextURL){%>
-        <%if(nextURL == null){%>
-        <input type="text" name="nextURL" value="null" style="display: none">
-        <%}else{%>
-        <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
-        <%}%>
+  <h3>
+    登入
+  </h3>
+  <br>
+  <form method="POST" action="/users/login">
+    <%if(locals.nextURL){%>
+    <%if(nextURL == null){%>
+    <input type="text" name="nextURL" value="null" style="display: none">
+    <%}else{%>
+    <input type="text" name="nextURL" value="<%=nextURL%>" style="display: none">
+    <%}%>
       <%}else{%>
-        <input type="text" name="nextURL" value="null" style="display: none">
-        <%}%>
+    <input type="text" name="nextURL" value="null" style="display: none">
+    <%}%>
       <div class="form-group">
           <label>帳號:</label>
           <input type="text" class="form-control" placeholder="請輸入帳號" name="username">
@@ -60,87 +60,87 @@
   </form>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>
 <script>
-  var inputElement = document.getElementById("files");
-  inputElement.addEventListener("change", handleFiles, false);
-  function handleFiles() {
-     var selectedFile = document.getElementById("files").files[0];//獲取讀取的File物件
-     var name = selectedFile.name;//讀取選中檔案的檔名
-     var size = selectedFile.size;//讀取選中檔案的大小
-     console.log("檔名:"+name+"大小："+size);
-     var reader = new FileReader();//這裡是核心！！！讀取操作就是由它完成的。
-    reader.readAsText(selectedFile);//讀取檔案的內容
+  // var inputElement = document.getElementById("files");
+  // inputElement.addEventListener("change", handleFiles, false);
+  // function handleFiles() {
+  //    var selectedFile = document.getElementById("files").files[0];//獲取讀取的File物件
+  //    var name = selectedFile.name;//讀取選中檔案的檔名
+  //    var size = selectedFile.size;//讀取選中檔案的大小
+  //    console.log("檔名:"+name+"大小："+size);
+  //    var reader = new FileReader();//這裡是核心！！！讀取操作就是由它完成的。
+  //   reader.readAsText(selectedFile);//讀取檔案的內容
 
-    reader.onload = function(){
-        // console.log("讀取結果：", this.result);//當讀取完成之後會回撥這個函式，然後此時檔案的內容儲存到了result中。直接操作即可。
-        // console.log("讀取結果轉為JSON：");
-        json = JSON.parse(this.result);
-        saveBook(json,0);
-    };
+  //   reader.onload = function(){
+  //       // console.log("讀取結果：", this.result);//當讀取完成之後會回撥這個函式，然後此時檔案的內容儲存到了result中。直接操作即可。
+  //       // console.log("讀取結果轉為JSON：");
+  //       json = JSON.parse(this.result);
+  //       saveBook(json,0);
+  //   };
 
-  }
-  let json
-  let i = 0;
-  function saveBook (json,i){
-    if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined" || typeof(json[i].booksid)!=="undefined"){
-      let obj = {
-        "BookName":json[i].bookName,
-        "BookImg":json[i].bookImg,
-        "BookSid":json[i].booksid,
-        "nowIndex":i,
-        "Length":json.length
-      }
-      console.log(obj);
-      $.ajax({
-          url: '/backend/EBookDataload',
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(obj),
-          dataType: 'json',
-          complete: function () {
-            i++;
-            saveBook(json,i);
-          },
-          error: function (err) {
-              console.log(err);
-          }
-      });
-    }else{
-      i++;
-      saveBook(json,i);
-    }
+  // }
+  // let json
+  // let i = 0;
+  // function saveBook (json,i){
+  //   if(typeof(json[i].bookName)!=="undefined" || typeof(json[i].bookImg)!=="undefined" || typeof(json[i].booksid)!=="undefined"){
+  //     let obj = {
+  //       "BookName":json[i].bookName,
+  //       "BookImg":json[i].bookImg,
+  //       "BookSid":json[i].booksid,
+  //       "nowIndex":i,
+  //       "Length":json.length
+  //     }
+  //     console.log(obj);
+  //     $.ajax({
+  //         url: '/backend/EBookDataload',
+  //         type: 'POST',
+  //         contentType: 'application/json',
+  //         data: JSON.stringify(obj),
+  //         dataType: 'json',
+  //         complete: function () {
+  //           i++;
+  //           saveBook(json,i);
+  //         },
+  //         error: function (err) {
+  //             console.log(err);
+  //         }
+  //     });
+  //   }else{
+  //     i++;
+  //     saveBook(json,i);
+  //   }
 
-  }
-  $( document ).ready(function() {
+  // }
+  $(document).ready(function () {
     let alertlogin = document.getElementsByClassName("alertlogin");
-    if(alertlogin.length != 0){
+    if (alertlogin.length != 0) {
       alertlogin[0].style.display = "none";
     }
     let alertsuccesslogin = document.getElementsByClassName("alert alert-success");
-    if(alertsuccesslogin.length != 0){
+    if (alertsuccesslogin.length != 0) {
       alertsuccesslogin[0].style.display = "none";
     }
     let alerterrorlogin = document.getElementsByClassName("alert alert-error");
-    if(alerterrorlogin.length != 0){
+    if (alerterrorlogin.length != 0) {
       alerterrorlogin[0].style.display = "none";
     }
     let alertdangerlogin = document.getElementsByClassName("alert alert-danger");
-    if(alertdangerlogin.length != 0){
+    if (alertdangerlogin.length != 0) {
       alertdangerlogin[0].style.display = "none";
     }
 
     let alert = document.getElementsByClassName("alert alert-danger");
-    for(let i=0;i<alert.length;i++){
-    $(".form-group.alertt").append(`<p class="m-0" style="color:red"><i class="fas fa-exclamation-triangle" style="color:red"></i>`+alert[i].innerHTML+`</p>`)
+    for (let i = 0; i < alert.length; i++) {
+      $(".form-group.alertt").append(`<p class="m-0" style="color:red"><i class="fas fa-exclamation-triangle" style="color:red"></i>` + alert[i].innerHTML + `</p>`)
     }
 
     let alerterror = document.getElementsByClassName("alert alert-error");
-    for(let i=0;i<alerterror.length;i++){
-    $(".form-group.alertt").append(`<p class="m-0" style="color:red"><i class="fas fa-exclamation-triangle" style="color:red"></i>`+alerterror[i].innerHTML+`</p>`)
+    for (let i = 0; i < alerterror.length; i++) {
+      $(".form-group.alertt").append(`<p class="m-0" style="color:red"><i class="fas fa-exclamation-triangle" style="color:red"></i>` + alerterror[i].innerHTML + `</p>`)
     }
 
     let alertsuccess = document.getElementsByClassName("alert alert-success");
-    for(let i=0;i<alertsuccess.length;i++){
-    $(".form-group.alertt").append(`<p class="m-0" style="color:green"><i class="fas fa-exclamation-triangle" style="color:green"></i>`+alertsuccess[i].innerHTML+`</p>`)
+    for (let i = 0; i < alertsuccess.length; i++) {
+      $(".form-group.alertt").append(`<p class="m-0" style="color:green"><i class="fas fa-exclamation-triangle" style="color:green"></i>` + alertsuccess[i].innerHTML + `</p>`)
     }
   });
 </script>
