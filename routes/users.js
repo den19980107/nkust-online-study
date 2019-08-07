@@ -155,16 +155,16 @@ router.post('/register', function (req, res) {
 //Login Form
 router.get('/login', function (req, res) {
     //console.log("get login,url = "+req.originalUrl);
-    if(req.url.split('/').length>2){
-        let url = req.url.split('/')[2].replace("?r=","");
+    if (req.url.split('/').length > 2) {
+        let url = req.url.split('/')[2].replace("?r=", "");
         //console.log("haveNext url = "+url);
 
-        res.render('login',{
-            nextURL:url.replace(new RegExp('%2F', 'g'),'/')
+        res.render('login', {
+            nextURL: url.replace(new RegExp('%2F', 'g'), '/')
         });
-    }else{
-        res.render('login',{
-            nextURL:null
+    } else {
+        res.render('login', {
+            nextURL: null
         });
     }
 });
@@ -184,17 +184,17 @@ router.post('/login', function (req, res, next) {
         })
     } else {
         let successRedirectURL = "";
-        if(req.body.nextURL != "null"){
+        if (req.body.nextURL != "null") {
             //console.log(req.body.nextURL)
             successRedirectURL = req.body.nextURL
             //console.log("successRedirectURL = ",successRedirectURL);
 
             passport.authenticate('local', {
                 successRedirect: successRedirectURL,
-                failureRedirect: '/users/login/?r='+successRedirectURL.replace(new RegExp('/', 'g'),'%2F'),
+                failureRedirect: '/users/login/?r=' + successRedirectURL.replace(new RegExp('/', 'g'), '%2F'),
                 failureFlash: true
             })(req, res, next);
-        }else{
+        } else {
             passport.authenticate('local', {
                 successRedirect: '/',
                 failureRedirect: '/users/login',
@@ -206,72 +206,72 @@ router.post('/login', function (req, res, next) {
 
 //User renewpassword
 router.get('/renewpassword/:username', function (req, res) {
-    if(req.params.username != 0){
-      res.render('confirmpassword', {
-      });
-    }else{
-      res.render('renewpassword', {
-      });
+    if (req.params.username != 0) {
+        res.render('confirmpassword', {
+        });
+    } else {
+        res.render('renewpassword', {
+        });
     }
 });
 //renewpassword status
 router.get('/login/renewpassword/:status', function (req, res) {
-    if(req.params.status == "0"){
-      req.flash('danger', '您已經取消密碼更改！');
-      res.redirect('/users/login');
-    }else{
-      req.flash('success', '完成身分認證，請至信箱收取信件！');
-      res.redirect('/users/login');
+    if (req.params.status == "0") {
+        req.flash('danger', '您已經取消密碼更改！');
+        res.redirect('/users/login');
+    } else {
+        req.flash('success', '完成身分認證，請至信箱收取信件！');
+        res.redirect('/users/login');
     }
 });
 
 //User renewpassword Confirm
-router.get('/renewconfirm/:username/:email', function (req, res) {
-    console.log(req.params.username);
-    console.log(req.params.email);
-    User.find({username:req.params.username,email:req.params.email}, function (err, users) {
-      console.log(users);
-      if (err) {
-          res.send('{"error" : "要求失敗", "status" : 500}');
-      } else {
-          if(users.length == 0){
-            res.send(false);
-          }else{
-            res.send(true);
-            var transporter = nodemailer.createTransport({
-              service: 'gmail',
-              auth: {
-                user: 'nkust.online.study@gmail.com',
-                pass: 'kkc060500'
-              }
-            });
-            //console.log(student.email);
-            let random = Math.random().toString(36);
-            let random1 = "";
-            let random2 = "";
-            for(let i=2;i<6;i++){
-              random1 += random[i]
+router.post('/renewconfirm/:username/:email', function (req, res) {
+    // console.log(req.params.username);
+    // console.log(req.params.email);
+    // console.log(req.body.url);
+    User.find({ username: req.params.username, email: req.params.email }, function (err, users) {
+        console.log(users);
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        } else {
+            if (users.length == 0) {
+                res.send(false);
+            } else {
+                res.send(true);
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'nkust.online.study@gmail.com',
+                        pass: 'kkc060500'
+                    }
+                });
+                //console.log(student.email);
+                let random = Math.random().toString(36);
+                let random1 = "";
+                let random2 = "";
+                for (let i = 2; i < 6; i++) {
+                    random1 += random[i]
+                }
+                for (let j = 6; j < 10; j++) {
+                    random2 += random[j]
+                }
+                var websiteDomain = req.body.url
+                var mailOptions = {
+                    from: 'nkust.online.study@gmail.com',
+                    to: req.params.email,
+                    subject: 'nkust線上學習平台',
+                    text: `親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\n ${websiteDomain}/` + random1 + req.params.username + random2
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        //console.log('Email sent: ' + info.response);
+                    }
+                });
             }
-            for(let j=6;j<10;j++){
-              random2 += random[j]
-            }
-            
-            var websiteDomain = "https://a84c698c.ngrok.io"
-            var mailOptions = {
-              from: 'nkust.online.study@gmail.com',
-              to: req.params.email,
-              subject: 'nkust線上學習平台',
-              text: `親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\n ${websiteDomain}/users/renewpassword/` +random1+ req.params.username +random2
-            };
-            transporter.sendMail(mailOptions, function (error, info) {
-              if (error) {
-                console.log(error);
-              } else {
-                //console.log('Email sent: ' + info.response);
-              }
-            });
-          }
-      }
+        }
     });
 });
 
@@ -282,13 +282,13 @@ router.get('/confirmpassword/:password/:username', function (req, res) {
     const saltRounds = 10;
     // 加密
     bcrypt.hash(password, saltRounds).then(function (hash) {
-      // Store hash in your password DB.
-      console.log(hash);
-      User.updateMany({username:username}, {$set: {password: hash}}, {w: 1}, function (err, result) {
-        if (err) throw err;
-        req.flash('success', '密碼更新成功！您現在已經可以使用新密碼登入了！');
-        res.redirect('/users/login');
-      })
+        // Store hash in your password DB.
+        console.log(hash);
+        User.updateMany({ username: username }, { $set: { password: hash } }, { w: 1 }, function (err, result) {
+            if (err) throw err;
+            req.flash('success', '密碼更新成功！您現在已經可以使用新密碼登入了！');
+            res.redirect('/users/login');
+        })
     });
 
 });
@@ -372,7 +372,7 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
                 res.render("myclass", {
                     title: "個人修課清單",
                     classesInfo: classesInfo,
-                    classes:classes
+                    classes: classes
 
                 })
             })
@@ -396,9 +396,9 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
 
 //顯示我的筆記
 router.get('/mynote', ensureAuthenticated, function (req, res) {
-    if(req.user.permission == "teacher"){
+    if (req.user.permission == "teacher") {
         res.render('index');
-    }else{
+    } else {
         res.render('mynote');
     }
 })
@@ -441,7 +441,7 @@ router.get('/note/getNote', ensureAuthenticated, function (req, res) {
     Note.find({
         author_id: req.user._id
     }, function (err, notes) {
-       // console.log(notes);
+        // console.log(notes);
         res.send(notes)
     })
 });
@@ -510,14 +510,14 @@ router.delete('/note/deleteNote/:noteID', ensureAuthenticated, function (req, re
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return next();
+        return next();
     } else {
-      req.flash('danger', '請先登入');
-      let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      //console.log("inuser ensure = "+nextURL);
-      //console.log("url = /users/login/?r="+nextURL);
+        req.flash('danger', '請先登入');
+        let nextURL = req.originalUrl.replace(new RegExp('/', 'g'), '%2F');
+        //console.log("inuser ensure = "+nextURL);
+        //console.log("url = /users/login/?r="+nextURL);
 
-      res.redirect('/users/login/?r='+nextURL);
+        res.redirect('/users/login/?r=' + nextURL);
     }
 }
 module.exports = router;
