@@ -260,7 +260,7 @@ router.post('/renewconfirm/:username/:email', function (req, res) {
                 var mailOptions = {
                     from: 'nkust.online.study@gmail.com',
                     to: req.params.email,
-                    subject: 'nkust線上學習平台',
+                    subject: 'i-Coding學習平臺',
                     text: `親愛的客戶您好:\n\n您是否要更改密碼呢?\n若要更改密碼請點選下面的連結，如不更改請忽略此信件。\n ${websiteDomain}/` + random1 + req.params.username + random2
                 };
                 transporter.sendMail(mailOptions, function (error, info) {

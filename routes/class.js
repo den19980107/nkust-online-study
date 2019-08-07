@@ -134,7 +134,7 @@ router.get('/', ensureAuthenticated, function (req, res) {
           $in: classIMG
         }
       }).toArray((err, imgs) => {
-       // console.log(imgs);
+        // console.log(imgs);
 
         if (!imgs || imgs.length === 0) {
           res.render('class', {
@@ -295,7 +295,7 @@ router.post('/CreateNewClass', upload.any(), ensureAuthenticated, function (req,
 });
 
 //換課程封面照片
-router.post('/changeClassImg/:classID', upload.any(), ensureAuthenticated,function(req,res){
+router.post('/changeClassImg/:classID', upload.any(), ensureAuthenticated, function (req, res) {
   console.log(req.files)
   if (req.files.length > 0) {
     let classImage = req.files[0].filename;
@@ -312,7 +312,7 @@ router.post('/changeClassImg/:classID', upload.any(), ensureAuthenticated,functi
         console.log(err);
       } else {
         console.log(req.params.classID)
-        res.redirect('/class/'+req.params.classID);
+        res.redirect('/class/' + req.params.classID);
       }
     });
   }
@@ -447,7 +447,7 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
       Unit.find({
         belongClass: classinfo._id
       }, function (error2, units) {
-        classEBook.find({classId:req.params.id,belongUnit:units},function(err1,classEBooks){
+        classEBook.find({ classId: req.params.id, belongUnit: units }, function (err1, classEBooks) {
           if (err1) {
             console.log(err1);
           }
@@ -462,7 +462,7 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
               classinfo: classinfo,
               units: units,
               thisClassStudents: thisClassStudents,
-              classEBooks:classEBooks
+              classEBooks: classEBooks
             });
           });
         });
@@ -474,23 +474,23 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
 //getEbookData
 router.get('/getEbookData/:page', ensureAuthenticated, function (req, res) {
   let page = req.params.page;
-  let nowPage = "" ;
-  for(let i = 4;i < page.length;i++){
+  let nowPage = "";
+  for (let i = 4; i < page.length; i++) {
     nowPage += page[i];
   }
-  EBookData.find({},function(error,EBooks){
-    if(error){
+  EBookData.find({}, function (error, EBooks) {
+    if (error) {
       res.status(500).send("find error!")
     }
-    let totalpage = Math.ceil(EBooks.length/10);
+    let totalpage = Math.ceil(EBooks.length / 10);
     let wanttoreturndata = [];
-    for(let i = 0 ;i < EBooks.length; i++){
-      if(Math.ceil((i+1)/10) == nowPage){
+    for (let i = 0; i < EBooks.length; i++) {
+      if (Math.ceil((i + 1) / 10) == nowPage) {
         wanttoreturndata.push(ObjectID(EBooks[i]._id).toString());
       }
     }
-    EBookData.find({ _id:wanttoreturndata},function(error2,EBookarray){
-      if(error2){
+    EBookData.find({ _id: wanttoreturndata }, function (error2, EBookarray) {
+      if (error2) {
         res.status(500).send("find error2!");
       }
       console.log(nowPage);
@@ -515,8 +515,8 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
       res.status(200).send("already exist!");
       //已經有了
     } else {
-      EBookData.findOne({_id: EBookID},function(error,EBook){
-        if(error){
+      EBookData.findOne({ _id: EBookID }, function (error, EBook) {
+        if (error) {
           res.status(500).send("find error!");
         }
         let addclassEBook = new classEBook();
@@ -539,19 +539,19 @@ router.post('/saveEbookData/:UnitID/:EBookID', ensureAuthenticated, function (re
 });
 
 //刪除EBook
-router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
-  console.log("deleteEbookdata",req.params.UnitID,req.params.EBookID);
+router.post('/deleteEbookData/:UnitID/:EBookID', function (req, res) {
+  console.log("deleteEbookdata", req.params.UnitID, req.params.EBookID);
 
   classEBook.findOne({
     BookID: req.params.EBookID,
     belongUnit: req.params.UnitID
-  },function(err,EBook){
+  }, function (err, EBook) {
     console.log(EBook);
     let query = {
       _id: EBook._id
     }
-    classEBook.remove(query,function(err){
-      if(err){
+    classEBook.remove(query, function (err) {
+      if (err) {
         res.status(500).send("delete error!");
       }
       res.status(200).send("delete success!");
@@ -560,24 +560,24 @@ router.post('/deleteEbookData/:UnitID/:EBookID',function (req, res){
 });
 
 //搜尋EBook
-router.get('/searchEbook/:searchkeyword/:page',  ensureAuthenticated, function (req, res){
+router.get('/searchEbook/:searchkeyword/:page', ensureAuthenticated, function (req, res) {
   let page = req.params.page;
-  let nowPage = "" ;
-  for(let i = 4;i < page.length;i++){
+  let nowPage = "";
+  for (let i = 4; i < page.length; i++) {
     nowPage += page[i];
   }
   let searchkeyword = req.params.searchkeyword;
-  EBookData.find({},function(error,EBooks){
+  EBookData.find({}, function (error, EBooks) {
     let searchtoEBook = EBooks.filter(function (item) {
       return item.BookName.toLowerCase().match(searchkeyword.toLowerCase()) == searchkeyword.toLowerCase();
     });
-    if(searchtoEBook.length == 0){
+    if (searchtoEBook.length == 0) {
       res.status(200).send("No Find Book!")
     }
-    let totalpage = Math.ceil(searchtoEBook.length/10);
+    let totalpage = Math.ceil(searchtoEBook.length / 10);
     let EBookarray = [];
-    for(let i = (nowPage-1)*10;i < nowPage*10;i++){
-      if(searchtoEBook[i] == undefined){
+    for (let i = (nowPage - 1) * 10; i < nowPage * 10; i++) {
+      if (searchtoEBook[i] == undefined) {
         break;
       }
       EBookarray.push(searchtoEBook[i]);
@@ -674,7 +674,7 @@ router.post('/updateClassInfo/:classID/:part/:text', ensureAuthenticated, functi
     });
   }
   if (req.params.part == 'outline') {
-   // console.log(req.body);
+    // console.log(req.body);
 
     var myquery = {
       _id: ObjectID(req.params.classID)
@@ -943,7 +943,7 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
         console.log(err);
       } else {
         //req.flash('success', "新增成功");
-        res.redirect('/class/newClassManager/'+req.body.classID);
+        res.redirect('/class/newClassManager/' + req.body.classID);
       }
     });
 
@@ -951,32 +951,32 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
 })
 
 //進入編輯講義頁面
-router.get('/editChapter/:chapterID',function(req,res){
-  Chapter.findById(req.params.chapterID,function(err,chapterinfo){
-    if(err){
+router.get('/editChapter/:chapterID', function (req, res) {
+  Chapter.findById(req.params.chapterID, function (err, chapterinfo) {
+    if (err) {
       console.log(err);
     }
-    Unit.findById(chapterinfo.belongUnit,function(err,unitinfo){
-      res.render('edit_chapter',{
-        chapterinfo:chapterinfo,
-        calssID:unitinfo.belongClass
+    Unit.findById(chapterinfo.belongUnit, function (err, unitinfo) {
+      res.render('edit_chapter', {
+        chapterinfo: chapterinfo,
+        calssID: unitinfo.belongClass
       })
     })
   })
 })
 //儲存編輯結果
-router.post('/saveEditedChapter',function(req,res){
+router.post('/saveEditedChapter', function (req, res) {
   //console.log(req.body);
 
   let myquery = { _id: req.body.chapterID };
-  let newvalues = { $set: {chapterName: req.body.chapterName,body:req.body.body} };
-  Chapter.updateOne(myquery,newvalues,function(err){
-      if(err){
-          console.log(err);
-          res.send('{"error" : "更改失敗", "status" : 500}');
-      }else{
-          res.send('{"success" : "儲存成功"}');
-      }
+  let newvalues = { $set: { chapterName: req.body.chapterName, body: req.body.body } };
+  Chapter.updateOne(myquery, newvalues, function (err) {
+    if (err) {
+      console.log(err);
+      res.send('{"error" : "更改失敗", "status" : 500}');
+    } else {
+      res.send('{"success" : "儲存成功"}');
+    }
   })
 })
 
@@ -1032,26 +1032,26 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
             console.log(err);
           }
           Class.findById(unit.belongClass, function (err, classinfo) {
-            if(err){
+            if (err) {
               console.log(err);
             }
             let newRecord = new studentWatchChapter()
             newRecord.studentID = req.user._id;
             newRecord.chapterID = req.params.id;
-            newRecord.save(function(err){
-              if(err){
+            newRecord.save(function (err) {
+              if (err) {
                 console.log(err);
               }
               let findchaptercommentsID = [];
               for (let i = 0; i < comments.length; i++) {
-                findchaptercommentsID .push(comments[i].userID.toString());
+                findchaptercommentsID.push(comments[i].userID.toString());
               }
-              User.find({_id: findchaptercommentsID},function(err,users){
+              User.find({ _id: findchaptercommentsID }, function (err, users) {
                 res.render('chapter', {
                   chapter: chapter,
                   comments: comments,
                   classinfo: classinfo,
-                  users:users
+                  users: users
                 });
               })
             })
@@ -1143,19 +1143,19 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
             Note.find({
               author_id: req.user._id
             }, function (err, notes) {
-              Video.find({belongUnit:unit._id},function(err,recommandVideo){
+              Video.find({ belongUnit: unit._id }, function (err, recommandVideo) {
                 let findvideocommentsID = [];
                 for (let i = 0; i < comments.length; i++) {
-                  findvideocommentsID .push(comments[i].userID.toString());
+                  findvideocommentsID.push(comments[i].userID.toString());
                 }
-                User.find({_id: findvideocommentsID},function(err,users){
+                User.find({ _id: findvideocommentsID }, function (err, users) {
                   res.render('video', {
                     video: video,
                     comments: comments,
                     classinfo: classinfo,
                     notes: notes,
-                    recommandVideo:recommandVideo,
-                    users:users
+                    recommandVideo: recommandVideo,
+                    users: users
                   });
                 });
               })
@@ -1314,8 +1314,8 @@ router.post('/EndpublicTest/:testID', ensureAuthenticated, function (req, res) {
   });
 })
 
-Date.prototype.addHours = function(h) {
-  this.setTime(this.getTime() + (h*60*60*1000));
+Date.prototype.addHours = function (h) {
+  this.setTime(this.getTime() + (h * 60 * 60 * 1000));
   return this;
 }
 //更改測驗
@@ -1506,7 +1506,7 @@ router.get('/correctTestIn/:classID', ensureAuthenticated, function (req, res) {
               tests: tests,
               submits: submits,
               submiter: submiter,
-              classinfo:classinfo
+              classinfo: classinfo
             });
           })
 
@@ -1631,7 +1631,7 @@ router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, 
         let find = [];
         for (let j = 0; j < students.length; j++) {
           for (let z = 0; z < students.length; z++) {
-            if(users[z] != undefined){
+            if (users[z] != undefined) {
               if (findStudentInfoQuery[j] == users[z]._id) {
                 find.push(users[z]).toString();
               }
@@ -1739,7 +1739,7 @@ router.get('/showStudentApproval/:classID', ensureAuthenticated, function (req, 
         let find = [];
         for (let j = 0; j < studentscheck.length; j++) {
           for (let z = 0; z < studentscheck.length; z++) {
-            if(users[z] != undefined){
+            if (users[z] != undefined) {
               if (checkStudentInfoQuery[j] == users[z]._id) {
                 find.push(users[z]).toString();
               }
@@ -1790,51 +1790,51 @@ router.get('/checkStudent/:sid/unit/:classID', ensureAuthenticated, function (re
       studentID: sidarray[i],
       classID: req.params.classID
     }, {
-      $set: {
-        permission: permission
-      }
-    }, {
-      w: 1
-    }, function (err, result) {
-      if (err) throw err;
-      //console.log('Document Updated Successfully');
-      User.findById({
-        _id: sidarray[i]
-      }, function (err, student) {
-        if (err) {
-          console.log(err);
+        $set: {
+          permission: permission
         }
-        Class.findById({
-          _id: req.params.classID
-        }, function (err, classinfo) {
+      }, {
+        w: 1
+      }, function (err, result) {
+        if (err) throw err;
+        //console.log('Document Updated Successfully');
+        User.findById({
+          _id: sidarray[i]
+        }, function (err, student) {
           if (err) {
             console.log(err);
           }
-          var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: 'nkust.online.study@gmail.com',
-              pass: 'kkc060500'
+          Class.findById({
+            _id: req.params.classID
+          }, function (err, classinfo) {
+            if (err) {
+              console.log(err);
             }
-          });
-          //console.log(student.email);
-          var mailOptions = {
-            from: 'nkust.online.study@gmail.com',
-            to: student.email,
-            subject: 'nkust線上學習平台',
-            text: '歡迎您加入[' + classinfo.className + ']課程!'
-          };
+            var transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                user: 'nkust.online.study@gmail.com',
+                pass: 'kkc060500'
+              }
+            });
+            //console.log(student.email);
+            var mailOptions = {
+              from: 'nkust.online.study@gmail.com',
+              to: student.email,
+              subject: 'i-Coding學習平臺',
+              text: '歡迎您加入[' + classinfo.className + ']課程!'
+            };
 
-          transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              //console.log('Email sent: ' + info.response);
-            }
+            transporter.sendMail(mailOptions, function (error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                //console.log('Email sent: ' + info.response);
+              }
+            });
           });
         });
       });
-    });
   }
   res.redirect('/class/showStudentApproval/' + req.params.classID);
 })
@@ -1902,15 +1902,15 @@ router.get('/checkAssistant/:sid/unit/:classID', ensureAuthenticated, function (
           studentID: sidarray[i],
           classID: req.params.classID
         }, {
-          $set: {
-            permission: permission
-          }
-        }, {
-          w: 1
-        }, function (err, result) {
-          if (err) throw err;
-          //console.log('Assistant Document Updated Successfully');
-        });
+            $set: {
+              permission: permission
+            }
+          }, {
+            w: 1
+          }, function (err, result) {
+            if (err) throw err;
+            //console.log('Assistant Document Updated Successfully');
+          });
       } else {
         User.find({
           _id: sidarray[i]
@@ -1944,18 +1944,18 @@ router.get('/deleteAssistant/:id/unit/:classID', ensureAuthenticated, function (
       studentID: delsidarray[i],
       classID: req.params.classID
     }, {
-      $set: {
-        permission: "11111"
-      }
-    }, {
-      w: 1
-    }, function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        //console.log('Assistant Permission Delete Successfully');
-      }
-    })
+        $set: {
+          permission: "11111"
+        }
+      }, {
+        w: 1
+      }, function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          //console.log('Assistant Permission Delete Successfully');
+        }
+      })
   }
   req.flash('success', '刪除成功');
   res.redirect('/class/showAssistantIn/' + req.params.classID);
@@ -1982,18 +1982,18 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
         studentID: req.params.id,
         classID: req.params.classID
       }, {
-        $set: {
-          permission: setmode
-        }
-      }, {
-        w: 1
-      }, function (err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          //console.log('Assistant Permission Updated Successfully');
-        }
-      });
+          $set: {
+            permission: setmode
+          }
+        }, {
+          w: 1
+        }, function (err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            //console.log('Assistant Permission Updated Successfully');
+          }
+        });
     } else {
       let setmode = "";
       for (let i = 0; i < 4; i++) {
@@ -2007,18 +2007,18 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
         studentID: req.params.id,
         classID: req.params.classID
       }, {
-        $set: {
-          permission: setmode
-        }
-      }, {
-        w: 1
-      }, function (err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          //console.log('Assistant Permission Updated Successfully');
-        }
-      });
+          $set: {
+            permission: setmode
+          }
+        }, {
+          w: 1
+        }, function (err, result) {
+          if (err) {
+            console.log(err);
+          } else {
+            //console.log('Assistant Permission Updated Successfully');
+          }
+        });
     }
     res.redirect('/class/showAssistantIn/' + req.params.classID);
   })
@@ -2097,15 +2097,15 @@ router.get('/showVideoSituation/:classID', ensureAuthenticated, function (req, r
 router.get('/videoAnalytics/:videoID', ensureAuthenticated, function (req, res) {
   Video.findById(req.params.videoID, function (err, videoinfo) {
     Unit.findById(videoinfo.belongUnit, function (err, unit) {
-      RFM.findOne({videoID:req.params.videoID}, function (err, rfm) {
-        if(rfm){
+      RFM.findOne({ videoID: req.params.videoID }, function (err, rfm) {
+        if (rfm) {
           console.log("rfm=" + rfm);
           res.render('videoAnalytics', {
             videoinfo: videoinfo,
             unit: unit,
             rfm: rfm
           })
-        }else{
+        } else {
           console.log("rfm is none");
           res.render('videoAnalytics', {
             videoinfo: videoinfo,
@@ -2167,7 +2167,7 @@ router.get('/studentWatchGrade/:classID', function (req, res) {
               tests: tests,
               submits: submits,
               submiter: submiter,
-              classinfo:classinfo
+              classinfo: classinfo
             });
           })
         })
