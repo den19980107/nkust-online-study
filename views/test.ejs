@@ -366,126 +366,19 @@
             myField.value += myValue;
         }
     }
+
+    //用來判斷離開全螢幕的原因看是否是因為繳交考卷所以才離開全螢幕
+    let isBecauseSubmitSoLeftFullScreen = false;
+
     let finishTest = function () {
+        isBecauseSubmitSoLeftFullScreen = true;
         if(confirm("確定要送出嗎?")){
-            let qutions = <%- JSON.stringify(test) %>
-            for (let i = 0; i < qutions.testQutions.length; i++) {
-                if(qutions.testQutions[i].type=="程式題"){
-                    if(typeof answerArray[i] === 'undefined'){
-                        alert("還有程式題沒有編譯過喔！請編譯過後再提交")
-                        document.getElementById('finishTestBtn').disabled = false;
-                        // qutions.testQutions[i].studentAnswer = null
-                        // qutions.testQutions[i].language = null
-                        // qutions.testQutions[i].isCorrect = false
-                        return;
-                    }else{
-                        qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
-                        qutions.testQutions[i].language = answerArray[i].language
-                        qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
-                    }
-                }else if(qutions.testQutions[i].type=="填空題"){
-                    if(typeof answerArray[i] === 'undefined'){
-                        qutions.testQutions[i].studentAnswer = null
-                        qutions.testQutions[i].isCorrect = false
-                    }else{
-                        qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
-                        qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
-                    }
-                }else{
-                    //console.log(answerArray[i]);
-
-                    if(typeof answerArray[i] === 'undefined'){
-                        qutions.testQutions[i].studentAnswer = -1
-                        qutions.testQutions[i].isCorrect = false
-                    }else{
-                        qutions.testQutions[i].studentAnswer = answerArray[i].studentAnswer
-                        qutions.testQutions[i].isCorrect = answerArray[i].isCorrect
-                    }
-                }
-            }
-            qutions.writer = "<%=user._id%>"
-            //改測驗
-            for(let i=0;i<qutions.testQutions.length;i++){
-                let qution = qutions.testQutions[i]
-                if (qution.type == '選擇題') {
-                let studentAnswers = [];
-                for(let j = 0;j<qution.selection.length;j++){
-                    //console.log("j = "+qution.studentAnswer[j]);
-                    //console.log(qution.studentAnswer);
-
-                    if(qution.studentAnswer[j]=="1"){
-                        studentAnswers.push(qution.selection[j]);
-                    }
-                }
-                //console.log(studentAnswers);
-                let isCorrect = true;
-                if(studentAnswers.length!=qution.correctAnswers.length){
-                    isCorrect=false;
-                }
-                for(let i =0;i<qution.correctAnswers.length;i++){
-                    if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
-                        isCorrect=false;
-                    }
-                }
-                qution.isCorrect = isCorrect
-                }
-                if (qution.type == '是非題') {
-                let isCorrect = true;
-                if(qution.studentAnswer!=qution.correctAnswers){
-                    isCorrect=false;
-                }
-                qution.isCorrect = isCorrect
-                }
-                if (qution.type == '填空題') {
-                let isCorrect = false;
-                for(let i = 0;i<qution.correctAnswers.length;i++){
-                    if(qution.studentAnswer == qution.correctAnswers[i]){
-                    isCorrect = true;
-                    }
-                }
-                qution.isCorrect = isCorrect
-                }
-                if (qution.type == '程式題') {
-                let isCorrect = false;
-                var testverification = {
-                    input: qution.intputTest,
-                    script: qution.studentAnswer,
-                    language: qution.language,
-                    id: "001"
-                }
-                //console.log("testverification = -------");
-                //console.log(testverification);
-
-                var socket = io();
-                socket.emit('script', testverification);
-                socket.on('answer', function (obj) {
-                    //console.log(obj);
-                    //console.log(obj.body.output);
-                    //console.log(qution.language);
-                    if(typeof obj.body.output === 'undefined' || obj.body.output === null){
-
-                    }else{
-                        obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
-                    }
-                    if(obj.body.output == qution.outputTest){
-                        isCorrect = true
-                        qution.isCorrect = isCorrect
-                        answermodifyend(qutions)
-                    }else{
-                        qution.isCorrect = isCorrect
-                        answermodifyend(qutions)
-                    }
-                });
-                }else{
-                  if(i==qutions.testQutions.length-1){
-                      answermodifyend(qutions)
-                  }
-                }
-            }
+            SubmitTest();
         }
     }
 
-    function forceSubmitTest(){
+
+    function SubmitTest(){
         let qutions = <%- JSON.stringify(test) %>
         for (let i = 0; i < qutions.testQutions.length; i++) {
             console.log(answerArray[i])
@@ -731,8 +624,13 @@
                 if (document.fullscreenElement) {
                     console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
                 } else {
-                    forceSubmitTest();
-                    alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+                    console.log(e)
+                    //確定事不是因為繳交考卷所以才離開全螢幕 如果不是的話就要強制送出
+                    if(isBecauseSubmitSoLeftFullScreen == false){
+                        SubmitTest();
+                        alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+                    }
+                    
                 }
             });
         }
