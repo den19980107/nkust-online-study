@@ -526,7 +526,8 @@
           },
           success: function (response) {
               alert('填寫測驗成功');
-              window.location = "/class/newClassManager/<%=classinfo._id%>"
+              location.replace("/class/newClassManager/<%=classinfo._id%>")
+              //window.location = "/class/newClassManager/<%=classinfo._id%>"
           }
       })
     }
