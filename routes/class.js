@@ -382,7 +382,7 @@ router.get('/:id', ensureAuthenticated, function (req, res) {
   });
 });
 //@顯示照片的route
-router.get('/image/:imageName', ensureAuthenticated, (req, res) => {
+router.get('/image/:imageName', (req, res) => {
   gfs.files.findOne({
     filename: req.params.imageName
   }, (err, img) => {

@@ -41,6 +41,18 @@ let RFM = require('../model/RFM')
 //bring studentWatchChapter modal
 let studentWatchChapter = require('../model/studentWatchChapter');
 
+//拿到所有課程
+router.get('/getClasses',function(req,res){
+    Class.find({},function(err,classes){
+        if(err){
+            res.send('{"error" : "要求失敗", "status" : 500}')
+        }else{
+            res.json(classes);
+        }
+    })
+})
+
+
 //拿到單元內影片
 router.get('/getVideoInUnit/:unitID', function (req, res) {
     Video.find({
