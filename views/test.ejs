@@ -379,6 +379,8 @@
 
 
     function SubmitTest(){
+        console.log("isBecauseNotFocusAtTestPageSoLeftFullScreen = "+isBecauseNotFocusAtTestPageSoLeftFullScreen);
+        console.log("isBecauseSubmitSoLeftFullScreen = "+isBecauseSubmitSoLeftFullScreen)
         let qutions = <%- JSON.stringify(test) %>
         for (let i = 0; i < qutions.testQutions.length; i++) {
             console.log(answerArray[i])
@@ -486,11 +488,12 @@
                 }
             });
             }else{
-              if(i==qutions.testQutions.length-1){
-                  answermodifyend(qutions)
-              }
+            if(i==qutions.testQutions.length-1){
+                answermodifyend(qutions)
+            }
             }
         }
+          
     }
 
     var delay = function(s){
@@ -607,6 +610,7 @@
             document.getElementById("EndpublicTime").setAttribute("min",startTime.value)
             document.getElementById("EndpublicTime").value = startTime.value
     }
+    let isBecauseNotFocusAtTestPageSoLeftFullScreen = false;
     window.onload = function(){
         if(Test.isPublic){
             //彈出要求進入全應募的視窗
@@ -619,14 +623,23 @@
                     )
                 }
             }
-
+            //定時檢測是否有在考試頁面上
+            if("<%=isSubmited%>" == "false"){
+                setInterval(function(){
+                    if(document.hasFocus() != true){
+                        SubmitTest();
+                        isBecauseNotFocusAtTestPageSoLeftFullScreen = true
+                        alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+                    }
+                },500)
+            }
             document.addEventListener("fullscreenchange", function(e) {
                 if (document.fullscreenElement) {
                     console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
                 } else {
                     console.log(e)
                     //確定事不是因為繳交考卷所以才離開全螢幕 如果不是的話就要強制送出
-                    if(isBecauseSubmitSoLeftFullScreen == false){
+                    if(isBecauseSubmitSoLeftFullScreen == false && isBecauseNotFocusAtTestPageSoLeftFullScreen == false){
                         SubmitTest();
                         alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
                     }
