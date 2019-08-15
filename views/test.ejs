@@ -377,14 +377,17 @@
         }
     }
 
-
+    let pgqNumber = 0;
+    let isHavePGQ = false;
     function SubmitTest(){
         console.log("isBecauseNotFocusAtTestPageSoLeftFullScreen = "+isBecauseNotFocusAtTestPageSoLeftFullScreen);
         console.log("isBecauseSubmitSoLeftFullScreen = "+isBecauseSubmitSoLeftFullScreen)
         let qutions = <%- JSON.stringify(test) %>
         for (let i = 0; i < qutions.testQutions.length; i++) {
-            console.log(answerArray[i])
+            //console.log(answerArray[i])
             if(qutions.testQutions[i].type=="程式題"){
+                isHavePGQ = true;
+                pgqNumber++;
                 if(typeof answerArray[i] === 'undefined'){
                     qutions.testQutions[i].studentAnswer = ""
                     qutions.testQutions[i].language = "cpp"
@@ -471,6 +474,7 @@
                 socket.emit('script', testverification);
                 socket.on('answer', function (obj) {
                     //console.log(obj);
+                    pgqNumber--;
                     //console.log(obj.body.output);
                     //console.log(qution.language);
                     if(typeof obj.body.output === 'undefined' || obj.body.output === null){
@@ -486,14 +490,17 @@
                         qution.isCorrect = isCorrect
                         //answermodifyend(qutions)
                     }
+                    if(pgqNumber == 0 ){
+                      answermodifyend(qutions)
+                    }
                 });
             }
-            if(i==qutions.testQutions.length-1){
-                answermodifyend(qutions)
+            if(i==qutions.testQutions.length-1 && isHavePGQ == false){
+              answermodifyend(qutions)
             }
-            
+
         }
-            
+
     }
 
     var delay = function(s){
@@ -506,7 +513,6 @@
     let answermodifyend = function(qutions){
         let obtainscore = 0
         //console.log(qutions);
-        //console.log("到");
         for(let i=0;i < qutions.testQutions.length;i++){
             if(qutions.testQutions[i].isCorrect == true){
                 obtainscore += Number(qutions.testQutions[i].score);
@@ -644,7 +650,7 @@
                         SubmitTest();
                         alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
                     }
-                    
+
                 }
             });
         }
