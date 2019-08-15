@@ -247,8 +247,8 @@
 <script>
 
     Date.prototype.addHours = function(h) {
-    this.setTime(this.getTime() + (h*60*60*1000));
-    return this;
+        this.setTime(this.getTime() + (h*60*60*1000));
+        return this;
     }
 
     let answerArray = [];
@@ -264,44 +264,44 @@
         if (qutionType == 'MCQ') {
             //console.log(qutionNumber);
             if(answerArray[qutionNumber-1]==undefined){
-              answerArray[qutionNumber-1] = {studentAnswer:[],isCorrect:""}
-              answerArray[qutionNumber-1].studentAnswer[answer]="1"
+                answerArray[qutionNumber-1] = {studentAnswer:[],isCorrect:""}
+                answerArray[qutionNumber-1].studentAnswer[answer]="1"
             }else{
-              if(answerArray[qutionNumber-1].studentAnswer[answer]==="1"){
-                  answerArray[qutionNumber-1].studentAnswer[answer]="0";
-              }else{
-                  answerArray[qutionNumber-1].studentAnswer[answer]="1";
-              }
+                if(answerArray[qutionNumber-1].studentAnswer[answer]==="1"){
+                    answerArray[qutionNumber-1].studentAnswer[answer]="0";
+                }else{
+                    answerArray[qutionNumber-1].studentAnswer[answer]="1";
+                }
             }
         }
         if (qutionType == 'YNQ') {
-          if(answerArray[qutionNumber-1]==undefined){
-            answerArray[qutionNumber-1] = {studentAnswer:"",isCorrect:""}
-            answerArray[qutionNumber-1].studentAnswer=answer
-          }else{
-            answerArray[qutionNumber-1].studentAnswer=answer
-          }
+            if(answerArray[qutionNumber-1]==undefined){
+                answerArray[qutionNumber-1] = {studentAnswer:"",isCorrect:""}
+                answerArray[qutionNumber-1].studentAnswer=answer
+            }else{
+                answerArray[qutionNumber-1].studentAnswer=answer
+            }
         }
         if (qutionType == 'FBQ') {
-          let answerText = document.getElementById('FBQanswer'+qutionNumber).value;
-          if(answerArray[qutionNumber-1]==undefined){
-            answerArray[qutionNumber-1] = {studentAnswer:"",isCorrect:""}
-            answerArray[qutionNumber-1].studentAnswer=answerText
-          }else{
-            answerArray[qutionNumber-1].studentAnswer=answerText
-          }
+            let answerText = document.getElementById('FBQanswer' + qutionNumber).value;
+            if (answerArray[qutionNumber - 1] == undefined) {
+                answerArray[qutionNumber - 1] = { studentAnswer: "", isCorrect: "" }
+                answerArray[qutionNumber - 1].studentAnswer = answerText
+            } else {
+                answerArray[qutionNumber - 1].studentAnswer = answerText
+            }
         }
         if (qutionType == 'PGQ') {
-          let code = document.getElementById('code'+qutionNumber).value;
-          let language =document.getElementById('language'+qutionNumber).value;
-          if(answerArray[qutionNumber-1]==undefined){
-            answerArray[qutionNumber-1] = {studentAnswer:"",language:"",isCorrect:""}
-            answerArray[qutionNumber-1].studentAnswer=code
-            answerArray[qutionNumber-1].language = language
-          }else{
-            answerArray[qutionNumber-1].studentAnswer=code;
-            answerArray[qutionNumber-1].language = language
-          }
+            let code = document.getElementById('code' + qutionNumber).value;
+            let language = document.getElementById('language' + qutionNumber).value;
+            if (answerArray[qutionNumber - 1] == undefined) {
+                answerArray[qutionNumber - 1] = { studentAnswer: "", language: "", isCorrect: "" }
+                answerArray[qutionNumber - 1].studentAnswer = code
+                answerArray[qutionNumber - 1].language = language
+            } else {
+                answerArray[qutionNumber - 1].studentAnswer = code;
+                answerArray[qutionNumber - 1].language = language
+            }
         }
         //console.log(answerArray);
     }
@@ -419,117 +419,117 @@
         for(let i=0;i<qutions.testQutions.length;i++){
             let qution = qutions.testQutions[i]
             if (qution.type == '選擇題') {
-            let studentAnswers = [];
-            for(let j = 0;j<qution.selection.length;j++){
-                //console.log("j = "+qution.studentAnswer[j]);
-                //console.log(qution.studentAnswer);
+                let studentAnswers = [];
+                for(let j = 0;j<qution.selection.length;j++){
+                    //console.log("j = "+qution.studentAnswer[j]);
+                    //console.log(qution.studentAnswer);
 
-                if(qution.studentAnswer[j]=="1"){
-                    studentAnswers.push(qution.selection[j]);
+                    if(qution.studentAnswer[j]=="1"){
+                        studentAnswers.push(qution.selection[j]);
+                    }
                 }
-            }
-            //console.log(studentAnswers);
-            let isCorrect = true;
-            if(studentAnswers.length!=qution.correctAnswers.length){
-                isCorrect=false;
-            }
-            for(let i =0;i<qution.correctAnswers.length;i++){
-                if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
+                //console.log(studentAnswers);
+                let isCorrect = true;
+                if(studentAnswers.length!=qution.correctAnswers.length){
                     isCorrect=false;
                 }
-            }
-            qution.isCorrect = isCorrect
+                for(let i =0;i<qution.correctAnswers.length;i++){
+                    if(studentAnswers.indexOf(qution.correctAnswers[i])===-1){
+                        isCorrect=false;
+                    }
+                }
+                qution.isCorrect = isCorrect
             }
             if (qution.type == '是非題') {
-            let isCorrect = true;
-            if(qution.studentAnswer!=qution.correctAnswers){
-                isCorrect=false;
-            }
-            qution.isCorrect = isCorrect
+                let isCorrect = true;
+                if(qution.studentAnswer!=qution.correctAnswers){
+                    isCorrect=false;
+                }
+                qution.isCorrect = isCorrect
             }
             if (qution.type == '填空題') {
-            let isCorrect = false;
-            for(let i = 0;i<qution.correctAnswers.length;i++){
-                if(qution.studentAnswer == qution.correctAnswers[i]){
-                isCorrect = true;
+                let isCorrect = false;
+                for(let i = 0;i<qution.correctAnswers.length;i++){
+                    if(qution.studentAnswer == qution.correctAnswers[i]){
+                    isCorrect = true;
+                    }
                 }
-            }
-            qution.isCorrect = isCorrect
+                qution.isCorrect = isCorrect
             }
             if (qution.type == '程式題') {
-            let isCorrect = false;
-            var testverification = {
-                input: qution.intputTest,
-                script: qution.studentAnswer,
-                language: qution.language,
-                id: "001"
+                let isCorrect = false;
+                var testverification = {
+                    input: qution.intputTest,
+                    script: qution.studentAnswer,
+                    language: qution.language,
+                    id: "001"
+                }
+                //console.log("testverification = -------");
+                //console.log(testverification);
+
+                var socket = io();
+                socket.emit('script', testverification);
+                socket.on('answer', function (obj) {
+                    //console.log(obj);
+                    //console.log(obj.body.output);
+                    //console.log(qution.language);
+                    if(typeof obj.body.output === 'undefined' || obj.body.output === null){
+
+                    }else{
+                        obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
+                    }
+                    if(obj.body.output == qution.outputTest){
+                        isCorrect = true
+                        qution.isCorrect = isCorrect
+                        //answermodifyend(qutions)
+                    }else{
+                        qution.isCorrect = isCorrect
+                        //answermodifyend(qutions)
+                    }
+                });
             }
-            //console.log("testverification = -------");
-            //console.log(testverification);
-
-            var socket = io();
-            socket.emit('script', testverification);
-            socket.on('answer', function (obj) {
-                //console.log(obj);
-                //console.log(obj.body.output);
-                //console.log(qution.language);
-                if(typeof obj.body.output === 'undefined' || obj.body.output === null){
-
-                }else{
-                    obj.body.output = obj.body.output.substring(0,obj.body.output.length-1)
-                }
-                if(obj.body.output == qution.outputTest){
-                    isCorrect = true
-                    qution.isCorrect = isCorrect
-                    answermodifyend(qutions)
-                }else{
-                    qution.isCorrect = isCorrect
-                    answermodifyend(qutions)
-                }
-            });
-            }else{
             if(i==qutions.testQutions.length-1){
                 answermodifyend(qutions)
             }
-            }
+            
         }
-          
+            
     }
 
     var delay = function(s){
-      return new Promise(function(resolve,reject){
+        return new Promise(function(resolve,reject){
         //console.log("3s");
         setTimeout(resolve,s);
-      });
+        });
     };
 
     let answermodifyend = function(qutions){
-      let obtainscore = 0
-      //console.log(qutions);
-      //console.log("到");
-      for(let i=0;i < qutions.testQutions.length;i++){
-          if(qutions.testQutions[i].isCorrect == true){
-              obtainscore += Number(qutions.testQutions[i].score);
-          }
-      }
-      //console.log(obtainscore);
-      qutions.obtainscore = obtainscore
-      //console.log(qutions);
-      $.ajax({
-          url: '/SDC/submitTest',
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(qutions),
-          dataType: 'json',
-          error: function (xhr) {
-              alert('發生錯誤');
-          },
-          success: function (response) {
-              alert('填寫測驗成功');
-              location.replace("/class/newClassManager/<%=classinfo._id%>")
-              //window.location = "/class/newClassManager/<%=classinfo._id%>"
-          }
-      })
+        let obtainscore = 0
+        //console.log(qutions);
+        //console.log("到");
+        for(let i=0;i < qutions.testQutions.length;i++){
+            if(qutions.testQutions[i].isCorrect == true){
+                obtainscore += Number(qutions.testQutions[i].score);
+            }
+        }
+        //console.log(obtainscore);
+        qutions.obtainscore = obtainscore
+        //console.log(qutions);
+        $.ajax({
+            url: '/SDC/submitTest',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(qutions),
+            dataType: 'json',
+            error: function (xhr) {
+                alert('發生錯誤');
+            },
+            success: function (response) {
+                alert('填寫測驗成功');
+                location.replace("/class/newClassManager/<%=classinfo._id%>")
+                //window.location = "/class/newClassManager/<%=classinfo._id%>"
+            }
+        })
     }
     let Test = <%- JSON.stringify(test) %>;
     let user = <%- JSON.stringify(user) %>;
