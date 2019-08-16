@@ -631,28 +631,28 @@
                 }
             }
             //定時檢測是否有在考試頁面上
-            if("<%=isSubmited%>" == "false"){
-                setInterval(function(){
-                    if(document.hasFocus() != true){
-                        SubmitTest();
-                        isBecauseNotFocusAtTestPageSoLeftFullScreen = true
-                        alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
-                    }
-                },500)
-            }
-            document.addEventListener("fullscreenchange", function(e) {
-                if (document.fullscreenElement) {
-                    console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
-                } else {
-                    console.log(e)
-                    //確定事不是因為繳交考卷所以才離開全螢幕 如果不是的話就要強制送出
-                    if(isBecauseSubmitSoLeftFullScreen == false && isBecauseNotFocusAtTestPageSoLeftFullScreen == false){
-                        SubmitTest();
-                        alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
-                    }
-
-                }
-            });
+            // if("<%=isSubmited%>" == "false"){
+            //     setInterval(function(){
+            //         if(document.hasFocus() != true){
+            //             SubmitTest();
+            //             isBecauseNotFocusAtTestPageSoLeftFullScreen = true
+            //             alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+            //         }
+            //     },500)
+            // }
+            // document.addEventListener("fullscreenchange", function(e) {
+            //     if (document.fullscreenElement) {
+            //         console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
+            //     } else {
+            //         console.log(e)
+            //         //確定事不是因為繳交考卷所以才離開全螢幕 如果不是的話就要強制送出
+            //         if(isBecauseSubmitSoLeftFullScreen == false && isBecauseNotFocusAtTestPageSoLeftFullScreen == false){
+            //             SubmitTest();
+            //             alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+            //         }
+            //
+            //     }
+            // });
         }
 
         // console.log(Test.publicTime);
