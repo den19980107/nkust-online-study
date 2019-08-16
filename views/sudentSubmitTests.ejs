@@ -529,6 +529,7 @@
                         default:
                             break;
                     }
+                    var checkCorrectStatus = false;
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
@@ -549,7 +550,7 @@
                         <div style="font-size: 20px" id ="title${i}">
                             <pre style="color:white">題目:${qution.qutionName} </pre>
                         </div>`
-                        changeCorrection1(qution.isCorrect,i,qution.score);
+                        checkCorrectStatus = true ;
                     }
                     html +=
                         `
@@ -618,6 +619,9 @@ ${qution.outputExample}
                 </div>
                 </div>`
             leftbox.innerHTML = bightml;
+            if(checkCorrectStatus){
+              changeCorrection1(qution.isCorrect,i,qution.score);
+            }
             let scoreField = document.getElementById('scoreField');
             if (test.isTeacherMarked) {
                 scoreField.innerHTML = `得分:${test.score}/${totalScore}`
