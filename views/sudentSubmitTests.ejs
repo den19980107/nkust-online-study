@@ -835,125 +835,126 @@ ${qution.outputExample}
             }
             selectQuiz.length = testLength;
             let showDataBtn = document.getElementById('showDataBtn');
-            showDataBtn.onclick = function () {
-                let leftbox = document.getElementById('leftbox');
-                //先看有幾題 就要加多少個canvas進去
-                let testData; //這張考卷的資料
-                for (let i = 0; i < tests.length; i++) {
-                    if (tests[i]._id == nowTest) {
-                        testData = tests[i]
-                    }
-                }
-                let qutionlength = testData.testQutions.length; //這張考卷有幾題
-                //console.log(testData);
-                //再把所有有寫這份考卷並改過的考卷找進來
-                let studentAnswers = []; //這份考卷所有學生的回答
-                for (let i = 0; i < studentSubmits.length; i++) {
-                    if (studentSubmits[i].testID == nowTest && studentSubmits[i].isTeacherMarked == true) {
-                        studentAnswers.push(studentSubmits[i]);
-                    }
-                }
-                if (studentAnswers.length == 0) {
-                    alert('你還沒有改過任何一張考卷喔！')
-                }
-                sendforchatData = [];
-                class dataobject {
-                    constructor() {
-                        this.title = ''
-                        this.label = ''
-                        this.data = ''
-                    }
-                }
-                // console.log(studentAnswers);
-                // console.log(qutionlength);
-                //把題目放進去
-                for (let i = 0; i < qutionlength; i++) {
-                    console.log(testData.testQutions[i].title);
-                    sendforchatData[i] = new dataobject();
-                    sendforchatData[i].title = testData.testQutions[i].title;
-                }
-                //把統計的數字放到data
-                //console.log("student submit data");
-                let b = [];
-                let eachQutionAnswers = [];
-                for (let i = 0; i < studentAnswers.length; i++) {
-                    //console.log(studentAnswers[i]);
-                    for (let j = 0; j < studentAnswers[i].markArray.length; j++) {
-                        //console.log(studentAnswers[i].markArray[j]);
-                        b.push(studentAnswers[j].markArray[i])
-                    }
-                    let right = 0;
-                    let wrong = 0;
-                    for (let k = 0; k < b.length; k++) {
-                        if (b[k] == 'right') {
-                            right += 1;
-                        }
-                        if (b[k] == "wrong") {
-                            wrong += 1;
-                        }
-                    }
-                    eachQutionAnswers[i] = [right, wrong];
-                    b = [];
-                }
-                // console.log("eachQutionAnswers ==");
-                // console.log(eachQutionAnswers);
-                //先清空leftbox
-                leftbox.innerHTML = '';
-                //加title
-                leftbox.innerHTML = '<h4 class ="text-center">測驗情形</h4>';
-                let ctx = [];
-                let myChart = []
-                for (let i = 0; i < qutionlength; i++) {
-                    leftbox.innerHTML +=
-                        `
-                        <div class="chart-container" style="position: relative; height:20vh; width:100%">
-                            <canvas id="myChart${i}"></canvas>
-                        </div>`;
-                }
-                for (let i = 0; i < qutionlength; i++) {
-                    //console.log(testData[i]);
-                    ctx[i] = document.getElementById("myChart" + i).getContext('2d');
-                    myChart[i] = new Chart(ctx[i], {
-                        type: 'horizontalBar',
-                        data: {
-                            labels: [" 正確", " 錯誤"],
-                            datasets: [{
-                                label: sendforchatData[i].title,
-                                data: eachQutionAnswers[i],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)'
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            maintainAspectRatio: false,
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        mirror: true,
-                                    }
-                                }],
-                                xAxes: [{
-                                    ticks: {
-                                        beginAtZero: true,
-                                        stepSize: 1
-                                    }
-                                }]
-                            }
-                        }
-                    });
-                }
-            }
+            $("#showDataBtn").click(function(){
+              let leftbox = document.getElementById('leftbox');
+              //先看有幾題 就要加多少個canvas進去
+              let testData; //這張考卷的資料
+              for (let i = 0; i < tests.length; i++) {
+                  if (tests[i]._id == nowTest) {
+                      testData = tests[i]
+                  }
+              }
+              let qutionlength = testData.testQutions.length; //這張考卷有幾題
+              //console.log(testData);
+              //再把所有有寫這份考卷並改過的考卷找進來
+              let studentAnswers = []; //這份考卷所有學生的回答
+              for (let i = 0; i < studentSubmits.length; i++) {
+                  if (studentSubmits[i].testID == nowTest && studentSubmits[i].isTeacherMarked == true) {
+                      studentAnswers.push(studentSubmits[i]);
+                  }
+              }
+              if (studentAnswers.length == 0) {
+                  alert('你還沒有改過任何一張考卷喔！')
+              }
+              sendforchatData = [];
+              class dataobject {
+                  constructor() {
+                      this.title = ''
+                      this.label = ''
+                      this.data = ''
+                  }
+              }
+              // console.log(studentAnswers);
+              // console.log(qutionlength);
+              //把題目放進去
+              for (let i = 0; i < qutionlength; i++) {
+                  console.log(testData.testQutions[i].title);
+                  sendforchatData[i] = new dataobject();
+                  sendforchatData[i].title = testData.testQutions[i].title;
+              }
+              //把統計的數字放到data
+              //console.log("student submit data");
+              let b = [];
+              let eachQutionAnswers = [];
+              for (let i = 0; i < studentAnswers.length; i++) {
+                  //console.log(studentAnswers[i]);
+                  for (let j = 0; j < studentAnswers[i].markArray.length; j++) {
+                      //console.log(studentAnswers[i].markArray[j]);
+                      b.push(studentAnswers[j].markArray[i])
+                  }
+                  let right = 0;
+                  let wrong = 0;
+                  for (let k = 0; k < b.length; k++) {
+                      if (b[k] == 'right') {
+                          right += 1;
+                      }
+                      if (b[k] == "wrong") {
+                          wrong += 1;
+                      }
+                  }
+                  eachQutionAnswers[i] = [right, wrong];
+                  b = [];
+              }
+              // console.log("eachQutionAnswers ==");
+              // console.log(eachQutionAnswers);
+              //先清空leftbox
+              leftbox.innerHTML = '';
+              //加title
+              leftbox.innerHTML = '<h4 class ="text-center">測驗情形</h4>';
+              let ctx = [];
+              let myChart = []
+              for (let i = 0; i < qutionlength; i++) {
+                  leftbox.innerHTML +=
+                      `
+                      <div class="chart-container" style="position: relative; height:20vh; width:100%">
+                          <canvas id="myChart${i}"></canvas>
+                      </div>`;
+              }
+              for (let i = 0; i < qutionlength; i++) {
+                  //console.log(testData[i]);
+                  ctx[i] = document.getElementById("myChart" + i).getContext('2d');
+                  myChart[i] = new Chart(ctx[i], {
+                      type: 'horizontalBar',
+                      data: {
+                              labels: [" 正確", " 錯誤"],
+                              datasets: [{
+                                  label: sendforchatData[i].title,
+                                  data: eachQutionAnswers[i],
+                                  backgroundColor: [
+                                      'rgba(255, 99, 132, 0.2)',
+                                      'rgba(54, 162, 235, 0.2)',
+                                      'rgba(255, 206, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)'
+                                  ],
+                                  borderColor: [
+                                      'rgba(255,99,132,1)',
+                                      'rgba(54, 162, 235, 1)',
+                                      'rgba(255, 206, 86, 1)',
+                                      'rgba(75, 192, 192, 1)'
+                                  ],
+                                  borderWidth: 1
+                              }]
+                          },
+                          options: {
+                              maintainAspectRatio: false,
+                              scales: {
+                                  yAxes: [{
+                                      ticks: {
+                                          mirror: true,
+                                      }
+                                  }],
+                                  xAxes: [{
+                                      ticks: {
+                                          beginAtZero: true,
+                                          stepSize: 1
+                                      }
+                                  }]
+                              }
+                          }
+                      });
+                  }
+            })
+
         };
     </script>
 
