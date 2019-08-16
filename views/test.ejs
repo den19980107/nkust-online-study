@@ -635,16 +635,16 @@
                 }
             }
             //定時檢測是否有在考試頁面上
-            if("<%=isSubmited%>" == "false"){
-                let checkIsFocus = setInterval(function(){
-                    if(document.hasFocus() != true){
-                        clearInterval(checkIsFocus);
-                        SubmitTest();
-                        isBecauseNotFocusAtTestPageSoLeftFullScreen = true
-                        alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
-                    }
-                },500)
-            }
+            // if("<%=isSubmited%>" == "false"){
+            //     let checkIsFocus = setInterval(function(){
+            //         if(document.hasFocus() != true){
+            //             clearInterval(checkIsFocus);
+            //             SubmitTest();
+            //             isBecauseNotFocusAtTestPageSoLeftFullScreen = true
+            //             alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+            //         }
+            //     },500)
+            // }
         }
 
         // console.log(Test.publicTime);
