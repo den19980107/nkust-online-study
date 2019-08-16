@@ -63,6 +63,7 @@
     });
     let PGQcreateNewQution = function () {
         let title = document.getElementById('PGQtitle');
+        let PGQckeditor = CKEDITOR.instances.PGQEditor;
         //let inputd = document.getElementById('input-description');
         //let outputd = document.getElementById('output-description');
         let inpute = document.getElementById('input-example');
@@ -90,7 +91,7 @@
         title.value = '';
         // inputd.value = '';
         // outputd.value = '';
-        CKEDITOR.instances.PGQEditor.setData("");
+        PGQckeditor.setData("");
         inpute.value = '';
         outpute.value = '';
         inputts.value = '';
@@ -101,8 +102,8 @@
     let editPGQ = function (qutionData, id) {
         PGQeditQutionID = id;
         let title = document.getElementById('PGQtitle');
-        let PGQinputd = document.getElementById('input-description');
-        let PGQoutputd = document.getElementById('output-description');
+        let PGQckeditor = CKEDITOR.instances.PGQEditor;
+        //let PGQoutputd = document.getElementById('output-description');
         let PGQinpute = document.getElementById('input-example');
         let PGQoutpute = document.getElementById('output-example');
         let PGQinputts = document.getElementById('input-test');
@@ -113,8 +114,9 @@
         PGQaddQution.style.cssText = "display:none";
         PGQeditQution.style.cssText = "display:block";
         title.value = qutionData.qutionName;
-        PGQinputd.value = qutionData.inputDescription;
-        PGQoutputd.value = qutionData.outputDescription;
+        CKEDITOR.instances.PGQEditor.setData(qutionData.qution);
+        //PGQinputd.value = qutionData.inputDescription;
+        //PGQoutputd.value = qutionData.outputDescription;
         PGQinpute.value = qutionData.inputExample;
         PGQoutpute.value = qutionData.outputExample;
         PGQinputts.value = qutionData.intputTest;
@@ -126,9 +128,10 @@
         }
     }
     let PGQeditQution = function () {
+        console.log("qwe")
         let title = document.getElementById('PGQtitle');
-        let PGQinputd = document.getElementById('input-description');
-        let PGQoutputd = document.getElementById('output-description');
+        let PGQckeditor = CKEDITOR.instances.PGQEditor;
+
         let PGQinpute = document.getElementById('input-example');
         let PGQoutpute = document.getElementById('output-example');
         let PGQinputts = document.getElementById('input-test');
@@ -144,8 +147,7 @@
         let answer = {
             type: "程式題",
             qutionName: title.value,
-            inputDescription: PGQinputd.value,
-            outputDescription: PGQoutputd.value,
+            qution:PGQckeditor.getData(),
             inputExample: PGQinpute.value,
             outputExample: PGQoutpute.value,
             intputTest: PGQinputts.value,
@@ -157,13 +159,13 @@
         updateQutionList();
         PGQaddQution.style.cssText = "display:block";
         PGQeditQution.style.cssText = "display:none";
-        title.value = "";
-        PGQinputd.value = "";
-        PGQoutputd.value = "";
-        PGQinpute.value = "";
-        PGQoutpute.value = "";
-        PGQinputts.value = "";
-        PGQoutputts.value = "";
-        PGQscore.value = "";
+        title.value = '';
+        PGQckeditor.setData("");
+        PGQinputts.value = '';
+        PGQoutputts.value = '';
+        PGQinpute.value = '';
+        PGQoutpute.value = '';
+        PGQscore.value = '';
+        score.value = '';
     }
 </script>
