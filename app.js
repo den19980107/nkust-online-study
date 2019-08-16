@@ -128,7 +128,15 @@ var request = require('request');
 function heredoc(fn) {
     return fn.toString().split('\n').slice(1, -1).join('\n') + '\n'
 }
-
+let clientIdandSecret = [{
+    clientId:"6bae7e59775c3636b4bf78cdaed7c898",
+    clientSecret:"88c23aa459149f14b0bf2b1ee57b834e727f8fd612848c2290a755b83145cde2"
+},
+{
+    clientId:"e66752ae88e8398116a9db0fabca477a",
+    clientSecret:"aa1d0ee049e376efcce7f8ecc7b9de6a4a27a20b21e9d4d935c61200b73e369"
+}]
+let indexOfAPIkey = Math.floor(Math.random()*clientIdandSecret.length)
 var sendScriptToApi = function (script, input, language, socket) {
 
     var program = {
@@ -136,8 +144,8 @@ var sendScriptToApi = function (script, input, language, socket) {
         script: script,
         language: language,
         versionIndex: "0",
-        clientId: "6bae7e59775c3636b4bf78cdaed7c898",
-        clientSecret: "88c23aa459149f14b0bf2b1ee57b834e727f8fd612848c2290a755b83145cde2"
+        clientId: clientIdandSecret[i].clientId,
+        clientSecret: clientIdandSecret[i].clientSecret
     };
 
 
