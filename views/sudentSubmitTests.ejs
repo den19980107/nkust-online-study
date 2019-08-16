@@ -544,12 +544,12 @@
                             </div>`
                         }
                     } else {
-                        changeCorrection1(qution.isCorrect,i,qution.score);
                         html +=
                             `
                         <div style="font-size: 20px" id ="title${i}">
                             <pre style="color:white">題目:${qution.qutionName} </pre>
                         </div>`
+                        changeCorrection1(qution.isCorrect,i,qution.score);
                     }
                     html +=
                         `
