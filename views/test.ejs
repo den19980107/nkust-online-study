@@ -111,6 +111,10 @@
 </div>
 <%}%>
 <hr>
+<script>
+    let hiddenQution;
+    let qutionContent;
+</script>
 <div class="col-md-12" id="questionList" style="style:<%if(test.isPublic == false){%>none<%}%> ">
     <%let i = 0%>
     <%test.testQutions.forEach(function(qution){%>
@@ -209,8 +213,8 @@
             </div>
         </div>
         <script>
-            let hiddenQution = document.getElementById('hiddenQution<%=i%>').innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
-            let qutionContent = document.getElementById('qutionContent<%=i%>');
+            hiddenQution = document.getElementById('hiddenQution<%=i%>').innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
+            qutionContent = document.getElementById('qutionContent<%=i%>');
             qutionContent.className = "fullWidthImgDiv";
             console.log(hiddenQution);
             qutionContent.innerHTML = hiddenQution
@@ -631,28 +635,16 @@
                 }
             }
             //定時檢測是否有在考試頁面上
-            // if("<%=isSubmited%>" == "false"){
-            //     setInterval(function(){
-            //         if(document.hasFocus() != true){
-            //             SubmitTest();
-            //             isBecauseNotFocusAtTestPageSoLeftFullScreen = true
-            //             alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
-            //         }
-            //     },500)
-            // }
-            // document.addEventListener("fullscreenchange", function(e) {
-            //     if (document.fullscreenElement) {
-            //         console.log(`Element: ${document.fullscreenElement.id} entered full-screen mode.`);
-            //     } else {
-            //         console.log(e)
-            //         //確定事不是因為繳交考卷所以才離開全螢幕 如果不是的話就要強制送出
-            //         if(isBecauseSubmitSoLeftFullScreen == false && isBecauseNotFocusAtTestPageSoLeftFullScreen == false){
-            //             SubmitTest();
-            //             alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
-            //         }
-            //
-            //     }
-            // });
+            if("<%=isSubmited%>" == "false"){
+                let checkIsFocus = setInterval(function(){
+                    if(document.hasFocus() != true){
+                        clearInterval(checkIsFocus);
+                        SubmitTest();
+                        isBecauseNotFocusAtTestPageSoLeftFullScreen = true
+                        alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+                    }
+                },500)
+            }
         }
 
         // console.log(Test.publicTime);
@@ -661,7 +653,7 @@
         // console.log(new Date(Test.EndpublicTime).addHours(-8));
         // console.log(new Date()-new Date(Test.EndpublicTime).addHours(-8));
 
-        if(Test.isPublic==false){
+        if(Test.isPublic==false && "<%=user.permission%>" == "student"){
             let nowTime = new Date();
             console.log(nowTime);
 
