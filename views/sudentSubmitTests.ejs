@@ -285,6 +285,7 @@
                 <div class="col text-right" style="padding:12px"><h5 id="scoreField">得分:</h5></div>
             </div>
             `;
+            var checkCorrectStatus = [];
             for (let i = 0; i < test.testQutionsAndAnswer.length; i++) {
                 let qution = test.testQutionsAndAnswer[i];
                 console.log(qution);
@@ -529,7 +530,6 @@
                         default:
                             break;
                     }
-                    var checkCorrectStatus = false;
                     if (test.isTeacherMarked) {
                         if (test.markArray[i] == 'right') {
                             html +=
@@ -544,13 +544,15 @@
                                 <pre style="color:white;margin:0"><i class="fas fa-times mr-1"></i>題目:${qution.qutionName} </pre>
                             </div>`
                         }
+                        console.log(i)
                     } else {
                         html +=
                             `
                         <div style="font-size: 20px" id ="title${i}">
                             <pre style="color:white">題目:${qution.qutionName} </pre>
                         </div>`
-                        checkCorrectStatus = true ;
+                        checkCorrectStatus.push(i);
+                        console.log(i)
                     }
                     html +=
                         `
@@ -611,18 +613,17 @@ ${qution.outputExample}
                 }
                 html += `</div>`
                 bightml += html;
-                if(i == test.testQutionsAndAnswer.length-1){
-                  bightml +=
-                      `<div class="row">
-                      <div class="col">
-                          <button class="btn btn-success float-right" onclick = saveMark("${submiterID}","${testID}","${test.testQutionsAndAnswer.length}")>儲存批閱結果</button>
-                      </div>
-                      </div>`
-                }
-                leftbox.innerHTML = bightml;
-                if(checkCorrectStatus){
-                  changeCorrection1(qution.isCorrect,i,qution.score);
-                }
+            }
+            bightml +=
+                `<div class="row">
+                <div class="col">
+                    <button class="btn btn-success float-right" onclick = saveMark("${submiterID}","${testID}","${test.testQutionsAndAnswer.length}")>儲存批閱結果</button>
+                </div>
+                </div>`
+            leftbox.innerHTML = bightml;
+            console.log(checkCorrectStatus);
+            for(let i = 0 ; i < checkCorrectStatus.length ; i++){
+              changeCorrection1(test.testQutionsAndAnswer[checkCorrectStatus[i]].isCorrect,checkCorrectStatus[i],test.testQutionsAndAnswer[checkCorrectStatus[i]].score);
             }
             let scoreField = document.getElementById('scoreField');
             if (test.isTeacherMarked) {
