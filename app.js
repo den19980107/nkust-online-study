@@ -135,7 +135,12 @@ let clientIdandSecret = [{
 {
     clientId:"e66752ae88e8398116a9db0fabca477a",
     clientSecret:"aa1d0ee049e376efcce7f8ecc7b9de6a4a27a20b21e9d4d935c61200b73e369"
-}]
+},
+{
+    clientId:"19dea378b4d9d32cf26fa7874fd341fa",
+    clientSecret:"7ccba1aed6624fac8ad8ceffde8163c6b0f32aa867f75551dc6e885dd32bc9bf"
+}
+]
 let indexOfAPIkey = Math.floor(Math.random()*clientIdandSecret.length)
 var sendScriptToApi = function (script, input, language, socket) {
 
@@ -144,8 +149,8 @@ var sendScriptToApi = function (script, input, language, socket) {
         script: script,
         language: language,
         versionIndex: "0",
-        clientId: clientIdandSecret[i].clientId,
-        clientSecret: clientIdandSecret[i].clientSecret
+        clientId: clientIdandSecret[indexOfAPIkey].clientId,
+        clientSecret: clientIdandSecret[indexOfAPIkey].clientSecret
     };
 
 
