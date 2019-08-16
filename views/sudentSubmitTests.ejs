@@ -611,16 +611,18 @@ ${qution.outputExample}
                 }
                 html += `</div>`
                 bightml += html;
-            }
-            bightml +=
-                `<div class="row">
-                <div class="col">
-                    <button class="btn btn-success float-right" onclick = saveMark("${submiterID}","${testID}","${test.testQutionsAndAnswer.length}")>儲存批閱結果</button>
-                </div>
-                </div>`
-            leftbox.innerHTML = bightml;
-            if(checkCorrectStatus){
-              changeCorrection1(qution.isCorrect,i,qution.score);
+                if(i == test.testQutionsAndAnswer.length-1){
+                  bightml +=
+                      `<div class="row">
+                      <div class="col">
+                          <button class="btn btn-success float-right" onclick = saveMark("${submiterID}","${testID}","${test.testQutionsAndAnswer.length}")>儲存批閱結果</button>
+                      </div>
+                      </div>`
+                }
+                leftbox.innerHTML = bightml;
+                if(checkCorrectStatus){
+                  changeCorrection1(qution.isCorrect,i,qution.score);
+                }
             }
             let scoreField = document.getElementById('scoreField');
             if (test.isTeacherMarked) {
