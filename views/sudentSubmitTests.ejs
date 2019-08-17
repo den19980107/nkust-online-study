@@ -602,8 +602,8 @@ ${qution.outputExample}
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.qutionName}','${qution.score}')">正確</button>
-                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.qutionName}','${qution.score}')">不正確</button>
+                                <button class="btn btn-success float-right" onclick = "changeCorrection(true,${i},'${qution.score}')">正確</button>
+                                <button class="btn btn-danger float-right mr-1" onclick = "changeCorrection(false,${i},'${qution.score}')">不正確</button>
                             </div>
                         </div>
                 </div>
@@ -656,6 +656,7 @@ ${qution.outputExample}
                     markArray: markArray,
                     score: getScore
                 }
+                console.log("data",data);
                 $.ajax({
                     url: '/class/saveMark/' + testID + '/' + submiterID,
                     type: 'POST',
@@ -688,7 +689,7 @@ ${qution.outputExample}
                     break;
                 }
             }
-            console.log(titletext);
+            //console.log(titletext);
             if (isCorrect) {
                 title.style.cssText = "font-size: 20px;color:white;border-radius: 5px;";
                 if (title.className == '' || title.className == "bg-danger p-1") {
