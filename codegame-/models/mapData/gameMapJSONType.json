@@ -1,0 +1,77 @@
+{
+"level": 6,
+"version":"sdf",
+"data":[{
+    "versionID":"sdf",
+    "versionName":"sdf",
+    "description":{
+        "mainGrammar":[
+          {
+            "innerGrammar":"基本移動"
+          },
+          {
+            "innerGrammar":"宣告變數"
+          }
+        ],
+        "description":"唯一道路被擋住了。\n以你的智慧破解它吧！\n在這個關卡將會學習到輸入。"
+    },
+
+    "instruction": {
+        "class":[
+            {
+                "name":"動作",
+                "usable":[
+                    {
+                        "value":"moveForward"
+                    },
+                    {
+                        "value":"turnRight"
+                    }
+                ]
+            },
+            {
+              "name":"判斷式",
+              "usable":[
+                {
+                  "value":"if"
+                }
+              ]
+            }
+        ]
+    },
+    "mainCodeDescription":{
+        "mode": 3,
+        "textarea1": "哈囉！我是小幫手，將會幫助你通過重重難關。<br><br>目標：避開障礙物以正確的方向通過終點。",
+        "textarea2": "請在左方程式區使用 code 編寫你的程式，編寫完成後，按下右上方的開始按鈕，車子就會照著指令行動。<br><br>程式區右上方按鈕名稱及功能依序為<br>",
+        "textarea4": "開始－執行程式碼",
+        "textarea5": "重置地圖－將遊戲畫面初始化",
+        "textarea6": "重置關卡－刷新指令區及遊戲畫面",
+        "textarea7": "設定－環境設定",
+        "textarea8": "在計算結果的指令個數時，moveForward( )指令將會被列入計算。<br><br>範例：前進一步<br>int main(int argc, char *argv[ ])<br>{<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspmoveForward( );<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspreturn 0;<br>}<br><br>點擊左下角小幫手即可再次觀看關卡說明。<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足通關條件即可<br><br>Ctrl鍵加方向鍵上下可以調整程式區字體大小唷！",
+        "img1": "level1img1.png",
+        "img2": "level1img2.png",
+        "img4": "start.png",
+        "img5": "clearButton.png",
+        "img6": "RestartButton.png",
+        "img7": "SettingButton.png"
+    },
+    "mainBlockyDescription":{
+        "mode": 3,
+        "textarea1": "哈囉！我是小幫手，將會幫助你通過重重難關。<br><br>目標：避開障礙物以正確的方向通過終點。",
+        "textarea2": "請在左方程式區使用 code 編寫你的程式，編寫完成後，按下右上方的開始按鈕，車子就會照著指令行動。<br><br>程式區右上方按鈕名稱及功能依序為<br>",
+        "textarea4": "開始－執行程式碼",
+        "textarea5": "重置地圖－將遊戲畫面初始化",
+        "textarea6": "重置關卡－刷新指令區及遊戲畫面",
+        "textarea7": "設定－環境設定",
+        "textarea8": "在計算結果的指令個數時，moveForward( )指令將會被列入計算。<br><br>範例：前進一步<br>int main(int argc, char *argv[ ])<br>{<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspmoveForward( );<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspreturn 0;<br>}<br><br>點擊左下角小幫手即可再次觀看關卡說明。<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足通關條件即可<br><br>Ctrl鍵加方向鍵上下可以調整程式區字體大小唷！",
+        "img1": "level1img1.png",
+        "img2": "level1img2.png",
+        "img4": "start.png",
+        "img5": "clearButton.png",
+        "img6": "RestartButton.png",
+        "img7": "SettingButton.png"
+    },
+    "map": "{\"ewrddf\":\"sdf\"}"
+}]
+
+}

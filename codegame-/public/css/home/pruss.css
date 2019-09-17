@@ -1,0 +1,410 @@
+* textarea{
+  resize:none;
+  font-family: Microsoft JhengHei;
+}
+#clossDiv{
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 30px;
+  border-color: rgb(0, 0, 0);
+  border-width: 0px;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  margin-top: 0px;
+  cursor: pointer;
+}
+#blocklyMapTitle{
+  z-index: 1;
+  font-size: 55px;
+  font-family: "Microsoft JhengHei",arial,helvetica,sans-serif;
+  font-weight: 900;
+  margin-top: 20px;
+}
+.onoffswitch {
+    position: absolute;
+    width: 90px;
+    top: 5px;
+    right: 5px;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #999999;
+    border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 14px;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "積木";
+    padding-left: -10px;
+    background-color: #34A7C1;
+    color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "程式碼";
+    padding-right: 10px;
+    background-color: #EEEEEE;
+    color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block;
+    width: 16px;
+    margin: 7px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 56px;
+    border: 2px solid #999999;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+.btnImg{
+  z-index: 1;
+  width: 4.5%;
+  height: 5.5%;
+  position: absolute;
+}
+.btn{
+  z-index: 3;
+  width: 4.5%;
+  height: 5.5%;
+  border-radius: 999em;
+  border: 0px;
+  background: transparent;
+  background-color: none;
+  background-size: 100% 100%;
+  margin: 1px auto;
+  position: absolute;
+  cursor: pointer;
+}
+.unbtn{
+  width: 4.5%;
+  height: 5.5%;
+  border-radius: 999em;
+  border: 0px;
+  background: transparent;
+  background-color: none;
+  background-size: 100% 100%;
+  margin: 1px auto;
+  position: absolute;
+  pointer-events: none;
+}
+#btn0,#img0{left: 11%;bottom: 6%;}
+#btn1,#img1{left: 3%;bottom: 10%;}
+#btn2,#img2{left: 7%;bottom: 20%;}
+#btn3,#img3{left: 20%;bottom: 25%;}
+#btn4,#img4{left: 21%;bottom: 38.5%;}
+#btn5,#img5{left: 12.5%;bottom: 43%;}
+#btn6,#img6{left: 21%;bottom: 56%;}
+#btn7,#img7{left: 11%;bottom: 58.5%;}
+#btn8,#img8{left: 8%;bottom: 70%;}/*33 fog*/
+#btn9,#img9{left: 18%;bottom: 73%;}/*34 fog*/
+#btn10,#img10{left: 29%;bottom: 68%;}/*35 fog*/
+#btn11,#img11{left: 34%;bottom: 57%;}/*36 fog*/
+#btn12,#img12{left: 40%;bottom: 42%;}
+#btn13,#img13{left: 37%;bottom: 29%;}
+#btn14,#img14{left: 44%;bottom: 16%;}/*39 fog*/
+#btn15,#img15{left: 49%;bottom: 4%;}/*40 fog*/
+#btn16,#img16{left: 56%;bottom: 16%;}/*41 fog*/
+#btn17,#img17{left: 53%;bottom: 30%;}/*42 fog*/
+#btn18,#img18{left: 57.5%;bottom: 43%;}/*43 fog*/
+#btn19,#img19{left: 64%;bottom: 52%;}/*44 fog*/
+#btn20,#img20{left: 73%;bottom: 43.5%;}/*45 fog*/
+#btn21,#img21{left: 83%;bottom: 44%;}
+#btn22,#img22{left: 83%;bottom: 65%;}
+#btn23,#img23{left: 91%;bottom: 83.7%;}
+#levelDiv{
+  z-index: 3;
+  width: 51vh;
+  height: 40vh;
+  font-size: 2.5vh;
+  font-weight:bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -20vh;
+  margin-left: -26vh;
+  background-color: #FFC777;
+  overflow: auto;
+}
+#mainGrammar{
+  width: 80%;
+  height: 5vh;
+  margin-left: 10%;
+}
+.innerGrammar{
+  height: 3vh;
+  width: auto;
+  font-size: 1vw;
+  Display:inline-block;
+  background-color: #7C5A43;
+  color: white;
+  padding-top: 1vh;
+  padding-left: 0.5vh;
+  padding-right: 0.5vh;
+  margin-left: 1vh;
+}
+#levelDescription{
+  margin-top: 20px;
+  padding-left: 5%;
+  height: 5vh;
+  color: #7C5A43;
+  letter-spacing: 1vw;
+  font-size: calc(10px + 2vw);
+  font-weight: 900;
+  font-family: 'DFPingJuStd-W7';
+  border-style: solid;
+  border-color: #7C5A43;
+  border-width: 0px 0px 2px 0px;
+}
+#levelDescriptiontextarea{
+  height: 10vh;
+  width: 20vw;
+  font-size: 1.2vw;
+  font-family:Microsoft JhengHei;
+  text-align: center;
+  background: none;
+  border: none;
+  margin-top: -1vh;
+  line-height: 24px;
+  overflow: auto;
+}
+#levelBtn{
+  width: 15vh;
+  height: 3.5vh;
+  font-weight:bold;
+  position: absolute;
+  right: 6vh;
+  margin-top: 0.5vh;
+  font-size: 2.5vh;
+  line-height: 1.75vh;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  cursor: pointer;
+}
+#historyCode{
+  width: 15vh;
+  height: 3.5vh;
+  font-weight:bold;
+  position: absolute;
+  left: 6vh;
+  margin-top: 0.5vh;
+  font-size: 2.5vh;
+  line-height: 1.75vh;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  cursor: pointer;
+}
+.startImg{
+  margin: 10px auto;
+  height: 6vh;
+  width: 6vh;
+  border: 0px;
+  background: transparent;
+  content:url('../../img/levelStar.png');
+  background-size: 100% 100%;
+}
+.unStartImg{
+  margin: 5px auto;
+  height: 6vh;
+  width: 6vh;
+  border: 0px;
+  background: transparent;
+  content:url('../../img/levelStarNull.png');
+  background-size: 100% 100%;
+}
+#buttonDiv{
+  z-index: 3;
+  width: 25vw;
+  height: 5vw;
+  position: absolute;
+  bottom: 1.5vh;
+  right: 1%;
+}
+#buttonDiv input[type="button"]{
+  width: 5.5vw;
+  height: 5.5vw;
+  cursor: pointer;
+}
+.equipageButton{
+  border-width: 0px;
+  background-image: url('../../img/equipage.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: transparent;
+  margin-right: 5px;
+}
+.instructionButton{
+  border-width: 0px;
+  background-image: url('../../img/instruction.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: transparent;
+  margin-right: 5px;
+}
+.achievementButton{
+  border-width: 0px;
+  background-image: url('../../img/achievement.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: transparent;
+  margin-right: 5px;
+}
+.settingAllButton{
+  border-width: 0px;
+  background-image: url('../../img/setting_all.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: transparent;
+  margin-right: 5px;
+}
+#centerBlocklyBkView{
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+#centerBlocklyView{
+  z-index: 4;
+  height: 70%;
+  width: 30%;
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  background-color: #FFF2CC;
+  box-shadow: 0px 0px 7px 10px rgba(255, 255, 255, 0.68);
+  overflow: auto;
+}
+#viewRecordTable{
+  width: 100%;
+  margin-top: 20px;
+  font-size: calc(5px + 1vw);
+  text-align: left;
+  padding-left: 10%;
+}
+#viewRecordTable td{
+  height: 50px;
+}
+#viewRecordtextarea{
+  width: 80%;
+  height: 40%;
+  background-color: white;
+  text-align:left;
+  position: absolute;
+  left: 10%;
+  overflow: auto;
+}
+#recordChangeTable{
+  width: 100%;
+  position: absolute;
+  top: 85%;
+  overflow: auto;
+}
+#recordChangeTable input[type="button"]{
+  font-size: calc(5px + 5vh);
+  color: green;
+  background-color: rgb(0,0,0,0);
+  border: 0;
+  position: relative;
+  cursor: pointer;
+}
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+#recordChangeTable font{
+  width: 5vw;
+  height: 80%;
+  font-size: calc(5px + 2vh);
+  font-family:Microsoft JhengHei;
+  background-color: rgb(0,0,0,0);
+  position: relative;
+}
+#instructionFont{
+  font-size: calc(5px + 1vw);
+}
+@media (max-aspect-ratio:17/10){
+  #centerBlocklyView{
+    z-index: 4;
+    height: 65%;
+    width: 40%;
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    background-color: #FFF2CC;
+    box-shadow: 0px 0px 7px 10px rgba(255, 255, 255, 0.68);
+    overflow: auto;
+  }
+  #levelDescription{   /*關卡簡介視窗的關卡名稱 */
+    margin-top: 20px;
+    padding-left: 5%;
+    height: 5vh;
+    color: #7C5A43;
+    letter-spacing: 1vw;
+    font-size: calc(10px + 2vw);
+    font-weight: 900;
+    font-family: 'DFPingJuStd-W7';
+    border-style: solid;
+    border-color: #7C5A43;
+    border-width: 0px 0px 2px 0px;
+  }
+  #levelDescriptiontextarea{  /*關卡簡介視窗的關卡簡介區*/
+    height: 10vh;
+    width: 25vw;
+    font-size: 1.4vw;
+    font-family:Microsoft JhengHei;
+    text-align: center;
+    background: none;
+    border: none;
+    margin-top: -1vh;
+    line-height: 24px;
+    overflow: auto;
+  }
+}

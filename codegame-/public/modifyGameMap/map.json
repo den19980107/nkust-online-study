@@ -1,0 +1,39 @@
+{
+    "mapNumber": "game01",
+    "mapSize": "36",
+    "mapValue": "000000000000000000000000000000000000",
+    "level": "初階",
+    "winLinit": {
+        "threeStar": [
+            5
+        ],
+        "twoStar": [
+            6
+        ],
+        "oneStar": [
+            7
+        ]
+    },
+    "people_init": {
+        "type": "car",
+        "postion": [
+            0,
+            2,
+            0
+        ],
+        "hp": 5,
+        "armor": 20,
+        "atk": 2
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                5,
+                2,
+                1
+            ]
+        }
+    ],
+    "obj": []
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<body>
+    <button id="createMapDb">創建地圖資料庫</button>
+    <button id="createDictDb">創建字典資料庫</button>
+    <button id="createEquipDb">創建裝備資料庫</button>
+    <br>
+    <button id="delMapDb">刪掉地圖資料庫</button>
+    <button id="delDictDb">刪掉字典資料庫</button>
+    <button id="delEquipDb">刪掉裝備資料庫</button>
+</body>
+
+</html>
+
+<script>
+    $("#createMapDb").click(function () {
+        if (confirm("確定要創建地圖資料庫?")) {
+            $.ajax({
+                url: location.href,              // 要傳送的頁面
+                method: 'POST',               // 使用 POST 方法傳送請求
+                dataType: 'json',             // 回傳資料會是 json 格式
+                data: {
+                    type:"createMapDB"
+                },  // 將表單資料用打包起來送出去
+                success: function (res) {
+                }
+            })
+            alert("succcess");
+        }
+    });
+    $("#createDictDb").click(function () {
+        if (confirm("確定要創建字典資料庫?")) {
+            $.ajax({
+                url: location.href,              // 要傳送的頁面
+                method: 'POST',               // 使用 POST 方法傳送請求
+                dataType: 'json',             // 回傳資料會是 json 格式
+                data: {
+                    type:"createDict"
+                },  // 將表單資料用打包起來送出去
+                success: function (res) {
+                }
+            })
+            alert("succcess");
+        }
+    });
+    $("#createEquipDb").click(function () {
+        if (confirm("確定要創建裝備資料庫?")) {
+            $.ajax({
+                url: location.href,              // 要傳送的頁面
+                method: 'POST',               // 使用 POST 方法傳送請求
+                dataType: 'json',             // 回傳資料會是 json 格式
+                data: {
+                    type:"createEquip"
+                },  // 將表單資料用打包起來送出去
+                success: function (res) {
+                }
+            })
+            alert("succcess");
+        }
+    });
+    $("#delMapDb").click(function () {
+        if (confirm("確定要刪除地圖資料庫?")) {
+            $.ajax({
+                url: location.href,              // 要傳送的頁面
+                method: 'POST',               // 使用 POST 方法傳送請求
+                dataType: 'json',             // 回傳資料會是 json 格式
+                data: {
+                    type:"delMapDb"
+                },  // 將表單資料用打包起來送出去
+                success: function (res) {
+                }
+            })
+            alert("succcess");
+        }
+    });
+    $("#delDictDb").click(function () {
+        if (confirm("確定要刪除地圖資料庫?")) {
+            $.ajax({
+                url: location.href,              // 要傳送的頁面
+                method: 'POST',               // 使用 POST 方法傳送請求
+                dataType: 'json',             // 回傳資料會是 json 格式
+                data: {
+                    type:"delDictDb"
+                },  // 將表單資料用打包起來送出去
+                success: function (res) {
+                }
+            })
+            alert("succcess");
+        }
+    });
+    $("#delEquipDb").click(function () {
+        if (confirm("確定要刪除地圖資料庫?")) {
+            $.ajax({
+                url: location.href,              // 要傳送的頁面
+                method: 'POST',               // 使用 POST 方法傳送請求
+                dataType: 'json',             // 回傳資料會是 json 格式
+                data: {
+                    type:"delEquipDb"
+                },  // 將表單資料用打包起來送出去
+                success: function (res) {
+                }
+            })
+            alert("succcess");
+        }
+    });
+    // var scriptData = {
+    //     type: "loadGameMap",
+    //     gameLevel:0
+    // }
+    // $.ajax({
+    //     url: location.href,              // 要傳送的頁面
+    //     method: 'POST',               // 使用 POST 方法傳送請求
+    //     dataType: 'json',             // 回傳資料會是 json 格式
+    //     data: scriptData,  // 將表單資料用打包起來送出去
+    //     success: function (res) {
+    //         console.log(res);
+
+    //     }
+    // })
+    // $.ajax({
+    //     url: "loadGameMapData",              // 要傳送的頁面
+    //     method: 'POST',               // 使用 POST 方法傳送請求
+    //     dataType: 'json',             // 回傳資料會是 json 格式
+    //     success: function (res) {
+    //         console.log(res);
+
+    //     }
+    // })
+    // $.ajax({
+    //     url: "loadThisLevelGameMapData",              // 要傳送的頁面
+    //     method: 'POST',               // 使用 POST 方法傳送請求
+    //     dataType: 'json',             // 回傳資料會是 json 格式
+    //     data: {
+    //         level:0,
+    //         gameMode:"code"   //blocky
+    //     },  // 
+    //     success: function (res) {
+    //         console.log(res);
+
+    //     }
+    // })
+
+    // $.ajax({
+    //     url: "loadThisLevelGameMapMap",              // 要傳送的頁面
+    //     method: 'POST',               // 使用 POST 方法傳送請求
+    //     dataType: 'json',             // 回傳資料會是 json 格式
+    //     data: {
+    //         level:0
+    //     },  // 
+    //     success: function (res) {
+    //         console.log(res);
+    //     }
+    // })
+</script>

@@ -1,0 +1,75 @@
+/* 三星:32個動作包含32個動作以內  
+   二星:34個動作包含34個動作以內32個動作以上  
+   一星限為滿足過關條件即可*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[]){
+ int i=0;
+ int d=0;
+ char c;
+ scanf("%c%d",&c,&d);
+ printf("d= %d",d);
+ printf("c= %c",c);
+for(i=4;i>0;i--){
+ moveForward();
+}
+if(hint=='L'){
+ turnLeft();
+ for(i=4;i>0;i--){
+ moveForward();
+ }
+ turnRight();
+ moveForward();
+ moveForward();
+ if(hint=='F'){
+  moveForward();
+  turnRight();
+  for(i=4;i>0;i--){
+   moveForward();
+      printf("%c",c+d);
+   }
+  turnLeft();
+  moveForward();
+ }else{
+  turnRight();
+  for(i=4;i>0;i--){
+   moveForward();
+   }
+ printf("%c",c+d);
+  turnLeft();
+  moveForward();
+  moveForward();
+  }
+}else{
+ turnRight();
+ for(i=4;i>0;i--){
+  moveForward();
+  }
+ turnLeft();
+ moveForward();
+ moveForward();
+ if(hint=='F'){
+  moveForward();
+  turnLeft();
+  for(i=4;i>0;i--){
+   moveForward();
+   printf("%c",c+d);
+   }
+  turnRight();
+  moveForward();
+ }else{
+  turnLeft();
+  for(i=4;i>0;i--){
+  moveForward();
+  }
+ printf("%c",c+d);
+  turnRight();
+  moveForward();
+  moveForward();
+ }
+}
+ return 0;
+}

@@ -1,0 +1,224 @@
+/*right*/
+.userName{
+  font-size: calc(5px + 1vw);
+  letter-spacing: 1px;
+  width: 100%;
+  padding-top: 2vh;
+  font-weight: bolder;
+  font-family: Microsoft JhengHei;
+  color: white;
+  text-decoration:underline;
+}
+.btnUser {
+  height: 6vh;
+  width: 15vh;
+  border-width: 0px;
+  background-color: rgba(53, 4, 179, 0);
+  background-size: 100% 100%;
+  background-image: url("../../img/userData.png");
+  color: black;
+  cursor: pointer;
+}
+.btnLogout {
+  height: 6vh;
+  width: 15vh;
+  border-width: 0px;
+  background-color: rgba(53, 4, 179, 0);
+  background-size: 100% 100%;
+  background-image: url("../../img/layout.png");
+  color: black;
+  margin-top: -1vh;
+  cursor: pointer;
+}
+.signOut{
+  height: 25px;
+  width: auto;
+}
+.userStar{
+  margin-top: 2vh;
+}
+.imgIcon{
+  margin: 2.5vh 0px 0px 0px;
+  width: 5vh;
+  height: 5vh;
+  vertical-align: top;
+}
+.starNumber{
+  line-height: 10vh;
+  color: white;
+  font-size: calc(5px + 4vh);
+  font-family: Microsoft JhengHei;
+  vertical-align:middle;
+}
+
+#userDataBkView{
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+#userDataView{
+  z-index: 4;
+  height: 58%;
+  width: 35%;
+  position: absolute;
+  top: 21%;
+  left: 32.5%;
+  background-color: #FFC777;
+  border-style: solid;
+  border-color: white;
+  border-width: 3px;
+}
+#clossDiv{
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-color: rgb(0, 0, 0);
+  border-width: 0px;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+}
+#allTitle,#userTitle{
+  margin-top: 20px;
+}
+#userTitle{
+  height: 5vh;
+  color: #7C5A43;
+  font-size: calc(10px + 2vw);
+  font-weight: 100;
+  font-family: "Microsoft JhengHei";
+  font-weight: bold;
+  border-style: solid;
+  border-color: #7C5A43;
+  border-width: 0px 0px 2px 0px;
+}
+#userInnerDiv{
+  width: 80%;
+  height: 70%;
+  font-family: "Microsoft JhengHei";
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  background-color: #FFF2CC;
+  border-style: solid;
+  border-color:#D6B656;
+  overflow: auto;
+}
+#userH3Div{
+  width: 90%;
+  height: 90%;
+  font-family: "Microsoft JhengHei";
+  font-size: calc(1.6vh + 5px);
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
+#userTable td{
+  font-family: "Microsoft JhengHei";
+  line-height: 6vh;
+  text-align:center;
+  text-align:justify;
+  text-justify:distribute-all-lines;
+  text-align-last:left
+}
+#changePasswordBtn{
+  height: 6vh;
+  width: 7vw;
+  font-size: 1.5vw;
+  font-family: "Microsoft JhengHei";
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 15px;
+  position: absolute;
+  bottom: 2%;
+  right: 10%;
+  cursor: pointer;
+}
+#changePasswordView{
+  height: 60%;
+  width: 90%;
+  font-family: "Microsoft JhengHei";
+  border-width: 0px;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.74);
+  color: white;
+  position: absolute;
+  top: 20%;
+  left: 5%;
+}
+#changePasswordTitle{
+  font-family: "Microsoft JhengHei";
+  margin-top: 20px;
+}
+#changePasswordTable{
+  width: 90%;
+  font-family: "Microsoft JhengHei";
+  margin-top: 5vh;
+  margin-left: 5%;
+}
+#changePasswordTable h2{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#changePasswordTable input[type="password"]{
+  height: 4vh;
+  width: 80%;
+  font-size: 1.5vh;
+  font-family: "Microsoft JhengHei";
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.6;
+}
+#cancelBtn{
+  height: 5vh;
+  width: 7vw;
+  font-size: 1.5vw;
+  font-family: "Microsoft JhengHei";
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  border: solid 2px white;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 3%;
+  left: 10%;
+  cursor: pointer;
+}
+#confirmBtn{
+  height: 5vh;
+  width: 7vw;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  border: solid 2px white;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 3%;
+  right: 10%;
+  cursor: pointer;
+}
+@media (max-aspect-ratio:17/10){
+  #userDataView{
+    z-index: 4;
+    height: 58%;
+    width: 43%;
+    position: absolute;
+    top: 21%;
+    left: 28%;
+    background-color: #FFC777;
+    border-style: solid;
+    border-color: white;
+    border-width: 3px;
+  }
+}

@@ -1,0 +1,37 @@
+/* 三星:11個動作包含11個動作以內  
+   二星:12個動作包含12個動作以內11個動作以上  
+   一星限為滿足過關條件即可*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i;
+for(i=3;i>0;i--){
+moveForward();
+}
+turnLeft();
+for(i=4;i>0;i--){
+moveForward();
+}
+turnRight();
+for(i=4;i>0;i--){
+moveForward();
+}
+turnRight();
+moveForward();
+for(i=3;i>0;i--){
+fire();
+}
+for(i=3;i>0;i--){
+moveForward();
+}
+turnLeft();
+moveForward();
+
+	return 0;
+ }
+
+

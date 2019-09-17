@@ -1,0 +1,260 @@
+{
+  "oblivionObject":[
+    {
+      "level":1,
+      "mode":2,
+      "textarea1":"哈囉，我是小幫手，將會幫助你通過重重難關。<br>目標：避開障礙物以正確的方向通過終點。",
+      "textarea2":"請在左方程式區使用&nbspcode&nbsp組裝你的程式，編寫完成後，按下RUN!，車子就會照著指令行動。<br>在計算結果的指令個數時，將列入計算的指令為各動作指令：<br>step()，turnRight()，turnLeft()，fire()<br>範例：前進一步<br>int main(int argc, char *argv[])<br>{<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspstep();<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspreturn 0;<br>}<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足通關條件即可",
+      "img1":"level1img1.png",
+      "img2":"level1img2.png"
+    },
+    {
+      "level":2,
+      "mode":2,
+      "textarea1":"歡迎來到第二關！！！<br>既然會前進了那該如何轉彎呢？<br>在這關出現了新指令：<br>右轉：turnRight();<br>左轉：turnLeft();<br>皆分類於’動作’內",
+      "textarea2":"請注意！轉向只有車子自轉唷<br><br>小提示：直走一格右轉的動作指令為<br>step();<br>turnRight();<br>step();<br><br>過關條件：<br>3星：7個動作包含7個動作以內<br>2星：8個動作包含8個動作以內<br>1星：滿足過關條件即可",
+      "img1":"level2img2.gif"
+    },
+    {
+      "level":3,
+      "mode":1,
+      "textarea1":"結合左轉和右轉來達到終點吧！<br><br>過關條件：<br>3星：9個動作包含9個動作以內<br>2星：10個動作包含10個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":4,
+      "mode":1,
+      "textarea1":"相信已經熟悉了介面和操作了<br>在這關新增了新物件<br>金幣：必須將所有金幣都得到才能夠通關<br><br>小提示：若沒獲得金幣直接抵達終點的話也算是失敗喔！！<br><br>過關條件：<br>3星：9個動作包含9個動作以內且吃到金幣<br>2星：10個動作包含10個動作以內且吃到金幣<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":5,
+      "mode":1,
+      "textarea1":"新物件與新指令出現了！！<br>新指令：<br>if() 指令，分類於’判斷式’內<br>新物件：<br>問號標誌、問號石頭<br><br>若在問號標誌十字範圍內有兩個有著紅色問號的石頭則：<br>問號標誌將在遊戲開始後隨機顯示：”L” or ”R”<br>並且取得問號標誌值的參數預設為hint，在踩到問號標誌時hint參數的值才會變為”L” or “R”<br><br>if()為判斷式指令<br>使用方法為<br>if(此處加入條件){<br>此處加入行動<br>}&nbsp&nbsp&nbsp&nbsp//若條件達成則執行指定動作<br><br>範例：若問號標誌顯示為R則向右轉並且向前走一步<br>If(hint==’R’){<br>&nbsp&nbsp&nbsp&nbspturnRight();<br>&nbsp&nbsp&nbsp&nbspstep();<br>}<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足過關條件即可"    
+    },
+    {
+      "level":6,
+      "mode":1,
+      "textarea1":"新指令出現了！！<br>新指令：<br>if()…else… 指令，分類於’判斷式’內<br><br>在上一關學過了基本的判斷式if()<br>在這關新增了更進階的判斷式指令 <br><br>使用方法為<br>if(此處加入條件){<br>指定動作<br>}else{ <br>指定動作<br>}<br><br>範例：<br>if(hint==’R’){<br>&nbsp&nbsp&nbsp&nbspturnRight();<br>&nbsp&nbsp&nbsp&nbspstep();<br>}else{<br>&nbsp&nbsp&nbsp&nbsp&nbspturnLeft();<br>&nbsp&nbsp&nbsp&nbspstep();<br>}<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":7,
+      "mode":1,
+      "textarea1":"新指令出現了！！<br>新指令：<br>switch指令，分類於’判斷式’內<br><br>學了if()和if …else…，如果條件超過2種的話，該怎麼辦呢？<br>那就使用switch吧！！<br>switch是用來判斷多種條件的判斷式指令<br>使用方法為<br>switch(條件參數){&nbsp&nbsp&nbsp&nbsp<br>case 條件參數的值:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp//若與判斷當下條件參數一致<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp指定動作&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp//則做出指定動作<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbreak;&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp//做出指定動作後跳出switch執行下行指令<br>&nbsp&nbsp&nbsp&nbspcase條件參數的值:<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp指定動作<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbreak;<br>&nbsp&nbsp&nbsp&nbspcase條件參數的值:<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp指定動作<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbreak;<br>}<br><br>範例：<br>switch(hint){<br>&nbsp&nbsp&nbsp&nbspcase ‘L’:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp//若hint為’L’則左轉然後break<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspturnLeft();<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbreak;<br>&nbsp&nbsp&nbsp&nbspcase ‘F’:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp//若hint為’F’則前進然後break<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspstep();<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbreak;<br>&nbsp&nbsp&nbsp&nbspcase ‘R’:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp//若hint為’R’則右轉然後break<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspturnRight();<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbreak;<br>}<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":8,
+      "mode":1,
+      "textarea1":"新指令出現了！！<br>新指令：<br>int 指令，分類於’變數宣告’內<br>for()指令，分類於’函式’內<br><br>是不是覺得走好幾步的時候，要打好幾個同樣的指令很麻煩呢<br>現在！我們可以使用for()指令來編寫重複的動作<br>for()為迴圈指令，主要是將重複的動作寫在迴圈內，然後設定迴圈次數來簡化程式碼<br>並且要先宣告一個變數用來設定迴圈次數<br>變數可宣告為多種形態：<br>型態&nbsp&nbsp&nbsp&nbsp&nbsp意思&nbsp&nbsp&nbsp&nbsp&nbsp範例<br>int&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp整數&nbsp&nbsp&nbsp&nbsp&nbsp100、-5、1246….<br>float&nbsp&nbsp&nbsp&nbsp&nbsp浮點數&nbsp&nbsp3.14159、4.6….<br>char&nbsp&nbsp&nbsp&nbsp&nbsp字元&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp‘a’、’B’、’@’…<br>string&nbsp&nbsp&nbsp字串&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp“hello”、”HAHA@_@”…<br>bool&nbsp&nbsp&nbsp&nbsp&nbsp布林&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTrue、false<br><br>使用方法：<br>1.先宣告變數<br>2.for(設變數值;設迴圈條件;迴圈結束後變數增減){<br>&nbsp&nbsp&nbsp&nbsp指定動作<br>}<br>範例：<br>int i;&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp使用變數前必須先宣告，此處為宣告一個型態為int的變數i<br>for(i=5;i>0;i--){&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp設定迴圈時，設變數i=5，並且i必須大於0才能進入迴圈，每次迴圈<br>&nbsp&nbsp&nbsp&nbspstep();&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp結束後i將減1<br>}<br>該段程式碼運行後將會使車子向前移動5步<br>迴圈是程式語言中非常重要的一個環節，大家要跟他打好關係唷！<br>過關條件：<br>3星：1個動作包含1個動作以內<br>2星：2個動作包含2個動作以內<br>1星：滿足過關條件即可"
+
+    },
+    {
+      "level":9,
+      "mode":1,
+      "textarea1":"請將第八關所學會的迴圈指令與前進、左轉、右轉等動作指令結合吧<br>小提示：直走5步，右轉4步<br>過關條件：<br>3星：3個動作包含3個動作以內<br>2星：4個動作包含4個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":10,
+      "mode":1,
+      "textarea1":"還記得金幣的作用吧<br>請結合各指令獲得金幣然後通過終點<br><br>小提示：右右右左右左<br><br>過關條件：<br>3星：7個動作包含7個動作以內且吃到兩個金幣<br>2星：8個動作包含8個動作以內且吃到兩個金幣<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":11,
+      "mode":1,
+      "textarea1":"新物件出現了！！<br>新物件：黃色的鎖頭精靈<br>可以看到通往終點的唯一道路被鎖頭精靈堵住了，那該如何才能解開呢？<br>看到那些黃色的箭頭了嗎<br>沒錯！就是照著黃色箭頭的方向將全部箭頭踩過一遍，踩過的箭頭將會以變色來標示，<br>全部箭頭都變色後鎖頭精靈才會放行。<br><br>小提示：迴圈指令很好用<br><br>過關條件：<br>3星：6個動作包含6個動作以內<br>2星：7個動作包含7個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":12,
+      "mode":1,
+      "textarea1":"找出規律來寫出最短的程式碼吧！<br>小提示：一個迴圈就搞定<br><br>過關條件：<br>3星：4個動作包含4個動作以內<br>2星：5個動作包含5個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":13,
+      "mode":1,
+      "textarea1":"新指令和新物件出現了！！！<br>新指令：<br>fire()指令，分類於’動作’內<br>新物件：<br>炸彈<br><br>fire()能夠使車子射出砲彈至前方兩格<br>炮彈擊中炸彈時，炸彈將會爆炸，將十字範圍內的障礙物都清除乾淨<br>請使用fire()+炸彈的combo將障礙物清除乾淨抵達終點吧！<br><br>小提示：被炸彈炸到的話會直接失敗唷<br><br>過關條件：<br>3星：2個動作包含2個動作以內<br>2星：3個動作包含3個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":14,
+      "mode":1,
+      "textarea1":"這關看起來障礙重重呢！！<br>請使用fire()結合其他指令抵達終點吧！<br><br>小提示：直走到底左轉<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":15,
+      "mode":1,
+      "textarea1":"新指令出現了！！！<br>新指令：<br>function()指令，分類於’函式’內<br><br>function() 是用來自訂函式的指令，可用function自訂函式名稱和函式內容。<br>使用方法為：<br>function 自訂函式名稱(){<br>&nbsp&nbsp&nbsp&nbsp自訂指令<br>}<br>使用指令function自訂一個函式後，直接打函式名稱(函式需要的參數)即可呼叫該函式<br>在自訂函式時，函式內的指令將被計算進結果指令個數<br>還有呼叫自訂函式也會被計算進結果指令個數<br><br>使用範例：<br>void function gogogo(){<br>&nbsp&nbsp&nbsp&nbspstep;<br>}<br>int main(){<br>for(int i=3;i>0;i--){<br>&nbsp&nbsp&nbsp&nbspgogogo();<br>&nbsp&nbsp}<br>}<br>這段程式碼執行後，結果為兩個指令，並且前行三步<br>請使用function 自訂一個函式通過關卡吧！<br><br>請使用下列程式碼完成此關卡：<br>int i=0;<br>for(i=5;i>0;i--){<br>&nbsp&nbsp&nbsp&nbspclear();&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp請自訂clear函式<br>}<br><br>過關條件：<br>3星：5個動作包含5個動作以內<br>2星：6個動作包含6個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":16,
+      "mode":1,
+      "textarea1":"function的應用千變萬化，請再使用function通過關卡吧！！<br>請使用下列程式碼完成關卡：<br>int i=0;<br>for(i=3;i>0;i--){<br>&nbsp&nbsp&nbsp&nbspturnRight();<br>&nbsp&nbsp&nbsp&nbspclear();&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp請自訂clear函式<br>}<br><br>通關條件：<br>3星：3個動作包含3個動作以內<br>2星：4個動作包含4個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":17,
+      "mode":1,
+      "textarea1":"新指令與新物件出現了！！<br>新指令：<br>printf()指令，分類於’動作’內<br>新物件：<br>藍色的鎖頭精靈<br>還記得之前出現過的黃色的鎖頭精靈嗎？<br>沒錯！一樣要完成特殊條件鎖頭精靈才會讓你通過<br>而想讓藍色的鎖頭精靈讓你通過的話，就必須答對他的問題<br>而該如何答題呢！？<br><br>請使用新指令printf()，這個指令的功用就是輸出字元、字串或是特定的參數值<br><br>範例：<br>printf(“gogo power ranger”)<br>執行後，將會顯示字串gogo power ranger<br><br>藍色鎖頭精靈的問題：<br>精靈希望你到他面前跟他說聲Hello<br><br>小提示：必須到精靈的前一格回答才有效喔<br><br>通關條件：<br>3星：3個動作<br>2星：4個動作<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":18,
+      "mode":1,
+      "textarea1":"請結合各種指令來抵達終點吧！<br>藍色鎖頭精靈的問題為：<br>有一段程式碼為：<br>int i=0;<br>int j=0;<br>for(int i=10;i>0;i--){<br>&nbsp&nbsp&nbsp&nbspfor(int j =2;j>0;j--){<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspstep();<br>&nbsp&nbsp&nbsp&nbsp}<br>}<br>那到底為執行幾次step()呢？<br>請到鎖頭精靈面前說出你的答案吧！<br><br>小提示：<br>int i=0;<br>int j=0;<br>for(int i=3;i>0;i--){<br>&nbsp&nbsp&nbsp&nbspfor(int j =2;j>0;j--){<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspstep();<br>&nbsp&nbsp&nbsp&nbsp}<br>}<br>將會執行2*3=6次step()<br><br>通關條件：<br>3星：6個動作<br>2星：7個動作<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":19,
+      "mode":1,
+      "textarea1":"應該還記得各物件的作用吧！<br>應該是驗收成果的時刻了！<br>請結合教過的各指令抵達終點吧！<br>請注意地圖的大小已變為9*9<br><br>鎖頭精靈的問題是：<br>int i =0;<br>int sum=0;<br>int x=1;<br>for(i=10;i>0;i--){<br>&nbsp&nbsp&nbsp&nbspif(x==1){<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspx=2;<br>&nbsp&nbsp&nbsp&nbsp}else(x==2){<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspx=1;<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspsum++;<br>&nbsp&nbsp&nbsp&nbsp}<br>}<br>請問最後sum=多少<br><br>小提示：直走到底再回頭然後左轉再左轉<br><br>過關條件：<br>3星：12個動作包含12個動作以內<br>2星：14個動作包含14個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":20,
+      "mode":1,
+      "textarea1":"請結合各指令抵達終點吧！<br>請將全部箭頭照著指示的方向踩過一遍來解開鎖頭精靈的阻礙吧！<br>小提示：直走到底右轉再右轉直走左轉再左轉<br><br>過關條件：<br>3星：14個動作包含14個動作以內<br>2星：16個動作包含16個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":21,
+      "mode":1,
+      "textarea1":"還記得判斷式的用法吧！<br>這可不能忘記啊！<br>請結合各指令抵達終點吧！<br><br>判斷式很重要<br>判斷式很重要<br>判斷式很重要<br>因為很重要所以講三遍<br><br>過關條件：<br>3星：32個動作包含32個動作以內<br>2星：34個動作包含34個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":22,
+      "mode":1,
+      "textarea1":"請結合各指令抵達終點吧！<br>鎖頭精靈的問題：<br>int i=0;<br>int sum=0;<br>for(i=5;i>0;i--){<br>&nbsp&nbsp&nbsp&nbspif(i=3){<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspsum++;<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspi--;<br>&nbsp&nbsp&nbsp&nbsp}else{<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspsum=sum+2;<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspi=i-1;<br>&nbsp&nbsp&nbsp&nbsp}<br>}<br>小提示：如果有多種選擇的話switch是很棒的指令<br>小心不要被炸彈炸到唷！<br>過關條件：<br>3星：19個動作包含19個動作以內<br>2星：22個動作包含22個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":23,
+      "mode":1,
+      "textarea1":"請結合各指令抵達終點吧！<br>如果能找出規律的話那就好了<br>小提示：<br><br>會用到function<br><br>過關條件：<br>3星：9個動作包含9個動作以內<br>2星：11個動作包含11個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":24,
+      "mode":1,
+      "textarea1":"通往終點的道路真是曲折啊！<br>請結合各指令抵達終點吧！<br><br>過關條件：<br>3星：12個動作包含12個動作以內<br>2星：14個動作包含14個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":25,
+      "mode":1,
+      "textarea1":"注意！！有奇怪的戰車擋在路上<br>經過觀察似乎是被報廢的載具，被神秘的病毒駭入後變為極具攻擊性的奇怪載具<br>請擊敗他通過終點吧！<br>小提示：<br>您與神祕載具的攻擊範圍皆為兩格<br><br>過關條件：<br>3星：3個動作包含3個動作以內<br>2星：4個動作包含4個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":26,
+      "mode":1,
+      "textarea1":"出現了好多的神祕載具！！<br>請注意自己的血量，看起來沒有辦法正面交鋒<br>找一條更好的路線吧！就算繞比較遠也沒關係<br><br>過關條件：<br>3星：11個動作包含11個動作以內<br>2星：12個動作包含12個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":27,
+      "mode":1,
+      "textarea1":"新指令出現了！！！<br>新指令：<br>becameCar()變成汽車<br>becameTank()變成坦克<br>becameShip()變成船<br>皆分類於’函式’內<br><br>地形產生了變化！<br>新增了地形設定<br><br>在綠色的草地上需駕駛’汽車’<br>在黃色的沙地上需駕駛’坦克’<br>在藍色的海洋上需駕駛’船’<br><br>當載具移動到不同的環境上時必須變形為該地形適用的載具<br>不然的話載具會無法移動<br><br>過關條件：<br>3星：2個動作包含2個動作以內<br>2星：3個動作包含3個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":28,
+      "mode":1,
+      "textarea1":"再多熟練一點載具之間的變形吧<br>記得沙地要變坦克，海洋要變船喔～<br><br>過關條件：<br>3星：6個動作包含6個動作以內<br>2星：7個動作包含7個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":29,
+      "mode":1,
+      "textarea1":"好像可以正面擊敗神祕載具唷<br>請結合各指令抵達終點吧！<br><br>過關條件：<br>3星：8個動作包含8個動作以內<br>2星：9個動作包含9個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":30,
+      "mode":1,
+      "textarea1":"還記得階梯形狀怎麼走嗎<br>上面那台神祕載具好像攻擊不到你呢？<br>請結合各指令抵達終點吧！<br><br>過關條件：<br>3星：17個動作包含17個動作以內<br>2星：18個動作包含18個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":31,
+      "mode":1,
+      "textarea1":"新指令出現了！！！<br>新指令：<br>getKeyArray()指令<br><br>出現了好多的神秘載具！<br>不過應該不會正面交鋒<br>新增了對陣列的操作<br><br>鎖頭精靈的問題：<br>請問密碼陣列中數值最大的為多少 ？<br><br>小提示：<br>玩家需要自己宣告整數陣列，而陣列大小為6<br>可以利用getKeyArray(陣列名稱,陣列大小);來獲得密碼陣列<br><br>通關條件：<br>3星：18個動作包含18個動作以內<br>2星：19個動作包含19個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":32,
+      "mode":1,
+      "textarea1":"這一關同樣要用密碼陣列來通關<br>不過對密碼陣列的操作變複雜了<br><br>鎖頭精靈的問題：<br>請問密碼陣列中的數值由小到大排列長怎麼樣(數字與數字請用空白字元分割)？<br><br>小提示：<br>玩家需要自己宣告整數陣列，而陣列大小為6<br>可以利用getKeyArray(陣列名稱,陣列大小);來獲得密碼陣列<br>排序法可以參考氣泡排序法或選擇排序法<br><br>通關條件：<br>3星：19個動作包含19個動作以內<br>2星：20個動作包含20個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":33,
+      "mode":1,
+      "textarea1":"新指令出現了！！！<br>新指令：<br>getDistance()指令，分類於”函式”內<br><br>遇到迷霧森林不用緊張<br>這一關只要不斷的向右轉繞圈圈搭配距離陣列就能找到終點<br><br>小提示：<br>請自行宣告一個大小為6的整數陣列<br>並使用getDistance(陣列名稱,陣列大小);來獲得距離陣列<br>距離陣列裡的值代表的是每段直線所要前進的步數<br>如：陣列[0]代表第一段直線要走的步數<br>每段直走搭配一次向右轉即可找到終點<br><br>注意：進終點的路為直線，不用再轉彎<br><br>通關條件：<br>3星：2個動作包含2個動作以內<br>2星：3個動作包含3個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":34,
+      "mode":1,
+      "textarea1":"新指令出現了！！！<br>新指令：<br>getDirection()指令，分類於”函式”內<br><br>這一關能獲得的不是距離陣列而是方向陣列<br>只要學會讀取方向陣列裡的方向<br>搭配每次直線走2步很快就能發現終點<br><br>小提示：<br>請自行宣告一個大小為12的字元陣列<br>並使用getDirection(陣列名稱);來獲得方向陣列<br>方向陣列裡的每個值代表的是每次轉彎所要轉的方向<br>如：陣列[0]代表的是第一次要轉彎的方向<br>’L’代表的是左轉，’R’代表的是右轉<br>而陣列[0]代表的是第一次轉彎的方向 陣列[1]代表的是<br>每直走2步搭配一次轉彎即可找到終點<br><br>注意：起始前方道路及進終點前的道路均為直線。<br><br>通關條件：<br>3星：3個動作包含3個動作以內<br>2星：4個動作包含4個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":35,
+      "mode":1,
+      "textarea1":"這次不轉圈圈也不每次走2步了<br>利用方向陣列搭配距離陣列來找到終點<br><br>小提示：<br>請自行宣告一個大小為7的字元陣列(方向陣列)<br>與一個大小為7的整數陣列(距離陣列)<br>利用getDistance(整數陣列,陣列大小)以及getDirection(字元陣列,陣列大小)<br>來獲得距離陣列與方向陣列<br><br>注意：載具的起始方向是錯誤的，請先用方向陣列修正方向<br><br>通關條件：<br>3星：3個動作包含3個動作以內<br>2星：4個動作包含4個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":36,
+      "mode":1,
+      "textarea1":"迷霧裡出現了敵人！！！<br>方向陣列裡出現了新的符號 ’F’<br>‘F’代表的是開火的意思，也就是fire()<br><br>小提示：<br>請自行宣告一個大小為17的字元陣列(方向陣列)<br>與一個大小為17的整數陣列(距離陣列)<br>利用getDistance(整數陣列,陣列大小)以及getDirection(字元陣列,陣列大小)<br>來獲得距離陣列與方向陣列<br>方向陣列裡出現的新符號 ’F’所對應到的指令為fire()<br><br>注意：載具的起始方向是錯誤的，請先用方向陣列修正方向<br><br>通關條件：<br>3星：4個動作包含4個動作以內<br>2星：5個動作包含5個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":37,
+      "mode":1,
+      "textarea1":"新指令出現了！！！<br>新指令：<br>getKey()指令，分類於”函式”內<br><br>暫時離開了迷霧森林<br>道路的盡頭出現了藍色鎖頭精靈<br>需要利用getKey()給予2個整數變數的位址<br>最後獲得的兩個整數值是密鑰的關鍵<br><br>鎖頭精靈問題：<br>請問2個密鑰相加的值為多少？<br><br>小提示：<br>請先宣告2個整數變數<br>並將這2個變數的位址傳入getKey()函式裡<br>如：<br>int x,y;<br>getKey(&x,&y);<br>在C語言裡可以透過&運算子來獲得變數的位址<br>將兩個整數值填入x及y後即可進行運算<br><br>通關條件：<br>3星：28個動作包含28個動作以內<br>2星：30個動作包含30個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":38,
+      "mode":1,
+      "textarea1":"新物件與新指令出現了！！<br>新指令：<br>getBox()指令，分類於”函式”內<br>新物件：<br>寶箱<br><br>道路盡頭的鎖頭鑰匙碎片分散在各個寶箱中<br>請擊敗敵人蒐集到3個寶箱後將碎片拼湊成完整的鑰匙<br>並利用鑰匙來通關<br><br>鎖頭精靈問題：<br>請問寶箱內的字串依獲得的順序串接在一起長怎樣？<br><br>小提示：<br>字串就是以’\\0’字元結尾的字元陣列<br>可以利用<br>#define SIZE 256<br>void main(){<br>&nbsp&nbsp&nbsp&nbspchar str[SIZE];<br>}<br>的方式將字元陣列宣告成大小為256<br><br>到達寶箱旁面對寶箱使用getBox(字元陣列名稱);來獲得字串內容<br>並且可以使用C語言string.h標頭檔裡的<br>strcat(將被串接的字串目標,欲串接的字串來源);<br>來將2個字串接在一起，範例如下：<br>char str[SIZE]=”abc”;<br>char tmp[SIZE]=”123”;<br>strcat(str,tmp);<br>printf(“%s”,str);<br>輸出：abc123<br><br>通關條件：<br>3星：48個動作包含48個動作以內<br>2星：50個動作包含50個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":39,
+      "mode":1,
+      "textarea1":"新指令出現了！！<br>新指令：<br>getString()指令，分類於”函式”內<br><br>大量迷霧再次出現<br>剛從迷霧森林逃出不久就又遇到迷霧森林<br>在此玩家須透過getString();來獲得路徑字串<br>並對路徑字串操作來找到終點<br><br>小提示：<br>字串就是以’\\0’字元結尾的字元陣列<br>可以利用<br>#define SIZE 256<br>void main(){<br>&nbsp&nbsp&nbsp&nbspchar str[SIZE];<br>}<br>的方式將字元陣列宣告成大小為256<br>在迷霧森林裡玩家可以使用getString(字元陣列名稱);來獲得路徑字串的內容<br>並且可以使用C語言string.h標頭檔裡的strlen(字串名稱);<br>來獲得字串的長度，如：<br>int length=0;<br>char str[SIZE]=”abc”;<br>length=strlen(str);<br>printf(“%d”,length);<br>輸出：3<br><br>路徑字串各字元所代表的動作：<br>‘0’~’9’代表要往前走的步數，對應指令step()<br>‘L’代表向左轉，對應指令turnLeft()<br>‘R’代表向右轉，對應指令turnRight()<br><br>只要照路徑字串裡的字元做相對應的動作就能找到終點<br><br>通關條件：<br>3星：3個動作包含3個動作以內<br>2星：4個動作包含4個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":40,
+      "mode":1,
+      "textarea1":"在迷霧森林出現了敵人坦克<br>在此玩家須透過getString();來獲得動作字串<br>並對動作字串操作來擊斃敵人並找到終點<br><br>小提示：<br>字串就是以’\\0’字元結尾的字元陣列<br>可以利用<br>#define SIZE 256<br>void main(){<br>&nbsp&nbsp&nbsp&nbspchar str[SIZE];<br>}<br>的方式將字元陣列宣告成大小為256<br>在迷霧森林裡玩家可以使用getString(字元陣列名稱);來獲得路徑字串的內容<br>並且可以使用C語言string.h標頭檔裡的strlen(字串名稱);<br>來獲得字串的長度，如：<br>int length=0;<br>char str[SIZE]=”abc”;<br>length=strlen(str);<br>printf(“%d”,length);<br>輸出：3<br><br>路徑字串各字元所代表的動作：<br>‘0’~’9’代表要往前走的步數，對應指令step()<br>‘L’代表向左轉，對應指令turnLeft()<br>‘R’代表向右轉，對應指令turnRight()<br>‘F’代表向前開火，對應指令fire()<br>只要照路徑字串裡的字元做相對應的動作就能找到終點<br><br>通關條件：<br>3星：4個動作包含4個動作以內<br>2星：5個動作包含5個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":41,
+      "mode":1,
+      "textarea1":"在迷霧森林中出現了沙漠與河流<br>在不知道地形的情況下看來只能依靠動作字串判斷地形了<br><br>小提示：<br>字串就是以’\\0’字元結尾的字元陣列<br>可以利用<br>#define SIZE 256<br>void main(){<br>&nbsp&nbsp&nbsp&nbspchar str[SIZE];<br>}<br>的方式將字元陣列宣告成大小為256<br>在迷霧森林裡玩家可以使用getString(字元陣列名稱);來獲得路徑字串的內容<br>並且可以使用C語言string.h標頭檔裡的strlen(字串名稱);<br>來獲得字串的長度，如：<br>int length=0;<br>char str[SIZE]=”abc”;<br>length=strlen(str);<br>printf(“%d”,length);<br>輸出：3<br><br>路徑字串各字元所代表的動作：<br>‘0’~’9’代表要往前走的步數，對應指令step()<br>‘L’代表向左轉，對應指令turnLeft()<br>‘R’代表向右轉，對應指令turnRight()<br>‘F’代表向前開火，對應指令fire()<br>‘C’代表當前地形為草地，對應指令becameCar<br>‘S’代表當前地形為海洋，對應指令becameShip<br>‘T’代表當前地形為沙地，對應指令becameTank<br>只要照路徑字串裡的字元做相對應的動作就能找到終點<br><br>通關條件：<br>3星：4個動作包含4個動作以內<br>2星：5個動作包含5個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":42,
+      "mode":1,
+      "textarea1":"在迷霧森林的終點前出現了鎖頭<br>需要透過getKeyArray();來獲得密碼陣列<br>在路徑字串中’A’則表示要回答通關密碼<br><br>藍色鎖頭精靈問題：<br>請問密碼陣列從小到大排列的結果長怎麼樣(數字與數字請用空白字元分割)？<br><br>小提示：<br>請先宣告一個大小為10的整數陣列並使用getKeyArray()來獲得密碼陣列<br>排序可以參考氣泡排序法或選擇排序法<br>可以利用<br>#define SIZE 256<br>void main(){<br>&nbsp&nbsp&nbsp&nbspchar str[SIZE];<br>}<br>的方式將字元陣列宣告成大小為256<br>在迷霧森林裡玩家可以使用getString(字元陣列名稱);來獲得路徑字串的內容<br>並且可以使用C語言string.h標頭檔裡的strlen(字串名稱);<br>來獲得字串的長度，如：<br>int length=0;<br>char str[SIZE]=”abc”;<br>length=strlen(str);<br>printf(“%d”,length);<br>輸出：3<br><br>路徑字串各字元所代表的動作：<br>‘0’~’9’代表要往前走的步數，對應指令step()<br>‘L’代表向左轉，對應指令turnLeft()<br>‘R’代表向右轉，對應指令turnRight()<br>‘F’代表向前開火，對應指令fire()<br>‘C’代表當前地形為草地，對應指令becameCar()<br>‘S’代表當前地形為海洋，對應指令becameShip()<br>‘T’代表當前地形為沙地，對應指令becameTank()<br>‘A’代表遇到鎖頭需輸出答案，對應指令printf()<br>只要照路徑字串裡的字元做相對應的動作就能找到終點<br><br>通關條件：<br>3星：4個動作包含4個動作以內<br>2星：5個動作包含5個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":43,
+      "mode":1,
+      "textarea1":"這一關與四十二關相似<br>但是藍色鎖頭精靈的問題好像不一樣了<br>記得看仔細鎖頭精靈的題目喔！！<br><br>鎖頭精靈問題：<br>請問密碼陣列中所有奇數值從小到大排序的結果長怎樣(數字與數字請用空白字元分割)？<br><br>小提示：<br>請先宣告一個大小為10的整數陣列並使用getKeyArray()來獲得密碼陣列<br>排序可以參考氣泡排序法或選擇排序法<br>所有奇數值從小到大排列可以看成先排列再針對奇數值做輸出<br>可以利用<br>#define SIZE 256<br>void main(){<br>&nbsp&nbsp&nbsp&nbspchar str[SIZE];<br>}<br>的方式將字元陣列宣告成大小為256<br>在迷霧森林裡玩家可以使用getString(字元陣列名稱);來獲得路徑字串的內容<br>並且可以使用C語言string.h標頭檔裡的strlen(字串名稱);<br>來獲得字串的長度，如：<br>int length=0;<br>char str[SIZE]=”abc”;<br>length=strlen(str);<br>printf(“%d”,length);<br>輸出：3<br><br>路徑字串各字元所代表的動作：<br>‘0’~’9’代表要往前走的步數，對應指令step()<br>‘L’代表向左轉，對應指令turnLeft()<br>‘R’代表向右轉，對應指令turnRight()<br>‘F’代表向前開火，對應指令fire()<br>‘C’代表當前地形為草地，對應指令becameCar()<br>‘S’代表當前地形為海洋，對應指令becameShip()<br>‘T’代表當前地形為沙地，對應指令becameTank()<br>‘A’代表遇到鎖頭需輸出答案，對應指令printf()<br>只要照路徑字串裡的字元做相對應的動作就能找到終點<br><br>通關條件：<br>3星：4個動作包含4個動作以內<br>2星：5個動作包含5個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":44,
+      "mode":1,
+      "textarea1":"新指令出現了！！<br>新指令：<br>getMap()指令，分類於”函式”內<br><br>在迷霧森林完全不知道方向的情況下只能透過getMap();來獲得泛黃的地圖<br>地圖上只有記載著由二維陣列組成的數字地圖<br>玩家需透過讀取地圖的內容來找出通往終點的路<br><br>小提示：<br>請先宣告一個9*9的二維整數陣列<br>並用getMap(陣列名稱,地圖的長度格數);來獲得地圖陣列<br>地圖陣列裡每一格代表是對應到地圖上該格的地形<br>玩家的初始位置為[0][0]即地圖左上方<br>而地圖上數字0代表的是障礙物<br>數字1則代表著草地<br>數字4則代表著終點<br><br>通關條件：<br>3星：20個動作包含20個動作以內<br>2星：22個動作包含22個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":45,
+      "mode":1,
+      "textarea1":"在迷霧森林中完全不知道方向的情況下只能透過getMap();來獲得泛黃的地圖<br>地圖上只有記載著由二維陣列組成的數字地圖<br>玩家需透過讀取地圖的內容來找出通往終點的路<br>在地圖陣列上出現了新的符號<br><br>小提示：<br>請先宣告一個9*9的二維整數陣列<br>並用getMap(陣列名稱,地圖的長度格數);來獲得地圖陣列<br>地圖陣列裡每一格代表是對應到地圖上該格的地形<br>玩家的初始位置為[0][0]即地圖左上方第一格<br><br>而地圖上數字0代表的是障礙物<br>數字1則代表著草地<br>數字2則代表著海洋<br>數字3則代表著沙地<br>數字4則代表著終點<br><br>通關條件：<br>3星：20個動作包含20個動作以內<br>2星：22個動作包含22個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":46,
+      "mode":1,
+      "textarea1":"進入了新大陸，地圖好像變更大了，敵人的防守也變得嚴密<br>從敵人身上獲得通關的方法，但是不知道消息的真偽<br>請玩家檢查獲得的消息找出有漏洞的地方並加以修正來解出真正的通關方法<br><br>藍色鎖頭精靈問題：<br>請問getKey()指令所獲得的2個值相加為多少？<br><br>小提示：<br>系統所給予的程式碼並非完全正確，請依照關卡要求修改成正確的程式碼<br><br>通關條件：<br>3星：55個動作包含55個動作以內<br>2星：58個動作包含58個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":47,
+      "mode":1,
+      "textarea1":"一次、兩次、三次、四次、五次<br>數的頭好暈阿！！<br>這一關鎖頭精靈的問題讓人頭好痛<br>你能幫忙找到答案嗎？<br><br>鎖頭精靈問題：<br>請問字串key在getString()函式獲得的字串中出現幾次？<br><br>小提示：<br>請自行宣告一個空間夠大的字元陣列<br>並使用getString(陣列名稱)來獲得字串內容<br>搭配C語言string.h標頭檔裡的strlen(字串名稱);來獲得字串長度<br>利用迴圈搭配字串長度來找出key出現在獲得的字串裡總共幾次<br><br>通關條件：<br>3星：53個動作包含53個動作以內<br>2星：56個動作包含56個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":48,
+      "mode":1,
+      "textarea1":"撿到了一塊古代石板！！<br>石板上刻著古老的文字<br>請研究如何將石板上的文字轉換成正確的值<br><br>鎖頭精靈問題：<br>請問石板上的2個數字相加為多少？<br><br>小提示：<br>請宣告兩個空間夠大的陣列來接取石板上的文字<br>玩家須透過getString();來獲得石板上(字串)內容<br>字串中有2個數字，長度均小於5，以空白字元分割<br>請將字串的值轉換成整數值並相加來獲得鎖頭精靈問題的答案<br><br>通關條件：<br>3星：73個動作包含73個動作以內<br>2星：76個動作包含76個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":49,
+      "mode":1,
+      "textarea1":"石板上的突然出現了一大片汙漬<br>怎麼擦也擦不掉<br>請想辦法把汙漬從石板上去除<br><br>鎖頭精靈問題：<br>請問石板上的數字去除掉y的值以後為多少？<br><br>小提示：<br>關卡有2個長度分別不小於20以及不超過5的數值<br>並且分別以字串變數與整數變數給予<br>須透過getString()來獲得字串以及變數y來獲得整數<br>玩家需將字串轉成數值後將2個數字相減做輸出才能解開鎖頭<br><br>數值大到整數型態的變數放不下時<br>可以將每個位元的值拆開個別放在整數陣列的每一格，如：<br>數字59487<br>可以拆成5,9,4,8,7放在整數陣列裡<br>int arr[5]={5,9,4,8,7};<br><br>並且針對y的每個位元拆開進行減法來獲得結果<br>注意：大整數運算減法時，要注意借位的問題<br><br>通關條件：<br>3星：68個動作包含68個動作以內<br>2星：71個動作包含71個動作以內<br>1星：滿足過關條件即可"
+    },
+    {
+      "level":50,
+      "mode":1,
+      "textarea1":"又撿到了另一塊石板！！<br>石板上的文字長到數不清有幾個字了<br>請將這一塊石板上的文字轉換成看得懂的數值<br>然後操作獲得的數值來找出鎖頭精靈問題的答案<br><br>鎖頭精靈問題：<br>請問石板上兩個大整數相加的結果為多少？<br><br>小提示：<br>關卡有1個字串，其中包含2個長度不小於20的數值，以空白字元分割<br>需用getString();來獲取字串<br>玩家需將字串轉成一般數值後將2個數字相加做輸出才能解開鎖頭<br><br>數值大到整數型態的變數放不下時<br>可以將每個位元的值拆開個別放在整數陣列的每一格，如：<br>數字59487<br>可以拆成5,9,4,8,7放在整數陣列裡<br>int arr[5]={5,9,4,8,7};<br><br>將兩個數字從字串分割下來以後<br>轉換成一般數值並且將兩個數值相加就是鎖頭精靈問題的答案<br>注意：大整數運算加法時，要注意進位的問題<br><br>通關條件：<br>3星：97個動作包含97個動作以內<br>2星：100個動作包含100個動作以內<br>1星：滿足過關條件即可"
+    }
+  ]
+}

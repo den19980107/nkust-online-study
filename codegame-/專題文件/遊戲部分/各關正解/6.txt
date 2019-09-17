@@ -1,0 +1,30 @@
+/* 三星:6個動作包含6個動作以內  
+   二星:7個動作包含7個動作以內6個動作以上  
+   一星限為滿足過關條件即可*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i;
+scanf("%d",&i);
+moveForward();
+printf("%d",i+4);
+
+
+moveForward();
+moveForward();
+turnRight();
+
+moveForward();
+moveForward();
+turnRight();
+
+moveForward();
+
+	return 0;
+ }
+
+

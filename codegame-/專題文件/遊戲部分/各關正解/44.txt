@@ -1,0 +1,92 @@
+/* �T�P:20�Ӱʧ@�]�t20�Ӱʧ@�H��  
+   �G�P:22�Ӱʧ@�]�t22�Ӱʧ@�H��20�Ӱʧ@�H�W  
+   �@�P���������L������Y�i*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,x,y;
+int size=9,dire=2;
+int map[9][9];
+getMap(map[0],size);
+x=0;
+y=0;
+i=map[y][x];
+while(i!=4){
+ if(x<8){
+  if(map[y][x+1]>0){
+  if(dire==0){
+   turnRight();
+   moveForward();
+}else if(dire==1){
+ moveForward();
+}else if(dire==2){
+ turnLeft();
+ moveForward();
+}
+map[y][x]=-1;
+x++;
+dire=1;
+i=map[y][x];
+}
+} 
+if(x>0){
+  if(map[y][x-1]>0){
+  if(dire==0){
+   turnLeft();
+   moveForward();
+}else if(dire==3){
+ moveForward();
+}else if(dire==2){
+ turnRight();
+ moveForward();
+}
+map[y][x]=-1;
+x--;
+dire=3;
+i=map[y][x];
+}
+}
+if(y>0){
+  if(map[y-1][x]>0){
+  if(dire==0){
+   moveForward();
+}else if(dire==3){
+ turnRight();
+moveForward();
+}else if(dire==1){
+ turnLeft();
+ moveForward();
+}
+map[y][x]=-1;
+y--;
+dire=0;
+i=map[y][x];
+}
+}
+if(y<8){
+  if(map[y+1][x]>0){
+  if(dire==2){
+   moveForward();
+}else if(dire==1){
+ turnRight();
+moveForward();
+}else if(dire==3){
+ turnLeft();
+ moveForward();
+}
+map[y][x]=-1;
+y++;
+dire=2;
+i=map[y][x];
+}
+}
+}
+
+	return 0;
+ }
+
+

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/oblivion/oblivion.css">
+  <link rel="stylesheet" href="css/share/mainFontFamily.css">
+  <link rel="stylesheet" href="css/share/share.css">
+  <link rel="stylesheet" href="css/share/main.css">
+  <link rel="stylesheet" href="css/share/left.css">
+  <link rel="stylesheet" href="css/share/right.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
+    integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
+    crossorigin="anonymous">
+  </script>
+  <script src="js/share.js"></script>
+  <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+  <title>全速衝線</title>
+  <!-- <title></title> -->
+</head>
+
+<body>
+  <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio>
+  <div class="wrap">
+    <div class="main">
+      <div class="box sidebarLeft">
+        <!--left-->
+        <img src="img/MARK.png" class="leftMark">
+        <input type="button" title="小幫手" id="helperBtn" value="" onclick="helper('center')">
+      </div>
+      <div class="box center" id="center">
+        <img class="bottomColor" alt="">
+        <h1 class="titleH1">失落帝國</h1>
+        <input type="button" title="返回鍵" value="" id="goBack3" onclick="back()">
+        <select id="levelSelect" name="">
+          <option value="all">&nbsp全&nbsp部</option>
+          <option value="canPlay">可遊玩</option>
+        </select>
+        <div class="search-box">
+          <select id="selectType" name="">
+            <option value="all">地圖名稱</option>
+            <option value="canPlay">遊玩條件</option>
+            <option value="canPlay">製作者</option>
+            <option value="canPlay">評價</option>
+            <option value="canPlay">上架日期</option>
+          </select>
+          <input class="search-text" type="search" name="" id="searchTextBox" placeholder="搜尋"
+            onsearch="searchFunc()">
+          <a class="search-btn" href="#">
+            <i class="fas fa-search"></i>
+          </a>
+        </div>
+        <div id="createrDiv">
+          <table id="lostCreateTable" border=5 RULES=ALL>
+            <tr>
+              <td class="td01" onclick="changeTdName(this)">地圖名稱</td>
+              <td class="td02" onclick="changeTdName(this)">遊玩條件</td>
+              <td class="td03" onclick="changeTdName(this)">製作者</td>
+              <td class="td04" onclick="changeTdName(this)">評價</td>
+              <td class="td05" onclick="changeTdName(this)">上架日期</td>
+              <td class="td06" onclick="changeTdName(this)">地圖簡介</td>
+            </tr>
+          </table>
+        </div>
+        <% if (canCreateMapPermission) { %>
+          <input type="button" class="centerButton" id="createLevel" value="" onclick="location.href='oblivionUser';">
+        <% } %>
+        <input type="button" class="centerButton" id="enterLevel" value="" onclick="enterLevel()">
+        <input type="button" title="設定" class="settingAllButton" value="" onclick="settingAllView(center)">
+      </div>
+      <div class="box sidebarRight">
+        <!--right-->
+        <h1 class="userName" id="userName"></h1>
+        <div class="userStar">
+          <img src="img/star.png" class="imgIcon">
+          <font class="starNumber" id="starNumber"></font>
+        </div>
+        <button class="btnUser" title="個人資料" onclick="userData()"></button>
+        <button class="btnLogout" title="登出" onclick="logout()"></button>
+      </div>
+    </div>
+    <div class="footer"></div>
+  </div>
+  <script src="js/oblivion/oblivion.js"></script>
+  <script src="js/closeEvent.js"></script>
+</body>
+
+</html>

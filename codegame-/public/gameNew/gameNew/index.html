@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="/css/master.css"> -->
+    <title>code game</title>
+</head>
+  <body bgcolor="#FFB3FF">
+    <!-- <button  onclick="show()">提交</button> -->
+    <select id="college-list" onchange="changeCollege(this.selectedIndex)"></select>
+    <table style="width:100%;">
+        <tr>
+          <td>
+            <div id='divcanvas'></div>
+          </td>
+          <td>
+          <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+          <button type="button" onclick="changeToC()" style="height: 60px; width:150px;">轉譯積木並編譯</button>
+          <button type="button" onclick="myFunction()" style="height: 60px; width:150px;">清空積木區</button>
+          <!-- <div id="code" style="height: 480px; width: 600px;"></div> -->
+          <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
+            <category name="Function">
+              <block type="block_main"></block>
+              <block type="block_var"></block>
+              <block type="block_loop">
+                <field name="NAME"> </field>
+                <field name="NAME"> </field>
+                <field name="NAME"> </field>
+                <field name="NAME">&lt;</field>
+                <field name="NAME"> </field>
+                <field name="NAME"> </field>
+              </block>
+              <block type="block_function">
+                <field name="NAME">name</field>
+              </block>
+              <block type="block_call">
+                <field name="NAME">name</field>
+              </block>
+            </category>
+            <category name="Action">
+              <block type="block_step"></block>
+              <block type="block_turn_right"></block>
+              <block type="block_turn_left"></block>
+              <block type="block_break"></block>
+            </category>
+            <category name="Judgment">
+              <block type="block_if">
+                <field name="NAME"> 'R'</field>
+              </block>
+              <block type="block_if_else">
+                <field name="NAME"> 'R'</field>
+              </block>
+              <block type="block_switch">
+                <field name="NAME"></field>
+              </block>
+              <block type="block_case">
+                <field name="NAME"></field>
+              </block>
+              <block type="block_default"></block>
+            </category>
+          </xml>
+          <xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
+            <block type="block_main" id="$Y5O;?8Xg{o4],v7Ff=5" x="188" y="63"></block>
+          </xml>
+        </td>
+          <td style="text-align:center;">
+            code<br>
+            <textarea name="textarea_0" id="textarea_0" rows="20" cols="50"></textarea>
+
+            <br>output<br>
+            <textarea name="textarea_1" id="textarea_1" rows="10" cols="50"></textarea>
+            <br>
+            <button type="button" class="btn" id="btn1"  value="btn1" style="height: 60px; width:150px;"">submit</button>
+            <button type="button" class="btn" id="btn1" onclick="challengeGameAgain()" value="btn1" style="height: 60px; width:150px;"">初始遊戲</button>
+
+          </td>
+
+
+        </tr>
+
+      </table>
+
+
+  </body>
+
+  <script src="./js/p5.min.js"></script>
+  <script src="./js/p5.dom.js"></script>
+  <script src="./js/mian.js"></script>
+
+  <script src="blockly/js/blockly_compressed.js"></script>
+  <script src="blockly/js/blocks_compressed.js"></script>
+  <script src="blockly/msg/js/en.js"></script>
+  <script src="./js/code.js"></script>
+
+</html>

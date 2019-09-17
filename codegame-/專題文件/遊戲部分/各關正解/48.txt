@@ -1,0 +1,144 @@
+/* 3�P:73�Ӱʧ@�]�t73�Ӱʧ@�H��  
+   2�P:76�Ӱʧ@�]�t76�Ӱʧ@�H��73�Ӱʧ@�H�W  
+   1�P:�����L������Y�i*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,x,y,length,tmp;
+char str[SIZE];
+getString(str);
+length=strlen(str);
+for(i=0;i<length;i++){
+ if(str[i]==' '){
+  tmp=i;
+}
+}
+x=atoi(str);
+y=atoi(str+tmp);
+moveForward();
+becameTank();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+fire();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+fire();
+moveForward();
+becameShip();
+moveForward();
+becameCar();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnRight();
+moveForward();
+turnLeft();
+moveForward();
+turnRight();
+moveForward();
+becameShip();
+moveForward();
+becameCar();
+moveForward();
+turnLeft();
+moveForward();
+becameTank();
+moveForward();
+becameCar();
+moveForward();
+turnLeft();
+moveForward();
+becameShip();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+becameCar();
+turnRight();
+fire();
+turnLeft();
+moveForward();
+becameTank();
+turnRight();
+turnRight();
+moveForward();
+becameCar();
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+becameTank();
+moveForward();
+turnRight();
+moveForward();
+becameCar();
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnRight();
+fire();
+moveForward();
+turnLeft();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+becameTank();
+turnRight();
+moveForward();
+becameCar();
+moveForward();
+becameShip();
+turnRight();
+moveForward();
+turnLeft();
+printf("%d",x+y);
+moveForward();
+becameCar();
+turnRight();
+moveForward();
+turnLeft();
+moveForward();
+
+	return 0;
+ }
+
+

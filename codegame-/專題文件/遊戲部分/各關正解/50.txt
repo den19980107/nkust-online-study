@@ -1,0 +1,209 @@
+/* 3�P:97�Ӱʧ@�]�t97�Ӱʧ@�H��  
+   2�P:100�Ӱʧ@�]�t100�Ӱʧ@�H��97�Ӱʧ@�H�W  
+   1�P:�����L������Y�i*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,length,j=1,index=1;
+int carry=0;
+int x[SIZE]={0};
+int y[SIZE]={0};
+int bit[SIZE]={0};
+char str[SIZE];
+getString(str);
+length=strlen(str);
+moveForward();
+turnRight();
+moveForward();
+turnLeft();
+moveForward();
+becameShip();
+turnRight();
+moveForward();
+turnLeft();
+moveForward();
+becameCar();
+moveForward();
+becameTank();
+turnLeft();
+fire();
+moveForward();
+becameCar();
+moveForward();
+turnLeft();
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+turnRight();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+turnLeft();
+turnLeft();
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnRight();
+moveForward();
+turnLeft();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+fire();
+moveForward();
+turnRight();
+for(i=0;i<3;i++){
+moveForward();
+}
+turnRight();
+for(i=0;i<4;i++){
+ moveForward();
+}
+becameTank();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+turnRight();
+moveForward();
+becameCar();
+moveForward();
+becameShip();
+turnLeft();
+moveForward();
+becameCar();
+turnRight();
+fire();
+for(i=0;i<3;i++){
+ moveForward();
+}
+becameShip();
+moveForward();
+becameTank();
+turnLeft();
+moveForward();
+turnRight();
+moveForward();
+becameCar();
+moveForward();
+becameTank();
+turnLeft();
+moveForward();
+becameShip();
+moveForward();
+becameCar();
+moveForward();
+becameShip();
+turnLeft();
+fire();
+moveForward();
+becameCar();
+moveForward();
+turnRight();
+moveForward();
+becameTank();
+turnLeft();
+moveForward();
+becameCar();
+moveForward();
+becameTank();
+moveForward();
+turnLeft();
+fire();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnRight();
+moveForward();
+becameCar();
+for(i=0;i<2;i++){
+ moveForward();
+}
+becameTank();
+turnLeft();
+moveForward();
+becameCar();
+moveForward();
+becameTank();
+turnRight();
+moveForward();
+becameCar();
+moveForward();
+becameShip();
+turnRight();
+for(i=0;i<3;i++){
+ moveForward();
+}
+becameCar();
+turnRight();
+for(i=length-1;i>=0;i--){
+ if(index==1){
+   if(str[i]!=' '){
+ if(str[i]>='0'&&str[i]<='9'){
+ 	x[length-1-i]=str[i]-'0';
+ }
+}else{
+ index=i;
+}
+}else{
+ y[index-i-1]=str[i]-'0';
+}
+}
+j=0;
+for(i=0;i<SIZE;i++){
+ bit[i]=x[i]+y[i]+carry;
+ carry=0;
+ if(bit[i]>=10){
+   bit[i]-=10;
+   carry=1;
+}
+}
+j=1;
+for(i=SIZE-1;i>=0;i--){
+ if(bit[i]!=0&&j==1){
+  j=0;
+  printf("%d",bit[i]);
+}else if(bit[i]==0&&j==1){
+ continue;
+}else if(j==0){
+ printf("%d",bit[i]);
+}
+}
+moveForward();
+turnLeft();
+moveForward();
+
+	return 0;
+ }
+
+

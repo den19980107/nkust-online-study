@@ -1,0 +1,1248 @@
+/*main*/
+.center{
+  background-color: #DEDEDE;
+}
+textarea{
+  resize:none;
+}
+/*left*/
+#helperBtn{
+  width: 100px;
+  height: 100px;
+  background-image: url("../../img/helper.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-width: 0px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+#helperView{
+  z-index: 995;
+  height: 85%;
+  width: 90%;
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  background-color: #FFF2CC;
+  box-shadow: 0px 0px 7px 10px rgba(255, 255, 255, 0.68);
+  overflow: auto;
+}
+#method1,#method2,#method3,#method4,#method5,#clossDiv{
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-color: rgb(0, 0, 0);
+  border-width: 0px;
+  position: absolute;
+  cursor: pointer;
+}
+#method1{
+  top: 3%;
+  left: 1%;
+}
+#method2{
+  top: 3%;
+  left: calc(30px + 2%);
+}
+#method3{
+  top: 3%;
+  left: calc(60px + 3%);
+}
+#method4{
+  top: 3%;
+  left: calc(90px + 4%);
+}
+#method5{
+  top: 3%;
+  left: calc(120px + 5%);
+}
+#helperInnerDiv{
+  height: calc(100% - 5vh - 22px);
+  width: 100%;
+  font-family: Microsoft JhengHei;
+  position: absolute;
+  top: calc(5vh + 22px);
+  background-color: rgba(0, 0, 0, 0);
+  overflow: auto;
+}
+#deleteNewElement{
+  width: 8vh;
+  height: 5vh;
+  text-align: center;
+  font-size: 2.5vh;
+  line-height: 2.5vh;
+  position: absolute;
+  top: 2%;
+  right: 1%;
+  background: rgb(0, 0, 0, 0);
+  border: black solid;
+  border-radius: 0.5vh;
+  cursor: pointer;
+}
+#createNewElement{
+  width: 8vh;
+  height: 5vh;
+  text-align: center;
+  font-size: 2.5vh;
+  line-height: 2.5vh;
+  position: absolute;
+  top: 2%;
+  right: calc(2% + 8vh);
+  background: rgb(0, 0, 0, 0);
+  border: black solid;
+  border-radius: 0.5vh;
+  cursor: pointer;
+}
+#createElementBkView{
+  z-index: 996;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0px;
+}
+#createElementView{
+  z-index: 997;
+  height: 40%;
+  width: 70%;
+  position: absolute;
+  background-color: #FFDEB8;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+#createImgBtn,#createTextBtn,#createImgAndTextBtn,#createTwoImgAndTextBtn,#createSmallImgAndTextBtn,#imgPositionDiv{
+  width: 25%;
+  height: 30%;
+  font-size: calc(15px + 10%);
+  background-color: rgba(53, 4, 179, 0);
+  background-size: 100% 100%;
+  border: 0px;
+  position: absolute;
+  top: 60%;
+  cursor: pointer;
+}
+#createElementClose{
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 10px;
+  border-color: rgb(0, 0, 0);
+  border-width: 0px;
+  position: absolute;
+  cursor: pointer;
+  top: 1%;
+  right: 1%;
+}
+#createImgBtn{
+  left: 5%;
+  top: 11%;
+  background-image: url("../../img/img.png");
+}
+#createTextBtn{
+  left: 50%;
+  top: 11%;
+  transform: translate(-50%,0);
+  background-image: url("../../img/text.png");
+}
+#createImgAndTextBtn{
+  right: 5%;
+  top: 11%;
+  background-image: url("../../img/imgAndText.png");
+}
+#createTwoImgAndTextBtn{
+  left: 5%;
+  bottom: 5%;
+  background-image: url("../../img/twoImgAndText.png");
+}
+#createSmallImgAndTextBtn{
+  left: 50%;
+  bottom: 5%;
+  transform: translate(-50%,0);
+  background-image: url("../../img/smallImgAndText.png");
+}
+#imgPositionDiv{
+  right: 5%;
+  bottom: 5%;
+}
+.deleteCheckBox{
+  height: 2.5vh;
+  width: 2.5vh;
+  position: absolute;
+  left: 1%;
+  cursor: pointer;
+}
+.elementUp{
+  height: 2.5vh;
+  width: 2.5vh;
+  font-size: 2vh;
+  position: absolute;
+  right: 1%;
+  cursor: pointer;
+}
+.elementDown{
+  height: 2.5vh;
+  width: 2.5vh;
+  font-size: 2vh;
+  position: absolute;
+  right: 1%;
+  top: 2.7vh;
+  cursor: pointer;
+}
+.bigTextareaDiv{
+  height: 60%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.bigTextareaDiv textarea{
+  height: 100%;
+  width: 88%;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  left: 6%;
+}
+.bigImgDiv{
+  height: 40%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.bigImgDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 38%;
+}
+.imgAndTextDiv{
+  height: 40%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.imgAndTextDiv textarea{
+  position: absolute;
+  height: 100%;
+  width: 45%;
+  background:white;
+}
+.imgAndTextDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 38%;
+}
+.smallImgAndTextDiv{
+  height: 25%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.smallImgAndTextDiv>.smallImgAndTextInneDiv{
+  width:20%;
+  height:100%;
+  position: absolute;
+}
+.smallImgAndTextDiv textarea{
+  position: absolute;
+  height: 100%;
+  width: 58%;
+  background:white;
+}
+.smallImgAndTextDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 23%;
+}
+.smallImgAndTextDiv input[type = "file"]{
+  margin-left: -25%;
+}
+.twoImgAndTextDiv{
+  height: 60%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.twoImgAndTextDiv>.twoImgAndTextInneDiv{
+  width:20%;
+  height:100%;
+  position: absolute;
+}
+.twoImgAndTextDiv textarea{
+  position: absolute;
+  height: 100%;
+  width: 58%;
+  background:white;
+}
+.twoImgAndTextDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 27%;
+}
+.twoImgAndTextDiv input[type = "file"]{
+  margin-left: -25%;
+}
+#helperTextarea1{
+  height: 50%;
+  width: 40%;
+  font-size: 1.5vw;
+  font-family:Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
+#helperTextarea2{
+  height: 25%;
+  width: 90%;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: 60%;
+  left: 5%;
+  padding-bottom: 12vh;
+}
+#helperTextarea3{
+  height: 80%;
+  width: 80%;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+}
+#helperTextarea4,#helperTextarea5,#helperTextarea6,#helperTextarea7,#helperTextarea8{
+  height: 8vh;
+  width: auto;
+  font-size: 1.5vw;
+  font-family:Microsoft JhengHei;
+  line-height: 8vh;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+}
+#helperTextarea4{
+  top: 105%;
+  left: calc(10% + 8vh);
+}
+#helperTextarea5{
+  top: calc(110% + 8vh);
+  left: calc(10% + 8vh);
+}
+#helperTextarea6{
+  top: calc(115% + (8vh * 2));
+  left: calc(10% + 8vh);
+}
+#helperTextarea7{
+  top: calc(120% + (8vh * 3));
+  left: calc(10% + 8vh);
+}
+#helperTextarea8{
+  top: calc(125% + (8vh * 4));
+  left: calc(10% + 8vh);
+}
+#helperTextarea9{
+  height: 25%;
+  width: 90%;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: calc(130% + (8vh * 5));
+  left: 5%;
+}
+#helperImgDiv1,#helperImgDiv2{
+  height: 18vh;
+  width: 45%;
+  position: absolute;
+  right: 5%;
+}
+#helperImgDiv1{
+  top: 5%;
+}
+#helperImgDiv2{
+  top: 33%;
+}
+#helperImgDiv4,#helperImgDiv5,#helperImgDiv6,#helperImgDiv7,#helperImgDiv8{
+  height: 8vh;
+  width: 8vh;
+  position: absolute;
+}
+#helperImgDiv4{
+  left: 5%;
+  top: 105%;
+}
+#helperImgDiv5{
+  left: 5%;
+  top: calc(110% + 8vh);
+}
+#helperImgDiv6{
+  left: 5%;
+  top: calc(115% + (8vh * 2));
+}
+#helperImgDiv7{
+  left: 5%;
+  top: calc(120% + (8vh * 3));
+}
+#helperImgDiv8{
+  left: 5%;
+  top: calc(125% + (8vh * 4));
+}
+.helperImg{
+  height: 80%;
+  width: auto;
+}
+
+/*right*/
+#userDataBkView{
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+#userDataView{
+  z-index: 4;
+  height: 58%;
+  width: 35%;
+  position: absolute;
+  top: 21%;
+  left: 32.5%;
+  background-color: #FFC777;
+  border-style: solid;
+  border-color: white;
+  border-width: 3px;
+}
+#clossDiv{
+  top: 1%;
+  right: 1%;
+}
+#cancelSaveHelper{
+  height: 5vh;
+  width: 4vw;
+  font-size: 1.5vw;
+  font-family: "Microsoft JhengHei";
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  top: 1%;
+  right: 7%;
+  cursor: pointer;
+}
+#saveHelper{
+  height: 5vh;
+  width: 4vw;
+  font-size: 1.5vw;
+  font-family: "Microsoft JhengHei";
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  top: 1%;
+  right: calc(8% + 4vw);
+  cursor: pointer;
+}
+#allTitle,#userTitle{
+  margin-top: 20px;
+  height: 5vh;
+  color: #7C5A43;
+  font-size: calc(10px + 2vw);
+  font-weight: 100;
+  font-family:"Microsoft JhengHei";
+  font-weight: bold;
+  border-style: solid;
+  border-color: #7C5A43;
+  border-width: 0px 0px 2px 0px;
+}
+#userInnerDiv{
+  width: 80%;
+  height: 70%;
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  background-color: #FFF2CC;
+  border-style: solid;
+  border-color: #D6B656;
+  overflow: auto;
+}
+#userH3Div{
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
+.versionControl{
+  height: 30%;
+  width: 100%;
+  background: #C28C69;
+  position: absolute;
+  bottom: 0px;
+  overflow: auto;
+}
+.versionControl span{
+  width: 100%;
+  display: inline-block;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+  position: relative;
+  cursor: pointer;
+}
+
+/*提醒視窗*/
+#lessRequirementView{
+  z-index: 4;
+  height: 30%;
+  width: 30%;
+  border-style: solid;
+  border-width: 1px;
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  background-color: #D5E8D4;
+  box-shadow: 0px 0px 7px 10px rgba(255, 255, 255, 0.68);
+  overflow: auto;
+}
+#conditionH3Top{
+  text-align: left;
+  margin-left: 10%;
+  margin-top: 5%;
+}
+#conditionH3Bottom{
+  font-size: 3vh;
+}
+#lessRequirementInnerView{
+  width: 10vw;
+  position: absolute;
+  left: 50%;
+  margin-left: -5vw;
+  margin-top: 2vh;
+}
+#conditionImg{
+  height: 8vh;
+  width: 8vh;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+#conditionButton{
+  height: 5vh;
+  width: 8vw;
+  font-size: calc(10px + 1vw);
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  background-color: #CCFFCC;
+  position: absolute;
+  left: 50%;
+  bottom: 2vh;
+  margin-left: -4vw;
+  cursor: pointer;
+}
+
+/*設置地圖屬性視窗*/
+#settingMapDiv{
+  z-index: 4;
+  height: 80%;
+  width: 80%;
+  border-style: solid;
+  border-width: 1px;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  background-color: #D5E8D4;
+  box-shadow: 0px 0px 7px 10px rgba(255, 255, 255, 0.68);
+  overflow: auto;
+}
+#settingMapTitleBar{
+  width: 100%;
+  height: 10.5%;
+  border-style:none;
+  position: absolute;
+  top: 0px;
+  background-color: none;
+}
+#settingMapTitleBar font{
+  position: absolute;
+  margin-top: 20px;
+  font-size: 8vh;
+  top:40%;
+  right:0;
+  bottom:0;
+  left:0;
+  margin:auto;
+}
+#settingMapDivCanvas{
+  height: 60vh;
+  width: 60vh;
+  border-style:solid;
+  background-color: white;
+  position: absolute;
+  top: 15vh;
+  left: 2vw;
+}
+#innerSettingMapDiv{
+  height: 60vh;
+  width: 60vh;
+  border-style:solid;
+  border-width: 0px;
+  background-color: none;
+  position: absolute;
+  top: 15vh;
+  right: 2vw;
+}
+#S3 table{
+  width: 80%;
+  text-align: left;
+  position: absolute;
+  left: 10%;
+}
+#S3 td{
+  padding-top: 8%;
+}
+#mapSize{
+  width: 80%;
+  height: 5vh;
+  font-size: 3vh;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+#mapDeploy{
+  width: 80%;
+  height: 5vh;
+  font-size: 3vh;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+#saveMap{
+  height: 8vh;
+  width: 10vw;
+  font-size: 3vh;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  background-color: #CCFFFF;
+  position: absolute;
+  right: 2%;
+  bottom: 2%;
+  cursor: pointer;
+}
+
+/*creater*/
+#titleBar{
+  width: 100%;
+  height: 10.5%;
+  border-style:none;
+  position: absolute;
+  top: 0px;
+  background-color: #AEC9EF;
+}
+#titleBar select{
+  font-size: calc(10px + 1.5vh);
+  width: 10vw;
+}
+.unUse{
+  background-color: rgb(162, 162, 162);
+}
+#lostTitleTable{
+  width: 90%;
+  height: 8vh;
+  position: absolute;
+  left: 7%;
+  top: 20%;
+  font-size: 25px;
+}
+#td00{width: 20%;}
+#td01{width: 15%;}
+#td02{width: 5%;}
+#td03{width: 15%;}
+#td04{width: 5%;}
+#td05{width: 40%;}
+#divcanvas{
+  height: 60vh;
+  width: 60vh;
+  border-style:solid;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  right: 55%;
+  margin-top: -30vh;
+  min-width: 410px;
+}
+#blocklyDiv{
+  height: 88.9%;
+  width: 49.7%;
+  border-style:none;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  top: 10.5%;
+  left: 0px;
+}
+#blocklyDiv{
+  height: 88.9%;
+  width: 49.7%;
+  border-style:none;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  top: 10.5%;
+  left: 0px;
+}
+#functionSetting{
+  height: 75vh;
+  width: 60vh;
+  border-style:solid;
+  border-width: 0px;
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  margin-top: -32.5vh;
+  min-width: 410px;
+}
+/* #functionSetting input[type="button"]{
+  height: 8vh;
+  width: 10vw;
+  font-size: calc(10px + 1.5vw);
+  border-radius: 10px;
+  border-style: solid;
+  border-color: black;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  min-width: 95px;
+} */
+#saveModifyBtn{
+  height: 7vh;
+  width: 6vw;
+  font-size: 2vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  right: 3vw;
+  margin-top: 5%;
+  cursor: pointer;
+}
+
+#previewBtn{
+  height: 7vh;
+  width: 6vw;
+  font-size: 2vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  margin-top: 5%;
+  left: 50%;
+  transform: translateX(-3vw);
+  cursor: pointer;
+}
+#resetModifyBtn{
+  height: 7vh;
+  width: 6vw;
+  font-size: 2vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  left: 3vw;
+  margin-top: 5%;
+  cursor: pointer;
+}
+/*選擇地圖大小*/
+#lostTitleTable select{
+  height: calc(15px + 2vh);
+  background-color: white;
+  margin-left: 0;
+}
+/*物件角度*/
+#lostTitleTable input[type="text"]{
+  height: 25px;
+  width: 50px;
+  background-color: #CCFFFF;
+  margin-left: 0px;
+}
+#lostTitleTable input[type="button"]{
+  height: calc(15px + 2vh);
+  width: 150px;
+  font-size: calc(10px + 1.5vh);
+  border-style: solid;
+  border-color: black;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0);
+  margin-left: 0px;
+  cursor: pointer;
+}
+
+/*關卡簡介*/
+#levelDiv{
+  z-index: 3;
+  width: 52vh;
+  height: 40vh;
+  font-size: 2.5vh;
+  font-weight:bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -20vh;
+  margin-left: -26vh;
+  background-color: #FFC777;
+  overflow: auto;
+}
+#mainGrammar{
+  width: 80%;
+  height: 5vh;
+  margin-left: 10%;
+}
+.innerGrammar{
+  height: 3vh;
+  width: auto;
+  font-size: 1vw;
+  Display:inline-block;
+  background-color: #7C5A43;
+  color: white;
+  padding-top: 1vh;
+  padding-left: 0.5vh;
+  padding-right: 0.5vh;
+  margin-left: 1vh;
+}
+#levelDescription{
+  margin-top: 20px;
+  height: 5vh;
+  color: #7C5A43;
+  letter-spacing: 1vw;
+  font-size: calc(10px + 2vw);
+  font-weight: 900;
+  font-family:"Microsoft JhengHei";
+  border-style: solid;
+  border-color: #7C5A43;
+  border-width: 0px 0px 2px 0px;
+}
+#levelDescriptiontextarea{
+  height: 10vh;
+  width: 20vw;
+  font-size: 1.2vw;
+  font-family:"Microsoft JhengHei";
+  text-align: center;
+  background: none;
+  border: none;
+  margin-top: -1vh;
+  line-height: 24px;
+  overflow: auto;
+}
+#levelBtn{
+  width: 15vh;
+  height: 3.5vh;
+  font-weight:bold;
+  position: absolute;
+  right: 6vh;
+  margin-top: 0.5vh;
+  font-size: 2.5vh;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  cursor: pointer;
+}
+#historyCode{
+  width: 15vh;
+  height: 3.5vh;
+  font-weight:bold;
+  position: absolute;
+  left: 6vh;
+  margin-top: 0.5vh;
+  font-size: 2.5vh;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  cursor: pointer;
+}
+.startImg{
+  margin: 10px auto;
+  height: 6vh;
+  width: 6vh;
+  border: 0px;
+  background: transparent;
+  content:url('../../img/levelStar.png');
+  background-size: 100% 100%;
+}
+.unStartImg{
+  margin: 5px auto;
+  height: 6vh;
+  width: 6vh;
+  border: 0px;
+  background: transparent;
+  content:url('../../img/levelStarNull.png');
+  background-size: 100% 100%;
+}
+
+/*Menu Tabs F */
+#tabsC{
+	padding:0px;
+	margin:0px;
+	width:100%;
+  height: 76%;
+  background-color: #B8B8B8;
+  margin-top: 8%;
+	border-left: white 2px solid;
+	border-right: white 2px solid;
+	border-bottom: white 2px solid;
+}
+#tabsF{
+	float:left;
+	width:105%;
+	margin:0;
+	padding:0;
+	font-size:13px;
+	line-height:normal;
+	border-left: white 0px solid;
+	border-right: white 0px solid;
+	border-bottom: white 0px solid ;
+  margin-left: -10px;
+}
+#tabsF ul{
+	margin-left: 5px;;
+	padding:10px 10px 0px 6px;
+	list-style:none;
+}
+#tabsF li{
+	display:inline;
+	margin:0;
+	padding:0;
+}
+#tabsF #current a{
+  background-position:0% -42px;
+  border-bottom:1px solid #D6D6D6;
+  color:#000;
+}
+#tabsF #current a span{
+  background-position:3000% -42px;
+  background-color: #959595;
+  color:#000;
+}
+#tabsF #current span span{
+  background-position:3000% -42px;
+  background-color: #D6D6D6;
+  border-bottom:1px solid #FFF;
+  color:#000;
+}
+#tabsF a{
+  font-weight: bold;
+  font-size: 2vh;
+	float:left;
+  width: 24.5%;
+	background:url("../../img/tableftF.gif") no-repeat left top;
+	margin:0;
+	text-decoration:none;
+	border:1px solid white;
+}
+#tabsF a span{
+	float:left;
+	display:block;
+	background:#CFCFCF no-repeat right top;
+	padding:9px 15px 5px 6px;
+	color:#666;
+}
+#tabsF span{
+	float:left;
+	background:url("../../img/tableftF.gif") no-repeat left top;
+	margin:0;
+	padding:4px 0 0 4px;
+	text-decoration:none;
+}
+#tabsF span span{
+	float:left;
+	display:block;
+	background:url("../../img/test000.png") no-repeat right top;
+	padding:9px 15px 5px 6px;
+	color:#666;
+}
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#tabsF a span {float:none;}
+/* End IE5-Mac hack */
+#tabsF a:hover span {
+  color:#000;
+}
+
+/*tabsC S1內容*/
+#S1 table{
+  font-family:"Microsoft JhengHei";
+  font-size: 3vh;
+  position: relative;
+  margin-top: -3px;
+  width: 100%;
+  height: 100%;
+}
+#levelDescriptionTable #S1Td00,#levelDescriptionTable #S1Td10,#levelDescriptionTable #S1Td20{
+  width: 30%;
+}
+#levelDescriptionTable #S1Td10,#levelDescriptionTable #S1Td20,#levelDescriptionTable #S1Td30{
+  vertical-align: top;
+}
+#levelDescriptionTable #S1Td01{
+  width: 70%;
+}
+#levelDescriptionTable #S1Td01 input,#levelDescriptionTable #S1Td11 textarea,#levelDescriptionTable #S1Td21 textarea,#levelDescriptionTable #S1Td31 textarea{
+  width: 80%;
+  font-size: 3vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  resize : none;
+}
+#levelDescriptionTable #S1Td11 textarea,#levelDescriptionTable #S1Td21 textarea,#levelDescriptionTable #S1Td31 textarea{
+  height: 90%;
+  resize : none;
+  margin-top: -5vh;
+}
+#starConditionTextareaThree,#starConditionTextareaTwo{
+  background-color: rgba(0, 0, 0, 0.2);
+}
+/*S2內容*/
+  /*敵人*/
+  #enemyTable{
+    font-size: 3vh;
+    position: relative;
+    width: 100%;
+    height: 40%;
+  }
+  #enemyTable #S1Td00,#enemyTable #S1Td10{
+    width: 30%;
+  }
+  #enemyTable #S1Td01,#enemyTable #S1Td11{
+    width: 70%;
+  }
+  #enemyTable #S1Td01 input,#enemyTable #S1Td11 input{
+    width: 80%;
+    font-size: 3vh;
+    text-align: center;
+    height: auto;
+    background-color: #BBCCBA;
+    resize : none;
+  }
+
+  /*鎖頭*/
+  #lockAnswerTable{
+    font-size: 3vh;
+    width: 100%;
+    height: 100%;
+  }
+  #lockAnswerTable #S1Td00{
+    width: 30%;
+    vertical-align: top;
+    padding-top: 8%;
+  }
+  #lockAnswerTable #S1Td01 textarea{
+    width: 70%;
+    height: 80%;
+    font-size: 3vh;
+    resize : none;
+    background-color: #BBCCBA;
+  }
+
+  /*寶箱*/
+  #boxTable{
+    width: 100%;
+    height: 100%;
+    font-size: 3vh;
+  }
+  #boxTable #S1Td00{
+    width: 30%;
+    vertical-align: top;
+    padding-top: 8%;
+  }
+  #boxTable #S1Td01 textarea{
+    width: 70%;
+    height: 80%;
+    font-size: 3vh;
+    resize : none;
+    background-color: #BBCCBA;
+  }
+
+  /*進階*/
+  #foggyTable{
+    font-size: 3vh;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  #foggyTable #S1Td00{
+    width: 30%;
+    margin-left: 5vw;
+  }
+  #foggyTable #S1Td01,#foggyTable #S1Td02{
+    width: 35%;
+    font-size: 3vh;
+  }
+  #foggyTable input[type=checkbox] {
+      zoom: 2;
+  }
+  #foggyTable input{
+    vertical-align:middle;
+    margin-bottom:2px;
+    *margin-bottom:2px;
+  }
+  #codingFont{
+    text-align:left;
+    font-weight: bold;
+    margin-right: 20vw;
+  }
+  #codingTextarea{
+    height: 35vh;
+    width: 25vw;
+    font-size: 3vh;
+    resize : none;
+  }
+
+/*提醒介面*/
+.oneLine{
+  height: 20vh;
+}
+.oneLine > #remindH2{
+  margin-top: 5vh;
+}
+.twoLine{
+  height: 25vh;
+}
+.twoLine > #remindH2{
+  line-height: 5vh;
+  margin-top: 3vh;
+}
+.twoLine > #remindTrueBtn{
+  bottom: 3.5vh;
+}
+#remindView{
+  z-index: 999;
+  width: 25vw;
+  border-style: solid;
+  border-color: white;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -15vh;
+  margin-left: -12.5vw;
+  background-color:  rgba(0, 0, 0, 0.74);
+  color: white;
+  min-width: 300px;
+  overflow: auto;
+}
+#remindH2{
+  font-size: calc(20px + 1vw);
+}
+#remindTrueBtn{
+  height: 5vh;
+  width: 8vw;
+  font-size: calc(15px + 1vw);
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  position: absolute;
+  right: calc(50% - 4vw);
+  bottom: 3vh;
+  cursor: pointer;
+}
+.bkView{
+  z-index: 996;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+
+/*變換小幫手模式視窗*/
+#changeHelperModView{
+  z-index: 999;
+  width: 20vw;
+  height: 15vh;
+  border-style: solid;
+  border-color: white;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -15vh;
+  margin-left: -10vw;
+  background-color:  rgba(0, 0, 0, 0.74);
+  color: white;
+  min-width: 300px;
+  overflow: auto;
+}
+#blocklyBtn{
+  height: 5vh;
+  width: 6vw;
+  font-size: calc(15px + 1vw);
+  line-height: 2vh;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  position: absolute;
+  left: calc(10% + 1vw);
+  bottom: 5vh;
+  cursor: pointer;
+}
+#codeBtn{
+  height: 5vh;
+  width: 6vw;
+  font-size: calc(15px + 1vw);
+  line-height: 2vh;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  position: absolute;
+  right: calc(10% + 1vw);
+  bottom: 5vh;
+  cursor: pointer;
+}

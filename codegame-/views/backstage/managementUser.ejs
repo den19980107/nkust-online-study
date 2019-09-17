@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html  dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/backstage/managementUser.css">
+    <link rel="stylesheet" href="css/share/mainFontFamily.css">
+    <link rel="stylesheet" href="css/share/main.css">
+    <link rel="stylesheet" href="css/share/left.css">
+    <link rel="stylesheet" href="css/share/right.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    <script src="js/share.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+    <title>全速衝線</title>
+  </head>
+  <body>
+    <!-- <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio> -->
+    <div class="wrap">
+      <div class="main">
+        <!--left-->
+        <div class="box sidebarLeft">
+          <img src="img/MARK.png" class = "leftMark">
+        </div>
+        <div class="box center" id="center">
+          <img  id="bkImg">
+          <h1 class="titleH1">管理會員</h1>
+          <input type="button" value="" id="goBack3" onclick="location.href='management';">
+          <select id="levelSelect" name="">
+            <option value="all">&nbsp&nbsp全&nbsp部</option>
+            <option value="canPlay">&nbsp&nbsp封&nbsp鎖</option>
+            <option value="canPlay">未&nbsp封&nbsp鎖</option>
+          </select>
+          <div class="search-box">
+            <select id="selectType" name="">
+              <option value="all">&nbsp&nbsp&nbsp帳&nbsp號</option>
+              <option value="canPlay">&nbsp&nbsp&nbsp名&nbsp稱</option>
+              <option value="canPlay">&nbsp&nbsp&nbsp信&nbsp箱</option>
+              <option value="canPlay">&nbsp&nbsp&nbsp關&nbsp卡</option>
+              <option value="canPlay">&nbsp星&nbsp星&nbsp數</option>
+            </select>
+            <input class="search-text" type="search" name="" id="searchTextBox"  placeholder="搜尋" onsearch = "searchFunc()">
+            <!-- <a href="javascript:;" class="clear"></a> -->
+            <!-- <a href="#" onclick="console.log('1235464654');" class="clear"></a> -->
+            <a class="search-btn"href="#">
+              <i class="fas fa-search"></i>
+            </a>
+          </div>
+          <div id="createrDiv">
+            <table id="lostCreateTable" border=5 RULES=ALL>
+              <tr>
+                <td class="td01" onclick="changeTdName(this)">使用者帳號</td>
+                <td class="td02" onclick="changeTdName(this)">使用者名稱</td>
+                <td class="td03" onclick="changeTdName(this)">信箱</td>
+                <td class="td04" onclick="changeTdName(this)">星星數</td>
+                <td class="td05" onclick="changeTdName(this)">最高的關卡</td>
+                <td class="td06" >地圖權限</td>
+                <td class="td07" onclick="changeTdName(this)">使用者狀態</td>
+              </tr>
+            </table>
+          </div>
+          <input type="button" class="centerButton" id="changeStatus" value="" onclick="changeStatus()">
+        </div>
+        <div class="box sidebarRight"><!--right-->
+          <button class="btnLogout" onclick="logout()"></button>
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+    <script src="js/backstage/managementUser.js"></script>
+    <script src="js/closeEvent.js"></script>
+  </body>
+</html>

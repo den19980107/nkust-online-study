@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+
+
+<head>
+  <meta charset="big5">
+  <link rel="stylesheet" href="css/share/main.css">
+  <link rel="stylesheet" href="css/share/left.css">
+  <link rel="stylesheet" href="css/share/right.css">
+  <link rel="stylesheet" href="css/home/style_home.css">
+  <link rel="stylesheet" href="css/home/homeCenter.css">
+  <link rel="stylesheet" href="css/home/center.css">
+  <link rel="stylesheet" href="css/share/mainFontFamily.css">
+  <link rel="stylesheet" href="css/share/share.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- js -->
+  <script src="js/share.js"></script>
+  <script src="js/closeEvent.js"></script>
+  <title>全速衝線</title>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="main">
+      <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0" style="width:0px;height:0px;"></audio>
+      <div class="box sidebarLeft">
+        <!--left-->
+        <img src="img/MARK.png" class="leftMark">
+        <dl style="font-size: calc(5px + 0.5vw);color:black;position: absolute;bottom:1vh;left:0px;text-align:left;">
+          <dt style="margin-bottom:0.5vh;">聯絡信箱：</dt>
+          <dd>
+            <a href="mailto://fullspeedline@gmail.com" style="color:black;">fullspeedline@gmail.com</a>
+          </dd>
+        </dl>
+      </div>
+      <div class="box center" id="center">
+        <img src="img/bk.jpg" id="bkImg">
+        <!-- <input type="button" value="" id="goBack3"  onclick="location.href='management';"> -->
+        <!-- <input type="button" value="" id="goBack3"  onclick="location.href='management';" title="返回鍵"> -->
+        <div class="">
+          <div class="castle_blockly">
+            <input type="button" title="普魯斯帝國" class="castle_blockly" value="" onclick="location.href='pruss';">
+          </div>
+          <div class=<%= castlelock %> id="castle_codeDiv">
+            <input type="button" title="庫魯瑪帝國" class=<%= castlelock %> id="castle_codeBtn" value=""
+              onclick="location.href='kuruma';">
+          </div>
+          <div class="castle_link">
+            <input type="button" title="失落帝國" class="castle_link" value="" onclick="location.href='oblivion';">
+          </div>
+        </div>
+        <div id="buttonDiv">
+          <input type="button" title="裝備" class="equipageButton" value="" onclick="equipageView(center)">
+          <input type="button" title="指令大全" class="instructionButton" value="" onclick="instructionView(center)">
+          <input type="button" title="成就" class="achievementButton" value="" onclick="achievementView(center)">
+          <input type="button" title="設定" class="settingAllButton" value="" onclick="settingAllView(center)">
+        </div>
+      </div>
+      <div class="box sidebarRight">
+        <!--right-->
+        <h1 class="userName" id="userName"></h1>
+        <div class="userStar">
+          <img src="img/star.png" class="imgIcon">
+          <font class="starNumber" id="starNumber"></font>
+        </div>
+        <button class="btnUser" title="個人資料" onclick="userData()"></button>
+        <button class="btnLogout" title="登出" onclick="logout()"></button>
+      </div>
+    </div>
+    <div class="footer"></div>
+  </div>
+</body>
+
+<script src="js/home/home.js"></script>
+</html>

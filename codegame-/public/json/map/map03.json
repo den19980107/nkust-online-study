@@ -1,0 +1,12 @@
+{"mapNumber":"game03",
+    "mapSize":"36",
+    "mapValue":"000000000000000000000000000000000000",
+    "level":"初階",
+    "winLinit":{"threeStar":[9],"twoStar":[10],"oneStar":[11]},
+    "people_init":{"type":"car","postion":[0,4,0]},
+    "end_init":[{"type":"endline","postion":[5,2,1]}],
+    "obj":[{"type":"tree","postion":[1,2]},{"type":"stone","postion":[1,3]},
+           {"type":"stone","postion":[2,5]},{"type":"stone","postion":[3,4]},
+           {"type":"stone","postion":[4,3]}
+        ]
+   }

@@ -1,0 +1,117 @@
+{
+    "mapNumber": "game28",
+    "mapSize": 81,
+    "mapValue": "000002022000022222010022222011002222011002200111011222011111222001110211001000111",
+    "level": "初階",
+    "winLinit": {
+        "threeStar": [
+            5
+        ],
+        "twoStar": [
+            6
+        ],
+        "oneStar": [
+            7
+        ]
+    },
+    "people_init": {
+        "type": "car",
+        "postion": [
+            0,
+            2,
+            0
+        ],
+        "hp": 5,
+        "armor": 20,
+        "atk": 2
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                8,
+                6,
+                1
+            ]
+        }
+    ],
+    "obj": [
+        {
+            "type": "stone",
+            "postion": [
+                8,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                0,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                8
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                5,
+                7
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                4,
+                4
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                0,
+                6
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                8
+            ]
+        }
+    ]
+}

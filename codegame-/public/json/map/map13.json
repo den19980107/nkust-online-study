@@ -1,0 +1,12 @@
+{"mapNumber":"game13",
+    "mapSize":"36",
+    "mapValue":"000000000000000000000000000000000000",
+    "level":"初階",
+    "winLinit":{"threeStar":[2],"twoStar":[3],"oneStar":[4]},
+    "people_init":{"type":"car","postion":[0,4,0]},
+    "end_init":[{"type":"endline","postion":[5,4,1]}],
+    "obj":[{"type":"tree","postion":[0,3]},{"type":"stone","postion":[1,3]},
+           {"type":"stone","postion":[1,1]},{"type":"stone","postion":[2,5]},
+           {"type":"stone","postion":[3,4]},{"type":"tree","postion":[2,3]},
+           {"type":"tree","postion":[3,2]},{"type":"boon","postion":[2,4]}]
+   }

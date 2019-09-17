@@ -1,0 +1,344 @@
+{
+    "mapNumber": "game22",
+    "mapSize": 81,
+    "mapValue": "000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "level": "初階",
+    "winLinit": {
+        "threeStar": [
+            19
+        ],
+        "twoStar": [
+            22
+        ],
+        "oneStar": [
+            23
+        ]
+    },
+    "people_init": {
+        "type": "car",
+        "postion": [
+            4,
+            8,
+            1
+        ]
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                0,
+                0,
+                0
+            ]
+        },
+        {
+            "type": "endline",
+            "postion": [
+                4,
+                0,
+                0
+            ]
+        },
+        {
+            "type": "endline",
+            "postion": [
+                8,
+                0,
+                0
+            ]
+        }
+    ],
+    "obj": [
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                8
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                8
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                8,
+                8
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                8,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                7,
+                2
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                6,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                0
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                0
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                3
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                4
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                3
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                4
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                6
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                6
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                6,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                4,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                6,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                3
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                5,
+                3
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                5,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                6
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                0,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                6
+            ]
+        },
+        {
+            "type": "boon",
+            "postion": [
+                4,
+                2
+            ]
+        },
+        {
+            "type": "boon",
+            "postion": [
+                8,
+                2
+            ]
+        },
+        {
+            "type": "boon",
+            "postion": [
+                0,
+                2
+            ]
+        },
+        {
+            "type": "questionMark",
+            "postion": [
+                4,
+                7,
+                null
+            ],
+            "chooseNum": [0,1,2]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                4,
+                6
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                5,
+                7
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                3,
+                7
+            ]
+        },{
+            "type": "lock2",
+            "unlock": "lock_output",
+            "postion": [
+                0,
+                7
+            ],
+            "ans": "5",
+            "response": "Hello"
+        }
+    ]
+}

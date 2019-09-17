@@ -1,0 +1,39 @@
+/* �T�P:4�Ӱʧ@�]�t4�Ӱʧ@�H��  
+   �G�P:5�Ӱʧ@�]�t5�Ӱʧ@�H��4�Ӱʧ@�H�W  
+   �@�P���������L������Y�i*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,j;
+int length;
+char str[SIZE];
+getString(str);
+length=strlen(str);
+for(i=0;i<length;i++){
+ if(str[i]>='0'&&str[i]<='9'){
+  for(j=0;j<str[i]-'0';j++){
+   moveForward();
+}
+}else if(str[i]=='L'){
+ turnLeft();
+}else if(str[i]=='R'){
+ turnRight();
+}else if(str[i]=='F'){
+ fire();
+}else if(str[i]=='C'){
+ becameCar();
+}else if(str[i]=='S'){
+ becameShip();
+}else if(str[i]=='T'){
+ becameTank();
+}
+}
+
+	return 0;
+ }
+
+

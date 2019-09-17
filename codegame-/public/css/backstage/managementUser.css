@@ -1,0 +1,352 @@
+/*main*/
+#bkImg{
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  background: #D6AE81;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/*提醒介面*/
+.oneLine{
+  height: 20vh;
+}
+.oneLine > #remindH2{
+  margin-top: 5vh;
+}
+.twoLine{
+  height: 25vh;
+}
+.twoLine > #remindH2{
+  line-height: 5vh;
+  margin-top: 3vh;
+}
+.twoLine > #remindTrueBtn{
+  bottom: 3.5vh;
+}
+#remindView{
+  z-index: 999;
+  width: 25vw;
+  border-style: solid;
+  border-color: white;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -15vh;
+  margin-left: -12.5vw;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  min-width: 300px;
+  overflow: auto;
+}
+#remindH2{
+  font-size: calc(20px + 1vw);
+}
+#remindTrueBtn{
+  height: 5vh;
+  width: 8vw;
+  font-size: calc(15px + 1vw);
+  line-height: 2.5vh;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  position: absolute;
+  right: calc(50% - 4vw);
+  bottom: 3vh;
+  cursor: pointer;
+}
+.bkView{
+  z-index: 996;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+
+#clossDiv{
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-color: rgb(0, 0, 0);
+  border-width: 0px;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  cursor: pointer;
+}
+#allTitle{
+  margin-top: 20px;
+}
+#userInnerDiv{
+  width: 80%;
+  height: 70%;
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  background-color: #FFF2CC;
+  border-style: solid;
+  border-color: #D6B656;
+  overflow: auto;
+}
+#userH3Div{
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
+.titleH1{
+  z-index: 3;
+  font-size: calc(15px + 3.5vh);
+  letter-spacing: 3px;
+  padding-top: calc(15px + 1vh);
+  font-family:Microsoft JhengHei;
+  font-weight: bold;
+}
+.centerLost font{
+  font-size: 6vh;
+  letter-spacing: 3px;
+  margin-top: 1vh;
+}
+#levelSelect{
+  height: 4vh;
+  width: 6vw;
+  font-size: calc(10px + 0.5vw);
+  background-color: white;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  position: absolute;
+  top: 3vh;
+  left: 6%;
+}
+.clear {
+  display: none;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: 4px 0 0 -22px;
+  background:url("../../img/close.png") no-repeat;outline: none;
+}
+/*搜尋*/
+.search-box{
+  height: 3vh;
+  position: absolute;
+  top: 2vh;
+  right: 2.5%;
+  background: #7A7A7A;
+  border-radius: 3vh;
+  padding: 10px;
+}
+.search-box:hover > .search-text,.search-box > .search-text:focus{
+  width: 8vw;
+  padding: 0 6px;
+  color: white;
+  box-shadow:-50px -50px 5px #7A7A7A inset;
+  margin-right: 0.5vw;
+}
+.search-box:hover > .search-btn{
+  color: #e84118;
+  background: white;
+}
+.search-btn{
+  height: 3vh;
+  width: 3vh;
+  color: white;
+  float: right;
+  border-radius: 50%;
+  background-color: #7A7A7A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+}
+.searchFocus{
+  width: 8vw;
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  box-shadow:-50px -50px 5px #7A7A7A inset;
+  font-size: 2vh;
+  transition: 0.4s;
+  line-height: 3vh;
+  margin-right: 0.5vw;
+}
+.search-text{
+  width: 0vw;
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  font-size: 2vh;
+  transition: 0.4s;
+  line-height: 3vh;
+}
+.search-text::placeholder{
+  color: white;
+}
+#selectType{
+  height: 3vh;
+  border: none;
+  background-color: #7A7A7A;
+  color: white;
+}
+
+#createrDiv{
+  width: 99.8%;
+  height: 81%;
+  background-color: #F5F5F5;
+  font-family: Microsoft JhengHei;
+  position: absolute;
+  top: 10%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  overflow: auto;
+}
+#createrDiv #lostCreateTable{
+  width: 100.01%;
+  height: 70px;
+  font-size: calc(10px + 90%);
+  line-height: 3vh;
+  color: white;
+  background-color: #4E4E4E;
+  border-style: solid;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-width: 2px;
+  border-color: #8F8F8F;
+}
+#createrDiv .td01{
+  width: 15%;
+  overflow: auto;
+  cursor: pointer;
+}
+#createrDiv .td02{
+  width: 15%;
+  cursor: pointer;
+}
+#createrDiv .td03{
+  width: 27%;
+  cursor: pointer;
+}
+#createrDiv .td04{
+  width: 9%;
+  overflow: auto;
+  cursor: pointer;
+}
+#createrDiv .td05{
+  width: 12%;
+  cursor: pointer;
+}
+#createrDiv .td06{
+  width: 10%;
+  cursor: pointer;
+}
+#createrDiv .td07{
+  width: 12%;
+  cursor: pointer;
+}
+.mapCheckbox{
+  width: 3vh;
+  height: 3vh;
+}
+#createrDiv textarea{
+  height: 4vh;
+  width: 100%;
+  text-align: center;
+  font-size: 3vh;
+  background-color: transparent;
+  border-color: transparent;
+  resize : none;
+  overflow: auto;
+}
+#createrDiv textarea:focus{
+  outline : 0;
+}
+#lostUserCreateDiv{
+  width: 100%;
+  height: 70px;
+}
+.lostUserCreateTable{
+  width:100.01%;
+  height: 70px;
+  font-size: calc(10px + 90%);
+  background-color: #F5F5F5;
+  border-style: solid;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-width: 2px;
+  border-color: #8F8F8F;
+  cursor: pointer;
+}
+.lostUserCreateTable input[type="text"]{
+  width: 100%;
+  font-size: calc(10px + 1vw);
+  text-align: center;
+  background-color: rgb(0,0,0,0);
+  border: 0;
+  position: relative;
+  overflow: auto;
+}
+.centerButton{
+  width: 20vh;
+  height: 6vh;
+  font-size: 25px;
+  border: 0;
+  cursor: pointer;
+}
+#changeStatus{
+  position: absolute;
+  right: 2.5%;
+  bottom: 1%;
+  background-image: url("../../img/blockade.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+}
+@media(max-aspect-ratio:17/10){
+  #levelSelect{
+    height: 4vh;
+    width: 6vw;
+    font-size: calc(10px + 0.5vw);
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    position: absolute;
+    top: 3vh;
+    left: 10%;
+  }
+  #createrDiv .td03{
+    width: 25%;
+    cursor: pointer;
+  }
+  #createrDiv .td04{
+    width: 9%;
+    overflow: auto;
+    cursor: pointer;
+  }
+  #createrDiv .td05{
+    width: 12%;
+    cursor: pointer;
+  }
+}

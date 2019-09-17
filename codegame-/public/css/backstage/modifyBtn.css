@@ -1,0 +1,125 @@
+/*裝備*/
+#modifyEquipageView{
+  height: 2vw;
+  width: 2vw;
+  background-image: url("../../img/modify.png");
+  background-size: 100% 100%;
+  background-color: rgba(255, 255, 255, 0);
+  border-width: 0px;
+  cursor: pointer;
+  position: absolute;
+  top: calc(5px + 0.5vh);
+  transform: translateX(3vw);
+}
+#gameModifyBtn{
+  height: 2.5vw;
+  width: 2.5vw;
+  background-image: url("../../img/modify.png");
+  background-size: 100% 100%;
+  background-color: rgba(255, 255, 255, 0);
+  border-width: 0px;
+  cursor: pointer;
+  position: absolute;
+  top: calc(15px + 1vh);
+  transform: translateX(5.5vw);
+}
+.modifyEquipmentInput{
+  background: none;
+  text-align: center;
+  border: 0;
+}
+#equipageTable input{
+  width: 25%;
+  font-size: 2vh;
+}
+#equipageTable td{
+  width: 20%;
+  font-size: 2vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+.saveBtn{
+  height: 5.5vh;
+  width: 3.5vw;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  right: 0.5vw;
+  bottom: 2%;
+  cursor: pointer;
+}
+.resetBtn{
+  height: 5.5vh;
+  width: 3.5vw;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  right: 4.5vw;
+  bottom: 2%;
+  cursor: pointer;
+}
+
+/*指令大全*/
+#modifyInstructionView{
+  height: 2vw;
+  width: 2vw;
+  background-image: url("../../img/modify.png");
+  background-size: 100% 100%;
+  background-color: rgba(255, 255, 255, 0);
+  border-width: 0px;
+  cursor: pointer;
+  transform: translate(150%,-90%);
+}
+.itemTextarea{
+  width: 80%;
+  height: calc(50px + 5vh);
+  resize: none;
+  background: none;
+  border:none;
+  outline: none;
+  margin-top: 1.5vh;
+  font-family: Microsoft JhengHei;
+  font-size: calc(5px + 1vw);
+  line-height: calc(5px + 2vh);
+  margin-left: 5%;
+}
+.saveBtnToIt{
+  height: 4vh;
+  width: 2.5vw;
+  font-size: 1vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  right: 0.1vw;
+  margin-top: 10%;
+  cursor: pointer;
+}
+.resetBtnToIt{
+  height: 4vh;
+  width: 2.5vw;
+  font-size: 1vw;
+  font-family: Microsoft JhengHei;
+  background-color: rgba(0, 0, 0, 0);
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 15px;
+  position: absolute;
+  right: 3vw;
+  margin-top: 10%;
+  cursor: pointer;
+}

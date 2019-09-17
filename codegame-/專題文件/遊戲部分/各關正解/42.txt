@@ -1,0 +1,50 @@
+/* �T�P:4�Ӱʧ@�]�t4�Ӱʧ@�H��  
+   �G�P:5�Ӱʧ@�]�t5�Ӱʧ@�H��4�Ӱʧ@�H�W  
+   �@�P���������L������Y�i*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,j,tmp;
+int size=10;
+int key[10];
+int length;
+char str[SIZE];
+getKeyArray(key,size);
+getString(str);
+length=strlen(str);
+for(i=0;i<size-1;i++){
+ for(j=0;j<size-1-i;j++){
+    if(key[j]>key[j+1]){
+    tmp=key[j];
+    key[j]=key[j+1];
+    key[j+1]=tmp;
+}
+}
+}
+for(i=0;i<length;i++){
+ if(str[i]>='0'&&str[i]<='9'){
+  for(j=0;j<str[i]-'0';j++){
+   moveForward();
+}
+}else if(str[i]=='L'){
+ turnLeft();
+}else if(str[i]=='R'){
+ turnRight();
+}else if(str[i]=='F'){
+ fire();
+}else if(str[i]=='A'){
+ for(j=0;j<size;j++){
+  printf("%d ",key[j]);
+}
+}
+}
+
+
+	return 0;
+ }
+
+

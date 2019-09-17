@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/oblivion/oblivionUser.css">
+  <link rel="stylesheet" href="css/share/share.css">
+  <link rel="stylesheet" href="css/share/main.css">
+  <link rel="stylesheet" href="css/share/left.css">
+  <link rel="stylesheet" href="css/share/right.css">
+  <link rel="stylesheet" href="css/share/mainFontFamily.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="js/share.js"></script>
+  <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+  <title>全速衝線</title>
+</head>
+
+<body>
+  <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio>
+  <div class="wrap">
+    <div class="main">
+      <div class="box sidebarLeft">
+        <!--left-->
+        <img src="img/MARK.png" class="leftMark">
+        <input type="button" title="小幫手" id="helperBtn" value="" onclick="helper('centerLost')">
+      </div>
+      <div class="box centerLost" id="centerLost">
+        <img class="bottomColor" alt="">
+        <h1 class="titleH1">我的自訂地圖</h1>
+        <input type="button" title="返回鍵" value="" id="goBack3" onclick="back()">
+        <div id="createrDiv">
+          <table id="lostCreateTable" border=5 RULES=ALL>
+            <tr>
+              <td class="td01">上架</td>
+              <td class="td02">檢測</td>
+              <td class="td03">地圖名稱</td>
+              <td class="td04">遊玩條件</td>
+              <td class="td05">評分/總人數</td>
+              <td class="td06">修改日期</td>
+              <td class="td07">上架日期</td>
+              <td class="td08">工具列</td>
+            </tr>
+          </table>
+        </div>
+        <input type="button" class="centerButton" id="createLevel" value="" onclick="location.href='oblivionCreater';">
+        <input type="button" class="centerButton" id="detectionLevel" value="" onclick="enterLevel()">
+        <input type="button" class="settingAllButton" value="" onclick="settingAllView(centerLost)">
+      </div>
+      <div class="box sidebarRight">
+        <!--right-->
+        <h1 class="userName" id="userName"></h1>
+        <div class="userStar">
+          <img src="img/star.png" class="imgIcon">
+          <font class="starNumber" id="starNumber"></font>
+        </div>
+        <button class="btnUser" title="個人資料" onclick="userData()"></button>
+        <button class="btnLogout" title="登出" onclick="logout()"></button>
+      </div>
+    </div>
+    <div class="footer"></div>
+  </div>
+  <script src="js/oblivion/oblivionUser.js"></script>
+  <script src="js/closeEvent.js"></script>
+</body>
+
+</html>
