@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const axios = require('axios');
 //todo 做刪除單元
 let ObjectID = require('mongodb').ObjectID;
 //bring in Article models
@@ -54,7 +55,6 @@ router.post('/register', function (req, res) {
     req.checkBody('username', '帳號不得為空').notEmpty();
     req.checkBody('password', '密碼不得為空').notEmpty();
     req.checkBody('password2', '密碼不相符合').equals(req.body.password);
-
     User.find({
         username: req.body.username
     }, function (err, users) {
@@ -116,25 +116,41 @@ router.post('/register', function (req, res) {
                     studentid: studentid,
                     permission: permission
                 });
-                bcrypt.genSalt(10, function (err, salt) {
-                    bcrypt.hash(newUser.password, salt, function (err, hash) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        newUser.password = hash;
-                        newUser.save(function (err) {
-                            if (err) {
-                                console.log(err);
-                                return;
-                            } else {
-                                req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
-                                res.redirect('/users/login'); //?
-                            }
+                
+                axios.post('http://localhost:3001/register', newUser)
+                .then(function (response) {
+                    console.log(response);
+                    if(response.status == 200){
+                        bcrypt.genSalt(10, function (err, salt) {
+                            bcrypt.hash(newUser.password, salt, function (err, hash) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                newUser.password = hash;
+                                newUser.save(function (err) {
+                                    if (err) {
+                                        console.log(err);
+                                        return;
+                                    } else {
+                                        req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
+                                        res.redirect('/users/login'); //?
+                                    }
+                                });
+                            });
+                        })
+                    }else{
+                        res.render('register', {
+                            user: false,
+                            errors: [{
+                                msg: "已有人使用過此帳號"
+                            }]
                         });
-                    });
+                    }
                 })
-
-
+                .catch(function (error) {
+                    console.log(error);
+                });
+                
                 // newUser.save(function (err) {
                 //     if (err) {
                 //         console.log(err);
