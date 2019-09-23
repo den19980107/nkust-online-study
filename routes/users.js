@@ -21,6 +21,14 @@ let Video = require('../model/video');
 let StudebtTakeCourse = require('../model/StudentTakeCourse');
 //bring note model
 let Note = require('../model/note');
+
+
+//full line speed api
+let API = require("../config/api");
+
+
+
+
 // Register Form
 router.get('/register', function (req, res) {
     res.render('register');
@@ -117,9 +125,9 @@ router.post('/register', function (req, res) {
                     permission: permission
                 });
                 
-                axios.post('http://localhost:3001/register', newUser)
+                axios.post(`${API.FullLineSpeedBaseUrl}/register`, newUser)
                 .then(function (response) {
-                    console.log(response);
+                    console.log("is success");
                     if(response.status == 200){
                         bcrypt.genSalt(10, function (err, salt) {
                             bcrypt.hash(newUser.password, salt, function (err, hash) {
