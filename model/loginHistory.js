@@ -15,7 +15,7 @@ let loginHistorySchema = mongoose.Schema({
         type:Date,
         require:true,
         default:getUTCDate()
-    }
+    },
     action: {
         type: String,
         require: true
