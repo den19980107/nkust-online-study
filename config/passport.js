@@ -1,6 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../model/user');
 const config = require('../config/database');
+const LoginHistory = require("../model/loginHistory");
+const ActionType = require("../config/actionType");
 const bcrypt = require('bcryptjs');
 
 module.exports = function (passport) {
@@ -22,6 +24,17 @@ module.exports = function (passport) {
             bcrypt.compare(password, user.password, function (err, isMatch) {
                 if (err) throw err;
                 if (isMatch) {
+                    const log = new LoginHistory({
+                        userId:user._id,
+                        action:ActionType.Login,
+                        page:"/users/login"
+                    });
+                    log.save(function(err){
+                        if(err){
+                            console.log("save err")
+                        }
+                    })
+                    
                     return done(null, user);
                 } else {
                     return done(null, false, {

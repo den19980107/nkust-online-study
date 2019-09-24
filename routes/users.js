@@ -21,7 +21,10 @@ let Video = require('../model/video');
 let StudebtTakeCourse = require('../model/StudentTakeCourse');
 //bring note model
 let Note = require('../model/note');
-
+//login history model
+let LoginHistory = require('../model/loginHistory');
+//action type 
+let ActionType = require('../config/actionType');
 
 //full line speed api
 let API = require("../config/api");
@@ -327,6 +330,17 @@ router.get('/userinfo', ensureAuthenticated, function (req, res) {
 
 //Logout
 router.get('/logout', function (req, res) {
+    const log = new LoginHistory({
+        userId:req.user._id,
+        action:ActionType.Logout,
+        page:req.url
+    });
+
+    log.save(function(err){
+        if(err){
+            console.log(err)
+        }
+    })
     req.logout();
     req.flash('success', '您已登出！');
     res.redirect('/users/login');
