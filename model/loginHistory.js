@@ -7,9 +7,9 @@ let loginHistorySchema = mongoose.Schema({
         require: true
     },
     date: {
-        type: Date,
+        type: String,
         require: true,
-        default:getUTCDate()
+        default:getLocalDate()
     },
     action: {
         type: String,
@@ -20,18 +20,8 @@ let loginHistorySchema = mongoose.Schema({
         require: true
     }
 });
-function getUTCDate(){
-    var d = new Date();
-    const offset = 8
-    // convert to msec
-    // add local time zone offset
-    // get UTC time in msec
-    var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-
-    // create new Date object for different city
-    // using supplied offset
-    var nd = new Date(utc + (3600000*offset));
-    console.log(nd)
-    return nd;
+function getLocalDate (){
+    let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+    return new Date(localTime)
 }
 let LoginHistory = module.exports = mongoose.model('LoginHistory', loginHistorySchema, 'loginHistory');
