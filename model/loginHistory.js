@@ -9,11 +9,6 @@ let loginHistorySchema = mongoose.Schema({
     date: {
         type: String,
         require: true,
-        default:getLocalDate()
-    },
-    UTCDate:{
-        type: Date,
-        require: true,
         default:getUTCDate()
     },
     action: {
@@ -25,16 +20,6 @@ let loginHistorySchema = mongoose.Schema({
         require: true
     }
 });
-function getLocalDate (){
-    let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
-    let date = localTime.split(", ")[0];
-    let time = localTime.split(", ")[1];
-    let year = date.split("/")[2];
-    let month = date.split("/")[0];
-    let day = date.split("/")[1];
-    return `${year}/${month}/${day} ${time}`
-}
-
 function getUTCDate(){
     var d = new Date();
     const offset = 8
