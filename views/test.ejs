@@ -19,7 +19,51 @@
         width: 100%;
         height: auto;
     }
+
+    .lds-facebook {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    transform: translate(-50%, 50%);
+    display: none;
+    }
+    .lds-facebook div {
+    display: inline-block;
+    position: absolute;
+    left: 6px;
+    width: 13px;
+    background: #000;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    }
+    .lds-facebook div:nth-child(1) {
+    left: 6px;
+    animation-delay: -0.24s;
+    }
+    .lds-facebook div:nth-child(2) {
+    left: 26px;
+    animation-delay: -0.12s;
+    }
+    .lds-facebook div:nth-child(3) {
+    left: 45px;
+    animation-delay: 0;
+    }
+    @keyframes lds-facebook {
+    0% {
+    top: 6px;
+    height: 51px;
+    }
+    50%, 100% {
+    top: 19px;
+    height: 26px;
+    }
+    }
+
 </style>
+<div class="lds-facebook" id ="loader"><div></div><div></div><div></div></div>
 <%if(isSubmited){%>
 <h4>測驗名稱:
     <%=test.testName%>(已提交過此測驗)
@@ -382,6 +426,7 @@
     let pgqNumber = 0;
     let isHavePGQ = false;
     function SubmitTest(){
+        document.getElementById("loader").style.display = "inline-block";
         console.log("isBecauseNotFocusAtTestPageSoLeftFullScreen = "+isBecauseNotFocusAtTestPageSoLeftFullScreen);
         console.log("isBecauseSubmitSoLeftFullScreen = "+isBecauseSubmitSoLeftFullScreen)
         let qutions = <%- JSON.stringify(test) %>
@@ -487,10 +532,8 @@
                     if(obj.body.output == qution.outputTest){
                         isCorrect = true
                         qution.isCorrect = isCorrect
-                        //answermodifyend(qutions)
                     }else{
                         qution.isCorrect = isCorrect
-                        //answermodifyend(qutions)
                     }
                     if(pgqNumber == 0 ){
                       answermodifyend(qutions)
@@ -512,32 +555,39 @@
         });
     };
 
+    //判斷下面的answermodifyend事不是第一次被呼叫
+    let canSendTestResult = true;
     let answermodifyend = function(qutions){
-        let obtainscore = 0
-        //console.log(qutions);
-        for(let i=0;i < qutions.testQutions.length;i++){
-            if(qutions.testQutions[i].isCorrect == true){
-                obtainscore += Number(qutions.testQutions[i].score);
+        if(canSendTestResult){
+            canSendTestResult = false;
+
+            let obtainscore = 0
+            //console.log(qutions);
+            for(let i=0;i < qutions.testQutions.length;i++){
+                if(qutions.testQutions[i].isCorrect == true){
+                    obtainscore += Number(qutions.testQutions[i].score);
+                }
             }
+            //console.log(obtainscore);
+            qutions.obtainscore = obtainscore
+            console.log(qutions);
+            $.ajax({
+                url: '/SDC/submitTest',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(qutions),
+                dataType: 'json',
+                error: function (xhr) {
+                    alert('發生錯誤');
+                },
+                success: function (response) {
+                    document.getElementById("loader").style.display = "none";
+                    alert('填寫測驗成功');
+                    location.replace("/class/newClassManager/<%=classinfo._id%>")
+                    //window.location = "/class/newClassManager/<%=classinfo._id%>"
+                }
+            })
         }
-        //console.log(obtainscore);
-        qutions.obtainscore = obtainscore
-        //console.log(qutions);
-        $.ajax({
-            url: '/SDC/submitTest',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(qutions),
-            dataType: 'json',
-            error: function (xhr) {
-                alert('發生錯誤');
-            },
-            success: function (response) {
-                alert('填寫測驗成功');
-                location.replace("/class/newClassManager/<%=classinfo._id%>")
-                //window.location = "/class/newClassManager/<%=classinfo._id%>"
-            }
-        })
     }
     let Test = <%- JSON.stringify(test) %>;
     let user = <%- JSON.stringify(user) %>;
@@ -635,11 +685,13 @@
             //定時檢測是否有在考試頁面上
             if("<%=isSubmited%>" == "false"){
                 let checkIsFocus = setInterval(function(){
-                    if(document.hasFocus() != true){
-                        clearInterval(checkIsFocus);
-                        SubmitTest();
-                        isBecauseNotFocusAtTestPageSoLeftFullScreen = true
-                        alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+                    if(canSendTestResult){
+                        if(document.hasFocus() != true){
+                            clearInterval(checkIsFocus);
+                            SubmitTest();
+                            isBecauseNotFocusAtTestPageSoLeftFullScreen = true
+                            alert("由於你離開了全螢幕模式,有作弊的嫌疑,所以你的考卷將直接被提交！");
+                        }
                     }
                 },500)
             }
@@ -801,7 +853,7 @@
         if (theEvent != null) {
                 event = theEvent;
         }
-        if (event.keyCode >= 112 && event.keyCode <= 123 || event.keyCode == 8) {
+        if (event.keyCode >= 112 && event.keyCode <= 123) {
             try {
                 // Firefox 會丟 Exception，所以用 try-cache 擋住
                 event.keyCode = 0; 
