@@ -129,17 +129,74 @@ function heredoc(fn) {
     return fn.toString().split('\n').slice(1, -1).join('\n') + '\n'
 }
 let clientIdandSecret = [{
-    clientId:"6bae7e59775c3636b4bf78cdaed7c898",
-    clientSecret:"88c23aa459149f14b0bf2b1ee57b834e727f8fd612848c2290a755b83145cde2"
+    clientId: "6bae7e59775c3636b4bf78cdaed7c898",
+    clientSecret: "88c23aa459149f14b0bf2b1ee57b834e727f8fd612848c2290a755b83145cde2"
 },
 {
-    clientId:"e66752ae88e8398116a9db0fabca477a",
-    clientSecret:"aa1d0ee049e376efcce7f8ecc7b9de6a4a27a20b21e9d4d935c61200b73e369"
+    clientId: "e66752ae88e8398116a9db0fabca477a",
+    clientSecret: "aa1d0ee049e376efcce7f8ecc7b9de6a4a27a20b21e9d4d935c61200b73e369"
 },
 {
-    clientId:"19dea378b4d9d32cf26fa7874fd341fa",
-    clientSecret:"7ccba1aed6624fac8ad8ceffde8163c6b0f32aa867f75551dc6e885dd32bc9bf"
-}
+    clientId: "19dea378b4d9d32cf26fa7874fd341fa",
+    clientSecret: "7ccba1aed6624fac8ad8ceffde8163c6b0f32aa867f75551dc6e885dd32bc9bf"
+},
+{
+    clientId: "86114495714bafbab3940b911f2b2430",
+    clientSecret: "4bba8244592196944b848865233437c6fd017d798ed7febc42ec2f3d4cfab3aa"
+},
+{
+    clientId: "bcaa4f910abd2163aeea19e6af139c97",
+    clientSecret: "40ae2377986d16495b5392bc9e470eb08d31f8fd42d7fe92b666dbd836a936a5"
+},
+{
+    clientId: "b422f021917fd4123450ec85f3f128c5",
+    clientSecret: "dc6435955202ae72b80dfae2fff9044c7ab3c2890bc5bfbb246a5eafd3017eef"
+},
+{
+    clientId: "a93d50f12ef2bfd953696a982eaa07c7",
+    clientSecret: "da93ea10831281027fb255bbd03d96b77f6f39266bcb400dac417fd4724edc31"
+},
+// fdm的
+{
+    clientId: "99c2672f5dce9ee9171173169c6c5fb9",
+    clientSecret: "a7d1e2ea03bd4e32cd1284c17f51b94ff71c1473b38b98b53aab81138a902ea7"
+},
+//der的
+{
+    clientId: "264e6ff43435e0f0ff02a5a0ca3d5fdd",
+    clientSecret: "e7fa5fe51f02c6bee8b6bd322fb2da9ca11f45d5ab9e784b804f4a200d37dcb9"
+},
+//全速衝線的
+{
+    clientId: "e14f2665b86ef91de9427aab4a4b4af4",
+    clientSecret: "107e5014ae6aa0266fa197274299513146e1688e7c19035a1dc61497b2d5141e"
+},
+//勁豪的
+{
+    clientId: "89a97a9b4cca969f591bcf2c53e18ce5",
+    clientSecret: "17744fd2cc7fbe37b70317d41844688a415bf0a08317535f22d7541feb1fb8ad"
+},
+//俊成的
+{
+    clientId: "e4d78f63a8cb4519300e855de8ff908c",
+    clientSecret: "40e7690cd58cdfdd5252d7687b816c58c5f5a8f63948a34f0624f170f375cf97"
+},
+{
+    clientId: "7396cf893d492bde69303506411ff238",
+    clientSecret: "5f567b1102df0329c0333e3c29ca8df1231fead27ae8be5f225cd0b0127549ba"
+},
+{
+    clientId: "4afe1a62e03936b375fcba723f89861f",
+    clientSecret: "ba06a43d80b4a11d1541e3b6af11c7927f3de7ef409d062ed7a9fdc1959fdb69"
+},
+{
+    clientId: "f2e831474c72f650e310b6d440fedadd",
+    clientSecret: "f08441ab68fb62f3e4541e2d9548dea2b9558c281c3591eb5d6601d04e5d5db0"
+},
+{
+    clientId: "af80fb1ac4ca88d689e09726c5f92a98",
+    clientSecret: "3266b028edb3183330d5f7f5f076ad478a5dde8bca633c6f8e76d19c0c268e4c"
+},
 ]
 let indexOfAPIkey = Math.floor(Math.random()*clientIdandSecret.length)
 var sendScriptToApi = function (script, input, language, socket) {
