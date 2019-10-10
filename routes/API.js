@@ -52,6 +52,45 @@ router.get('/getClasses',function(req,res){
     })
 })
 
+//拿到課程內的單元
+router.get("/getUnit/:classId",function(req,res){
+    Unit.find({belongClass:req.params.classId},function(err,Units){
+        if(err){
+            res.send('{"error" : "要求失敗", "status" : 500}')
+        }else{
+            res.json(Units)
+        }
+    })
+})
+
+//拿到單元內影片 給ios開發用的
+router.get('/getVideo/:unitID', function (req, res) {
+    Video.find({
+        belongUnit: req.params.unitID
+    }, function (err, videos) {
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        } else {
+            //console.log(videos);
+
+            studentCommentVideo.find({}, function (err, comments) {
+                if (err) {
+                    res.send('{"error" : "要求失敗", "status" : 500}');
+                } else {
+                    Videobehavior.find({}, function (err, behaviors) {
+                        if (err) {
+                            res.send('{"error" : "要求失敗", "status" : 500}');
+                        } else {
+                            processArray(videos, comments, behaviors).then(function (videoinfo) {
+                                res.json(videoinfo)
+                            });
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
 
 //拿到單元內影片
 router.get('/getVideoInUnit/:unitID', function (req, res) {
@@ -249,6 +288,19 @@ router.post('/deleteVideo/:videoID',function(req,res){
     })
 })
 
+//send講義資訊 for ios app
+router.get('/getChapter/:UnitID', function (req, res) {
+    Chapter.find({
+        belongUnit: req.params.UnitID
+    }, function (err, chapters) {
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        } else {
+            res.json(chapters)
+        }
+    })
+})
+
 //send講義資訊
 router.get('/getChapterInUnit/:chapterID', function (req, res) {
     Chapter.find({
@@ -336,6 +388,19 @@ router.post('/deleteTest/:testID',function(req,res){
             res.send('{"error" : "刪除失敗", "status" : 500}');
         }else{
             res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
+//send測驗資訊 for ios app
+router.get('/getTest/:chapterID', function (req, res) {
+    Test.find({
+        belongUnit: req.params.chapterID
+    }, function (err, tests) {
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}');
+        } else {
+            res.json(tests)
         }
     })
 })
