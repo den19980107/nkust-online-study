@@ -542,22 +542,19 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                         studentName:""
                     }
                 }
-                let date = new Date().toLocaleString().split(" ")[0];
-                let year = date.split("-")[0];
-                let month = date.split("-")[1];
-                let day = date.split("-")[2];
-                let time = new Date().toLocaleString().split(" ")[1];
-                let hr = time.split(":")[0];
-                let mm = time.split(":")[1];
-                let ss = time.split(":")[2].split(".")[0];
-                let nowTime = new Date(Date.UTC(year,month-1,day,hr,mm,ss));
-                //console.log("nowTime = ",nowTime);
+
+
+                let nowTime = new Date();
+                console.log("nowTime = ",nowTime);
 
                 let studentIDs = []
                 for(let i = 0;i<studentRFM.length;i++){
+                    console.log(nowTime)
+                    console.log(studentBehavior[i].lastwatchTime)
+                    console.log((nowTime - studentBehavior[i].lastwatchTime)/3600000)
                     studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600000;
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
-                    console.log("觀看者:"+studentBehavior[i].watcherID);
+                    console.log("觀看者:"+studentBehavior[i].studentID);
                     console.log("過濾後的觀看行為記錄次數 = ",studentRFM[i].F );
 
                     let videoTimeLine = []
@@ -595,7 +592,7 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     }
                     for(let q = 0;q<focusPoint.length;q++){ //重點完成率迴圈
                         for(let p = parseInt(focusPoint[q].start);p<=parseInt(focusPoint[q].stop);p++){
-                            if(videoTimeLine[p]!=0){
+                            if(videoTimeLine[p]!=0 && videoTimeLine[p]!= undefined){
                                 focusPointCompleteTimes+=videoTimeLine[p];
                             }
                         }

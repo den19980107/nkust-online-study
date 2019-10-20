@@ -42,6 +42,7 @@ io.on('connection', function (socket) {
     let isStart = false;
     let videobehavior = new Videobehavior();
     socket.on('videoAction', function (obj) {
+        console.log(obj)
         if (obj.type == "open") {
             isStart = true;
             videobehavior.videoActions.push("0:0:0");
