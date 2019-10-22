@@ -19,7 +19,8 @@ let StudentTakeCourse = require('../model/StudentTakeCourse');
 let ObjectID = require('mongodb').ObjectID;
 //bring EBookData model
 let EBookData = require('../model/EBookData');
-
+//bring School model
+let School = require('../model/school');
 //進入後台
 router.get('/', ensureAuthenticated, function (req, res) {
     if (req.user.permission != "admin") {
@@ -407,6 +408,31 @@ router.post('/EBookDataload', function (req, res) {
         res.send('200');
     });
 });
+
+
+//儲存學校資料
+router.post('/saveSchoolData',function(req,res){
+    let data = req.body;
+    let school = new School()
+    school.schoolName = data.schoolName
+    school.collegeName = data.collegeName
+    school.departmentName = data.departmentName
+    school.departmentCode = data.departmentCode
+    school.phone = data.phone
+    school.phoneExtension = data.phoneExtension
+    school.fax = data.fax
+    school.email = data.email
+    school.url = data.url
+    console.log(school)
+
+    school.save(function(err){
+        if(err){
+            console.log(err)
+        }
+        res.send('200');
+    });
+
+})
 
 //Access Control
 function ensureAuthenticated(req, res, next) {
