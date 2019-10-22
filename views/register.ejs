@@ -43,11 +43,13 @@
         <div id="hide" style="display: none">
             <div class="form-group">
                 <label>學校名稱:</label>
-                <input type="text" class="form-control" name="schoolname">
+                <select  class="form-control" onchange="fetchDepartmentData()" name="schoolname" id = "schoolname">
+                </select>
             </div>
             <div class="form-group">
                 <label>科系:</label>
-                <input type="text" class="form-control" name="department">
+                <select  class="form-control" name="department" id = "department">
+                </select>
             </div>
             <div class="form-group">
                 <label>學號:</label>
@@ -93,6 +95,42 @@
         teacherCheckbox.checked = false;
         studentCheckbox.checked = false;
         submit.disabled = true;
+
+        //get 學校資料
+        let schoolnameSelector = document.getElementById('schoolname');
+        fetch('http://localhost:3000/api/getSchools')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            let schools = data.schoolArray;
+            schoolnameSelector.innerHTML = ""
+            schools.forEach(schoolName => {
+                schoolnameSelector.innerHTML += `
+                <option value="${schoolName}">${schoolName}</option>
+                `
+            });
+            fetchDepartmentData();
+        });
+    }
+
+    function fetchDepartmentData(){
+        let schoolName = document.getElementById('schoolname').value
+        let departmentSelector = document.getElementById('department');
+        //get 學校系所
+        fetch('http://localhost:3000/api/getDepartments/'+schoolName)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            let departments = data.departments;
+            departmentSelector.innerHTML = "";
+            departments.forEach(departmentName => {
+                departmentSelector.innerHTML += `
+                <option value="${departmentName}">${departmentName}</option>
+                `
+            });
+        });
     }
 </script>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'></script>

@@ -42,7 +42,53 @@ let RFM = require('../model/RFM')
 let studentWatchChapter = require('../model/studentWatchChapter');
 //bring coding qution modal
 let CodingQution = require("../model/codeQution");
+//bring School model
+let School = require('../model/school');
 
+//拿到所有學校
+router.get('/getSchools',function(req,res){
+    let schoolArray = [];
+    School.find({},function(err,schools){
+        if(err){
+            console.log(err)
+        }else{
+            schools.forEach(school => {
+                if(!schoolArray.includes(school.schoolName)){
+                    schoolArray.push(school.schoolName)
+                }
+            });
+
+            let responseData = {
+                schoolArray:schoolArray
+            }
+
+            res.json(responseData)
+        }
+    })
+});
+
+//用學校名稱搜尋科系
+router.get('/getDepartments/:schoolName',function(req,res){
+    let schoolName = req.params.schoolName;
+    School.find({
+        schoolName:schoolName
+    },function(err,schools){
+        if(err){
+            console.log(err)
+        }else{
+            let departments = []
+            schools.forEach(school => {
+                departments.push(school.departmentName)
+            }) 
+
+            let response = {
+                departments:departments
+            }
+
+            res.json(response)
+        }
+    })
+})
 
 //拿到所有課程
 router.get('/getClasses',function(req,res){
