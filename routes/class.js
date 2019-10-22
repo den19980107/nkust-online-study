@@ -449,7 +449,7 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
       }, function (error2, units) {
         classEBook.find({ classId: req.params.id, belongUnit: units }, function (err1, classEBooks) {
           if (err1) {
-            console.log(err1);
+            //console.log(err1);
           }
           StudebtTakeCourse.find({
             classID: req.params.id
