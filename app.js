@@ -103,6 +103,7 @@ io.on('connection', function (socket) {
                     if (err) {
                         console.log(err);
                     }
+                    console.log("save videobehavior success")
                     console.log(videobehavior);
                 });
             }
