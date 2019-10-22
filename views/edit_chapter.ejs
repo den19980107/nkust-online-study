@@ -97,7 +97,10 @@
             instanceReady: function (evt) {
             }
         },
-        removePlugins: 'resize'
+        removePlugins: 'resize',
+        filebrowserUploadUrl: '/uploader',
+        //記得加下面那行  filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form'
     });
     CKEDITOR.instances.Detail.setData(text);
 
