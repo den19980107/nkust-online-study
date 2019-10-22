@@ -98,7 +98,7 @@
 
         //get 學校資料
         let schoolnameSelector = document.getElementById('schoolname');
-        fetch('http://localhost:3000/api/getSchools')
+        fetch('/api/getSchools')
         .then(function(response) {
             return response.json();
         })
@@ -118,7 +118,7 @@
         let schoolName = document.getElementById('schoolname').value
         let departmentSelector = document.getElementById('department');
         //get 學校系所
-        fetch('http://localhost:3000/api/getDepartments/'+schoolName)
+        fetch('/api/getDepartments/'+schoolName)
         .then(function(response) {
             return response.json();
         })
