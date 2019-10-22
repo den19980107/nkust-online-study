@@ -69,14 +69,17 @@
                         <tr>
                             <th scope="col" style="width: 3%;"></th>
                             <th scope="col">#</th>
-                            <th scope="col" style="width: 63%;">題目</th>
+                            <th scope="col" style="width: 53%;">題目</th>
                             <th scope="col">正確率</th>
                             <th scope="col">難易度</th>
+                            <%if(user.permission == "admin"){%>
+                                <th scope="col"></th>
+                            <%}%>
                         </tr>
                     </thead>
                     <tbody>
                         <%for(let i = 0;i<qutions.length;i++){%>
-                        <tr>
+                        <tr id ="qutionRow<%=qutions[i]._id%>">
                             <th scope="row">
                                 <%if(qutions[i].isWritten == "Right"){%>
                                 <i class="fas fa-check" style="color: rgb(82, 164, 81)"></i>
@@ -115,6 +118,11 @@
                                 <%}%>
                                 <%}%>
                             </td>
+                            <%if(user.permission == "admin"){%>
+                                <td>
+                                    <button class="bg-danger text-white" style="border-radius: 5px;" onclick="deleteCodingQution(`<%=qutions[i]._id%>`)">刪除</button>
+                                </td>
+                            <%}%>
                         </tr>
                         <%}%>
 
@@ -243,6 +251,25 @@
             </div>
         </div>
         `
+    }
+
+    function deleteCodingQution(qutionId){
+        if(confirm("確定要刪除嗎？")){
+            $.ajax({
+                type: 'POST',
+                url: '/api/deletCodingQution/'+ qutionId,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    let qutionRow = document.getElementById("qutionRow"+qutionId);
+                    qutionRow.style.cssText = "display:none"
+                    alert("刪除成功！")
+                },
+                error: function (err) {
+                    alert("刪除失敗！")
+                }
+            });
+        }
     }
 </script>
 

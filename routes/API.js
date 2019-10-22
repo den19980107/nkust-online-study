@@ -40,6 +40,9 @@ let classEBook = require('../model/classEBook')
 let RFM = require('../model/RFM')
 //bring studentWatchChapter modal
 let studentWatchChapter = require('../model/studentWatchChapter');
+//bring coding qution modal
+let CodingQution = require("../model/codeQution");
+
 
 //拿到所有課程
 router.get('/getClasses',function(req,res){
@@ -739,6 +742,19 @@ router.post('/sendEmail',function(req,res){
         });
     }
 })
+
+//delete 程式題
+router.post('/deletCodingQution/:qutionID',function(req,res){
+    CodingQution.remove({_id:req.params.qutionID},function(err){
+        if(err){
+            console.log(err);
+            res.send('{"error" : "刪除失敗", "status" : 500}');
+        }else{
+            res.send('{"success" : "儲存成功"}');
+        }
+    })
+})
+
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
