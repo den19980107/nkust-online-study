@@ -101,7 +101,7 @@ io.on('connection', function (socket) {
                 videobehavior.videoActions.push("totalWatchTime:" + obj.totalTime + ":" + obj.totalTime);
                 videobehavior.save(function (err) {
                     if (err) {
-                        console.log(err);
+                        console.log("save videobehavior err:"+err);
                     }
                     console.log("save videobehavior success")
                     console.log(videobehavior);
