@@ -593,7 +593,7 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                 }
 
 
-                let nowTime = new Date();
+                let nowTime = Date.now();
                 console.log("nowTime = ",nowTime);
 
                 let studentIDs = []
