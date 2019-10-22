@@ -1022,7 +1022,9 @@
         }
     }
     window.onunload = function () {
+        console.log("on unlaod")
         if(user.permission == "student"){
+            console.log("is emit")
             socket.emit('videoAction', {
                 type: 'close',
                 time: Math.floor(slider.value),
