@@ -593,8 +593,31 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                 }
 
 
-                let nowTime = Date.now();
-                console.log("nowTime = ",nowTime);
+                let date = new Date().toLocaleString().split(" ")[0].replace(",","");	
+
+                //根據不同電腦 new Date().toLocaleString() 出來會有可能有 10/22/2019 or 2019-10-22 所以要調整一下
+                let seporator;
+                let year;
+                let month;               
+                let day;
+                if(date.includes("-")){
+                    year = date.split("-")[0];	
+                    month = date.split("-")[1];	                
+                    day = date.split("-")[2];
+                }else if(date.includes("/")){
+                    year = date.split("/")[2];	
+                    month = date.split("/")[0];	                
+                    day = date.split("/")[1];
+                }
+            	                
+                let time = new Date().toLocaleString().split(" ")[1];	
+                let hr = time.split(":")[0];	
+                let mm = time.split(":")[1];	
+                let ss = time.split(":")[2].split(".")[0];	
+                let nowTime = new Date(Date.UTC(year,month-1,day,hr,mm,ss));
+                console.log(Date.UTC(year,month-1,day,hr,mm,ss))
+                console.log(date,year,month,day,hr,mm,ss)
+                console.log(nowTime)
 
                 let studentIDs = []
                 for(let i = 0;i<studentRFM.length;i++){
