@@ -568,22 +568,31 @@ router.get('/searchEbook/:searchkeyword/:page', ensureAuthenticated, function (r
   }
   let searchkeyword = req.params.searchkeyword;
   EBookData.find({}, function (error, EBooks) {
-    let searchtoEBook = EBooks.filter(function (item) {
-      return item.BookName.toLowerCase().match(searchkeyword.toLowerCase()) == searchkeyword.toLowerCase();
-    });
-    if (searchtoEBook.length == 0) {
-      res.status(200).send("No Find Book!")
-    }
-    let totalpage = Math.ceil(searchtoEBook.length / 10);
-    let EBookarray = [];
-    for (let i = (nowPage - 1) * 10; i < nowPage * 10; i++) {
-      if (searchtoEBook[i] == undefined) {
-        break;
+    if (error) {
+      console.log(error);
+    } else {
+
+      let searchtoEBook = []
+      EBooks.forEach(EBook => {
+        if (EBook.BookName.toLowerCase().includes(searchkeyword.toLowerCase())) {
+          searchtoEBook.push(EBook);
+        }
+      })
+
+      let totalpage = Math.ceil(searchtoEBook.length / 10);
+      if (totalpage == 0) {
+        totalpage = 1;
       }
-      EBookarray.push(searchtoEBook[i]);
+      let EBookarray = [];
+      for (let i = (nowPage - 1) * 10; i < nowPage * 10; i++) {
+        if (searchtoEBook[i] == undefined) {
+          break;
+        }
+        EBookarray.push(searchtoEBook[i]);
+      }
+      console.log(EBookarray);
+      res.status(200).send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${nowPage},"totalpage" : ${totalpage}} `);
     }
-    console.log(EBookarray);
-    res.status(200).send(`{"EBookarray" : ${JSON.stringify(EBookarray)},"nowpage" : ${nowPage},"totalpage" : ${totalpage}} `);
   });
 });
 
@@ -1790,51 +1799,51 @@ router.get('/checkStudent/:sid/unit/:classID', ensureAuthenticated, function (re
       studentID: sidarray[i],
       classID: req.params.classID
     }, {
-        $set: {
-          permission: permission
+      $set: {
+        permission: permission
+      }
+    }, {
+      w: 1
+    }, function (err, result) {
+      if (err) throw err;
+      //console.log('Document Updated Successfully');
+      User.findById({
+        _id: sidarray[i]
+      }, function (err, student) {
+        if (err) {
+          console.log(err);
         }
-      }, {
-        w: 1
-      }, function (err, result) {
-        if (err) throw err;
-        //console.log('Document Updated Successfully');
-        User.findById({
-          _id: sidarray[i]
-        }, function (err, student) {
+        Class.findById({
+          _id: req.params.classID
+        }, function (err, classinfo) {
           if (err) {
             console.log(err);
           }
-          Class.findById({
-            _id: req.params.classID
-          }, function (err, classinfo) {
-            if (err) {
-              console.log(err);
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'nkust.online.study@gmail.com',
+              pass: 'kkc060500'
             }
-            var transporter = nodemailer.createTransport({
-              service: 'gmail',
-              auth: {
-                user: 'nkust.online.study@gmail.com',
-                pass: 'kkc060500'
-              }
-            });
-            //console.log(student.email);
-            var mailOptions = {
-              from: 'nkust.online.study@gmail.com',
-              to: student.email,
-              subject: 'i-Coding學習平臺',
-              text: '歡迎您加入[' + classinfo.className + ']課程!'
-            };
+          });
+          //console.log(student.email);
+          var mailOptions = {
+            from: 'nkust.online.study@gmail.com',
+            to: student.email,
+            subject: 'i-Coding學習平臺',
+            text: '歡迎您加入[' + classinfo.className + ']課程!'
+          };
 
-            transporter.sendMail(mailOptions, function (error, info) {
-              if (error) {
-                console.log(error);
-              } else {
-                //console.log('Email sent: ' + info.response);
-              }
-            });
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              //console.log('Email sent: ' + info.response);
+            }
           });
         });
       });
+    });
   }
   res.redirect('/class/showStudentApproval/' + req.params.classID);
 })
@@ -1902,15 +1911,15 @@ router.get('/checkAssistant/:sid/unit/:classID', ensureAuthenticated, function (
           studentID: sidarray[i],
           classID: req.params.classID
         }, {
-            $set: {
-              permission: permission
-            }
-          }, {
-            w: 1
-          }, function (err, result) {
-            if (err) throw err;
-            //console.log('Assistant Document Updated Successfully');
-          });
+          $set: {
+            permission: permission
+          }
+        }, {
+          w: 1
+        }, function (err, result) {
+          if (err) throw err;
+          //console.log('Assistant Document Updated Successfully');
+        });
       } else {
         User.find({
           _id: sidarray[i]
@@ -1944,18 +1953,18 @@ router.get('/deleteAssistant/:id/unit/:classID', ensureAuthenticated, function (
       studentID: delsidarray[i],
       classID: req.params.classID
     }, {
-        $set: {
-          permission: "11111"
-        }
-      }, {
-        w: 1
-      }, function (err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          //console.log('Assistant Permission Delete Successfully');
-        }
-      })
+      $set: {
+        permission: "11111"
+      }
+    }, {
+      w: 1
+    }, function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        //console.log('Assistant Permission Delete Successfully');
+      }
+    })
   }
   req.flash('success', '刪除成功');
   res.redirect('/class/showAssistantIn/' + req.params.classID);
@@ -1982,18 +1991,18 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
         studentID: req.params.id,
         classID: req.params.classID
       }, {
-          $set: {
-            permission: setmode
-          }
-        }, {
-          w: 1
-        }, function (err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            //console.log('Assistant Permission Updated Successfully');
-          }
-        });
+        $set: {
+          permission: setmode
+        }
+      }, {
+        w: 1
+      }, function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          //console.log('Assistant Permission Updated Successfully');
+        }
+      });
     } else {
       let setmode = "";
       for (let i = 0; i < 4; i++) {
@@ -2007,18 +2016,18 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
         studentID: req.params.id,
         classID: req.params.classID
       }, {
-          $set: {
-            permission: setmode
-          }
-        }, {
-          w: 1
-        }, function (err, result) {
-          if (err) {
-            console.log(err);
-          } else {
-            //console.log('Assistant Permission Updated Successfully');
-          }
-        });
+        $set: {
+          permission: setmode
+        }
+      }, {
+        w: 1
+      }, function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          //console.log('Assistant Permission Updated Successfully');
+        }
+      });
     }
     res.redirect('/class/showAssistantIn/' + req.params.classID);
   })

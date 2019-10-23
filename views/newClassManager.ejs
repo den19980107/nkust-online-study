@@ -1125,7 +1125,7 @@
             pageNum = 1;
         }
         $.ajax({
-            url: '/class/getEbookData/page'+pageNum,
+            url: '/class/getEbookData/page'+pageNum, 
             type: 'GET',
             beforeSend: function () {
                 let loader = document.getElementById('EBookLoader');
@@ -1254,14 +1254,22 @@
             },
             error: function (error) {
                 alert("搜尋錯誤！");
+                console.log(error);
+                let loader = document.getElementById('EBookLoader');
+                loader.style.display = "none"
             },
             success: function (response) {
+                console.log("response = "+response);
                 let BooksData = JSON.parse(response).EBookarray;
                 let nowPage = JSON.parse(response).nowpage;
                 let totalPage = JSON.parse(response).totalpage;
                 // console.log(BooksData);
                 // console.log(nowPage,totalPage);
-
+                if(BooksData.length == 0){
+                    EbookContainer.innerHTML+=`
+                    <div style="text-align:center;height:100%"><h4>搜尋不到書籍!</h4></div>
+                    `
+                }
                 for(let i =0;i<BooksData.length;i++){
                     EbookContainer.innerHTML+=`
                         <div class="mb-1" style="display:flex;justify-content: flex-start;border:1px solid #ccc;height:8rem">
