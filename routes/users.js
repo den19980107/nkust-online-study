@@ -54,6 +54,14 @@ router.post('/register', function (req, res) {
         permission = "student";
     } else if (req.body.teacher) {
         permission = "teacher";
+
+        //暫時讓他們無法申請老師
+        res.render('register', {
+            user: false,
+            errors: [{
+                msg: "現在不開放申請教師！"
+            }]
+        });
     }
     //console.log(permission);
     if (permission == undefined) {
