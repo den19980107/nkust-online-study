@@ -102,7 +102,9 @@
                 Detail.resize($("#elem").width(), $("#elem").height());
             }
         },
-
+        filebrowserUploadUrl: '/uploader',
+        //記得加下面那行  filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form',
         removePlugins: 'resize'
     });
     let testarray = [];
