@@ -60,7 +60,7 @@ router.get('/', ensureAuthenticated, function (req, res) {
 });
 
 //使用者依據標籤分類
-router.get('/select/:tagName',function(req,res){
+router.get('/select/:tagName',ensureAuthenticated,function(req,res){
     CodeQution.find({}, function (err, qutions) {
         let newQutionList = []
         for(let i = 0;i<qutions.length;i++){
@@ -246,7 +246,7 @@ router.post('/editQution', ensureAuthenticated, function (req, res) {
 })
 
 //管理員進入編輯標籤頁面
-router.get('/editTag',function(req,res){
+router.get('/editTag',ensureAuthenticated,function(req,res){
     CodeTags.find({},function(err,tags){
         if(err){
 
@@ -262,7 +262,7 @@ router.get('/editTag',function(req,res){
 })
 
 //管理員新增標籤
-router.post('/addTag',function(req,res){
+router.post('/addTag',ensureAuthenticated,function(req,res){
     // console.log(req.body.tagName);
     let newTag = new CodeTags();
     newTag.tagName = req.body.tagName;
@@ -281,7 +281,7 @@ router.post('/addTag',function(req,res){
 })
 
 //管理員刪除標籤
-router.post('/deleteTag',function(req,res){
+router.post('/deleteTag',ensureAuthenticated,function(req,res){
     // console.log(req.body.id);
     CodeTags.remove({_id:req.body.id},function(err){
         if(err){
