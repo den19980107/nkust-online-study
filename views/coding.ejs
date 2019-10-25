@@ -359,6 +359,32 @@
         });
         grid.setDataSource(dataSource);
         grid.dataSource.sync();
+
+        let totalRightReload = 0;
+        for(let i = 0 ;i<qutions.length;i++){
+            if(qutions[i].isWritten == "Right"){
+                totalRightReload +=1
+            }
+        }
+        finish.innerHTML = "已完成："+ totalRightReload;
+        last.innerHTML = "待解決："+ (qutions.length - totalRightReload);
+        let data = {
+            labels:['已完成','待解決'],
+            datasets: [{
+                data: [totalRightReload, qutions.length-totalRightReload],
+                backgroundColor: ['rgb(52, 191, 73)','rgb(255, 76, 76)',]
+            }]
+        };
+        var myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+                title: {
+                    display: true,
+                    text: '解題情況'
+                }
+            }
+        });
     }
     function deleteBook(e){
         e.preventDefault();
