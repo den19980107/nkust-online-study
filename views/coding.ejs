@@ -47,6 +47,10 @@
         padding-right: 0 !important;
         text-align: center;
     }
+    #myChart{
+        width: 100%;
+        height: 15rem;
+    }
 </style>
 <head>
     <meta charset="UTF-8">
@@ -105,7 +109,9 @@
             <div>
                 <h5>你的解題情況</h5>
                 <div style="width: 100%;height: 18rem;border: 1px solid rgb(235, 235, 235);border-radius: 5px">
-                    <canvas id="myChart" style="width: 100%;height: 15rem;"></canvas>
+                    <div id = "myChartDiv">
+                        <canvas id="myChart" style="width: 100%;height: 15rem;"></canvas>
+                    </div>
                     <div style="width: 100%;height: 3rem;display: flex;justify-content: space-around">
                         <p id = "finish" style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(97, 158, 85)"></p>
                         <p id = "last"  style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(224, 15, 15)"></p>
@@ -359,9 +365,14 @@
         });
         grid.setDataSource(dataSource);
         grid.dataSource.sync();
-        canvas = document.getElementById('myChart'); //because we are looping //each location has its own canvas ID
-        context = canvas.getContext('2d');
-        context.restore(); //CLEARS THE SPECIFIC CANVAS COMPLETELY FOR NEW DRAWING
+        
+        let chart =document.getElementById('myChartDiv');
+        chart.innerHTML = "";
+        let newCanvas = document.createElement('canvas');
+        newCanvas.style = "width: 100%;height: 15rem;";
+        newCanvas.width = 420;
+        newCanvas.height = 396;
+        var ctx = newCanvas.getContext('2d');
         let totalRightReload = 0;
         for(let i = 0 ;i<qutions.length;i++){
             if(qutions[i].isWritten == "Right"){
@@ -387,6 +398,7 @@
                 }
             }
         });
+        chart.appendChild(newCanvas);
     }
     function deleteBook(e){
         e.preventDefault();
