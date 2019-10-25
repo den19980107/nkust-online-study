@@ -304,6 +304,7 @@ let SDC = require('./routes/SDC');
 let coding = require('./routes/coding');
 let uploader = require('./routes/uploader');
 let API = require('./routes/API');
+let school = require('./routes/school');
 app.use('/articles', articles);
 app.use('/users', users);
 app.use('/class', Class);
@@ -312,6 +313,7 @@ app.use('/SDC', SDC);
 app.use('/coding', coding);
 app.use('/uploader', uploader);
 app.use('/api', API);
+app.use('/school', school);
 //start server
 server.listen(port, function () {
     console.log("Server started on port" + port);

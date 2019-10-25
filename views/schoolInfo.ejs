@@ -1,0 +1,305 @@
+<% include layout/header %>
+<style>
+    body {
+        background-image: url("http://ucourse-tvc.yuntech.edu.tw/WebU/Images/Index//info.png");
+        /* Background image is centered vertically and horizontally at all times */
+        background-position: center center;
+
+        /* Background image doesn't tile */
+        background-repeat: no-repeat;
+
+        /* Background image is fixed in the viewport so that it doesn't move when 
+     the content's height is greater than the image's height */
+        background-attachment: fixed;
+
+        /* This is what makes the background image rescale based
+     on the container's size */
+        background-size: cover;
+
+        /* Set a background color that will be displayed
+     while the background image is loading */
+        background-color: #464646;
+    }
+
+    .panel-primary {
+        border-color: #337ab7;
+    }
+
+    .panel-primary > .panel-heading {
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #337ab7;
+        padding: 1rem;
+    }
+
+    .panel {
+        margin-bottom: 20px;
+        background-color: #fff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+    
+</style>
+<h3>課程查詢</h3>
+<hr>
+<div style="display: flex;justify-content: space-between;">
+    <div style="width: 20%;" >
+        學年度
+        <select class="form-control" name="" id="yearList"></select>
+    </div>
+    <div style="width: 20%;">
+        學期
+        <select  class="form-control" name="" id="semesterList"></select>
+    </div>
+    <div style="width: 20%;">
+        學制
+        <select  class="form-control" name="" id="schoolLevel">
+            <option selected="selected" value="">不選擇</option>
+            <option value="二年制學院">二年制學院</option>
+            <option value="二年制專科">二年制專科</option>
+            <option value="五年制專科">五年制專科</option>
+            <option value="四年制學院">四年制學院</option>
+            <option value="進修專校">進修專校</option>
+            <option value="進修學院(二技)">進修學院(二技)</option>
+            <option value="進修學院(四技)">進修學院(四技)</option>
+            <option value="學士班(含第二部)">學士班(含第二部)</option>
+            <option value="修學士班(原夜間部)">進修學士班(原夜間部)</option>
+            <option value="學士班在職專班">學士班在職專班</option>
+            <option value="碩士班">碩士班</option>
+            <option value="碩士班在職專班">碩士班在職專班</option>
+            <option value="博士班">博士班</option>
+            <option value="學位學程">學位學程</option>
+            <option value="學分學程">學分學程</option>
+            <option value="其它(含四技二專)">其它(含四技二專)</option>
+        </select>
+    </div>
+    <div style="width: 20%;">
+        地區
+        <select  class="form-control" name="" id="location">
+                <option selected="selected" value="">不選擇</option>
+                <option value="'臺北市','新北市','桃園縣','新竹縣','新竹市','基隆市'">北區</option>
+                <option value="'臺中市','臺中縣','苗栗縣','雲林縣','彰化縣','南投縣'">中區</option>
+                <option value="'嘉義市','嘉義縣','臺南市','臺南縣','屏東縣','高雄市','高雄縣'">南區</option>
+                <option value="'宜蘭縣','花蓮縣','臺東縣'">東區</option>
+                <option value="'金門縣','連江縣','澎湖縣'">其他</option>
+        </select>
+    </div>
+</div>
+<div class="mt-5" style="display:flex;justify-content: space-between;">
+    <p style="padding: 0.5rem 0 0 0;margin: 0;">課程名稱</p>
+    <input class="form-control" style="width: 70%;" id ="courseName" type="text">
+    <button class="btn btn-primary" style="width: 10%;" onclick="search()">查詢</button>
+</div>
+
+<div class="panel panel-primary mt-5">
+    <div class="panel-heading">學校清單 - School List</div>
+    <div class="panel-body" id="schoolList" style="max-height: 500px;overflow: scroll;">
+
+    </div>
+</div>
+
+
+<div class="panel panel-primary mt-5">
+    <div class="panel-heading">課程清單 - Course List</div>
+    <table class="table" style="max-height: 500px;overflow: scroll">
+        <thead>
+            <tr>
+                <th scope="col">課程名稱</th>
+                <th scope="col">學校</th>
+                <th scope="col">學院</th>
+                <th scope="col">科系</th>
+                <th scope="col">教師</th>
+            </tr>
+        </thead>
+        <tbody id="courseList">
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">課程資訊</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body"id = "modelTable">
+                
+        </div>
+        
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function(){
+        let yearList = document.getElementById('yearList');
+        for(let i = 108;i>86;i--){
+            yearList.innerHTML += `
+            <option>${i}</option>
+            `
+        }
+
+        let semesterList = document.getElementById('semesterList');
+        semesterList.innerHTML +=`
+        <option>上學期</option>
+        <option>下學期</option>
+        `
+    }
+
+    function search(){
+        let year = document.getElementById('yearList').value;
+        let semester = document.getElementById('semesterList').value;
+        let schoolLevel = document.getElementById('schoolLevel').value;
+        let location = document.getElementById('location').value;
+        let courseName = document.getElementById('courseName').value;
+        let data = {
+            year:year,
+            semester:semester,
+            schoolLevel:schoolLevel,
+            location:location,
+            courseName:courseName,
+        }
+        console.log(data)
+
+        postData('/school/search', data)
+        .then(data => {
+            console.log(data)
+            let schoolList = document.getElementById('schoolList');
+            let courseList = document.getElementById('courseList');
+            schoolList.innerHTML = "";
+            courseList.innerHTML = "";
+
+            let schoolNames = data.schoolName
+            let courses = data.courses
+            
+            console.log(schoolNames.length/3)
+            for(let i = 0;i<schoolNames.length/3;i++){
+                let row = document.createElement('div');
+                row.className = "row";
+                if(schoolNames[i+0] != "undefined"){
+                    row.innerHTML += `
+                    <div class = "col">${schoolNames[i+0]}</div>
+                    `
+                }
+                if(schoolNames[i+1] != "undefined"){
+                    row.innerHTML += `
+                    <div class = "col">${schoolNames[i+1]}</div>
+                    `
+                }
+                if(schoolNames[i+2] != "undefined"){
+                    row.innerHTML += `
+                    <div class = "col">${schoolNames[i+2]}</div>
+                    `
+                }
+                console.log(row)
+                schoolList.appendChild(row)
+                
+            }
+            courses.forEach(course =>{
+                courseList.innerHTML += `
+
+                <tr onclick = "searchCourseData('${course._id}')">
+                    <td scope="col">${course.className}</td>
+                    <td scope="col">${course.schoolName}</td>
+                    <td scope="col">${course.collegeName}</td>
+                    <td scope="col">${course.departmentName}</td>
+                    <td scope="col">${course.teacherName}</td>
+                </tr>
+                `
+            })
+
+        }) // JSON from `response.json()` call
+        .catch(error => console.error(error))
+    }
+
+    function searchCourseData(id){
+        console.log(id)
+        fetch('/school/getCourseDetail/'+id)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(myJson) {
+            console.log(myJson);
+            myJson = myJson.data
+            let modelTable = document.getElementById('modelTable')
+            modelTable.innerHTML = `
+            <table class="table">
+            <tbody >
+            <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">開課年度</td>
+                        <td id="year">${myJson.year}</td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">開課學期名稱</td>
+                        <td id ="semester">${myJson.semester} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">級別名</td>
+                        <td id = "schoolLevel">${myJson.schoolLevel} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">校名</td>
+                        <td id = "schoolName">${myJson.schoolName} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">英文校名</td>
+                        <td id  ="departmentEName">${myJson.departmentEName}</td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">課程名稱</td>
+                        <td id = "className">${myJson.className}</td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">學院名稱</td>
+                        <td id = "collegeName">${myJson.collegeName} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">系所名稱</td>
+                        <td id = "departmentName">${myJson.departmentName} </td>
+                    </tr>
+
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">開課老師</td>
+                        <td id = "teacherName">${myJson.teacherName} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">課程大綱</td>
+                        <td id = "classInfo">${myJson.classInfo} </td>
+                    </tr>
+                </tbody>
+                </table >
+            `
+                    $('#exampleModal').modal('show')
+        });
+    }
+
+
+    function postData(url, data) {
+    // Default options are marked with *
+    return fetch(url, {
+        body: JSON.stringify(data), // must match 'Content-Type' header
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, same-origin, *omit
+        headers: {
+        'user-agent': 'Mozilla/4.0 MDN Example',
+        'content-type': 'application/json'
+        },
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // *client, no-referrer
+    })
+    .then(response => response.json()) // 輸出成 json
+}
+</script>
+<% include layout/footer %>
