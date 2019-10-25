@@ -359,7 +359,9 @@
         });
         grid.setDataSource(dataSource);
         grid.dataSource.sync();
-
+        canvas = document.getElementById('myChart'); //because we are looping //each location has its own canvas ID
+        context = canvas.getContext('2d');
+        context.restore(); //CLEARS THE SPECIFIC CANVAS COMPLETELY FOR NEW DRAWING
         let totalRightReload = 0;
         for(let i = 0 ;i<qutions.length;i++){
             if(qutions[i].isWritten == "Right"){
