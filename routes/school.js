@@ -84,6 +84,6 @@ router.post('/search',function(req,res){
                 res.json({courses:courses,schoolName:schoolName})
             }
         }
-    }).limit(100)
+    }).limit(500)
 })
 module.exports = router;
