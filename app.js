@@ -123,81 +123,81 @@ io.on('connection', function (socket) {
 })
 
 // //-------------------編譯程式
-Videobehavior.find({videoID:"5daebff3ccab8003d92d7d88"},function(err,videos){
-    videos.forEach(video => {
-        let action = video.videoActions;
-        console.log("before")
-        console.log(action)
-        let beginIndex = -1;
-        for(let i = 0;i<action.length;i++){
-            if(action[i] == "pause:0:0"){
-                action[i] = "play:0:0"
+// Videobehavior.find({videoID:"5daebff3ccab8003d92d7d88"},function(err,videos){
+//     videos.forEach(video => {
+//         let action = video.videoActions;
+//         console.log("before")
+//         console.log(action)
+//         let beginIndex = -1;
+//         for(let i = 0;i<action.length;i++){
+//             if(action[i] == "pause:0:0"){
+//                 action[i] = "play:0:0"
                 
-            }
-            if(action[i] == "play:0:0"){
-                beginIndex = i+1
+//             }
+//             if(action[i] == "play:0:0"){
+//                 beginIndex = i+1
                 
-            }
+//             }
             
-        }
-        var setFirstPlay = { $set: {videoActions: action} };
-        Videobehavior.updateOne({ _id: video._id },setFirstPlay,function(err,res){
-            if (err) throw err;
-            console.log("1 document updated");
-        })
+//         }
+//         var setFirstPlay = { $set: {videoActions: action} };
+//         Videobehavior.updateOne({ _id: video._id },setFirstPlay,function(err,res){
+//             if (err) throw err;
+//             console.log("1 document updated");
+//         })
         
-        console.log(beginIndex)
-        if(beginIndex!=-1){
-            let offset =parseInt(Math.random()*10) 
-            let offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex, 0, `fastTurn:${75+offset}:${75+offset-1}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+1, 0, `fastTurn:${75+offset}:${75+offset-1}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+2, 0, `fastTurn:${75+offset}:${50+offset}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+3, 0, `pause:${52+offset2}:${52+offset2}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+4, 0, `pause:${52+offset}:${52+offset}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+5, 0, `pause:${52+offset2}:${52+offset2}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+6, 0, `note:${60+offset}:${60+offset}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+7, 0, `note:${60+offset2}:${60+offset2}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+8, 0, `note:${60+offset}:${60+offset}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+9, 0, `play:${50+offset}:${50+offset}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+10, 0, `fastTurn:${175+offset}:${200+offset}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+11, 0, `fastTurn:${175+offset}:${200+offset}`);
-            offset =parseInt(Math.random()*10) 
-            offset2 =parseInt(Math.random()*10) 
-            action.splice(beginIndex+12, 0, `fastTurn:${175+offset}:${200+offset}`);
-            action.splice(beginIndex+13, 0, `play:${200+offset}:${200+offset}`);
-            console.log("after")
-            console.log(action)
-            var newvalues = { $set: {videoActions: action} };
-            Videobehavior.updateOne({ _id: video._id },newvalues,function(err,res){
-                if (err) throw err;
+//         console.log(beginIndex)
+//         if(beginIndex!=-1){
+//             let offset =parseInt(Math.random()*10) 
+//             let offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex, 0, `fastTurn:${75+offset}:${75+offset-1}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+1, 0, `fastTurn:${75+offset}:${75+offset-1}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+2, 0, `fastTurn:${75+offset}:${50+offset}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+3, 0, `pause:${52+offset2}:${52+offset2}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+4, 0, `pause:${52+offset}:${52+offset}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+5, 0, `pause:${52+offset2}:${52+offset2}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+6, 0, `note:${60+offset}:${60+offset}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+7, 0, `note:${60+offset2}:${60+offset2}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+8, 0, `note:${60+offset}:${60+offset}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+9, 0, `play:${50+offset}:${50+offset}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+10, 0, `fastTurn:${175+offset}:${200+offset}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+11, 0, `fastTurn:${175+offset}:${200+offset}`);
+//             offset =parseInt(Math.random()*10) 
+//             offset2 =parseInt(Math.random()*10) 
+//             action.splice(beginIndex+12, 0, `fastTurn:${175+offset}:${200+offset}`);
+//             action.splice(beginIndex+13, 0, `play:${200+offset}:${200+offset}`);
+//             console.log("after")
+//             console.log(action)
+//             var newvalues = { $set: {videoActions: action} };
+//             Videobehavior.updateOne({ _id: video._id },newvalues,function(err,res){
+//                 if (err) throw err;
 
-            })
-        }
-    });
-})
+//             })
+//         }
+//     });
+// })
 var request = require('request');
 
 function heredoc(fn) {
