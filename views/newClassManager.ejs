@@ -304,10 +304,10 @@
     <%}%>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" id="videoTab" href="#" onclick="showVideo()">影片</a>
+            <a class="nav-link active" href="#" id="chapterTab" onclick="showChapter()">教材</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" id="chapterTab" onclick="showChapter()">教材</a>
+            <a class="nav-link" id="videoTab" href="#" onclick="showVideo()">影片</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#" id="testTab" onclick="showTest()">測驗</a>
@@ -721,8 +721,8 @@
         //console.log("in selectUnit");
         selectedUnit = Unit_i;
         selectedUnitID = Unitid;
-        let videoTab = document.getElementById('videoTab');
-        videoTab.click();
+        let chapterTab = document.getElementById('chapterTab');
+        chapterTab.click();
         document.getElementById('unitID').value = selectedUnitID
     }
 
