@@ -144,15 +144,27 @@
                     row.innerHTML += `
                     <div class = "col">${schoolNames[i+0]}</div>
                     `
+                }else{
+                    row.innerHTML += `
+                    <div class = "col"></div>
+                    `
                 }
                 if(schoolNames[i+1] != undefined){
                     row.innerHTML += `
                     <div class = "col">${schoolNames[i+1]}</div>
                     `
+                }else{
+                    row.innerHTML += `
+                    <div class = "col"></div>
+                    `
                 }
                 if(schoolNames[i+2] != undefined){
                     row.innerHTML += `
                     <div class = "col">${schoolNames[i+2]}</div>
+                    `
+                }else{
+                    row.innerHTML += `
+                    <div class = "col"></div>
                     `
                 }
                 console.log(row)
