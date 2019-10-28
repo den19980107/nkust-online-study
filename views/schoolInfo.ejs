@@ -48,49 +48,7 @@
 </style>
 <h3>課程查詢</h3>
 <hr>
-<div style="display: flex;justify-content: space-between;">
-    <div style="width: 20%;" >
-        學年度
-        <select class="form-control" name="" id="yearList"></select>
-    </div>
-    <div style="width: 20%;">
-        學期
-        <select  class="form-control" name="" id="semesterList"></select>
-    </div>
-    <div style="width: 20%;">
-        學制
-        <select  class="form-control" name="" id="schoolLevel">
-            <option selected="selected" value="">不選擇</option>
-            <option value="二年制學院">二年制學院</option>
-            <option value="二年制專科">二年制專科</option>
-            <option value="五年制專科">五年制專科</option>
-            <option value="四年制學院">四年制學院</option>
-            <option value="進修專校">進修專校</option>
-            <option value="進修學院(二技)">進修學院(二技)</option>
-            <option value="進修學院(四技)">進修學院(四技)</option>
-            <option value="學士班(含第二部)">學士班(含第二部)</option>
-            <option value="修學士班(原夜間部)">進修學士班(原夜間部)</option>
-            <option value="學士班在職專班">學士班在職專班</option>
-            <option value="碩士班">碩士班</option>
-            <option value="碩士班在職專班">碩士班在職專班</option>
-            <option value="博士班">博士班</option>
-            <option value="學位學程">學位學程</option>
-            <option value="學分學程">學分學程</option>
-            <option value="其它(含四技二專)">其它(含四技二專)</option>
-        </select>
-    </div>
-    <div style="width: 20%;">
-        
-        <select  class="form-control" name="" id="location" style="display: none;">
-                <option selected="selected" value="">不選擇</option>
-                <option value="'臺北市','新北市','桃園縣','新竹縣','新竹市','基隆市'">北區</option>
-                <option value="'臺中市','臺中縣','苗栗縣','雲林縣','彰化縣','南投縣'">中區</option>
-                <option value="'嘉義市','嘉義縣','臺南市','臺南縣','屏東縣','高雄市','高雄縣'">南區</option>
-                <option value="'宜蘭縣','花蓮縣','臺東縣'">東區</option>
-                <option value="'金門縣','連江縣','澎湖縣'">其他</option>
-        </select>
-    </div>
-</div>
+
 <div class="mt-5" style="display:flex;justify-content: space-between;">
     <p style="padding: 0.5rem 0 0 0;margin: 0;">課程名稱</p>
     <input class="form-control" style="width: 70%;" id ="courseName" type="text">
@@ -153,32 +111,14 @@
 
 
 <script>
-    window.onload = function(){
-        let yearList = document.getElementById('yearList');
-        for(let i = 108;i>86;i--){
-            yearList.innerHTML += `
-            <option>${i}</option>
-            `
-        }
-
-        let semesterList = document.getElementById('semesterList');
-        semesterList.innerHTML +=`
-        <option>上學期</option>
-        <option>下學期</option>
-        `
-    }
-
     function search(){
-        let year = document.getElementById('yearList').value;
-        let semester = document.getElementById('semesterList').value;
-        let schoolLevel = document.getElementById('schoolLevel').value;
-        let location = document.getElementById('location').value;
+
         let courseName = document.getElementById('courseName').value;
         let data = {
-            year:year,
-            semester:semester,
-            schoolLevel:schoolLevel,
-            location:location,
+            year:"108",
+            semester:"上學期",
+            schoolLevel:"",
+            location:"",
             courseName:courseName,
         }
         console.log(data)
