@@ -161,7 +161,7 @@
                 courseList.innerHTML += `
 
                 <tr onclick = "searchCourseData('${course._id}')">
-                    <td scope="col">${course.className}</td>
+                    <td scope="col"><a href = "${course.classUrl}">${course.className}</a></td>
                     <td scope="col">${course.schoolName}</td>
                     <td scope="col">${course.collegeName}</td>
                     <td scope="col">${course.departmentName}</td>
