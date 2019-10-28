@@ -69,15 +69,10 @@ router.post('/search',function(req,res){
                     schoolName.push(course.schoolName)
                 }
             })
+            console.log(schoolName)
 
             if(option.className == undefined){
-                schoolName = []
                 School.find({},function(err,schools){
-                    schools.forEach(school => {
-                        if(!schoolName.includes(school.schoolName)){
-                            schoolName.push(school.schoolName)
-                        }
-                    })
                     res.json({courses:courses,schoolName:schoolName})
                 })
             }else{

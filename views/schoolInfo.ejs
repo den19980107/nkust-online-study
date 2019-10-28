@@ -136,20 +136,21 @@
             let courses = data.courses
             
             console.log(schoolNames.length/3)
-            for(let i = 0;i<schoolNames.length/3;i++){
+            for(let i = 0;i<schoolNames.length;i+=3){
+                if(i>schoolNames.length) break;
                 let row = document.createElement('div');
                 row.className = "row";
-                if(schoolNames[i+0] != "undefined"){
+                if(schoolNames[i+0] != undefined){
                     row.innerHTML += `
                     <div class = "col">${schoolNames[i+0]}</div>
                     `
                 }
-                if(schoolNames[i+1] != "undefined"){
+                if(schoolNames[i+1] != undefined){
                     row.innerHTML += `
                     <div class = "col">${schoolNames[i+1]}</div>
                     `
                 }
-                if(schoolNames[i+2] != "undefined"){
+                if(schoolNames[i+2] != undefined){
                     row.innerHTML += `
                     <div class = "col">${schoolNames[i+2]}</div>
                     `
