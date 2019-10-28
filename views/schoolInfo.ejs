@@ -69,10 +69,11 @@
         <thead>
             <tr>
                 <th scope="col">課程名稱</th>
-                <th scope="col">學校</th>
+                <th scope="col" style="width: 20%;">學校</th>
                 <th scope="col">學院</th>
                 <th scope="col">科系</th>
                 <th scope="col">教師</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody id="courseList">
@@ -160,12 +161,13 @@
             courses.forEach(course =>{
                 courseList.innerHTML += `
 
-                <tr onclick = "searchCourseData('${course._id}')">
-                    <td scope="col"><a href = "${course.classUrl}">${course.className}</a></td>
+                <tr>
+                    <td scope="col"><a href = "${course.classUrl}" target="_blank">${course.className}</a></td>
                     <td scope="col">${course.schoolName}</td>
                     <td scope="col">${course.collegeName}</td>
                     <td scope="col">${course.departmentName}</td>
                     <td scope="col">${course.teacherName}</td>
+                    <td scope="col"><button class="btn btn-info" onclick = "searchCourseData('${course._id}')">詳細資訊</button></td>
                 </tr>
                 `
             })
