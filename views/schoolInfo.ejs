@@ -112,6 +112,11 @@
 
 
 <script>
+    window.onload = function(){
+        document.getElementById('courseName').value = "程式";
+        search();
+    }
+
     function search(){
 
         let courseName = document.getElementById('courseName').value;
