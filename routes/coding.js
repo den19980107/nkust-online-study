@@ -4,6 +4,9 @@ const router = express.Router();
 let CodeQution = require('../model/codeQution');
 let CodingSubmitRecord = require('../model/codingSubmitRecord');
 let CodeTags = require("../model/codeTags");
+//bring login history model
+const LoginHistory = require('../model/loginHistory');
+
 router.get('/', ensureAuthenticated, function (req, res) {
     CodeQution.find({}, function (err, qutions) {
         CodingSubmitRecord.find({}, function (err, submitRecord) {
@@ -154,7 +157,7 @@ router.post('/addQution', ensureAuthenticated, function (req, res) {
 
 //顯示題目
 router.get('/showCodingQution/:qutionID', ensureAuthenticated, function (req, res) {
-
+    recordBehavior(req.user._id,"viewCodingQution",req.params.qutionID);
     CodeQution.findById(req.params.qutionID, function (err, qutionData) {
         if (err) {
             console.log(err);
@@ -201,6 +204,8 @@ router.post('/saveRecord', ensureAuthenticated, function (req, res) {
 
 //查看詳細提交紀錄
 router.get('/showCodingDetail/:recordID', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"viewCodingRecord",req.params.recordID);
+
     CodingSubmitRecord.findById(req.params.recordID, function (err, record) {
         if (err) {
             console.log(err);
@@ -306,5 +311,18 @@ function ensureAuthenticated(req, res, next) {
       
       res.redirect('/users/login/?r='+nextURL);
     }
+}
+
+//紀錄行為
+function recordBehavior(userId,action,detail){
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.save(function(err){
+        if(err){
+            console.log(err)
+        }
+    })
 }
 module.exports = router;

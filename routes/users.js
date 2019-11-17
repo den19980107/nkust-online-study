@@ -395,6 +395,8 @@ router.post('/updateUserinfo', ensureAuthenticated, function (req, res) {
 
 //顯示我選的課
 router.get('/myclass', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"viewMyClasses");
+
     if (req.user.permission == "student") {
         StudebtTakeCourse.find({
             studentID: req.user._id
@@ -442,6 +444,8 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
 
 //顯示我的筆記
 router.get('/mynote', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"viewMyNotes");
+
     if (req.user.permission == "teacher") {
         res.render('index');
     } else {
@@ -450,6 +454,8 @@ router.get('/mynote', ensureAuthenticated, function (req, res) {
 })
 //新增筆記
 router.post('/note/createNote', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"createNote");
+
     //console.log(req.body);
     let newNote = new Note();
     newNote.title = req.body.title;
@@ -565,5 +571,17 @@ function ensureAuthenticated(req, res, next) {
 
         res.redirect('/users/login/?r=' + nextURL);
     }
+}
+//紀錄行為
+function recordBehavior(userId,action,detail){
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.save(function(err){
+        if(err){
+            console.log(err)
+        }
+    })
 }
 module.exports = router;

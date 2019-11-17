@@ -40,6 +40,9 @@ let RFM = require('../model/RFM');
 let EBookData = require('../model/EBookData');
 //bring classEBook model
 let classEBook = require('../model/classEBook');
+//bring login history model
+const LoginHistory = require('../model/loginHistory');
+
 //寄email的工具
 var nodemailer = require('nodemailer');
 
@@ -321,7 +324,7 @@ router.post('/changeClassImg/:classID', upload.any(), ensureAuthenticated, funct
 
 //查看課程內容
 router.get('/:id', ensureAuthenticated, function (req, res) {
-  //console.log("in");
+  recordBehavior(req.user._id,"viewClass",req.params.id);
   Class.findById(req.params.id, function (error, classinfo) {
     if (error) {
       res.render('notExist', {
@@ -830,6 +833,7 @@ router.get('/classManager/:classID/deleteUnit/:UnitID', ensureAuthenticated, fun
 
 //顯示單元內容
 router.get('/:classID/showUnit/:unitID', ensureAuthenticated, function (req, res) {
+  recordBehavior(req.user._id,"viewUnit",req.params.unitID);
   Class.findById(req.params.classID, function (error, classinfo) {
     if (error) {
       res.render('notExist', {
@@ -1018,6 +1022,7 @@ router.delete('/deletechapter/:chapterID', ensureAuthenticated, function (req, r
 
 //顯示講義內容
 router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
+  recordBehavior(req.user._id,"viewChapter",req.params.id);
   let query = {
     _id: req.params.id
   }
@@ -1124,6 +1129,7 @@ router.delete('/deletevideo/:videoID', ensureAuthenticated, function (req, res) 
 
 //顯示影片內容
 router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
+  recordBehavior(req.user._id,"viewVideo",req.params.id);
   let query = {
     _id: req.params.id
   }
@@ -1238,6 +1244,7 @@ router.delete('/deletetest/:testID', ensureAuthenticated, function (req, res) {
 
 //顯示測驗
 router.get('/showTest/:testID', ensureAuthenticated, function (req, res) {
+  recordBehavior(req.user._id,"viewTest",req.params.testID);
   let query = {
     _id: req.params.testID
   }
@@ -1616,6 +1623,8 @@ router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, r
 
 //顯示所有有修這堂課的學生
 router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, function (req, res) {
+  recordBehavior(req.user._id,"viewStudentInClass",req.params.classID);
+
   Class.findById(req.params.classID, function (error, classinfo) {
     StudebtTakeCourse.find({
       classID: req.params.classID
@@ -1660,6 +1669,8 @@ router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, 
 
 //搜尋課程名稱
 router.get('/search/:className', ensureAuthenticated, function (req, res) {
+  recordBehavior(req.user._id,"searchClass",req.params.className);
+
   Class.find({}, function (err, classes) {
 
     if (err) {
@@ -1707,6 +1718,7 @@ router.get('/search/:className', ensureAuthenticated, function (req, res) {
 
 //看課程內同學的個人頁面
 router.get('/:id/showClassmateInfo/:sid', ensureAuthenticated, function (req, res) {
+  recordBehavior(req.user._id,"viewClassmate",req.params.sid);
   //console.log(req.params.sid);
 
   User.findById({
@@ -2131,6 +2143,8 @@ router.get('/videoAnalytics/:videoID', ensureAuthenticated, function (req, res) 
 
 //學生查看成績
 router.get('/studentWatchGrade/:classID', function (req, res) {
+  recordBehavior(req.user._id,"viewScoreInClass",req.params.classID);
+
   Class.findById(req.params.classID, function (err, classinfo) {
     if (err) {
       console.log(err);
@@ -2255,4 +2269,16 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
+//紀錄行為
+function recordBehavior(userId,action,detail){
+  let loginHistory = new LoginHistory();
+  loginHistory.userId = userId;
+  loginHistory.action = action;
+  loginHistory.detail = detail;
+  loginHistory.save(function(err){
+      if(err){
+          console.log(err)
+      }
+  })
+}
 module.exports = router;

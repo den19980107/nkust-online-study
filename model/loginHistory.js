@@ -20,7 +20,7 @@ let loginHistorySchema = mongoose.Schema({
         type: String,
         require: true
     },
-    page: {
+    detail: {
         type:String,
         require: true
     }

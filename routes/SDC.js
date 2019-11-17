@@ -27,6 +27,8 @@ let studentCommentArticle = require('../model/studentCommentArticle');
 let studntSubmitTest = require('../model/studentSubmitTest');
 //bring student submit homework model
 let studntSubmitHomework = require('../model/studentSubmitHomework');
+//bring login history model
+const LoginHistory = require('../model/loginHistory');
 //寄email的工具
 // var nodemailer = require('nodemailer');
 
@@ -85,6 +87,8 @@ let studntSubmitHomework = require('../model/studentSubmitHomework');
 
 //學生選課
 router.get('/student/:sid/Take/class/:cid', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"takeClass",req.params.cid);
+
     //console.log(req.params.cid);
     let classID = req.params.cid;
     let studentID = req.params.sid;
@@ -106,6 +110,8 @@ router.get('/student/:sid/Take/class/:cid', ensureAuthenticated, function (req, 
 
 
 router.get('/student/:sid/Quit/class/:cid', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"quitClass",req.params.cid);
+
     console.log("quit");
     let wantQuitSTC;
     let classID = req.params.cid;
@@ -132,6 +138,8 @@ router.get('/student/:sid/Quit/class/:cid', ensureAuthenticated, function (req, 
 });
 //使用者對文章留言
 router.get('/user/:uid/comment/chapter/:cid/body/:body', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"commentToChapter",req.params.cid);
+
     let userID = req.params.uid;
     let chapterID = req.params.cid;
     let body = req.params.body;
@@ -162,6 +170,8 @@ router.get('/deleteChapterComment/:chapterID/:commentID',function(req,res){
 })
 //使用者對影片留言
 router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"commentToVideo",req.params.vid);
+
     let userID = req.params.uid;
     let videoID = req.params.vid;
     let body = req.params.body;
@@ -198,6 +208,8 @@ router.get('/deleteVideoComment/:videoID/:commentID',function(req,res){
 //使用者對文章留言
 // /user/<%=user._id%>/comment/article/<%=article._id%>/body/
 router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"commentToArticle",req.params.aid);
+
     let userID = req.params.uid;
     let articleID = req.params.aid;
     let body = req.params.body;
@@ -233,6 +245,8 @@ router.get('/deleteArticleComment/:articleID/:commentID/:classID',function(req,r
 
 //學生對測驗進行填寫
 router.post('/submitTest', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"submitTest",req.body._id);
+
     let qutioninfo = req.body
     //console.log(qutioninfo);
     let newsubmit = new studntSubmitTest();
@@ -275,6 +289,8 @@ router.post('/submitHomework', ensureAuthenticated, function (req, res) {
 });
 
 router.get('/likeChapter/:chapterID',function(req,res){
+    recordBehavior(req.user._id,"likeChapter",req.params.chapterID);
+
     var myquery = {
         _id: ObjectID(req.params.chapterID)
     };
@@ -303,5 +319,19 @@ function ensureAuthenticated(req, res, next) {
       
       res.redirect('/users/login/?r='+nextURL);
     }
+}
+
+
+//紀錄行為
+function recordBehavior(userId,action,detail){
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.save(function(err){
+        if(err){
+            console.log(err)
+        }
+    })
 }
 module.exports = router;
