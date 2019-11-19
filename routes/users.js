@@ -578,10 +578,20 @@ function recordBehavior(userId,action,detail){
     loginHistory.userId = userId;
     loginHistory.action = action;
     loginHistory.detail = detail;
+    loginHistory.UTCDate = getUTCDate();
+    loginHistory.date = getLocalDate();
     loginHistory.save(function(err){
         if(err){
             console.log(err)
         }
     })
-}
+  }
+  
+  function getLocalDate (){
+    let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+    return localTime
+  }
+  function getUTCDate(){
+    return new Date();
+  }
 module.exports = router;

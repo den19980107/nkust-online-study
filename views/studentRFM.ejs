@@ -1,0 +1,22 @@
+<% include layout/navbar %>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">次數</th>
+                <th scope="col">時間</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% studentsTimeSpend.forEach(student => { %>
+            <tr>
+                <th scope="row"><%=student.studentId%></th>
+                <td><%=student.times.length%></td>
+                <td><%=student.timeSpend%>秒</td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<% include layout/nobottom-footer %>

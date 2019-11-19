@@ -2046,6 +2046,71 @@ router.get('/setAssistant/:id/unit/:classID/set/:mode', ensureAuthenticated, fun
 })
 //----------------助教-----------------------
 
+//顯示學生RFM
+router.get('/showStudentRFMInClass/:classID',ensureAuthenticated,function(req,res){
+  StudebtTakeCourse.find({classID:req.params.classID},async function(err,records){
+    let studentsID = [];
+    records.forEach(record => {
+      studentsID.push(record.studentID);
+    });
+
+    let studnetsLoginData = [];
+    for(let i = 0;i<studentsID.length;i++){
+      studentId = studentsID[i];
+      let loginData = await LoginHistory.find({userId:studentId},function(err,loginData){
+        return loginData
+      })
+      studnetsLoginData.push({
+        loginData,
+        studentId
+      })
+    }
+    let studentsTimeSpend = [];
+    studnetsLoginData.forEach(studnetLoginData => {
+      let startTime;
+      let endTime;
+      let studentTimeSpend = {
+        timeSpend:0,
+        studentId: studnetLoginData.studentId,
+        times:[]
+      }
+      loginData = studnetLoginData.loginData;
+      let isStart = false;
+      let isEnd = false;
+      for(let i = 0;i<loginData.length;i++){
+        data = loginData[i];
+        if(data.action == "Login" && !isStart){
+          startTime = data.UTCDate;
+          isStart = true;
+        }
+        if(data.action == "Logout" && !isEnd){
+          endTime = data.UTCDate;
+          isEnd = true;
+        }
+
+        if(startTime&&endTime&&endTime>startTime){
+          studentTimeSpend.timeSpend += (endTime - startTime)/1000;
+          studentTimeSpend.times.push({
+            startTime:startTime,
+            endTime:endTime,
+            timeSpend:(endTime - startTime)/1000
+          })
+          startTime = undefined;
+          endTime = undefined;
+          isStart = false;
+          isEnd = false
+        }
+      };
+      studentsTimeSpend.push(studentTimeSpend)
+    });
+    
+    console.log(studentsTimeSpend)
+    res.render('studentRFM',{
+      studentsTimeSpend
+    })
+  })
+})
+
 //查看影片觀看情形
 router.get('/showVideoSituation/:classID', ensureAuthenticated, function (req, res) {
   Class.findById(req.params.classID, function (err, classinfo) {
@@ -2275,10 +2340,20 @@ function recordBehavior(userId,action,detail){
   loginHistory.userId = userId;
   loginHistory.action = action;
   loginHistory.detail = detail;
+  loginHistory.UTCDate = getUTCDate();
+  loginHistory.date = getLocalDate();
   loginHistory.save(function(err){
       if(err){
           console.log(err)
       }
   })
+}
+
+function getLocalDate (){
+  let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+  return localTime
+}
+function getUTCDate(){
+  return new Date();
 }
 module.exports = router;
