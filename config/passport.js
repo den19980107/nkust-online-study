@@ -24,16 +24,7 @@ module.exports = function (passport) {
             bcrypt.compare(password, user.password, function (err, isMatch) {
                 if (err) throw err;
                 if (isMatch) {
-                    const log = new LoginHistory({
-                        userId:user._id,
-                        action:ActionType.Login,
-                        page:"/users/login"
-                    });
-                    log.save(function(err){
-                        if(err){
-                            console.log("save err")
-                        }
-                    })
+                    recordBehavior(user._id,ActionType.Login,"/users/login")
                     
                     return done(null, user);
                 } else {
@@ -64,3 +55,26 @@ module.exports = function (passport) {
     });
 
 }
+
+//紀錄行為
+function recordBehavior(userId,action,detail){
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.UTCDate = getUTCDate();
+    loginHistory.date = getLocalDate();
+    loginHistory.save(function(err){
+        if(err){
+            console.log(err)
+        }
+    })
+  }
+  
+  function getLocalDate (){
+    let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+    return localTime
+  }
+  function getUTCDate(){
+    return new Date();
+  }

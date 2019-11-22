@@ -324,7 +324,7 @@ router.post('/changeClassImg/:classID', upload.any(), ensureAuthenticated, funct
 
 //查看課程內容
 router.get('/:id', ensureAuthenticated, function (req, res) {
-  recordBehavior(req.user._id,"viewClass",req.params.id);
+  recordBehavior(req.user._id,"viewClass",req.params.id,req.params.id);
   Class.findById(req.params.id, function (error, classinfo) {
     if (error) {
       res.render('notExist', {
@@ -833,7 +833,7 @@ router.get('/classManager/:classID/deleteUnit/:UnitID', ensureAuthenticated, fun
 
 //顯示單元內容
 router.get('/:classID/showUnit/:unitID', ensureAuthenticated, function (req, res) {
-  recordBehavior(req.user._id,"viewUnit",req.params.unitID);
+  recordBehavior(req.user._id,"viewUnit",req.params.unitID,req.params.classID);
   Class.findById(req.params.classID, function (error, classinfo) {
     if (error) {
       res.render('notExist', {
@@ -1022,7 +1022,6 @@ router.delete('/deletechapter/:chapterID', ensureAuthenticated, function (req, r
 
 //顯示講義內容
 router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
-  recordBehavior(req.user._id,"viewChapter",req.params.id);
   let query = {
     _id: req.params.id
   }
@@ -1049,6 +1048,7 @@ router.get('/showChapter/:id', ensureAuthenticated, function (req, res) {
             if (err) {
               console.log(err);
             }
+            recordBehavior(req.user._id,"viewChapter",req.params.id,classinfo._id);
             let newRecord = new studentWatchChapter()
             newRecord.studentID = req.user._id;
             newRecord.chapterID = req.params.id;
@@ -1129,7 +1129,6 @@ router.delete('/deletevideo/:videoID', ensureAuthenticated, function (req, res) 
 
 //顯示影片內容
 router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
-  recordBehavior(req.user._id,"viewVideo",req.params.id);
   let query = {
     _id: req.params.id
   }
@@ -1149,6 +1148,8 @@ router.get('/showVideo/:id', ensureAuthenticated, function (req, res) {
           if (err) {
             console.log(err);
           }
+          recordBehavior(req.user._id,"viewVideo",req.params.id,classinfo._id);
+
           studentCommentVideo.find({
             videoID: video._id
           }, function (err, comments) {
@@ -1244,7 +1245,6 @@ router.delete('/deletetest/:testID', ensureAuthenticated, function (req, res) {
 
 //顯示測驗
 router.get('/showTest/:testID', ensureAuthenticated, function (req, res) {
-  recordBehavior(req.user._id,"viewTest",req.params.testID);
   let query = {
     _id: req.params.testID
   }
@@ -1264,6 +1264,8 @@ router.get('/showTest/:testID', ensureAuthenticated, function (req, res) {
           if (err) {
             console.log(err);
           }
+          recordBehavior(req.user._id,"viewTest",req.params.testID,classinfo._id);
+
           let isSubmited = false;
           studntSubmitTest.find({}, function (err, TestSubmitRecords) {
             for (let i = 0; i < TestSubmitRecords.length; i++) {
@@ -1623,7 +1625,7 @@ router.post('/saveMark/:testID/:writerID', ensureAuthenticated, function (req, r
 
 //顯示所有有修這堂課的學生
 router.get('/showStudentIn/:classID', ensureAuthenticated, ensureAuthenticated, function (req, res) {
-  recordBehavior(req.user._id,"viewStudentInClass",req.params.classID);
+  recordBehavior(req.user._id,"viewStudentInClass",req.params.classID,req.params.classID);
 
   Class.findById(req.params.classID, function (error, classinfo) {
     StudebtTakeCourse.find({
@@ -1718,7 +1720,7 @@ router.get('/search/:className', ensureAuthenticated, function (req, res) {
 
 //看課程內同學的個人頁面
 router.get('/:id/showClassmateInfo/:sid', ensureAuthenticated, function (req, res) {
-  recordBehavior(req.user._id,"viewClassmate",req.params.sid);
+  recordBehavior(req.user._id,"viewClassmate",req.params.sid,req.params.id);
   //console.log(req.params.sid);
 
   User.findById({
@@ -2072,33 +2074,47 @@ router.get('/showStudentRFMInClass/:classID',ensureAuthenticated,function(req,re
       let studentTimeSpend = {
         timeSpend:0,
         studentId: studnetLoginData.studentId,
-        times:[]
+        times:[],
+        resent:0
       }
       loginData = studnetLoginData.loginData;
       let isStart = false;
       let isEnd = false;
+      // 這一次登陸在這個課程內的次數
+      let inclassTime = 0;
+      // 這一次登陸在平台上不同分頁的次數
+      let totalInTime = 0;
       for(let i = 0;i<loginData.length;i++){
         data = loginData[i];
         if(data.action == "Login" && !isStart){
           startTime = data.UTCDate;
           isStart = true;
         }
-        if(data.action == "Logout" && !isEnd){
+        if(data.action == "Logout" && !isEnd && isStart){
           endTime = data.UTCDate;
           isEnd = true;
         }
-
+        if(data.inClass == req.params.classID){
+          inclassTime++;
+        }
+        totalInTime ++;
         if(startTime&&endTime&&endTime>startTime){
-          studentTimeSpend.timeSpend += (endTime - startTime)/1000;
+          studentTimeSpend.timeSpend += (endTime - startTime)/1000 * inclassTime / totalInTime;
           studentTimeSpend.times.push({
             startTime:startTime,
             endTime:endTime,
-            timeSpend:(endTime - startTime)/1000
+            timeSpend:(endTime - startTime)/1000 * inclassTime / totalInTime
           })
+
+          if(endTime>studentTimeSpend.resent){
+            studentTimeSpend.resent = endTime
+          }
           startTime = undefined;
           endTime = undefined;
           isStart = false;
-          isEnd = false
+          isEnd = false;
+          inclassTime = 0;
+          totalInTime = 0;
         }
       };
       studentsTimeSpend.push(studentTimeSpend)
@@ -2208,7 +2224,7 @@ router.get('/videoAnalytics/:videoID', ensureAuthenticated, function (req, res) 
 
 //學生查看成績
 router.get('/studentWatchGrade/:classID', function (req, res) {
-  recordBehavior(req.user._id,"viewScoreInClass",req.params.classID);
+  recordBehavior(req.user._id,"viewScoreInClass",req.params.classID,req.params.classID);
 
   Class.findById(req.params.classID, function (err, classinfo) {
     if (err) {
@@ -2335,12 +2351,13 @@ function ensureAuthenticated(req, res, next) {
 }
 
 //紀錄行為
-function recordBehavior(userId,action,detail){
+function recordBehavior(userId,action,detail,classId){
   let loginHistory = new LoginHistory();
   loginHistory.userId = userId;
   loginHistory.action = action;
   loginHistory.detail = detail;
   loginHistory.UTCDate = getUTCDate();
+  loginHistory.inClass = classId
   loginHistory.date = getLocalDate();
   loginHistory.save(function(err){
       if(err){

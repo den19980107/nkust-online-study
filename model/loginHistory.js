@@ -20,6 +20,9 @@ let loginHistorySchema = mongoose.Schema({
         type: String,
         require: true
     },
+    inClass:{
+        type:String
+    },
     detail: {
         type:String,
         require: true

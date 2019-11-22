@@ -6,6 +6,7 @@
                 <th scope="col">id</th>
                 <th scope="col">次數</th>
                 <th scope="col">時間</th>
+                <th scope="col">最近一次</th>
             </tr>
         </thead>
         <tbody>
@@ -14,6 +15,7 @@
                 <th scope="row"><%=student.studentId%></th>
                 <td><%=student.times.length%></td>
                 <td><%=student.timeSpend%>秒</td>
+                <td><%=student.resent%></td>
             </tr>
             <% }) %>
         </tbody>
