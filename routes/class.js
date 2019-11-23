@@ -450,6 +450,10 @@ router.get('/newclassManager/:id', ensureAuthenticated, function (req, res) {
 			Unit.find({
 				belongClass: classinfo._id
 			}, function (error2, units) {
+				//對單元排序
+				units = units.sort(function (a, b) {
+					return a.unitName > b.unitName ? 1 : -1;
+				});
 				classEBook.find({ classId: req.params.id, belongUnit: units }, function (err1, classEBooks) {
 					if (err1) {
 						//console.log(err1);
