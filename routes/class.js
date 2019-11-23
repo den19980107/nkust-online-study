@@ -942,9 +942,12 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
 	req.checkBody('title', '講義標題不得為空').notEmpty();
 	req.checkBody('body', '講義內容不得為空').notEmpty();
 	let errors = req.validationErrors();
+	let errorMessages = "";
+	errors.forEach(error => {
+		errorMessages += error.msg + "\n"
+	})
 	if (errors) {
-		req.flash('danger', "講義標題與內容不得為空");
-		res.redirect('/class/newClassManager/' + req.body.classID);
+		res.status(500).send(errorMessages);
 	} else {
 		//console.log("---------------");
 		//console.log(req.body.classID);

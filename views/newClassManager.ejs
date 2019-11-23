@@ -533,8 +533,8 @@
                                     alert(response.message)
                                     showChapter()
                                 },
-                                error:function(){
-                                    alert(response.message)
+                                error:function(error){
+                                    alert(error.responseText)
                                     showChapter()
                                 },
                                 complete:function(){
