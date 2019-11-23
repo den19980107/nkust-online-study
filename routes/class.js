@@ -944,7 +944,7 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
 	let errors = req.validationErrors();
 	if (errors) {
 		req.flash('danger', "講義標題與內容不得為空");
-		res.redirect('/class/' + req.body.classID + '/showUnit/' + req.body.unitID);
+		res.redirect('/class/newClassManager/' + req.body.classID);
 	} else {
 		//console.log("---------------");
 		//console.log(req.body.classID);
@@ -955,12 +955,17 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
 		chapter.chapterName = req.body.title;
 		chapter.belongUnit = req.body.unitID;
 		chapter.body = req.body.body;
+		if(req.body.pdf){
+			chapter.pdf = req.body.pdf
+		}
 		chapter.save(function (err) {
 			if (err) {
 				console.log(err);
+				res.status(500).send({message:"新增失敗"});
+
 			} else {
 				//req.flash('success', "新增成功");
-				res.redirect('/class/newClassManager/' + req.body.classID);
+				res.status(200).send({message:"新增成功"});
 			}
 		});
 
@@ -986,7 +991,12 @@ router.post('/saveEditedChapter', function (req, res) {
 	//console.log(req.body);
 
 	let myquery = { _id: req.body.chapterID };
-	let newvalues = { $set: { chapterName: req.body.chapterName, body: req.body.body } };
+	let newvalues;
+	if(req.body.pdf.length != 0){
+		newvalues = { $set: { chapterName: req.body.chapterName, body: req.body.body,pdf: req.body.pdf} }
+	}else{
+		newvalues = { $set: { chapterName: req.body.chapterName, body: req.body.body} }
+	}
 	Chapter.updateOne(myquery, newvalues, function (err) {
 		if (err) {
 			console.log(err);

@@ -491,7 +491,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- TODO 加入新增講義功能 要想辦法拿到unit_id -->
-                    <form method="POST" action="/class/unit/addLecture">
+                    <form method="POST" action="/class/unit/addLecture" id ="LectureForm">
                         <input type="text" id="unitID" style="display: none" name="unitID">
                         <input type="text" name="classID" style="display: none"  value="<%=classinfo._id%>">
                         <div class="form-group row">
@@ -508,10 +508,62 @@
                                 name="body"></textarea>
                         </div>
                         <br>
-                        <input id="addNewChapterbtn" type="submit" onclick="this.style.visibility = 'hidden'"
+                        <div style="display: flex;justify-content: space-between;">
+                            <input id="pdfInput" onchange="convertToBase64();" accept=".pdf" name = "pdf" type="file">
+                            <input id="addNewChapterbtn" type="button" onclick="submitLecture()"
                             class="btn btn-primary float-right" value="新增">
+                        </div>
                     </form>
+                    <script>
+                        let pdfBase64 = "";
+                        function submitLecture(){
+                            let formData = {
+                                title:document.getElementById('DiscussTitle').value,
+                                unitID:document.getElementById('unitID').value,
+                                body:CKEDITOR.instances.LectureDetail.getData(),
+                                pdf:pdfBase64
+                            }
+                            console.log(formData)
+                            $.ajax({
+                                type: 'POST',
+                                url: '/class/unit/addLecture',
+                                data: JSON.stringify(formData), 
+                                contentType: "application/json",
+                                success:function(response){
+                                    alert(response.message)
+                                    showChapter()
+                                },
+                                error:function(){
+                                    alert(response.message)
+                                    showChapter()
+                                },
+                                complete:function(){
+                                    $('#addLecture').modal('toggle')
+                                },
+                                dataType: 'json'
+                            });
+                        }
 
+                        function convertToBase64() {
+                            //Read File
+                            var selectedFile = document.getElementById("pdfInput").files;
+                            //Check File is not Empty
+                            if (selectedFile.length > 0) {
+                                // Select the very first file from list
+                                var fileToLoad = selectedFile[0];
+                                // FileReader function for read the file.
+                                var fileReader = new FileReader();
+                                var base64;
+                                // Onload of file read the file content
+                                fileReader.onload = function(fileLoadedEvent) {
+                                    base64 = fileLoadedEvent.target.result;
+                                    pdfBase64 = base64
+                                };
+                                // Convert data to base64
+                                fileReader.readAsDataURL(fileToLoad);
+                            }
+                        }
+                    </script>
                     <div id="example1" class="taggle_list"></div>
                 </div>
                 <div class="modal-footer">

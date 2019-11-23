@@ -320,8 +320,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(bodyParser.json());
-
+app.use(bodyParser.json({limit: '50mb'}));
 
 //Set public folder static
 app.use(express.static(path.join(__dirname, 'public')));
