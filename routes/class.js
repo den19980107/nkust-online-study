@@ -943,10 +943,10 @@ router.post('/unit/addLecture', ensureAuthenticated, function (req, res) {
 	req.checkBody('body', '講義內容不得為空').notEmpty();
 	let errors = req.validationErrors();
 	let errorMessages = "";
-	errors.forEach(error => {
-		errorMessages += error.msg + "\n"
-	})
 	if (errors) {
+		errors.forEach(error => {
+			errorMessages += error.msg + "\n"
+		})
 		res.status(500).send(errorMessages);
 	} else {
 		//console.log("---------------");
