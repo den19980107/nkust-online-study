@@ -378,6 +378,7 @@ let coding = require('./routes/coding');
 let uploader = require('./routes/uploader');
 let API = require('./routes/API');
 let school = require('./routes/school');
+let about = require('./routes/about');
 app.use('/articles', articles);
 app.use('/users', users);
 app.use('/class', Class);
@@ -387,6 +388,7 @@ app.use('/coding', coding);
 app.use('/uploader', uploader);
 app.use('/api', API);
 app.use('/school', school);
+app.use('/about',about);
 //start server
 server.listen(port, function () {
     console.log("Server started on port" + port);
