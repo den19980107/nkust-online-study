@@ -135,41 +135,24 @@ router.post('/register', function (req, res) {
                     studentid: studentid,
                     permission: permission
                 });
-                
-                axios.post(`${API.FullLineSpeedBaseUrl}/register`, newUser)
-                .then(function (response) {
-                    console.log("is success");
-                    if(response.status == 200){
-                        bcrypt.genSalt(10, function (err, salt) {
-                            bcrypt.hash(newUser.password, salt, function (err, hash) {
-                                if (err) {
-                                    console.log(err);
-                                }
-                                newUser.password = hash;
-                                newUser.save(function (err) {
-                                    if (err) {
-                                        console.log(err);
-                                        return;
-                                    } else {
-                                        req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
-                                        res.redirect('/users/login'); //?
-                                    }
-                                });
-                            });
-                        })
-                    }else{
-                        res.render('register', {
-                            user: false,
-                            errors: [{
-                                msg: "已有人使用過此帳號"
-                            }]
+
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(newUser.password, salt, function (err, hash) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        newUser.password = hash;
+                        newUser.save(function (err) {
+                            if (err) {
+                                req.flash('errors', '註冊失敗！');
+                            } else {
+                                req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
+                                res.redirect('/users/login'); //
+                            }
                         });
-                    }
+                    });
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                
+
                 // newUser.save(function (err) {
                 //     if (err) {
                 //         console.log(err);
@@ -338,7 +321,7 @@ router.get('/userinfo', ensureAuthenticated, function (req, res) {
 
 //Logout
 router.get('/logout', function (req, res) {
-    recordBehavior(req.user._id,ActionType.Logout,req.url)
+    recordBehavior(req.user._id, ActionType.Logout, req.url)
     req.logout();
     req.flash('success', '您已登出！');
     res.redirect('/users/login');
@@ -385,7 +368,7 @@ router.post('/updateUserinfo', ensureAuthenticated, function (req, res) {
 
 //顯示我選的課
 router.get('/myclass', ensureAuthenticated, function (req, res) {
-    recordBehavior(req.user._id,"viewMyClasses");
+    recordBehavior(req.user._id, "viewMyClasses");
 
     if (req.user.permission == "student") {
         StudebtTakeCourse.find({
@@ -434,7 +417,7 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
 
 //顯示我的筆記
 router.get('/mynote', ensureAuthenticated, function (req, res) {
-    recordBehavior(req.user._id,"viewMyNotes");
+    recordBehavior(req.user._id, "viewMyNotes");
 
     if (req.user.permission == "teacher") {
         res.render('index');
@@ -444,7 +427,7 @@ router.get('/mynote', ensureAuthenticated, function (req, res) {
 })
 //新增筆記
 router.post('/note/createNote', ensureAuthenticated, function (req, res) {
-    recordBehavior(req.user._id,"createNote");
+    recordBehavior(req.user._id, "createNote");
 
     //console.log(req.body);
     let newNote = new Note();
@@ -563,25 +546,25 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 //紀錄行為
-function recordBehavior(userId,action,detail){
+function recordBehavior(userId, action, detail) {
     let loginHistory = new LoginHistory();
     loginHistory.userId = userId;
     loginHistory.action = action;
     loginHistory.detail = detail;
     loginHistory.UTCDate = getUTCDate();
     loginHistory.date = getLocalDate();
-    loginHistory.save(function(err){
-        if(err){
+    loginHistory.save(function (err) {
+        if (err) {
             console.log(err)
         }
     })
-  }
-  
-  function getLocalDate (){
-    let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+}
+
+function getLocalDate() {
+    let localTime = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
     return localTime
-  }
-  function getUTCDate(){
+}
+function getUTCDate() {
     return new Date();
-  }
+}
 module.exports = router;
