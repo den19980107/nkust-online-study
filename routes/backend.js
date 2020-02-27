@@ -29,48 +29,15 @@ router.get('/', function (req, res) {
         req.flash('danger', '您不是管理員');
         res.redirect('/');
     }
-    router.use(express.static('iCoding_admin'))
-    console.log(__dirname)
-    res.sendFile(path.resolve(__dirname, '../iCoding_admin', 'index.html'));
 
-    // User.find({}, function (err, users) {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     Class.find({}, function (err, classes) {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-    //         Unit.find({}, function (err, units) {
-    //             if (err) {
-    //                 console.log(err);
-    //             }
-    //             Chapter.find({}, function (err, chapters) {
-    //                 if (err) {
-    //                     console.log(err);
-    //                 }
-    //                 Video.find({}, function (err, videos) {
-    //                     if (err) {
-    //                         console.log(err);
-    //                     }
-    //                     StudentTakeCourse.find({}, function (err, stc) {
-    //                         if (err) {
-    //                             console.log(err);
-    //                         }
-    //                         res.render('backend', {
-    //                             users: users,
-    //                             classes: classes,
-    //                             units: units,
-    //                             chapters: chapters,
-    //                             videos: videos,
-    //                             stc: stc
-    //                         });
-    //                     })
-    //                 })
-    //             })
-    //         });
-    //     })
-    // })
+    // 先不開放
+    req.flash('danger', '此功能尚未開放');
+    res.redirect('/');
+
+    // 開放
+    // router.use(express.static('iCoding_admin'))
+    // console.log(__dirname)
+    // res.sendFile(path.resolve(__dirname, '../iCoding_admin', 'index.html'));
 
 });
 
