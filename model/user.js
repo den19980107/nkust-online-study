@@ -33,6 +33,10 @@ const UserSchema = mongoose.Schema({
     },
     userInfo: {
         type: String
+    },
+    InActive: {
+        type: Boolean,
+        default: false
     }
 
 });

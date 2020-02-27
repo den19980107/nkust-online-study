@@ -45,16 +45,16 @@ router.get('/', ensureAuthenticated, function (req, res) {
             CodingSubmitRecord.find({
                 submiterID: req.user._id
             }, function (err, myRecord) {
-                CodeTags.find({},function(err,tags){
-                    if(err){
+                CodeTags.find({}, function (err, tags) {
+                    if (err) {
                         console.log(err);
-                        
+
                     }
                     res.render('coding', {
                         qutions: qutions,
                         submitRecord: submitRecord,
                         myRecord: myRecord,
-                        tags:tags
+                        tags: tags
                     })
                 })
             })
@@ -63,17 +63,17 @@ router.get('/', ensureAuthenticated, function (req, res) {
 });
 
 //使用者依據標籤分類
-router.get('/select/:tagName',ensureAuthenticated,function(req,res){
+router.get('/select/:tagName', ensureAuthenticated, function (req, res) {
     CodeQution.find({}, function (err, qutions) {
         let newQutionList = []
-        for(let i = 0;i<qutions.length;i++){
-            if(qutions[i].tags.indexOf(req.params.tagName)!=-1){
+        for (let i = 0; i < qutions.length; i++) {
+            if (qutions[i].tags.indexOf(req.params.tagName) != -1) {
                 newQutionList.push(qutions[i])
             }
         }
         qutions = newQutionList;
         //console.log(qutions);
-        
+
         CodingSubmitRecord.find({}, function (err, submitRecord) {
             //console.log(qutions.length);
             //console.log(submitRecord.length);
@@ -110,16 +110,16 @@ router.get('/select/:tagName',ensureAuthenticated,function(req,res){
             CodingSubmitRecord.find({
                 submiterID: req.user._id
             }, function (err, myRecord) {
-                CodeTags.find({},function(err,tags){
-                    if(err){
+                CodeTags.find({}, function (err, tags) {
+                    if (err) {
                         console.log(err);
-                        
+
                     }
                     res.render('coding', {
                         qutions: qutions,
                         submitRecord: submitRecord,
                         myRecord: myRecord,
-                        tags:tags
+                        tags: tags
                     })
                 })
             })
@@ -129,15 +129,15 @@ router.get('/select/:tagName',ensureAuthenticated,function(req,res){
 
 //到新增題目頁面
 router.get('/createNewCodingQution', ensureAuthenticated, function (req, res) {
-    CodeTags.find({},function(err,tags){
-        res.render('createNewCodingQution',{
-            tags:tags
+    CodeTags.find({}, function (err, tags) {
+        res.render('createNewCodingQution', {
+            tags: tags
         });
     })
 })
 
 //新增題目
-router.post('/addQution', ensureAuthenticated, function (req, res) {
+router.post('/addQution', function (req, res) {
     console.log(req.body);
     let newQuestion = new CodeQution();
     newQuestion.title = req.body.title;
@@ -157,7 +157,7 @@ router.post('/addQution', ensureAuthenticated, function (req, res) {
 
 //顯示題目
 router.get('/showCodingQution/:qutionID', ensureAuthenticated, function (req, res) {
-    recordBehavior(req.user._id,"viewCodingQution",req.params.qutionID);
+    recordBehavior(req.user._id, "viewCodingQution", req.params.qutionID);
     CodeQution.findById(req.params.qutionID, function (err, qutionData) {
         if (err) {
             console.log(err);
@@ -204,7 +204,7 @@ router.post('/saveRecord', ensureAuthenticated, function (req, res) {
 
 //查看詳細提交紀錄
 router.get('/showCodingDetail/:recordID', ensureAuthenticated, function (req, res) {
-    recordBehavior(req.user._id,"viewCodingRecord",req.params.recordID);
+    recordBehavior(req.user._id, "viewCodingRecord", req.params.recordID);
 
     CodingSubmitRecord.findById(req.params.recordID, function (err, record) {
         if (err) {
@@ -251,88 +251,88 @@ router.post('/editQution', ensureAuthenticated, function (req, res) {
 })
 
 //管理員進入編輯標籤頁面
-router.get('/editTag',ensureAuthenticated,function(req,res){
-    CodeTags.find({},function(err,tags){
-        if(err){
+router.get('/editTag', ensureAuthenticated, function (req, res) {
+    CodeTags.find({}, function (err, tags) {
+        if (err) {
 
-        }else{
-            if(tags == null){
+        } else {
+            if (tags == null) {
                 tags = {}
             }
-            res.render('CodeEditTag',{
-                tags:tags
+            res.render('CodeEditTag', {
+                tags: tags
             })
         }
     })
 })
 
 //管理員新增標籤
-router.post('/addTag',ensureAuthenticated,function(req,res){
+router.post('/addTag', function (req, res) {
     // console.log(req.body.tagName);
     let newTag = new CodeTags();
     newTag.tagName = req.body.tagName;
-    newTag.save(function(err){
+    newTag.save(function (err) {
         console.log(err);
-        
-        if(err){
-            console.log(err);     
-        }else{
+
+        if (err) {
+            console.log(err);
+        } else {
             res.status(200).json({
                 message: '新增成功'
             });
         }
     })
-    
+
 })
 
 //管理員刪除標籤
-router.post('/deleteTag',ensureAuthenticated,function(req,res){
+router.post('/deleteTag', function (req, res) {
     // console.log(req.body.id);
-    CodeTags.remove({_id:req.body.id},function(err){
-        if(err){
-            console.log(err);     
-        }else{
+    CodeTags.remove({ _id: req.body.id }, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
             res.status(200).json({
                 message: '刪除成功'
             });
         }
     })
-    
+
 })
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return next();
+        return next();
     } else {
-      req.flash('danger', '請先登入');
-      let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      //console.log("inuser ensure = "+nextURL);
-      //console.log("url = /users/login/?r="+nextURL);
-      
-      res.redirect('/users/login/?r='+nextURL);
+        req.flash('danger', '請先登入');
+        let nextURL = req.originalUrl.replace(new RegExp('/', 'g'), '%2F');
+        //console.log("inuser ensure = "+nextURL);
+        //console.log("url = /users/login/?r="+nextURL);
+
+        res.redirect('/users/login/?r=' + nextURL);
     }
 }
 
 //紀錄行為
-function recordBehavior(userId,action,detail){
+function recordBehavior(userId, action, detail) {
     let loginHistory = new LoginHistory();
     loginHistory.userId = userId;
     loginHistory.action = action;
     loginHistory.detail = detail;
     loginHistory.UTCDate = getUTCDate();
     loginHistory.date = getLocalDate();
-    loginHistory.save(function(err){
-        if(err){
+    loginHistory.save(function (err) {
+        if (err) {
             console.log(err)
         }
     })
-  }
-  
-  function getLocalDate (){
-    let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+}
+
+function getLocalDate() {
+    let localTime = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
     return localTime
-  }
-  function getUTCDate(){
+}
+function getUTCDate() {
     return new Date();
-  }
+}
 module.exports = router;

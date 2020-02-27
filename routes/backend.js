@@ -21,50 +21,56 @@ let ObjectID = require('mongodb').ObjectID;
 let EBookData = require('../model/EBookData');
 //bring School model
 let School = require('../model/school');
+
+const path = require('path')
 //進入後台
-router.get('/', ensureAuthenticated, function (req, res) {
+router.get('/', function (req, res) {
     if (req.user.permission != "admin") {
         req.flash('danger', '您不是管理員');
         res.redirect('/');
     }
-    User.find({}, function (err, users) {
-        if (err) {
-            console.log(err);
-        }
-        Class.find({}, function (err, classes) {
-            if (err) {
-                console.log(err);
-            }
-            Unit.find({}, function (err, units) {
-                if (err) {
-                    console.log(err);
-                }
-                Chapter.find({}, function (err, chapters) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    Video.find({}, function (err, videos) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        StudentTakeCourse.find({}, function (err, stc) {
-                            if (err) {
-                                console.log(err);
-                            }
-                            res.render('backend', {
-                                users: users,
-                                classes: classes,
-                                units: units,
-                                chapters: chapters,
-                                videos: videos,
-                                stc: stc
-                            });
-                        })
-                    })
-                })
-            });
-        })
-    })
+    router.use(express.static('iCoding_admin'))
+    console.log(__dirname)
+    res.sendFile(path.resolve(__dirname, '../iCoding_admin', 'index.html'));
+
+    // User.find({}, function (err, users) {
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     Class.find({}, function (err, classes) {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //         Unit.find({}, function (err, units) {
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //             Chapter.find({}, function (err, chapters) {
+    //                 if (err) {
+    //                     console.log(err);
+    //                 }
+    //                 Video.find({}, function (err, videos) {
+    //                     if (err) {
+    //                         console.log(err);
+    //                     }
+    //                     StudentTakeCourse.find({}, function (err, stc) {
+    //                         if (err) {
+    //                             console.log(err);
+    //                         }
+    //                         res.render('backend', {
+    //                             users: users,
+    //                             classes: classes,
+    //                             units: units,
+    //                             chapters: chapters,
+    //                             videos: videos,
+    //                             stc: stc
+    //                         });
+    //                     })
+    //                 })
+    //             })
+    //         });
+    //     })
+    // })
 
 });
 
@@ -411,7 +417,7 @@ router.post('/EBookDataload', function (req, res) {
 
 
 //儲存學校資料
-router.post('/saveSchoolData',function(req,res){
+router.post('/saveSchoolData', function (req, res) {
     let data = req.body;
     let school = new School()
     school.schoolName = data.schoolName
@@ -425,8 +431,8 @@ router.post('/saveSchoolData',function(req,res){
     school.url = data.url
     console.log(school)
 
-    school.save(function(err){
-        if(err){
+    school.save(function (err) {
+        if (err) {
             console.log(err)
         }
         res.send('200');

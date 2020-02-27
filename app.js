@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const config = require('./config/database'); //在我們的config file裡面可以設定要用的database URL
+const cors = require('cors');
 const port = process.env.PORT || 3000;
 
 
@@ -101,7 +102,7 @@ io.on('connection', function (socket) {
                 videobehavior.videoActions.push("totalWatchTime:" + obj.totalTime + ":" + obj.totalTime);
                 videobehavior.save(function (err) {
                     if (err) {
-                        console.log("save videobehavior err:"+err);
+                        console.log("save videobehavior err:" + err);
                     }
                     console.log("save videobehavior success")
                     console.log(videobehavior);
@@ -118,7 +119,8 @@ io.on('connection', function (socket) {
         console.log(script);
         console.log("--------------------");
         sendScriptToApi(script.script, script.input, script.language, socket);
-
+        // 未完成
+        // sendScriptToApi_online_compile_version(script.script, script.input, script.language, socket);
     })
 })
 
@@ -132,20 +134,20 @@ io.on('connection', function (socket) {
 //         for(let i = 0;i<action.length;i++){
 //             if(action[i] == "pause:0:0"){
 //                 action[i] = "play:0:0"
-                
+
 //             }
 //             if(action[i] == "play:0:0"){
 //                 beginIndex = i+1
-                
+
 //             }
-            
+
 //         }
 //         var setFirstPlay = { $set: {videoActions: action} };
 //         Videobehavior.updateOne({ _id: video._id },setFirstPlay,function(err,res){
 //             if (err) throw err;
 //             console.log("1 document updated");
 //         })
-        
+
 //         console.log(beginIndex)
 //         if(beginIndex!=-1){
 //             let offset =parseInt(Math.random()*10) 
@@ -273,7 +275,7 @@ let clientIdandSecret = [{
     clientSecret: "3266b028edb3183330d5f7f5f076ad478a5dde8bca633c6f8e76d19c0c268e4c"
 },
 ]
-let indexOfAPIkey = Math.floor(Math.random()*clientIdandSecret.length)
+let indexOfAPIkey = Math.floor(Math.random() * clientIdandSecret.length)
 var sendScriptToApi = function (script, input, language, socket) {
 
     var program = {
@@ -292,16 +294,53 @@ var sendScriptToApi = function (script, input, language, socket) {
         body: ""
     }
     request({
-            url: 'https://api.jdoodle.com/execute',
-            method: "POST",
-            json: program
-        },
+        url: 'https://api.jdoodle.com/execute',
+        method: "POST",
+        json: program
+    },
         function (error, response, body) {
             answer.error = error;
             answer.statusCode = response;
             answer.body = body;
 
 
+            socket.emit('answer', answer);
+        });
+}
+
+// 使用自己架的 api https://nodejs-online-compiler.appspot.com/compile
+// doc: https://hackmd.io/6gWtC5-PQLOBlknyXUzcrg
+var sendScriptToApi_online_compile_version = function (script, input, language, socket) {
+    if (language == "python3") {
+        language = "python"
+    }
+    const data = {
+        userId: "5e33b44f9b7e05f029ac7fbe",
+        apiKey: "df9d768a9a891246baa9788f39fce277ba5e0a32f9381d8c5891a851bae7e3e4d0079701d9e94e19437e1c7949bdabaa",
+        language: language,
+        script: script,
+        stdin: input
+    }
+
+    var answer = {
+        error: "",
+        statusCode: "",
+        body: ""
+    }
+    request({
+        url: 'https://nodejs-online-compiler.appspot.com/compile',
+        method: "POST",
+        json: data
+    },
+        function (error, response, body) {
+            answer.error = body.stderr;
+            answer.statusCode = body.exitCode == 0 ? 200 : 500;
+            answer.body = {
+                output: body.stdout,
+                statusCode: body.exitCode == 0 ? 200 : 500,
+                memory: body.memoryUsage,
+                cpuTime: body.cpuUsage
+            };
             socket.emit('answer', answer);
         });
 }
@@ -316,11 +355,14 @@ let User = require('./model/user');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+//allow cros
+app.use(cors());
+
 // Body parse middleware
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 //Set public folder static
 app.use(express.static(path.join(__dirname, 'public')));
@@ -379,6 +421,7 @@ let uploader = require('./routes/uploader');
 let API = require('./routes/API');
 let school = require('./routes/school');
 let about = require('./routes/about');
+let admin = require('./routes/admin')
 app.use('/articles', articles);
 app.use('/users', users);
 app.use('/class', Class);
@@ -388,7 +431,12 @@ app.use('/coding', coding);
 app.use('/uploader', uploader);
 app.use('/api', API);
 app.use('/school', school);
-app.use('/about',about);
+app.use('/about', about);
+app.use('/admin', admin);
+
+app.use(express.static('iCoding_admin'))
+
+
 //start server
 server.listen(port, function () {
     console.log("Server started on port" + port);

@@ -46,20 +46,20 @@ let CodingQution = require("../model/codeQution");
 let School = require('../model/school');
 
 //拿到所有學校
-router.get('/getSchools',function(req,res){
+router.get('/getSchools', function (req, res) {
     let schoolArray = [];
-    School.find({},function(err,schools){
-        if(err){
+    School.find({}, function (err, schools) {
+        if (err) {
             console.log(err)
-        }else{
+        } else {
             schools.forEach(school => {
-                if(!schoolArray.includes(school.schoolName)){
+                if (!schoolArray.includes(school.schoolName)) {
                     schoolArray.push(school.schoolName)
                 }
             });
 
             let responseData = {
-                schoolArray:schoolArray
+                schoolArray: schoolArray
             }
 
             res.json(responseData)
@@ -68,21 +68,21 @@ router.get('/getSchools',function(req,res){
 });
 
 //用學校名稱搜尋科系
-router.get('/getDepartments/:schoolName',function(req,res){
+router.get('/getDepartments/:schoolName', function (req, res) {
     let schoolName = req.params.schoolName;
     School.find({
-        schoolName:schoolName
-    },function(err,schools){
-        if(err){
+        schoolName: schoolName
+    }, function (err, schools) {
+        if (err) {
             console.log(err)
-        }else{
+        } else {
             let departments = []
             schools.forEach(school => {
                 departments.push(school.departmentName)
-            }) 
+            })
 
             let response = {
-                departments:departments
+                departments: departments
             }
 
             res.json(response)
@@ -90,23 +90,51 @@ router.get('/getDepartments/:schoolName',function(req,res){
     })
 })
 
-//拿到所有課程
-router.get('/getClasses',function(req,res){
-    Class.find({},function(err,classes){
-        if(err){
+// 拿到所有 user
+router.get('/getUsers', function (req, res) {
+    User.find({}, function (err, users) {
+        if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}')
-        }else{
+        } else {
+            res.json(users);
+        }
+    })
+})
+// 刪除 user by id
+router.post('/deleteUserByid', async function (req, res) {
+    const { userId } = req.body
+    let user = await User.findById(userId)
+    if (user) {
+        try {
+            await Class.deleteMany({ teacher: userId })
+            await User.findOneAndDelete({ _id: userId })
+            res.json({ message: "刪除成功" })
+        } catch (err) {
+            console.log("delete error in deleteUserByid err = ", err)
+            res.status(500).json({ message: "刪除失敗" })
+        }
+    } else {
+        res.status(500).json({ message: "無此使用者" })
+    }
+})
+
+//拿到所有課程
+router.get('/getClasses', function (req, res) {
+    Class.find({}, function (err, classes) {
+        if (err) {
+            res.send('{"error" : "要求失敗", "status" : 500}')
+        } else {
             res.json(classes);
         }
     })
 })
 
 //拿到課程內的單元
-router.get("/getUnit/:classId",function(req,res){
-    Unit.find({belongClass:req.params.classId},function(err,Units){
-        if(err){
+router.get("/getUnit/:classId", function (req, res) {
+    Unit.find({ belongClass: req.params.classId }, function (err, Units) {
+        if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}')
-        }else{
+        } else {
             res.json(Units)
         }
     })
@@ -212,12 +240,12 @@ function append(videos, comments, behaviors) {
 }
 
 //刪除單元
-router.post('/deleteUnit/:unitID',function(req,res){
-    Unit.remove({_id:req.params.unitID},function(err){
-        if(err){
+router.post('/deleteUnit/:unitID', function (req, res) {
+    Unit.remove({ _id: req.params.unitID }, function (err) {
+        if (err) {
             //console.log(err);
             res.send('{"error" : "刪除失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })
@@ -225,16 +253,16 @@ router.post('/deleteUnit/:unitID',function(req,res){
 
 
 //rename單元
-router.post('/renameUnit/:unitID',function(req,res){
+router.post('/renameUnit/:unitID', function (req, res) {
     //console.log(req.body);
 
     let myquery = { _id: req.params.unitID };
-    let newvalues = { $set: {unitName: req.body.unitName} };
-    Unit.updateOne(myquery,newvalues,function(err){
-        if(err){
+    let newvalues = { $set: { unitName: req.body.unitName } };
+    Unit.updateOne(myquery, newvalues, function (err) {
+        if (err) {
             //console.log(err);
             res.send('{"error" : "更改失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })
@@ -326,12 +354,12 @@ router.get('/getVideoComment/:videoID', function (req, res) {
 })
 
 //delete影片
-router.post('/deleteVideo/:videoID',function(req,res){
-    Video.remove({_id:req.params.videoID},function(err){
-        if(err){
+router.post('/deleteVideo/:videoID', function (req, res) {
+    Video.remove({ _id: req.params.videoID }, function (err) {
+        if (err) {
             //console.log(err);
             res.send('{"error" : "刪除失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })
@@ -382,33 +410,33 @@ router.get('/classEBook/:chapterID', function (req, res) {
         if (err) {
             res.send('{"error" : "要求失敗", "status" : 500}');
         } else {
-          // console.log(classEBooks);
-          res.send(`{"classEBooks" : ${JSON.stringify(classEBooks)}} `);
+            // console.log(classEBooks);
+            res.send(`{"classEBooks" : ${JSON.stringify(classEBooks)}} `);
         }
     })
 })
 
 //rename講義名稱
-router.post('/renameChapter/:chapterID',function(req,res){
+router.post('/renameChapter/:chapterID', function (req, res) {
     let myquery = { _id: req.params.chapterID };
-    let newvalues = { $set: {chapterName: req.body.chapterName} };
-    Chapter.updateOne(myquery,newvalues,function(err){
-        if(err){
+    let newvalues = { $set: { chapterName: req.body.chapterName } };
+    Chapter.updateOne(myquery, newvalues, function (err) {
+        if (err) {
             console.log(err);
             res.send('{"error" : "更改失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })
 })
 
 //delete講義
-router.post('/deleteChapter/:chapterID',function(req,res){
-    Chapter.remove({_id:req.params.chapterID},function(err){
-        if(err){
+router.post('/deleteChapter/:chapterID', function (req, res) {
+    Chapter.remove({ _id: req.params.chapterID }, function (err) {
+        if (err) {
             console.log(err);
             res.send('{"error" : "刪除失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })
@@ -416,26 +444,26 @@ router.post('/deleteChapter/:chapterID',function(req,res){
 
 
 //rename講義名稱
-router.post('/renameTest/:testID',function(req,res){
+router.post('/renameTest/:testID', function (req, res) {
     let myquery = { _id: req.params.testID };
-    let newvalues = { $set: {testName: req.body.testName} };
-    Test.updateOne(myquery,newvalues,function(err){
-        if(err){
+    let newvalues = { $set: { testName: req.body.testName } };
+    Test.updateOne(myquery, newvalues, function (err) {
+        if (err) {
             console.log(err);
             res.send('{"error" : "更改失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })
 })
 
 //delete測驗
-router.post('/deleteTest/:testID',function(req,res){
-    Test.remove({_id:req.params.testID},function(err){
-        if(err){
+router.post('/deleteTest/:testID', function (req, res) {
+    Test.remove({ _id: req.params.testID }, function (err) {
+        if (err) {
             console.log(err);
             res.send('{"error" : "刪除失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })
@@ -468,60 +496,60 @@ router.get('/getTestInUnit/:chapterID', function (req, res) {
 })
 
 //RFM分析
-router.post('/showRFMAnalizying/:videoID',function(req,res){
+router.post('/showRFMAnalizying/:videoID', function (req, res) {
     let a = req.body.a;
     let b = req.body.b;
     let r = req.body.r;
     let focusPoint = req.body.focusPoint
     console.log(focusPoint);
     let videoID = req.params.videoID;
-    RFM.findOne({videoID:req.params.videoID}, function (err, urfm) {
-      if(urfm){
-        RFM.updateMany({videoID:req.params.videoID}, {$set: {focusPoint:req.body.focusPoint,avalue:a,bvalue:b,rvalue:r}}, {w: 1},function(err){
-          if (err) {
-              console.log(err);
-          }
-          console.log("rfm update success");
-        })
-      }else{
-        let rfm = new  RFM();
-        rfm.videoID = videoID;
-        rfm.avalue = a;
-        rfm.bvalue = b;
-        rfm.rvalue = r;
-        rfm.focusPoint = req.body.focusPoint;
-        console.log(rfm);
-        rfm.save(function (err) {
-            if (err) {
-                console.log(err);
-            }
-            console.log("rfm save success");
-        });
-      }
+    RFM.findOne({ videoID: req.params.videoID }, function (err, urfm) {
+        if (urfm) {
+            RFM.updateMany({ videoID: req.params.videoID }, { $set: { focusPoint: req.body.focusPoint, avalue: a, bvalue: b, rvalue: r } }, { w: 1 }, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                console.log("rfm update success");
+            })
+        } else {
+            let rfm = new RFM();
+            rfm.videoID = videoID;
+            rfm.avalue = a;
+            rfm.bvalue = b;
+            rfm.rvalue = r;
+            rfm.focusPoint = req.body.focusPoint;
+            console.log(rfm);
+            rfm.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                console.log("rfm save success");
+            });
+        }
     })
-    Video.findById(videoID,function(err,videoinfo){
-        if(err){
+    Video.findById(videoID, function (err, videoinfo) {
+        if (err) {
             console.log(err);
         }
         let vtime = videoinfo.vtime;
-        Videobehavior.find({videoID:videoID},function(err,videobehaviors){
-            if(videobehaviors.length == 0 ){
+        Videobehavior.find({ videoID: videoID }, function (err, videobehaviors) {
+            if (videobehaviors.length == 0) {
                 res.send('{"response" : "沒有觀看紀錄", "status" : 500}');
-            }else{
+            } else {
                 videobehaviors = videobehaviors.sort(function (a, b) {
                     return a.watcherID > b.watcherID ? 1 : -1;
                 });
                 let studentBehavior = [{
-                    studentID:"",
-                    behaviors:[],
-                    lastwatchTime:new Date(1999)
+                    studentID: "",
+                    behaviors: [],
+                    lastwatchTime: new Date(1999)
                 }];
                 let nowWatcherID = videobehaviors[0].watcherID;
                 studentBehavior[0].studentID = nowWatcherID;
                 let count = 0;
 
-                for(let i = 0;i<videobehaviors.length;i++){
-                    if(nowWatcherID == videobehaviors[i].watcherID){
+                for (let i = 0; i < videobehaviors.length; i++) {
+                    if (nowWatcherID == videobehaviors[i].watcherID) {
                         studentBehavior[count].behaviors.push(videobehaviors[i].videoActions);
                         let date = videobehaviors[i].watchTime.split("@")[0];
                         let year = date.split("/")[2];
@@ -531,19 +559,19 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                         let hr = time.split(":")[0];
                         let mm = time.split(":")[1];
                         let ss = time.split(":")[2];
-                        if(studentBehavior[count].lastwatchTime<new Date(Date.UTC(year,month-1,day,hr,mm,ss))){
-                            studentBehavior[count].lastwatchTime =new Date(Date.UTC(year,month-1,day,hr,mm,ss));
+                        if (studentBehavior[count].lastwatchTime < new Date(Date.UTC(year, month - 1, day, hr, mm, ss))) {
+                            studentBehavior[count].lastwatchTime = new Date(Date.UTC(year, month - 1, day, hr, mm, ss));
                         }
                         //console.log(year,month,day,hr,mm,ss);
 
-                    }else{
+                    } else {
                         //console.log("------------------------");
                         nowWatcherID = videobehaviors[i].watcherID;
                         count++;
                         studentBehavior[count] = {
-                            studentID:"",
-                            behaviors:[],
-                            lastwatchTime:""
+                            studentID: "",
+                            behaviors: [],
+                            lastwatchTime: ""
                         }
                         studentBehavior[count].studentID = nowWatcherID;
                         studentBehavior[count].behaviors.push(videobehaviors[i].videoActions);
@@ -555,25 +583,25 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                         let hr = time.split(":")[0];
                         let mm = time.split(":")[1];
                         let ss = time.split(":")[2];
-                        if(studentBehavior[count].lastwatchTime<new Date(Date.UTC(year,month-1,day,hr,mm,ss))){
-                            studentBehavior[count].lastwatchTime =new Date(Date.UTC(year,month-1,day,hr,mm,ss));
+                        if (studentBehavior[count].lastwatchTime < new Date(Date.UTC(year, month - 1, day, hr, mm, ss))) {
+                            studentBehavior[count].lastwatchTime = new Date(Date.UTC(year, month - 1, day, hr, mm, ss));
                         }
-                        console.log(year,month,day,hr,mm,ss);
+                        console.log(year, month, day, hr, mm, ss);
                     }
                 }
                 //TODO 濾掉無效紀錄
-                for(let i = 0;i<studentBehavior.length;i++){
+                for (let i = 0; i < studentBehavior.length; i++) {
                     let tempbehaviors = []
                     //console.log("學生："+studentBehavior[i].studentID);
                     //console.log("濾掉之前有"+studentBehavior[i].behaviors.length+"筆紀錄");
                     //console.log("影片時間 = "+vtime);
-                    console.log("觀看者:"+studentBehavior[i].watcherID);
-                    console.log("原始的觀看行為記錄次數 = ",studentBehavior[i].behaviors.length);
-                    for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
+                    console.log("觀看者:" + studentBehavior[i].watcherID);
+                    console.log("原始的觀看行為記錄次數 = ", studentBehavior[i].behaviors.length);
+                    for (let j = 0; j < studentBehavior[i].behaviors.length; j++) {
                         //console.log("觀看時間 = "+studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]);
 
                         // if(studentBehavior[i].behaviors[j][studentBehavior[i].behaviors[j].length-1].split(":")[1]>vtime/20){
-                            tempbehaviors.push(studentBehavior[i].behaviors[j])
+                        tempbehaviors.push(studentBehavior[i].behaviors[j])
                         // }
                     }
                     studentBehavior[i].behaviors = tempbehaviors
@@ -582,72 +610,72 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
 
                 }
                 let studentRFM = []
-                for(let i = 0;i<studentBehavior.length;i++){
+                for (let i = 0; i < studentBehavior.length; i++) {
                     studentRFM[i] = {
-                        R:"",
-                        F:"",
-                        M:0,
-                        studentID:"",
-                        studentName:""
+                        R: "",
+                        F: "",
+                        M: 0,
+                        studentID: "",
+                        studentName: ""
                     }
                 }
 
 
-                let date = new Date().toLocaleString().split(" ")[0].replace(",","");	
+                let date = new Date().toLocaleString().split(" ")[0].replace(",", "");
 
                 //根據不同電腦 new Date().toLocaleString() 出來會有可能有 10/22/2019 or 2019-10-22 所以要調整一下
                 let seporator;
                 let year;
-                let month;               
+                let month;
                 let day;
-                if(date.includes("-")){
-                    year = date.split("-")[0];	
-                    month = date.split("-")[1];	                
+                if (date.includes("-")) {
+                    year = date.split("-")[0];
+                    month = date.split("-")[1];
                     day = date.split("-")[2];
-                }else if(date.includes("/")){
-                    year = date.split("/")[2];	
-                    month = date.split("/")[0];	                
+                } else if (date.includes("/")) {
+                    year = date.split("/")[2];
+                    month = date.split("/")[0];
                     day = date.split("/")[1];
                 }
-            	                
-                let time = new Date().toLocaleString().split(" ")[1];	
-                let hr = time.split(":")[0];	
-                let mm = time.split(":")[1];	
-                let ss = time.split(":")[2].split(".")[0];	
-                let nowTime = new Date(Date.UTC(year,month-1,day,hr,mm,ss));
-                console.log(Date.UTC(year,month-1,day,hr,mm,ss))
-                console.log(date,year,month,day,hr,mm,ss)
+
+                let time = new Date().toLocaleString().split(" ")[1];
+                let hr = time.split(":")[0];
+                let mm = time.split(":")[1];
+                let ss = time.split(":")[2].split(".")[0];
+                let nowTime = new Date(Date.UTC(year, month - 1, day, hr, mm, ss));
+                console.log(Date.UTC(year, month - 1, day, hr, mm, ss))
+                console.log(date, year, month, day, hr, mm, ss)
                 console.log(nowTime)
 
                 let studentIDs = []
-                for(let i = 0;i<studentRFM.length;i++){
+                for (let i = 0; i < studentRFM.length; i++) {
                     console.log(nowTime)
                     console.log(studentBehavior[i].lastwatchTime)
-                    console.log((nowTime - studentBehavior[i].lastwatchTime)/3600000)
-                    studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime)/3600000;
+                    console.log((nowTime - studentBehavior[i].lastwatchTime) / 3600000)
+                    studentRFM[i].R = (nowTime - studentBehavior[i].lastwatchTime) / 3600000;
                     studentRFM[i].F = studentBehavior[i].behaviors.length;
-                    console.log("觀看者:"+studentBehavior[i].studentID);
-                    console.log("過濾後的觀看行為記錄次數 = ",studentRFM[i].F );
+                    console.log("觀看者:" + studentBehavior[i].studentID);
+                    console.log("過濾後的觀看行為記錄次數 = ", studentRFM[i].F);
 
                     let videoTimeLine = []
-                    for(let k = 0;k<vtime;k++){
+                    for (let k = 0; k < vtime; k++) {
                         videoTimeLine[k] = 0;
                     }
                     let finishPersent = 0; //影片觀看完整度
                     let focusPointCompleteTimes = 0; //重點完成次數
                     let noteTimes = 0 //筆記次數
-                    for(let j = 0;j<studentBehavior[i].behaviors.length;j++){
+                    for (let j = 0; j < studentBehavior[i].behaviors.length; j++) {
                         //console.log(studentBehavior[i].behaviors[j]);
-                        for(let k =0;k<studentBehavior[i].behaviors[j].length;k++){
+                        for (let k = 0; k < studentBehavior[i].behaviors[j].length; k++) {
                             let action = studentBehavior[i].behaviors[j][k].split(":")[0]
-                            if(action == "note"){
+                            if (action == "note") {
                                 noteTimes++
                             }
-                            if(action == "play"){
+                            if (action == "play") {
                                 let start = parseInt(studentBehavior[i].behaviors[j][k].split(":")[1])
-                                let end = parseInt(studentBehavior[i].behaviors[j][k+1].split(":")[1])
-                                for(let l = start;l<=end;l++){
-                                    videoTimeLine[l]+=1;
+                                let end = parseInt(studentBehavior[i].behaviors[j][k + 1].split(":")[1])
+                                for (let l = start; l <= end; l++) {
+                                    videoTimeLine[l] += 1;
                                 }
                             }
                         }
@@ -657,29 +685,29 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     }
                     //console.log(videoTimeLine);
                     let watchedSecond = 0;
-                    for(let q = 0;q<vtime;q++){ //影片完成率迴圈
-                        if(videoTimeLine[q]!=0){
+                    for (let q = 0; q < vtime; q++) { //影片完成率迴圈
+                        if (videoTimeLine[q] != 0) {
                             watchedSecond++;
                         }
                     }
-                    for(let q = 0;q<focusPoint.length;q++){ //重點完成率迴圈
-                        for(let p = parseInt(focusPoint[q].start);p<=parseInt(focusPoint[q].stop);p++){
-                            if(videoTimeLine[p]!=0 && videoTimeLine[p]!= undefined){
-                                focusPointCompleteTimes+=videoTimeLine[p];
+                    for (let q = 0; q < focusPoint.length; q++) { //重點完成率迴圈
+                        for (let p = parseInt(focusPoint[q].start); p <= parseInt(focusPoint[q].stop); p++) {
+                            if (videoTimeLine[p] != 0 && videoTimeLine[p] != undefined) {
+                                focusPointCompleteTimes += videoTimeLine[p];
                             }
                         }
                     }
-                    finishPersent = watchedSecond/vtime;
+                    finishPersent = watchedSecond / vtime;
                     // console.log("finishPersent = "+finishPersent);
                     // console.log("focusPointCompleteTimes = "+focusPointCompleteTimes);
                     // console.log("noteTimes = "+noteTimes);
 
                     //最終公式
-                    studentRFM[i].M = a*finishPersent + b*focusPointCompleteTimes + r*noteTimes
-                    console.log("完成比率:",finishPersent);
-                    console.log("重點完成率:",focusPointCompleteTimes);
-                    console.log("筆記次數:",noteTimes);
-                    console.log(studentRFM[i].R,studentRFM[i].F,studentRFM[i].M);
+                    studentRFM[i].M = a * finishPersent + b * focusPointCompleteTimes + r * noteTimes
+                    console.log("完成比率:", finishPersent);
+                    console.log("重點完成率:", focusPointCompleteTimes);
+                    console.log("筆記次數:", noteTimes);
+                    console.log(studentRFM[i].R, studentRFM[i].F, studentRFM[i].M);
 
                     console.log("---------------------------");
 
@@ -687,11 +715,11 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
                     studentIDs.push(ObjectID(studentBehavior[i].studentID).toString())
                     //studentRFM[i].studentName = findById(studentBehavior[i].studentID)
                 }
-                User.find({_id:studentIDs},function(err,studentinfo){
-                    for(let i = 0;i<studentRFM.length;i++){
-                        for(let j = 0;j<studentinfo.length;j++){
+                User.find({ _id: studentIDs }, function (err, studentinfo) {
+                    for (let i = 0; i < studentRFM.length; i++) {
+                        for (let j = 0; j < studentinfo.length; j++) {
                             //console.log(studentRFM[i].studentID,studentinfo[j]);
-                            if(studentRFM[i].studentID == studentinfo[j]._id){
+                            if (studentRFM[i].studentID == studentinfo[j]._id) {
                                 studentRFM[i].studentName = studentinfo[j].name;
                             }
                         }
@@ -705,48 +733,48 @@ router.post('/showRFMAnalizying/:videoID',function(req,res){
 })
 
 //send Userinfo
-router.get('/getuserinfo/:userid/:videoID',function(req,res){
-    User.findById(req.params.userid,function(err,userinfo){
-        if(err){
+router.get('/getuserinfo/:userid/:videoID', function (req, res) {
+    User.findById(req.params.userid, function (err, userinfo) {
+        if (err) {
             console.log(err);
         }
-        Video.findById(req.params.videoID,function(err,videoinfo){
-            if(err){
+        Video.findById(req.params.videoID, function (err, videoinfo) {
+            if (err) {
                 console.log(err);
             }
-            Unit.findById(videoinfo.belongUnit,function(err,unitinfo){
-                if(err){
+            Unit.findById(videoinfo.belongUnit, function (err, unitinfo) {
+                if (err) {
                     console.log(err);
                 }
-                Class.findById(unitinfo.belongClass,function(err,classinfo){
-                    if(err){
+                Class.findById(unitinfo.belongClass, function (err, classinfo) {
+                    if (err) {
                         console.log(err);
                     }
-                    Unit.find({belongClass:classinfo._id},function(err,thisClassUnits){
-                        if(err){
+                    Unit.find({ belongClass: classinfo._id }, function (err, thisClassUnits) {
+                        if (err) {
                             console.log(err);
                         }
                         let unitIDs = [];
-                        for(let i = 0;i<thisClassUnits.length;i++){
+                        for (let i = 0; i < thisClassUnits.length; i++) {
                             unitIDs.push(ObjectID(thisClassUnits[i]._id).toString())
                         }
-                        Test.find({belongUnit:unitIDs},function(err,thisClassTests){
-                            if(err){
+                        Test.find({ belongUnit: unitIDs }, function (err, thisClassTests) {
+                            if (err) {
                                 console.log(err);
                             }
-                            studntSubmitTest.find({belongUnit:unitIDs,writer:req.params.userid},function(err,thisUserSubmitTest){
-                                if(err){
+                            studntSubmitTest.find({ belongUnit: unitIDs, writer: req.params.userid }, function (err, thisUserSubmitTest) {
+                                if (err) {
                                     console.log(err);
                                 }
-                                Video.find({belongUnit:unitIDs},function(err,thisClassVideo){
+                                Video.find({ belongUnit: unitIDs }, function (err, thisClassVideo) {
                                     let VideoIDs = [];
-                                    for(let i = 0;i<thisClassVideo.length;i++){
+                                    for (let i = 0; i < thisClassVideo.length; i++) {
                                         VideoIDs.push(ObjectID(thisClassVideo[i]._id).toString())
                                     }
-                                    Videobehavior.find({videoID:VideoIDs,watcherID:req.params.userid},function(err,thisUserWatchVideo){
+                                    Videobehavior.find({ videoID: VideoIDs, watcherID: req.params.userid }, function (err, thisUserWatchVideo) {
                                         let totalWatchVideo = [];
                                         for (let i = 0; i < thisUserWatchVideo.length; i++) {
-                                            if(totalWatchVideo.indexOf(thisUserWatchVideo[i].videoID) == -1){
+                                            if (totalWatchVideo.indexOf(thisUserWatchVideo[i].videoID) == -1) {
                                                 totalWatchVideo.push(thisUserWatchVideo[i].videoID)
                                             }
                                         }
@@ -764,11 +792,11 @@ router.get('/getuserinfo/:userid/:videoID',function(req,res){
                                             schoolname: userinfo.schoolname,
                                             studentid: userinfo.studentid,
                                             username: userinfo.username,
-                                            thisClassTests:thisClassTests,
-                                            userSubmitTest:thisUserSubmitTest,
-                                            totalWatchVideo:totalWatchVideo,
-                                            thisClassVideo:thisClassVideo,
-                                            classinfo:classinfo
+                                            thisClassTests: thisClassTests,
+                                            userSubmitTest: thisUserSubmitTest,
+                                            totalWatchVideo: totalWatchVideo,
+                                            thisClassVideo: thisClassVideo,
+                                            classinfo: classinfo
                                         }
                                         res.json(publicInfo)
                                     })
@@ -781,17 +809,17 @@ router.get('/getuserinfo/:userid/:videoID',function(req,res){
         })
     })
 })
-router.post('/sendEmail',function(req,res){
+router.post('/sendEmail', function (req, res) {
     let title = req.body.title;
     let sender = req.body.sender;
     let recever = req.body.recever.split(',');
     let body = req.body.body;
-    for(let i = 0;i<recever.length;i++){
+    for (let i = 0; i < recever.length; i++) {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: 'nkust.online.study@gmail.com',
-              pass: 'kkc060500'
+                user: 'nkust.online.study@gmail.com',
+                pass: 'kkc060500'
             }
         });
         //console.log(student.email);
@@ -813,12 +841,12 @@ router.post('/sendEmail',function(req,res){
 })
 
 //delete 程式題
-router.post('/deletCodingQution/:qutionID',function(req,res){
-    CodingQution.remove({_id:req.params.qutionID},function(err){
-        if(err){
+router.post('/deletCodingQution/:qutionID', function (req, res) {
+    CodingQution.remove({ _id: req.params.qutionID }, function (err) {
+        if (err) {
             console.log(err);
             res.send('{"error" : "刪除失敗", "status" : 500}');
-        }else{
+        } else {
             res.send('{"success" : "儲存成功"}');
         }
     })

@@ -25,7 +25,6 @@ let Note = require('../model/note');
 let LoginHistory = require('../model/loginHistory');
 //action type 
 let ActionType = require('../config/actionType');
-
 //full line speed api
 let API = require("../config/api");
 
@@ -54,14 +53,6 @@ router.post('/register', function (req, res) {
         permission = "student";
     } else if (req.body.teacher) {
         permission = "teacher";
-
-        //暫時讓他們無法申請老師
-        res.render('register', {
-            user: false,
-            errors: [{
-                msg: "現在不開放申請教師！"
-            }]
-        });
     }
     //console.log(permission);
     if (permission == undefined) {
@@ -133,7 +124,8 @@ router.post('/register', function (req, res) {
                     schoolname: schoolname,
                     department: department,
                     studentid: studentid,
-                    permission: permission
+                    permission: permission,
+                    InActive: permission == 'teacher' ? true : false
                 });
 
                 bcrypt.genSalt(10, function (err, salt) {
@@ -146,6 +138,9 @@ router.post('/register', function (req, res) {
                             if (err) {
                                 req.flash('errors', '註冊失敗！');
                             } else {
+                                if (newUser.InActive) {
+                                    mailToAdmin(`使用者 ${newUser.name} 需要被審核！請您至後台審核`)
+                                }
                                 req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
                                 res.redirect('/users/login'); //
                             }
@@ -558,6 +553,37 @@ function recordBehavior(userId, action, detail) {
             console.log(err)
         }
     })
+}
+
+async function mailToAdmin(message) {
+    let admins = await User.find({ permission: "admin" })
+    for (let i = 0; i < admins.length; i++) {
+        const admin = admins[i]
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'nkust.online.study@gmail.com',
+                pass: 'kkc060500'
+            }
+        });
+        //console.log(student.email);
+        var mailOptions = {
+            from: 'nkust.online.study@gmail.com',
+            to: admin.email,
+            subject: 'i-Coding學習平臺',
+            text: message
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                //console.log('Email sent: ' + info.response);
+            }
+        });
+
+    }
 }
 
 function getLocalDate() {
