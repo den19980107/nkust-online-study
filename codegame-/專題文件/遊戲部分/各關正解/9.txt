@@ -1,0 +1,28 @@
+/* 三星:5個動作包含5個動作以內  
+   二星:6個動作包含6個動作以內5個動作以上  
+   一星限為滿足過關條件即可*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+	moveForward();
+switch(hint){
+case 'L':
+turnLeft();
+break;
+case 'F':
+break;
+case 'R':
+turnRight();
+break;
+}
+moveForward();
+moveForward();
+
+	return 0;
+ }
+
+

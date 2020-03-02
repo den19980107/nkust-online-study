@@ -1,0 +1,152 @@
+/* 3�P:68�Ӱʧ@�]�t68�Ӱʧ@�H��  
+   2�P:71�Ӱʧ@�]�t71�Ӱʧ@�H��68�Ӱʧ@�H�W  
+   1�P:�����L������Y�i*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,length,carry=0,j=1;
+char str[SIZE];
+int bit[SIZE]={0};
+getString(str);
+length=strlen(str);
+for(i=0;i<length;i++){
+	bit[length-i-1]=str[i]-'0';
+}
+for(i=0;i<length;i++){
+ bit[i]-=(y%10);
+ bit[i]-=carry;
+ carry=0;
+ if(bit[i]<0){
+  bit[i]+=10;
+  carry=1;
+};
+y/=10;
+}
+moveForward();
+becameShip();
+turnLeft();
+moveForward();
+turnRight();
+fire();
+moveForward();
+becameCar();
+moveForward();
+turnRight();
+moveForward();
+becameTank();
+turnLeft();
+moveForward();
+becameCar();
+moveForward();
+becameTank();
+moveForward();
+turnLeft();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnRight();
+moveForward();
+becameCar();
+for(i=0;i<2;i++){
+ moveForward();
+}
+becameTank();
+turnRight();
+moveForward();
+turnLeft();
+moveForward();
+becameCar();
+moveForward();
+turnLeft();
+moveForward();
+becameShip();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+becameCar();
+turnRight();
+fire();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+becameTank();
+moveForward();
+becameCar();
+moveForward();
+becameShip();
+turnLeft();
+moveForward();
+becameCar();
+turnRight();
+fire();
+for(i=0;i<3;i++){
+ moveForward();
+}
+becameShip();
+moveForward();
+becameTank();
+turnLeft();
+moveForward();
+turnRight();
+moveForward();
+becameCar();
+moveForward();
+becameTank();
+turnRight();
+for(i=0;i<3;i++){
+ moveForward();
+}
+becameCar();
+turnRight();
+moveForward();
+turnLeft();
+fire();
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnRight();
+moveForward();
+turnLeft();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+fire();
+moveForward();
+turnRight();
+for(i=SIZE-1;i>=0;i--){
+ if(bit[i]!=0&&j==1){
+  j=0;
+  printf("%d",bit[i]);
+}else if(bit[i]==0&&j==1){
+ continue;
+}else if(j==0){
+ printf("%d",bit[i]);
+}
+}
+for(i=0;i<3;i++){
+ moveForward();
+}
+
+	return 0;
+ }
+
+

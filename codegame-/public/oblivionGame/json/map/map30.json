@@ -1,0 +1,179 @@
+{
+    "mapNumber": "game01",
+    "mapSize": 81,
+    "mapValue": "000002022000012202010111102011100002011002000111011002011100002000000211001000111",
+    "level": "初階",
+    "winLinit": {
+        "threeStar": [
+            5
+        ],
+        "twoStar": [
+            6
+        ],
+        "oneStar": [
+            7
+        ]
+    },
+    "people_init": {
+        "type": "tank",
+        "postion": [
+            0,
+            5,
+            0
+        ],
+        "hp": 5,
+        "armor": 20,
+        "atk": 2
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                0,
+                7,
+                1
+            ]
+        }
+    ],
+    "obj": [
+        {
+            "type": "tree",
+            "postion": [
+                0,
+                6
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                0,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                6
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                4,
+                3
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                8,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                8,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                5,
+                7
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                8
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                8
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                4
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                0,
+                2
+            ]
+        },
+        {
+            "type": "enemyTank",
+            "postion": [
+                6,
+                6,
+                1
+            ],
+            "hp": 5,
+            "atk": 5
+        },
+        {
+            "type": "enemyTank",
+            "postion": [
+                2,
+                1,
+                0
+            ],
+            "hp": 5,
+            "atk": 5
+        }
+    ]
+}

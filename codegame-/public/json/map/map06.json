@@ -1,0 +1,12 @@
+{ "mapNumber":"game06",
+    "mapSize":"36",
+    "mapValue":"000000000000000000000000000000000000",
+    "level":"初階",
+    "winLinit":{"threeStar":[7],"twoStar":[8],"oneStar":[9]},
+    "people_init":{"type":"car","postion":[1,2,0]},
+    "end_init":[{"type":"endline","postion":[2,0,0]},{"type":"endline","postion":[2,4,0]}],
+    "obj":[{"type":"tree","postion":[0,3]},{"type":"stone","postion":[0,1]},
+           {"type":"stone","postion":[1,3]},{"type":"stone","postion":[1,1]},
+           {"type":"questionstone","postion":[2,3,3]},{"type":"questionstone","postion":[2,1,1]},
+           {"type":"stone","postion":[3,2]},{"type":"questionMark","postion":[2,2],"chooseNum":[0,1]}     ]
+   }

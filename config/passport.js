@@ -1,6 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../model/user');
 const config = require('../config/database');
+const LoginHistory = require("../model/loginHistory");
+const ActionType = require("../config/actionType");
 const bcrypt = require('bcryptjs');
 
 module.exports = function (passport) {
@@ -17,11 +19,19 @@ module.exports = function (passport) {
                     message: '找不到此使用者'
                 });
             }
+            // 確認是否 InActive
+            if (user.InActive) {
+                return done(null, false, {
+                    message: '此為使用者目前無法登入，請洽管理員處理！'
+                });
+            }
 
             //Match Password
             bcrypt.compare(password, user.password, function (err, isMatch) {
                 if (err) throw err;
                 if (isMatch) {
+                    recordBehavior(user._id, ActionType.Login, "/users/login")
+
                     return done(null, user);
                 } else {
                     return done(null, false, {
@@ -50,4 +60,27 @@ module.exports = function (passport) {
         });
     });
 
+}
+
+//紀錄行為
+function recordBehavior(userId, action, detail) {
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.UTCDate = getUTCDate();
+    loginHistory.date = getLocalDate();
+    loginHistory.save(function (err) {
+        if (err) {
+            console.log(err)
+        }
+    })
+}
+
+function getLocalDate() {
+    let localTime = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+    return localTime
+}
+function getUTCDate() {
+    return new Date();
 }

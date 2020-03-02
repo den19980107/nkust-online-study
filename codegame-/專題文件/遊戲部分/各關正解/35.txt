@@ -1,0 +1,33 @@
+/* 三星:3個動作包含3個動作以內  
+   二星:4個動作包含4個動作以內3個動作以上  
+   一星限為滿足過關條件即可*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,j;
+int size=6;
+int distArray[6];
+char direArray[6];
+getDistance(distArray,size);
+getDirection(direArray);
+for(i=0;i<size+1;i++){
+ if(direArray[i]=='L'){
+  turnLeft();
+}else{
+ turnRight();
+}
+ for(j=0;j<distArray[i];j++){
+  moveForward();
+}
+}
+	return 0;
+ }
+
+
+
+
+

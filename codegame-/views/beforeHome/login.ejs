@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" dir="ltr">
+  <head>
+    <meta charset="big5">
+    <link rel="stylesheet" href="css/share/main.css">
+    <link rel="stylesheet" href="css/share/left.css">
+    <link rel="stylesheet" href="css/share/mainFontFamily.css">
+    <link rel="stylesheet" href="css/beforehome/style_login.css">
+    <link rel="stylesheet" href="css/share/share.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script src="js/share.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="main">
+        <div class="box sidebarLeft"><!--left-->
+          <img src="img/MARK.png" class = "leftMarkOut">
+          <dl  style="font-size: calc(5px + 0.5vw);color:black;position: absolute;bottom:1vh;left:0px;text-align:left;">
+            <dt style="margin-bottom:0.5vh;">聯絡信箱：</dt>
+            <dd>
+              <a href="mailto://fullspeedline@gmail.com" style="font-size:1px;color:black;">fullspeedline@gmail.com</a>
+            </dd>
+          </dl>
+        </div>
+        <div class="box center"  id="center">
+          <img src="img/bk.jpg" id="bkImg">
+          <div class="innerBox">
+              <!-- <form class="" action="/login?form=newsletter" method="post"> -->
+              <h1>登入</h1>
+              <% if (username&&password){%>
+                <!-- <h1><%= username %></h1>
+                <h1><%= password %></h1> -->
+                <table>
+                  <tr>
+                    <td>
+                      <img src="img/user.png" id="userImg">
+                    </td>
+                    <td>
+                      <input type="text" id="UsreName" name='usreName' autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');" value=<%= username %>>
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+                    <td>
+                      <img src="img/lock-icon.png" id="passwordImg">
+                    </td>
+                    <td>
+                      <input type="password" id="UsrePass" name='usrePass' readonly onfocus="this.removeAttribute('readonly');" value=<%= password %>
+                    </td>
+                  </tr>
+                </table>
+              <% } else { %>
+                <table>
+                  <tr>
+                    <td>
+                      <img src="img/user.png" id="userImg">
+                    </td>
+                    <td>
+                      <input type="text"  id="UsreName" name='usreName' readonly onfocus="this.removeAttribute('readonly');" placeholder="使用者帳號">
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+                    <td>
+                      <img src="img/lock-icon.png" id="passwordImg">
+                    </td>
+                    <td>
+                      <input type="password" id="UsrePass" name='usrePass' readonly onfocus="this.removeAttribute('readonly');" placeholder="密碼">
+                    </td>
+                  </tr>
+                </table>
+              <% } %>
+              <br>
+              <input type="submit" id="loginBtn" value="" onclick="login()" title="登入">
+              <br>
+              <input type="button" id="signUp" onclick="registered()" value="註冊">
+              <input type="button" id="forgetPassword" onclick="forgest()" value="忘記密碼">
+
+            <!-- </form> -->
+          </div>
+        </div>
+        <div class="box sidebarRight"><!--right-->
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+  </body>
+  <script src="js/beforehome/login.js"></script>
+  <script src="js/closeEvent.js"></script>
+</html>

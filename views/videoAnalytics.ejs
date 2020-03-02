@@ -471,7 +471,9 @@
             <div style="padding: 1rem;text-align: center">
                 <h5 class="m-0">測驗成績</h5>
             </div>
-            <canvas id ="testScoreChart"></canvas>
+            <div id="testScoreChartDiv">
+                <canvas id ="testScoreChart"></canvas>
+            </div>
             <div style="display: flex">
                 <div style="flex: 1">
                     <div style="padding: 1rem;text-align: center">
@@ -1553,7 +1555,12 @@
             }
         }
 
-        let ctx = document.getElementById('testScoreChart').getContext('2d');
+        let chart =document.getElementById('testScoreChartDiv');
+        chart.innerHTML = "";
+        let newCanvas = document.createElement('canvas');
+        newCanvas.width = 1152;
+        newCanvas.height = 576;
+        let ctx = newCanvas.getContext('2d');
         let showTestScoreInClassChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -1595,6 +1602,7 @@
                 }
             }
         });
+        chart.appendChild(newCanvas);
     }
 
     let showVideofinishPersent = function(totalVideo,watchedVideo){

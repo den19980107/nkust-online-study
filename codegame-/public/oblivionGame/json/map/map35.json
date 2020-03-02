@@ -1,0 +1,159 @@
+{
+    "mapNumber": "game01",
+    "mapSize": 81,
+    "mapValue": "000012022000112202000111112000000002000002000000000012000000012000000210001000111",
+    "level": "初階",
+    "winLinit": {
+        "threeStar": [
+            5
+        ],
+        "twoStar": [
+            6
+        ],
+        "oneStar": [
+            7
+        ]
+    },
+    "people_init": {
+        "type": "car",
+        "postion": [
+            0,
+            5,
+            0
+        ],
+        "hp": 5,
+        "armor": 20,
+        "atk": 2
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                0,
+                7,
+                1
+            ]
+        }
+    ],
+    "obj": [
+        {
+            "type": "tree",
+            "postion": [
+                0,
+                6
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                8
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                0,
+                2
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                4,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                6
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                6
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                8
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                5,
+                7
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                8,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                8,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                0,
+                4
+            ]
+        }
+    ]
+}

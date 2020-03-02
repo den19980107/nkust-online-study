@@ -1,0 +1,93 @@
+{
+    "mapNumber": "game01",
+    "mapSize": "36",
+    "mapValue": "000000000000000000000000000000000000",
+    "level": "初階",
+    "winLinit": {
+        "threeStar": [
+            5
+        ],
+        "twoStar": [
+            6
+        ],
+        "oneStar": [
+            7
+        ]
+    },
+    "people_init": {
+        "type": "car",
+        "postion": [
+            0,
+            2,
+            0
+        ]
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                5,
+                2,
+                1
+            ]
+        }
+    ],
+    "obj": [
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                3
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                3
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                3
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                4,
+                1
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                4,
+                3
+            ]
+        }
+    ]
+}

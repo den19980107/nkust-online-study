@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const axios = require('axios');
 //todo 做刪除單元
 let ObjectID = require('mongodb').ObjectID;
 //bring in Article models
@@ -20,6 +21,16 @@ let Video = require('../model/video');
 let StudebtTakeCourse = require('../model/StudentTakeCourse');
 //bring note model
 let Note = require('../model/note');
+//login history model
+let LoginHistory = require('../model/loginHistory');
+//action type 
+let ActionType = require('../config/actionType');
+//full line speed api
+let API = require("../config/api");
+
+
+
+
 // Register Form
 router.get('/register', function (req, res) {
     res.render('register');
@@ -54,7 +65,6 @@ router.post('/register', function (req, res) {
     req.checkBody('username', '帳號不得為空').notEmpty();
     req.checkBody('password', '密碼不得為空').notEmpty();
     req.checkBody('password2', '密碼不相符合').equals(req.body.password);
-
     User.find({
         username: req.body.username
     }, function (err, users) {
@@ -114,8 +124,10 @@ router.post('/register', function (req, res) {
                     schoolname: schoolname,
                     department: department,
                     studentid: studentid,
-                    permission: permission
+                    permission: permission,
+                    InActive: permission == 'teacher' ? true : false
                 });
+
                 bcrypt.genSalt(10, function (err, salt) {
                     bcrypt.hash(newUser.password, salt, function (err, hash) {
                         if (err) {
@@ -124,16 +136,17 @@ router.post('/register', function (req, res) {
                         newUser.password = hash;
                         newUser.save(function (err) {
                             if (err) {
-                                console.log(err);
-                                return;
+                                req.flash('errors', '註冊失敗！');
                             } else {
+                                if (newUser.InActive) {
+                                    mailToAdmin(`使用者 ${newUser.name} 需要被審核！請您至後台審核`)
+                                }
                                 req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
-                                res.redirect('/users/login'); //?
+                                res.redirect('/users/login'); //
                             }
                         });
                     });
                 })
-
 
                 // newUser.save(function (err) {
                 //     if (err) {
@@ -303,6 +316,7 @@ router.get('/userinfo', ensureAuthenticated, function (req, res) {
 
 //Logout
 router.get('/logout', function (req, res) {
+    recordBehavior(req.user._id, ActionType.Logout, req.url)
     req.logout();
     req.flash('success', '您已登出！');
     res.redirect('/users/login');
@@ -349,6 +363,8 @@ router.post('/updateUserinfo', ensureAuthenticated, function (req, res) {
 
 //顯示我選的課
 router.get('/myclass', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "viewMyClasses");
+
     if (req.user.permission == "student") {
         StudebtTakeCourse.find({
             studentID: req.user._id
@@ -396,6 +412,8 @@ router.get('/myclass', ensureAuthenticated, function (req, res) {
 
 //顯示我的筆記
 router.get('/mynote', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "viewMyNotes");
+
     if (req.user.permission == "teacher") {
         res.render('index');
     } else {
@@ -404,6 +422,8 @@ router.get('/mynote', ensureAuthenticated, function (req, res) {
 })
 //新增筆記
 router.post('/note/createNote', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "createNote");
+
     //console.log(req.body);
     let newNote = new Note();
     newNote.title = req.body.title;
@@ -519,5 +539,58 @@ function ensureAuthenticated(req, res, next) {
 
         res.redirect('/users/login/?r=' + nextURL);
     }
+}
+//紀錄行為
+function recordBehavior(userId, action, detail) {
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.UTCDate = getUTCDate();
+    loginHistory.date = getLocalDate();
+    loginHistory.save(function (err) {
+        if (err) {
+            console.log(err)
+        }
+    })
+}
+
+async function mailToAdmin(message) {
+    let admins = await User.find({ permission: "admin" })
+    for (let i = 0; i < admins.length; i++) {
+        const admin = admins[i]
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'nkust.online.study@gmail.com',
+                pass: 'kkc060500'
+            }
+        });
+        //console.log(student.email);
+        var mailOptions = {
+            from: 'nkust.online.study@gmail.com',
+            to: admin.email,
+            subject: 'i-Coding學習平臺',
+            text: message
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                //console.log('Email sent: ' + info.response);
+            }
+        });
+
+    }
+}
+
+function getLocalDate() {
+    let localTime = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+    return localTime
+}
+function getUTCDate() {
+    return new Date();
 }
 module.exports = router;

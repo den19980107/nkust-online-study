@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/home/gameView_text.css">
+    <link rel="stylesheet" href="css/backstage/modifyBtn.css">
+    <link rel="stylesheet" href="css/share/mainFontFamily.css">
+    <link rel="stylesheet" href="css/share/share.css">
+    <link rel="stylesheet" href="css/share/main.css">
+    <link rel="stylesheet" href="css/share/left.css">
+    <link rel="stylesheet" href="css/share/right.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script src="jquery-linedtextarea/jquery-linedtextarea.js"></script>
+
+  	<link href="jquery-linedtextarea/jquery-linedtextarea.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="js/share.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+    <title>全速衝線</title>
+  </head>
+  <body>
+    <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio>
+    <div class="wrap">
+      <div class="main">
+        <div class="box sidebarLeft"><!--left-->
+          <img src="img/MARK.png" class = "leftMark">
+          <input type="button" title="小幫手" id="helperBtn" value="" onclick="helper('blocklyDiv')">
+          <!-- <input type="button" name="" value="testEndView" onclick="createEndView(3, 'gameResult', 20, 'code')"> -->
+          <!-- <input type="button" name="" value="testLoadingView" onclick="createLoadingView()"> -->
+        </div>
+        <div class="box center" id="center">
+          <img src="img/bk.jpg" id="bkImg">
+          <div id="titleBar">
+            <input type="button" title="返回鍵" value="" id="goBack" onclick="back()">
+            <span id="titleFont"></span>
+            <input type="button" id="gameModifyBtn" value="" style="display:none;" onclick="turnToModify()">
+          </div>
+          <div id="textareaBk" style="display: none;">
+            <input type="button" title="關閉" id="clossDiv" value="X">
+            <textarea id="textarea_1"></textarea>
+          </div>
+          <div id = "divcanvas"></div>
+          <div id = "blocklyDiv">
+            <div id = "funcDiv">
+              <div class="titleDiv" id="titleDiv">
+                <div style="cursor: default;">
+                  可用指令
+                </div>
+              </div>
+              <div class="func" id="func">
+                <div style="cursor: default;">
+                  main( )
+                </div>
+              </div>
+              <div class="moveForward" id="moveForward" style="display:none;">
+              </div>
+              <div class="judgment" id="judgment" style="display:none;">
+              </div>
+              <input type="button" title="指令大全" class="instructionButton" value="" onclick="instructionView(center)">
+            </div>
+            <div id="textareaDiv">
+              <textarea class="lined" id="textarea_0" style="height:expression((this.scrollHeight>100)?'100px':(this.scrollHeight+500)+'px');overflow:auto;"></textarea>
+            </div>
+            <div id = "textButtonDiv">
+              <input type="button" title="開始" id="btn1" class="runButton"  value="" onclick="codeToCompiler();">
+              <input type="button" title="重置地圖" class="clearButton" value="" onclick="restartButton()">
+              <input type="button" title="重置關卡" class="restartButton" value="" onclick="clearButton(textarea_0)">
+              <input type="button" title="設定" class="settingButton" value="" onclick="settingAllView(blocklyDiv)">
+            </div>
+          </div>
+        </div>
+        <div class="box sidebarRight"><!--right-->
+          <h1 class = "userName" id="userName" ></h1>
+          <div class="userStar">
+            <img src="img/star.png" class="imgIcon">
+            <font class="starNumber" id="starNumber" ></font>
+          </div>
+          <button class="btnUser" title="個人資料" onclick="userData()"></button>
+          <button class="btnLogout" title="登出" onclick="logout()"></button>
+          <!--<div class="userGold">
+            <img src="img/gold.png" class="imgIcon">
+            <font class="starNumber">:xxx</font>
+          </div>-->
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+
+    <script src="gameNew/gameNew/js/p5.min.js"></script>
+    <script src="gameNew/gameNew/js/p5.dom.js"></script>
+    <script src="js/home/gameView_text.js"></script>
+    <script src="gameNew/gameNew/js/mian.js"></script>
+    <script src="js/closeEvent.js"></script>
+  </body>
+</html>

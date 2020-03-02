@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/css/master.css">
+
+    <title>code game</title>
+  </head>
+
+<body bgcolor="#fee9d6">
+
+
+  <b>地圖大小</b>
+  <select id="college-size" style="height: 40px; width:100px;" "></select>
+  <b>地形選擇</b>
+  <select id="college-cmap" style="height: 40px; width:100px;"></select>
+  <b>物件選擇</b>
+  <select id="college-obj" style="height: 40px; width:100px;"></select>
+  <b>方向選擇</b>
+  <select id="college-pos" style="height: 40px; width:100px;"></select>
+
+  <button type="button" onclick="input()" style="height: 40px; width:100px;">放入</button>
+  <button type="button" onclick="del()" style="height: 40px; width:100px;">刪除</button>
+  <button type="button" onclick="load()" style="height: 40px; width:100px;">載入</button>
+  <table style="width:100%;">
+    <tr>
+      <td>
+        <div id='divcanvas' style="height: 600px; width:600px;"></div>
+      </td>
+
+      <td style="text-align:center;">
+        地圖黨<br>
+        <textarea name="textarea_0" id="textarea_0" rows="40" cols="50"></textarea>
+
+
+      </td>
+    </tr>
+  </table>
+  <script type="text/javascript" src="./js/mian.js"></script>
+  <script src="./js/p5.min.js"></script>
+  <script src="./js/p5.dom.js"></script>
+</body>
+
+
+
+
+</html>

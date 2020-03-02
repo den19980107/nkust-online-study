@@ -1,0 +1,259 @@
+{
+    "mapNumber": "game01",
+    "mapSize": 81,
+    "mapValue": "000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "level": "初階",
+    "extendCode":"void getDirection(char* arr){int i;char key[12]={'R','L','L','R','R','L','R','R','L','R','L','R'};for(i=0;i<12;i++){   arr[i]=key[i];}}",
+    "foggy": true,
+    "winLinit": {
+        "threeStar": [
+            3
+        ],
+        "twoStar": [
+            4
+        ],
+        "oneStar": [
+            5
+        ]
+    },
+    "people_init": {
+        "type": "car",
+        "postion": [
+            0,
+            8,
+            1
+        ],
+        "hp": 5,
+        "armor": 20,
+        "atk": 2
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                8,
+                6,
+                0
+            ]
+        }
+    ],
+    "obj": [
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                8
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                7
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                2,
+                7
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                6
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                0,
+                5
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                8
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                7
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                6
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                3
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                7,
+                2
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                5,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                4,
+                3
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                4
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                1,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                0,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                2
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                3
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                3
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                6,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                7,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                6,
+                7
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                8,
+                3
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                3
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                1
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                5,
+                0
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                6,
+                1
+            ]
+        }
+    ]
+}

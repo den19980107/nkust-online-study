@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/home/gameView_blockly.css">
+    <link rel="stylesheet" href="css/backstage/modifyBtn.css">
+    <link rel="stylesheet" href="css/share/mainFontFamily.css">
+    <link rel="stylesheet" href="css/share/share.css">
+    <link rel="stylesheet" href="css/share/main.css">
+    <link rel="stylesheet" href="css/share/left.css">
+    <link rel="stylesheet" href="css/share/right.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="js/share.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+    <title>全速衝線</title>
+  </head>
+  <body id="bodyId">
+    <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio>
+    <div class="wrap">
+      <div class="main">
+        <div class="box sidebarLeft"><!--left-->
+          <img src="img/MARK.png" class = "leftMark">
+          <input type="button" title="小幫手" id="helperBtn" onclick="helper('blocklyDiv')">
+        </div>
+        <div class="box center" id="center">
+          <div id="titleBar">
+            <input type="button" title="返回鍵" value="" id="goBack"  onclick="back()">
+            <font id="titleFont"></font>
+            <input type="button" id="gameModifyBtn" value="" style="display:none;" onclick="turnToModify()">
+          </div>
+          <div id="textareaBk" style="display: none;">
+            <h1 class="codingTitle">程式碼</h1>
+            <input type="button" id="clossDiv" value="X">
+            <textarea id="textarea_0"></textarea>
+            <textarea id="textarea_1"></textarea>
+          </div>
+          <div id = "divcanvas">
+          </div>
+          <div id = "blocklyDiv">
+            <div id = "blocklyButtonRightDiv">
+              <input type="button" title="開始" id="btn1" class="runButton"  value="" onclick="changeToC(0)">
+              <input type="button" title="轉譯積木" class="transformButton" value="" onclick="transformButton(blocklyDiv)">
+              <input type="button" title="重置地圖" class="clearButton" value="" onclick="clearButton()">
+              <input type="button" title="重置關卡" class="restartButton" value="" onclick="restartButton()">
+              <input type="button" title="設定" class="settingButton" value="" onclick="settingAllView(blocklyDiv)">
+            </div>
+          </div>
+
+          <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
+            <category name="函式" id="函式">
+              <block type="block_main"></block>
+            </category>
+          </xml>
+          <xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
+            <block type="block_main" id="$Y5O;?8Xg{o4],v7Ff=5" x="188" y="63"></block>
+          </xml>
+        </div>
+        <div class="box sidebarRight"><!--right-->
+          <h1 class = "userName" id="userName" ></h1>
+          <div class="userStar">
+            <img src="img/star.png" class="imgIcon">
+            <font class="starNumber" id="starNumber" ></font>
+          </div>
+          <button class="btnUser" title="個人資料" onclick="userData()"></button>
+          <button class="btnLogout" title="登出" onclick="logout()"></button>
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+    <script src="gameNew/gameNew/blockly/js/blockly_compressed.js"></script>
+    <script src="gameNew/gameNew/blockly/js/blocks_compressed.js"></script>
+    <script src="gameNew/gameNew/blockly/msg/js/en.js"></script>
+
+    <script src="gameNew/gameNew/js/p5.min.js"></script>
+    <script src="gameNew/gameNew/js/p5.dom.js"></script>
+    <script src="gameNew/gameNew/js/mian.js"></script>
+    <script src="js/home/gameView_blockly.js"></script>
+    <script src="js/closeEvent.js"></script>
+  </body>
+</html>

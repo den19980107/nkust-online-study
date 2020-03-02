@@ -53,13 +53,12 @@ const upload = multer({
 //上傳照片到教材
 router.post('/', ensureAuthenticated, upload.any(), function (req, res) {
     console.log(req.url);
-
     //console.log("/uploader/image/" + req.files[0].filename);
     var CKEcallback = req.query.CKEditorFuncNum;
     var fileUrl = "/uploader/image/" + req.files[0].filename;
     var msg = "";
     res.send(`<script type="text/javascript">
-    window.parent.CKEDITOR.tools.callFunction("1", "${fileUrl}", "上傳成功");
+    window.parent.CKEDITOR.tools.callFunction("${CKEcallback}", "${fileUrl}", "上傳成功");
     console.log("sendback");
     </script>`);
 

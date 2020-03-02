@@ -1,0 +1,159 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+html,body {
+  height: 100%;
+}
+body {
+  color: black;
+}
+.wrap {
+  height: 99.9%;
+  width: 100%;
+}
+.main {
+  height: 100%;
+  width: 100%;
+  min-height: 600px;
+}
+.box {
+  display: block;
+}
+.center{
+  width: 80%;
+  height: 100%;
+  line-height: 90%;
+  position: relative;
+  top:-100%;
+  left: 10%;
+  min-width: 1000px;
+  text-align: center;
+}
+.center #bkImg{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+}
+.centerBlockly{
+  width: 80%;
+  height: 100%;
+  line-height: 90%;
+  position: relative;
+  top:-100%;
+  left: 10%;
+  min-width: 900;
+  text-align: center;
+}
+.centerBlockly #bkImg{
+  height: 100%;
+  width: 110%;
+  position: absolute;
+  left: -8.1%;
+}
+.centerMidMap{
+  width: 80%;
+  height: 100%;
+  line-height: 90%;
+  position: relative;
+  top:-100%;
+  left: 10%;
+  text-align: center;
+}
+.centerMidMap #bkImg{
+  height: 100%;
+  width: 110%;
+  position: absolute;
+  left: -8.1%;
+}
+.centerMidMap #fogBkImg{
+  z-index: 3;
+  height: 100%;
+  width: 110%;
+  opacity: 0.9;
+  position: absolute;
+  left: -8%;
+}
+.centerLost{
+  width: 80%;
+  height: 100%;
+  line-height: 90%;
+  position: relative;
+  top:-100%;
+  left: 10%;
+  text-align: center;
+}
+.sidebarLeft{
+  width: 10%;
+  height: 100%;
+  z-index: 4;
+  line-height: 90%;
+  position: relative;
+  top: 0%;
+  background: #7C5A43;
+  min-width: 134px;
+  text-align: center;
+}
+.sidebarRight{
+  width: 10%;
+  height: 100%;
+  line-height: 90%;
+  position: relative;
+  top: -200%;
+  left: 90%;
+  background: #7C5A43;
+  min-width: 134px;
+  text-align: center;
+}
+.footer {
+  display: table-row;
+  height: 0%;
+  line-height: 80px;
+  background: none;
+}
+#goBack{
+  width: 50px;
+  height: 50px;
+  font-size: 40px;
+  background-image: url('../../img/goBack.png');
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  position: absolute;
+  border-width: 0;
+  top: 10%;
+  left: 1%;
+  cursor: pointer;
+}
+#goBack2{
+  width: 50px;
+  height: 50px;
+  background-image: url('../../img/goBack.png');
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  position: absolute;
+  border-width: 0;
+  top: 2%;
+  left: 1%;
+  cursor: pointer;
+}
+#goBack3{
+  z-index: 3;
+  width: 7vh;
+  height: 7vh;
+  font-size: 40px;
+  border-width: 0;
+  background-image: url('../../img/goBack3.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  position: absolute;
+  top: 2%;
+  left: 1%;
+  cursor: pointer;
+}

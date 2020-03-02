@@ -1,0 +1,170 @@
+/*main*/
+#bkImg{
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  background: #D6AE81;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/*提醒介面*/
+.oneLine{
+  height: 20vh;
+}
+.oneLine > #remindH2{
+  margin-top: 5vh;
+}
+.twoLine{
+  height: 25vh;
+}
+.twoLine > #remindH2{
+  line-height: 5vh;
+  margin-top: 3vh;
+}
+.twoLine > #remindTrueBtn{
+  bottom: 3.5vh;
+}
+#remindView{
+  z-index: 999;
+  width: 25vw;
+  border-style: solid;
+  border-color: white;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -15vh;
+  margin-left: -12.5vw;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  min-width: 300px;
+  overflow: auto;
+}
+#remindH2{
+  font-size: calc(20px + 1vw);
+}
+#remindTrueBtn{
+  height: 5vh;
+  width: 8vw;
+  font-size: calc(15px + 1vw);
+  line-height: 2.5vh;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  position: absolute;
+  right: calc(50% - 4vw);
+  bottom: 3vh;
+  cursor: pointer;
+}
+.bkView{
+  z-index: 996;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+
+#clossDiv{
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-color: rgb(0, 0, 0);
+  border-width: 0px;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  cursor: pointer;
+}
+.titleH1{
+  z-index: 3;
+  font-size: calc(15px + 3.5vh);
+  letter-spacing: 3px;
+  margin-top: calc(15px + 2vh);
+  font-family:Microsoft JhengHei;
+  font-weight: bold;
+}
+.clear {
+  display: none;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: 4px 0 0 -22px;
+  background:url("../../img/close.png") no-repeat;outline: none;
+}
+
+/*center*/
+#levelSelect{
+  height: 4vh;
+  width: 10vw;
+  font-size: calc(10px + 0.5vw);
+  background-color: #DAE8FC;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  position: absolute;
+  top: 3vh;
+  left: 6%;
+}
+.selectBar{
+  margin-top: 1vh;
+}
+.selectBar a{
+  margin-left: 1vw;
+  margin-right: 1vw;
+  color: white;
+}
+.selectBar td{
+  color: white;
+}
+.titleBar{
+  width: 100%;
+  height: 10%;
+  position: absolute;
+  top: 0px;
+}
+.selectBarDiv{
+  width: 100%;
+  height: 5%;
+  background-color: #4E4E4E;
+  position: absolute;
+  top: 10%;
+}
+.canvasDiv{
+  width: 100%;
+  height: 85%;
+  background-color: white;
+  position: absolute;
+  top: 15%;
+}
+.mycanvas{
+  height: 8vh;
+  width: 100%;
+  position: absolute;
+  font-family: Microsoft JhengHei;
+  font-weight: bold;
+  top: 0px;
+  max-height: 85vh;
+}
+@media(max-aspect-ratio:17/10){
+  #levelSelect{
+    height: 4vh;
+    width: 10vw;
+    font-size: calc(10px + 0.5vw);
+    background-color: #DAE8FC;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    position: absolute;
+    top: 3vh;
+    left: 10%;
+  }
+}

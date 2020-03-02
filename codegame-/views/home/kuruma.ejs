@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html  dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/share/main.css">
+    <link rel="stylesheet" href="css/share/left.css">
+    <link rel="stylesheet" href="css/share/right.css">
+    <link rel="stylesheet" href="css/share/mainFontFamily.css">
+    <link rel="stylesheet" href="css/home/center.css">
+    <link rel="stylesheet" href="css/home/kuruma.css">
+    <link rel="stylesheet" href="css/home/homeCenter.css">
+    <link rel="stylesheet" href="css/backstage/modifyBtn.css">
+    <link rel="stylesheet" href="css/share/share.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+    <!-- js -->
+    <script src="js/share.js"></script>
+    <script src="js/closeEvent.js"></script>
+    <script src="js/backstage/managementModify.js"></script>
+    <title>全速衝線</title>
+  </head>
+  <body>
+    <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio>
+    <div class="wrap">
+      <div class="main">
+        <div class="box sidebarLeft"><!--left-->
+          <img src="img/MARK.png" class = "leftMark">
+        </div>
+        <div class="box centerMidMap" id="centerMidMap">
+          <img src="img/midMapBk.jpg" id="bkImg">
+          <img src="img/fog6.png" id="fogBkImg">
+          <input type="button" title="返回鍵" value="" id="goBack3"  onclick="back()">
+          <input type="button" title="第25關" id="btn0" class="unbtn" value="" onclick="btnClick(0)">
+          <img src="img/unPlayBtn.png" id="img0" class="btnImg">
+          <input type="button" title="第26關" id="btn1" class="unbtn" value="" onclick="btnClick(1)">
+          <img src="img/unPlayBtn.png" id="img1" class="btnImg">
+          <input type="button" title="第27關" id="btn2" class="unbtn" value="" onclick="btnClick(2)">
+          <img src="img/unPlayBtn.png" id="img2" class="btnImg">
+          <input type="button" title="第28關" id="btn3" class="unbtn" value="" onclick="btnClick(3)">
+          <img src="img/unPlayBtn.png" id="img3" class="btnImg">
+          <input type="button" title="第29關" id="btn4" class="unbtn" value="" onclick="btnClick(4)">
+          <img src="img/unPlayBtn.png" id="img4" class="btnImg">
+          <input type="button" title="第30關" id="btn5" class="unbtn" value="" onclick="btnClick(5)">
+          <img src="img/unPlayBtn.png" id="img5" class="btnImg">
+          <input type="button" title="第31關" id="btn6" class="unbtn" value="" onclick="btnClick(6)">
+          <img src="img/unPlayBtn.png" id="img6" class="btnImg">
+          <input type="button" title="第32關" id="btn7" class="unbtn" value="" onclick="btnClick(7)">
+          <img src="img/unPlayBtn.png" id="img7" class="btnImg">
+          <input type="button" title="第33關" id="btn8" class="unbtn" value="" onclick="btnClick(8)">
+          <img src="img/unPlayBtn.png" id="img8" class="btnImg">
+          <input type="button" title="第34關" id="btn9" class="unbtn" value="" onclick="btnClick(9)">
+          <img src="img/unPlayBtn.png" id="img9" class="btnImg">
+          <input type="button" title="第35關" id="btn10" class="unbtn" value="" onclick="btnClick(10)">
+          <img src="img/unPlayBtn.png" id="img10" class="btnImg">
+          <input type="button" title="第36關" id="btn11" class="unbtn" value="" onclick="btnClick(11)">
+          <img src="img/unPlayBtn.png" id="img11" class="btnImg">
+          <input type="button" title="第37關" id="btn12" class="unbtn" value="" onclick="btnClick(12)">
+          <img src="img/unPlayBtn.png" id="img12" class="btnImg">
+          <input type="button" title="第38關" id="btn13" class="unbtn" value="" onclick="btnClick(13)">
+          <img src="img/unPlayBtn.png" id="img13" class="btnImg">
+          <input type="button" title="第39關" id="btn14" class="unbtn" value="" onclick="btnClick(14)">
+          <img src="img/unPlayBtn.png" id="img14" class="btnImg">
+          <input type="button" title="第40關" id="btn15" class="unbtn" value="" onclick="btnClick(15)">
+          <img src="img/unPlayBtn.png" id="img15" class="btnImg">
+          <input type="button" title="第41關" id="btn16" class="unbtn" value="" onclick="btnClick(16)">
+          <img src="img/unPlayBtn.png" id="img16" class="btnImg">
+          <input type="button" title="第42關" id="btn17" class="unbtn" value="" onclick="btnClick(17)">
+          <img src="img/unPlayBtn.png" id="img17" class="btnImg">
+          <input type="button" title="第43關" id="btn18" class="unbtn" value="" onclick="btnClick(18)">
+          <img src="img/unPlayBtn.png" id="img18" class="btnImg">
+          <input type="button" title="第44關" id="btn19" class="unbtn" value="" onclick="btnClick(19)">
+          <img src="img/unPlayBtn.png" id="img19" class="btnImg">
+          <input type="button" title="第45關" id="btn20" class="unbtn" value="" onclick="btnClick(20)">
+          <img src="img/unPlayBtn.png" id="img20" class="btnImg">
+          <input type="button" title="第46關" id="btn21" class="unbtn" value="" onclick="btnClick(21)">
+          <img src="img/unPlayBtn.png" id="img21" class="btnImg">
+          <input type="button" title="第47關" id="btn22" class="unbtn" value="" onclick="btnClick(22)">
+          <img src="img/unPlayBtn.png" id="img22" class="btnImg">
+          <input type="button" title="第48關" id="btn23" class="unbtn" value="" onclick="btnClick(23)">
+          <img src="img/unPlayBtn.png" id="img23" class="btnImg">
+          <input type="button" title="第49關" id="btn24" class="unbtn" value="" onclick="btnClick(24)">
+          <img src="img/unPlayBtn.png" id="img24" class="btnImg">
+          <input type="button" title="第50關" id="btn25" class="unbtn" value="" onclick="btnClick(25)">
+          <img src="img/unPlayBtn.png" id="img25" class="btnImg">
+          <div id = "buttonDiv">
+            <input type="button" title="裝備" class="equipageButton"  value="" onclick="equipageView(centerMidMap)">
+            <input type="button" title="指令大全" class="instructionButton" value="" onclick="instructionView(centerMidMap)">
+            <input type="button" title="成就" class="achievementButton" value="" onclick="achievementView(centerMidMap)">
+            <input type="button" title="設定" class="settingAllButton" value="" onclick="settingAllView(centerMidMap)">
+          </div>
+        </div>
+        <div class="box sidebarRight"><!--right-->
+          <h1 class = "userName" id="userName" >使用者名稱</h1>
+          <div class="userStar">
+            <img src="img/allClrBtn.png" class="imgIcon">
+            <font class="starNumber" id="starNumber" ></font>
+          </div>
+          <button class="btnUser" onclick="userData()" title="個人資料"></button>
+          <button class="btnLogout" onclick="logout()" title="登出"></button>
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+  </body>
+
+  <script src="js/home/kuruma.js"></script>
+</html>

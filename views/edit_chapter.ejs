@@ -83,11 +83,14 @@
 </div>
 <hr>
 <p style="margin: 0;display: inline-block">教材名稱：</p>
+<input id="pdfInput" onchange="convertToBase64();" accept=".pdf" name = "pdf" type="file">
+
 <input value="<%=chapterinfo.chapterName%>" id = "chapterName" style="margin-bottom: 1rem;padding: 0.2rem 0.5rem;display: inline-block;"></input>
 <button class="btn btn-info float-right" onclick="saveEditedChapter('<%=chapterinfo._id%>');">儲存編輯</button>
 <div style="clear: both;"></div>
 <p style="margin: 0;margin-bottom: 1rem">教材內容：</p>
 <textarea id = "Detail"></textarea>
+
 <p id = "hiddenText" style="display: none"><%=chapterinfo.body%></p>
 <script>
     let text = document.getElementById('hiddenText').innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '');
@@ -97,10 +100,14 @@
             instanceReady: function (evt) {
             }
         },
-        removePlugins: 'resize'
+        removePlugins: 'resize',
+        filebrowserUploadUrl: '/uploader',
+        //記得加下面那行  filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form'
     });
     CKEDITOR.instances.Detail.setData(text);
 
+    let pdfBase64 = "";
     let saveEditedChapter = function(chapterID){
         let chapterName = document.getElementById('chapterName').value;
         let body = CKEDITOR.instances.Detail.getData();
@@ -113,7 +120,8 @@
             data: JSON.stringify({
                 chapterID:chapterID,
                 chapterName:chapterName,
-                body: body
+                body: body,
+                pdf:pdfBase64
             }),
             dataType: 'json',
             beforeSend: function () {
@@ -133,6 +141,26 @@
                 //console.log(err);
             }
         });
+    }
+
+    function convertToBase64() {
+        //Read File
+        var selectedFile = document.getElementById("pdfInput").files;
+        //Check File is not Empty
+        if (selectedFile.length > 0) {
+            // Select the very first file from list
+            var fileToLoad = selectedFile[0];
+            // FileReader function for read the file.
+            var fileReader = new FileReader();
+            var base64;
+            // Onload of file read the file content
+            fileReader.onload = function(fileLoadedEvent) {
+                base64 = fileLoadedEvent.target.result;
+                pdfBase64 = base64
+            };
+            // Convert data to base64
+            fileReader.readAsDataURL(fileToLoad);
+        }
     }
 </script>
 <% include layout/footer %>

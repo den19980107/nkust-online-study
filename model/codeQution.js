@@ -20,6 +20,15 @@ let codeQutionSchema = mongoose.Schema({
     },
     tags:{
         type:Array
+    },
+    submitTime:{
+        type: Number
+    },
+    acceptTime:{
+        type:Number
+    },
+    isWritten:{
+        type:String
     }
 });
 

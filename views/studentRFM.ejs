@@ -1,0 +1,299 @@
+<% include layout/navbar %>
+<div class="container">
+    <div id="RFMcontainer" style="flex: 1"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">次數</th>
+                <th scope="col">時間</th>
+                <th scope="col">最近一次</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% studentsTimeSpend.forEach(student => { %>
+            <tr>
+                <th scope="row"><%=student.studentId%></th>
+                <td><%=student.F%></td>
+                <td><%=student.M%>秒</td>
+                <td><%=student.R%></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<!-- <div id="container"></div> -->
+
+
+<!-- 讓圖表可以被放大和滾動 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script>
+  
+    let studentsTimeSpend = <%-JSON.stringify(studentsTimeSpend)%>
+    let dataAndName = []
+    let myData = [];
+    let R = [];
+    let Rmax = -1;
+    let Rmin = 100000000000;
+    let F = [];
+    let Fmax = -1;
+    let Fmin = 100000000000;
+    let M = [];
+    let Mmax = -1;
+    let Mmin = 100000000000;
+    for (let i = 0; i < studentsTimeSpend.length; i++) {
+        R.push(studentsTimeSpend[i].R)
+        if (studentsTimeSpend[i].R > Rmax) {
+            Rmax = studentsTimeSpend[i].R
+        }
+        if (studentsTimeSpend[i].R < Rmin) {
+            Rmin = studentsTimeSpend[i].R
+        }
+        F.push(studentsTimeSpend[i].F)
+        if (studentsTimeSpend[i].F > Fmax) {
+            Fmax = studentsTimeSpend[i].F
+        }
+        if (studentsTimeSpend[i].F < Fmin) {
+            Fmin = studentsTimeSpend[i].F
+        }
+        M.push(studentsTimeSpend[i].M)
+        if (studentsTimeSpend[i].M > Mmax) {
+            Mmax = studentsTimeSpend[i].M
+        }
+        if (studentsTimeSpend[i].M < Mmin) {
+            Mmin = studentsTimeSpend[i].M
+        }
+    }
+    console.log("Rmax = ",Rmax,"Rmin = ",Rmin);
+    console.log("Fmax = ",Fmax,"Fmin = ",Fmin);
+    console.log("Mmax = ",Mmax,"Mmin = ",Mmin);
+    const map = (num, in_min, in_max, out_min, out_max) => {
+        if (in_min == in_max) {
+            return in_min
+        }
+        return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+    R = R.map(function (num) {
+        //720代表 一個月 = 30天 = 30x24小時 = 720  這邊可以自行設定區間
+        return map(num, Rmin, Rmax, 0, 100)
+    })
+    F = F.map(function (num) {
+        return map(num, Fmin, Fmax, 0, 100)
+    })
+    M = M.map(function (num) {
+        return map(num, Mmin, Mmax, 0, 100)
+    })
+    Rcolor = R.map(function (num) {
+        return map(num, 0, 100, 0, 200)
+    })
+    Fcolor = F.map(function (num) {
+        return map(num, 0, 100, 200, 0)
+    })
+    Mcolor = M.map(function (num) {
+        return map(num, 0, 100, 0, 200)
+    })
+    for (let i = 0; i < studentsTimeSpend.length; i++) {
+        if (isNaN(M[i])) {
+            M[i] = 0
+        }
+
+        let data = [R[i], F[i], M[i]];
+        myData.push(data)
+    }
+    console.log(myData)
+    for (let i = 0; i < studentsTimeSpend.length; i++) {
+        dataAndName.push({
+            id: studentsTimeSpend[i].studentID,
+            name: studentsTimeSpend[i].userName,
+            color: `rgb(${Rcolor[i]},${Fcolor[i]},${Mcolor[i]})`,
+            data: [myData[i]],
+            marker: {
+                symbol: 'circle'
+            }
+        })
+    }
+    var chart = new Highcharts.Chart({
+        chart: {
+            events: {
+                load: function () {
+                    let divwidth = $('#RFMcontainer').width();
+                    let divheight;
+                    if ($(window).width() < 400) {
+                        divheight = 400;
+                    } else {
+                        divheight = $('#RFMDiv').height();
+                    }
+
+                    this.setSize(divwidth, divheight);
+                }
+            },
+            renderTo: 'RFMcontainer',
+            margin: 100,
+            type: 'scatter3d',
+            animation: false,
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 30,
+                depth: 450,
+                viewDistance: 5,
+                fitToPlot: false,
+                frame: {
+                    bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
+                    back: { size: 1, color: 'rgba(0,0,0,0.04)' },
+                    side: { size: 1, color: 'rgba(0,0,0,0.06)' }
+                }
+            }
+        },
+        title: {
+            text: 'RFM分析'
+        },
+        subtitle: {
+            text: '下圖為所有觀看此影片的人的RFM分析圖'
+        },
+        tooltip: {
+            formatter: function () {
+                return '姓名:' + this.series.name + '<br><br>R: <b>' + this.x +
+                    '</b><br> F: <b>' + this.y + '</b><br>' + 'M: <b>' + this.point.z + '</b>';
+            }
+        },
+        plotOptions: {
+            scatter: {
+                width: 10,
+                height: 10,
+                depth: 10
+            },
+            series: {
+                cursor: 'pointer',
+                events: {
+                    click: function (e) {
+                        // console.log(e.point.series.userOptions.id);
+                        let userID = e.point.series.userOptions.id
+                        $.ajax({
+                            url: '/api/getuserinfo/' + userID + '',
+                            type: 'GET',
+                            beforeSend: function () {
+                                let loader = document.getElementById('line-loader');
+                                loader.style.display = "block"
+                            },
+                            complete: function () {
+                                let loader = document.getElementById('line-loader');
+                                loader.style.display = "none"
+                            },
+                            error: function (error) {
+                                alert(error.error);
+                            },
+                            success: function (response) {
+                                // console.log(response);
+                                document.getElementById('username').innerHTML = "帳號:  " + response.username;
+                                document.getElementById('name').innerHTML = "姓名:  " + response.name
+                                document.getElementById('schoolname').innerHTML = "就讀學校:  " + response.schoolname
+                                document.getElementById('department').innerHTML = "就讀科系:  " + response.department
+                                document.getElementById('studentid').innerHTML = "學號:  " + response.studentid
+                                document.getElementById('email').innerHTML = "信箱:  " + response.email
+                                document.getElementById('studentPage_btn').onclick = function () { window.location = `/class/${response.classinfo._id}/showClassmateInfo/${userID}` };
+                                document.getElementById('studetEmail_btn').onclick = function () { window.open('mailto:' + response.email); }
+                                showTestScoreInClass(response.thisClassTests, response.userSubmitTest);//顯示此學生在本課程所有測驗的成績
+                                showVideofinishPersent(response.thisClassVideo, response.totalWatchVideo);
+                                showTestfinishPersent(response.thisClassTests, response.userSubmitTest)
+                                $('#watcherInfoModal').modal()
+                            }
+                        })
+                    }
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: { text: "F(觀看頻率)" }
+        },
+        xAxis: {
+            min: 0,
+            max: 100,
+            gridLineWidth: 1,
+            title: { text: "R(最近觀看)" }
+        },
+        zAxis: {
+            min: 0,
+            max: 100,
+            title: { text: "M(花費成本)" }
+        },
+        legend: {
+            enabled: false
+        },
+        series: dataAndName
+    });
+    var width = window.matchMedia("(max-width: 400px)");
+                myFunction(width)
+                width.addListener(myFunction)
+                function myFunction(width) {
+                    let divwidth = $('#RFMcontainer').width();
+                    let divheight = $('#RFMDiv').height();
+                    if (width.matches) { // If media query matches
+                        // console.log(divwidth);
+                        chart.setSize(divwidth,divheight);
+                    } else {
+                        chart.setSize(divwidth,divheight);
+                        // console.log(divwidth);
+
+                    }
+                }
+
+                // Add mouse and touch events for rotation
+                (function (H) {
+                    function dragStart(eStart) {
+                        eStart = chart.pointer.normalize(eStart);
+
+                        var posX = eStart.chartX,
+                            posY = eStart.chartY,
+                            alpha = chart.options.chart.options3d.alpha,
+                            beta = chart.options.chart.options3d.beta,
+                            sensitivity = 5,  // lower is more sensitive
+                            handlers = [];
+
+                        function drag(e) {
+                            // Get e.chartX and e.chartY
+                            e = chart.pointer.normalize(e);
+
+                            chart.update({
+                                chart: {
+                                    options3d: {
+                                        alpha: alpha + (e.chartY - posY) / sensitivity,
+                                        beta: beta + (posX - e.chartX) / sensitivity
+                                    }
+                                }
+                            }, undefined, undefined, false);
+                        }
+
+                        function unbindAll() {
+                            handlers.forEach(function (unbind) {
+                                if (unbind) {
+                                    unbind();
+                                }
+                            });
+                            handlers.length = 0;
+                        }
+
+                        handlers.push(H.addEvent(document, 'mousemove', drag));
+                        handlers.push(H.addEvent(document, 'touchmove', drag));
+
+
+                        handlers.push(H.addEvent(document, 'mouseup', unbindAll));
+                        handlers.push(H.addEvent(document, 'touchend', unbindAll));
+                    }
+                    H.addEvent(chart.container, 'mousedown', dragStart);
+                    H.addEvent(chart.container, 'touchstart', dragStart);
+                }(Highcharts));
+</script>
+<% include layout/nobottom-footer %>

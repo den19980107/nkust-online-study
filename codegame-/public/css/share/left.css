@@ -1,0 +1,269 @@
+.leftMark{
+  width: 100%;
+  height: 60px;
+}
+.leftMarkOut{
+  width: 100%;
+  height: 60px;
+}
+@media (max-aspect-ratio:17/10){
+  .leftMarkOut{
+    width: 100%;
+    height: 60px;
+  }
+}
+@media (max-aspect-ratio:17/10){
+  .leftMark{
+    width: 100%;
+    height: 60px;
+  }
+}
+#helperBtn{
+  width: 100px;
+  height: 100px;
+  background-image: url("../../img/helper.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-width: 0px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+#helperView{
+  z-index: 999;
+  height: 85%;
+  width: 90%;
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  background-color: #FFF2CC;
+  box-shadow: 0px 0px 7px 10px rgba(255, 255, 255, 0.68);
+}
+#helperInnerDiv{
+  height: calc(100% - 5vh - 22px);
+  width: 100%;
+  font-family: Microsoft JhengHei;
+  position: absolute;
+  top: calc(5vh + 22px);
+  background-color: rgba(0, 0, 0, 0);
+  overflow: auto;
+}
+#helperTextarea1{
+  height: 50%;
+  width: 40%;
+  font-size: 1.5vw;
+  font-family:Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
+#helperTextarea2{
+  height: 25%;
+  width: 90%;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: 60%;
+  left: 5%;
+  padding-bottom: 12vh;
+}
+#helperTextarea3{
+  height: 80%;
+  width: 80%;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+}
+#helperTextarea4,#helperTextarea5,#helperTextarea6,#helperTextarea7,#helperTextarea8{
+  height: 8vh;
+  width: auto;
+  font-size: 1.5vw;
+  font-family:Microsoft JhengHei;
+  line-height: 8vh;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+}
+#helperTextarea4{
+  top: 105%;
+  left: calc(10% + 8vh);
+}
+#helperTextarea5{
+  top: calc(110% + 8vh);
+  left: calc(10% + 8vh);
+}
+#helperTextarea6{
+  top: calc(115% + (8vh * 2));
+  left: calc(10% + 8vh);
+}
+#helperTextarea7{
+  top: calc(120% + (8vh * 3));
+  left: calc(10% + 8vh);
+}
+#helperTextarea8{
+  top: calc(125% + (8vh * 4));
+  left: calc(10% + 8vh);
+}
+#helperTextarea9{
+  height: 25%;
+  width: 90%;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: calc(130% + (8vh * 5));
+  left: 5%;
+}
+#helperImgDiv1,#helperImgDiv2{
+  height: 18vh;
+  width: 45%;
+  position: absolute;
+  right: 5%;
+}
+#helperImgDiv1{
+  top: 5%;
+}
+#helperImgDiv2{
+  top: 33%;
+}
+#helperImgDiv4,#helperImgDiv5,#helperImgDiv6,#helperImgDiv7,#helperImgDiv8{
+  height: 8vh;
+  width: 8vh;
+  position: absolute;
+}
+#helperImgDiv4{
+  left: 5%;
+  top: 105%;
+}
+#helperImgDiv5{
+  left: 5%;
+  top: calc(110% + 8vh);
+}
+#helperImgDiv6{
+  left: 5%;
+  top: calc(115% + (8vh * 2));
+}
+#helperImgDiv7{
+  left: 5%;
+  top: calc(120% + (8vh * 3));
+}
+#helperImgDiv8{
+  left: 5%;
+  top: calc(125% + (8vh * 4));
+}
+.helperImg{
+  height: 80%;
+  width: auto;
+}
+.bigTextareaDiv{
+  height: 60%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.bigTextareaDiv textarea{
+  height: 100%;
+  width: 88%;
+  border: none;
+  font-size: 1.5vw;
+  font-family: Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  left: 6%;
+}
+.bigImgDiv{
+  height: 40%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.bigImgDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 90%;
+}
+.imgAndTextDiv{
+  height: 40%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.imgAndTextDiv textarea{
+  height: 100%;
+  width: 45%;
+  border: none;
+  position: absolute;
+  background-color: transparent;
+}
+.imgAndTextDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 90%;
+}
+.smallImgAndTextDiv{
+  height: 25%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.smallImgAndTextDiv>.smallImgAndTextInneDiv{
+  width:20%;
+  height:100%;
+  position: absolute;
+}
+.smallImgAndTextDiv textarea{
+  height: 100%;
+  width: 58%;
+  border: none;
+  position: absolute;
+  background-color: transparent;
+}
+.smallImgAndTextDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 90%;
+}
+.twoImgAndTextDiv{
+  height: 60%;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+}
+.twoImgAndTextDiv>.twoImgAndTextInneDiv{
+  width:20%;
+  height:100%;
+  position: absolute;
+}
+.twoImgAndTextDiv textarea{
+  height: 100%;
+  width: 58%;
+  border: none;
+  position: absolute;
+  background-color: transparent;
+}
+.twoImgAndTextDiv img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 40%;
+}

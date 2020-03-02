@@ -1,0 +1,240 @@
+#titleBar{
+  width: 100%;
+  height: 10.5%;
+  border-style:none;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(215, 120, 120, 0.9);
+}
+#titleBar font{
+  position: absolute;
+  margin-top: 20px;
+  font-size: 50px;
+  top:40%;
+  right:0;
+  bottom:0;
+  left:0;
+  margin:auto;
+}
+#divcanvas{
+  height: 89%;
+  width: 50%;
+  border-style:solid;
+  background-color: none;
+  position: absolute;
+  top: 10.5%;
+  left: 0%;
+}
+#blocklyDiv{
+  height: 89%;
+  width: 50%;
+  border-style:solid;
+  z-index: 1;
+  background-color: white;
+  position: absolute;
+  top: 10.5%;
+  right: 0%;
+}
+#textButtonDiv{
+  height: 60px;
+  width: 270px;
+  z-index: 999;
+  background-color: none;
+  position: fixed;
+  bottom: 10px;
+  left: 57%;
+}
+#textButtonDiv .runButton{
+  width: 125px;
+  height: 60px;
+  border: 0px;
+  background-image: url('../../img/RunButton.png');
+  background-repeat: no-repeat;
+  background-size: 120px 50px;
+  background-color: transparent;
+  position: absolute;
+  top: 5%;
+  right: 130px;
+  cursor: pointer;
+}
+#textButtonDiv .restartButton{
+  width: 60px;
+  height: 60px;
+  border: 0px;
+  background-image: url('../../img/RestartButton.png');
+  background-repeat: no-repeat;
+  background-size: 45px 45px;
+  background-color: transparent;
+  position: absolute;
+  top: 10%;
+  right: 60px;
+  cursor: pointer;
+}
+#textButtonDiv .settingButton{
+  width: 60px;
+  height: 60px;
+  border: 0px;
+  background-image: url('../../img/SettingButton.png');
+  background-repeat: no-repeat;
+  background-size: 45px 45px;
+  background-color: transparent;
+  position: absolute;
+  top: 10%;
+  right: 1%;
+  cursor: pointer;
+}
+#blocklyButtonDiv{
+  height: 60px;
+  width: 270px;
+  z-index: 999;
+  background-color: none;
+  position: fixed;
+  bottom: 10px;
+  left: 60%;
+}
+#blocklyButtonDiv .runButton{
+  width: 125px;
+  height: 60px;
+  border: 0px;
+  background-image: url('../../img/RunButton.png');
+  background-repeat: no-repeat;
+  background-size: 120px 50px;
+  background-color: transparent;
+  position: absolute;
+  top: 5%;
+  right: 140px;
+  cursor: pointer;
+}
+#blocklyButtonDiv .transformButton{
+  width: 35px;
+  height: 35px;
+  border: 0px;
+  background-image: url('../../img/TransformButton.png');
+  background-repeat: no-repeat;
+  background-size: 35px 35px;
+  background-color: transparent;
+  position: absolute;
+  top: 10%;
+  right: 95px;
+  cursor: pointer;
+}
+#blocklyButtonDiv .restartButton{
+  width: 35px;
+  height: 35px;
+  border: 0px;
+  background-image: url('../../img/RestartButton.png');
+  background-repeat: no-repeat;
+  background-size: 35px 35px;
+  background-color: transparent;
+  position: absolute;
+  top: 10%;
+  right: 50px;
+  cursor: pointer;
+}
+#blocklyButtonDiv .settingButton{
+  width: 35px;
+  height: 35px;
+  border: 0px;
+  background-image: url('../../img/SettingButton.png');
+  background-repeat: no-repeat;
+  background-size: 35px 35px;
+  background-color: transparent;
+  position: absolute;
+  top: 10%;
+  right: 1%;
+  cursor: pointer;
+}
+#defaultCanvas{
+  height: 70%;
+  width: 48%;
+}
+#textareaBk{
+  width: 40%;
+  height: 50%;
+  z-index: 3;
+  position: absolute;
+  top: 25%;
+  right: 30%;
+  background-color: white;
+}
+#funcDiv{
+  width: 20%;
+  height: 100%;
+  font-size: 25px;
+  color: white;
+  line-height: 24px;
+  background-color: rgb(117, 117, 117);
+  position: absolute;
+  left: 0px;
+}
+#textarea_0{
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  right: 0px;
+}
+#textarea_1{
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+/*提醒介面*/
+.oneLine{
+  height: 20vh;
+}
+.oneLine > #remindH2{
+  margin-top: 5vh;
+}
+.twoLine{
+  height: 25vh;
+}
+.twoLine > #remindH2{
+  line-height: 5vh;
+  margin-top: 3vh;
+}
+.twoLine > #remindTrueBtn{
+  bottom: 3.5vh;
+}
+#remindView{
+  z-index: 999;
+  width: 25vw;
+  border-style: solid;
+  border-color: white;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -15vh;
+  margin-left: -12.5vw;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  min-width: 300px;
+  overflow: auto;
+}
+#remindH2{
+  font-size: calc(20px + 1vw);
+}
+#remindTrueBtn{
+  height: 5vh;
+  width: 8vw;
+  font-size: calc(15px + 1vw);
+  line-height: 2.5vh;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  position: absolute;
+  right: calc(50% - 4vw);
+  bottom: 3vh;
+  cursor: pointer;
+}
+.bkView{
+  z-index: 996;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.74);
+}

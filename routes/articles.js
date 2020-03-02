@@ -9,11 +9,16 @@ let User = require('../model/user');
 let studentCommentArticle = require('../model/studentCommentArticle');
 //bring Class model
 let Class = require('../model/class');
+//bring login history model
+const LoginHistory = require('../model/loginHistory');
+
 //把有格式的字轉成沒格式 <<h2p>>
 var h2p = require('html2plaintext')
 
 //新增文章的route
 router.post('/add/inClass/:classID',ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"createArticleInClass",req.params.classID);
+
     req.checkBody('title', '文章標題不得為空').notEmpty();
     // req.checkBody('author', 'Author is required').notEmpty();
     req.checkBody('body', '文章內容不得為空').notEmpty();
@@ -108,6 +113,8 @@ router.post('/edit/:id/inClass/:classid',ensureAuthenticated, function (req, res
 
 //顯示一篇文章的route
 router.get('/:id/inClass/:classid', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id,"readArticle",req.params.id);
+    
     Article.findById(req.params.id, function (err, article) {
         Class.findById(article.belongClass, function (err, classinfo) {
             User.findById(article.author_id, function (err, user) {
@@ -246,4 +253,26 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
+//紀錄行為
+function recordBehavior(userId,action,detail){
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.UTCDate = getUTCDate();
+    loginHistory.date = getLocalDate();
+    loginHistory.save(function(err){
+        if(err){
+            console.log(err)
+        }
+    })
+  }
+  
+  function getLocalDate (){
+    let localTime = new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Taipei'});
+    return localTime
+  }
+  function getUTCDate(){
+    return new Date();
+  }
 module.exports = router;

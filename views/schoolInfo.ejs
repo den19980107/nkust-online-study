@@ -1,0 +1,278 @@
+<% include layout/header %>
+<style>
+    body {
+        background-image: url("http://ucourse-tvc.yuntech.edu.tw/WebU/Images/Index//info.png");
+        /* Background image is centered vertically and horizontally at all times */
+        background-position: center center;
+
+        /* Background image doesn't tile */
+        background-repeat: no-repeat;
+
+        /* Background image is fixed in the viewport so that it doesn't move when 
+     the content's height is greater than the image's height */
+        background-attachment: fixed;
+
+        /* This is what makes the background image rescale based
+     on the container's size */
+        background-size: cover;
+
+        /* Set a background color that will be displayed
+     while the background image is loading */
+        background-color: #464646;
+    }
+
+    .panel-primary {
+        border-color: #337ab7;
+    }
+
+    .panel-primary > .panel-heading {
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #337ab7;
+        padding: 1rem;
+    }
+
+    .panel {
+        margin-bottom: 20px;
+        background-color: #fff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+    
+</style>
+<h3>課程查詢</h3>
+<hr>
+
+<div class="mt-5" style="display:flex;justify-content: space-between;">
+    <p style="padding: 0.5rem 0 0 0;margin: 0;">課程名稱</p>
+    <input class="form-control" style="width: 70%;" id ="courseName" type="text">
+    <button class="btn btn-primary" style="width: 10%;" onclick="search()">查詢</button>
+</div>
+
+<div class="panel panel-primary mt-5">
+    <div class="panel-heading">學校清單 - School List</div>
+    <div class="panel-body" id="schoolList" style="max-height: 500px;overflow: scroll;">
+
+    </div>
+</div>
+
+
+<div class="panel panel-primary mt-5">
+    <div class="panel-heading">課程清單 - Course List</div>
+    <table class="table" style="max-height: 500px;overflow: scroll">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 20%;">課程名稱</th>
+                <th scope="col" style="width: 20%;">學校</th>
+                <th scope="col" style="width: 20%;">學院</th>
+                <th scope="col">科系</th>
+                <th scope="col">教師</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="courseList">
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">課程資訊</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body"id = "modelTable">
+                
+        </div>
+        
+        </div>
+    </div>
+</div>
+<div id = "loader" style="display:none">
+    <div style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(100, 100, 100, 0.3);z-index: 1000000;">
+    </div>
+    <div style="position:fixed;top:50%;left:50%;transform: translate(-50%,-50%);">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    window.onload = function(){
+        document.getElementById('courseName').value = "程式";
+        search();
+    }
+
+    function search(){
+
+        let courseName = document.getElementById('courseName').value;
+        let data = {
+            year:"108",
+            semester:"上學期",
+            schoolLevel:"",
+            location:"",
+            courseName:courseName,
+        }
+        console.log(data)
+        document.getElementById('loader').style.cssText = "display:block";
+        postData('/school/search', data)
+        .then(data => {
+            console.log(data)
+            let schoolList = document.getElementById('schoolList');
+            let courseList = document.getElementById('courseList');
+            schoolList.innerHTML = "";
+            courseList.innerHTML = "";
+
+            let schoolNames = data.schoolName
+            let courses = data.courses
+            
+            console.log(schoolNames.length/3)
+            for(let i = 0;i<schoolNames.length;i+=3){
+                if(i>schoolNames.length) break;
+                let row = document.createElement('div');
+                row.className = "row";
+                if(schoolNames[i+0] != undefined){
+                    row.innerHTML += `
+                    <div class = "col">${schoolNames[i+0]}</div>
+                    `
+                }else{
+                    row.innerHTML += `
+                    <div class = "col"></div>
+                    `
+                }
+                if(schoolNames[i+1] != undefined){
+                    row.innerHTML += `
+                    <div class = "col">${schoolNames[i+1]}</div>
+                    `
+                }else{
+                    row.innerHTML += `
+                    <div class = "col"></div>
+                    `
+                }
+                if(schoolNames[i+2] != undefined){
+                    row.innerHTML += `
+                    <div class = "col">${schoolNames[i+2]}</div>
+                    `
+                }else{
+                    row.innerHTML += `
+                    <div class = "col"></div>
+                    `
+                }
+                console.log(row)
+                schoolList.appendChild(row)
+                
+            }
+            courses.forEach(course =>{
+                courseList.innerHTML += `
+
+                <tr>
+                    <td scope="col"><a href = "${course.classUrl}" target="_blank">${course.className}</a></td>
+                    <td scope="col">${course.schoolName}</td>
+                    <td scope="col">${course.collegeName}</td>
+                    <td scope="col">${course.departmentName}</td>
+                    <td scope="col">${course.teacherName}</td>
+                    <td scope="col"><button class="btn btn-info" onclick = "searchCourseData('${course._id}')">詳細資訊</button></td>
+                </tr>
+                `
+            })
+            document.getElementById('loader').style.cssText = "display:none";
+
+        }) // JSON from `response.json()` call
+        .catch(error => console.error(error))
+    }
+
+    function searchCourseData(id){
+        console.log(id)
+        fetch('/school/getCourseDetail/'+id)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(myJson) {
+            console.log(myJson);
+            myJson = myJson.data
+            let modelTable = document.getElementById('modelTable')
+            modelTable.innerHTML = `
+            <table class="table">
+            <tbody >
+            <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">開課年度</td>
+                        <td id="year">${myJson.year}</td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">開課學期名稱</td>
+                        <td id ="semester">${myJson.semester} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">級別名</td>
+                        <td id = "schoolLevel">${myJson.schoolLevel} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">校名</td>
+                        <td id = "schoolName">${myJson.schoolName} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">英文校名</td>
+                        <td id  ="departmentEName">${myJson.departmentEName}</td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">課程名稱</td>
+                        <td id = "className">${myJson.className}</td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">學院名稱</td>
+                        <td id = "collegeName">${myJson.collegeName} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">系所名稱</td>
+                        <td id = "departmentName">${myJson.departmentName} </td>
+                    </tr>
+
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">開課老師</td>
+                        <td id = "teacherName">${myJson.teacherName} </td>
+                    </tr>
+                    <tr align="left" valign="top" style="font-size:16px;">
+                        <td align="right" valign="top" style="font-size:16px;width:150px;">課程大綱</td>
+                        <td id = "classInfo">${myJson.classInfo} </td>
+                    </tr>
+                </tbody>
+                </table >
+            `
+                    $('#exampleModal').modal('show')
+        });
+    }
+
+
+    function postData(url, data) {
+    // Default options are marked with *
+    return fetch(url, {
+        body: JSON.stringify(data), // must match 'Content-Type' header
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, same-origin, *omit
+        headers: {
+        'user-agent': 'Mozilla/4.0 MDN Example',
+        'content-type': 'application/json'
+        },
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // *client, no-referrer
+    })
+    .then(response => response.json()) // 輸出成 json
+}
+</script>
+<% include layout/footer %>

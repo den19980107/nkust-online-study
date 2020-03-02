@@ -1,0 +1,52 @@
+/* 三星:18個動作包含18個動作以內  
+   二星:19個動作包含19個動作以內18個動作以上  
+   一星限為滿足過關條件即可*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+
+int key[6];
+int size=6;
+int i,max;
+getKeyArray(key,size);
+moveForward();
+turnLeft();
+for(i=0;i<2;i++){
+  moveForward();
+}
+turnRight();
+for(i=0;i<2;i++){
+  moveForward();
+}
+turnRight();
+for(i=0;i<2;i++){
+  moveForward();
+}
+turnLeft();
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+  moveForward();
+moveForward();
+  turnLeft();
+}
+moveForward();
+max=key[0];
+for(i=0;i<size;i++){
+ if(max<key[i]){
+max=key[i];
+}
+}
+printf("%d",max);
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+
+	return 0;
+ }

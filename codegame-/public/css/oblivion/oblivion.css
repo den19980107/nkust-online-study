@@ -1,0 +1,597 @@
+/*main*/
+.center{
+  background-color: #AEC9EF;
+}
+.bottomColor{
+  width: 100%;
+  height: 50%;
+  border: 0;
+  background-color: #DEDEDE;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
+/*left*/
+#helperBtn{
+  width: 100px;
+  height: 100px;
+  background-image: url("../../img/helper.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-width: 0px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+#helperView{
+  z-index: 5;
+  height: 85%;
+  width: 90%;
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  background-color: #FFF2CC;
+  box-shadow: 0px 0px 7px 10px rgba(255, 255, 255, 0.68);
+  overflow: auto;
+}
+#helperBkView{
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+#helperTextarea1{
+  height: 50%;
+  width: 40%;
+  font-size: 1.5vw;
+  font-family:Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: 15%;
+  left: 5%;
+}
+#helperTextarea2{
+  height: 25%;
+  width: 90%;
+  font-size: 1.5vw;
+  font-family:Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  top: 70%;
+  left: 5%;
+  padding-bottom: 12vh;
+}
+#helperTextarea3{
+  height: 80%;
+  width: 80%;
+  font-size: 1.5vw;
+  font-family:Microsoft JhengHei;
+  line-height: 2vw;
+  text-align: left;
+  background-color: transparent;
+  position: absolute;
+  left: 10%;
+  margin-top: 2vh;
+}
+#helperImgDiv1,#helperImgDiv2{
+  height: 18vh;
+  width: 45%;
+  position: absolute;
+  right: 5%;
+}
+#helperImgDiv1{
+  top: 15%;
+}
+#helperImgDiv2{
+  top: 43%;
+}
+.helperImg{
+  height: 100%;
+  width: auto;
+}
+
+
+/*center*/
+.settingAllButton{
+  width: 6vh;
+  height: 6vh;
+  border-width: 0px;
+  background-image: url('../../img/setting_all.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-color: transparent;
+  position: absolute;
+  right: 5%;
+  top: 1.5vh;
+  cursor: pointer;
+}
+
+/*提醒介面*/
+.oneLine{
+  height: 20vh;
+}
+.oneLine > #remindH2{
+  margin-top: 5vh;
+}
+.twoLine{
+  height: 25vh;
+}
+.twoLine > #remindH2{
+  line-height: 5vh;
+  margin-top: 3vh;
+}
+.twoLine > #remindTrueBtn{
+  bottom: 3.5vh;
+}
+#remindView{
+  z-index: 999;
+  width: 25vw;
+  border-style: solid;
+  border-color: white;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -15vh;
+  margin-left: -12.5vw;
+  background-color:  rgba(0, 0, 0, 0.74);
+  color: white;
+  min-width: 300px;
+  overflow: auto;
+}
+#remindH2{
+  font-size: calc(20px + 1vw);
+}
+#remindTrueBtn{
+  height: 5vh;
+  width: 8vw;
+  font-size: calc(15px + 1vw);
+  line-height: 2.5vh;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  position: absolute;
+  right: calc(50% - 4vw);
+  bottom: 3vh;
+  cursor: pointer;
+}
+.bkView{
+  z-index: 996;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+
+/*right*/
+#userDataBkView{
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.74);
+}
+#userDataView{
+  z-index: 4;
+  height: 58%;
+  width: 35%;
+  position: absolute;
+  top: 21%;
+  left: 32.5%;
+  background-color: #FFC777;
+  border-style: solid;
+  border-color: white;
+  border-width: 3px;
+}
+#clossDiv{
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  border-color: rgb(0, 0, 0);
+  border-width: 0px;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  cursor: pointer;
+}
+#allTitle,#userTitle{
+  margin-top: 20px;
+  height: 5vh;
+  color: #7C5A43;
+  letter-spacing: 1vw;
+  font-size: calc(10px + 2vw);
+  font-weight: bold;
+  font-family: "Microsoft JhengHei";
+  border-style: solid;
+  border-color: #7C5A43;
+  border-width: 0px 0px 2px 0px;
+}
+#userInnerDiv{
+  width: 80%;
+  height: 70%;
+  font-family: "Microsoft JhengHei";
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  background-color: #FFF2CC;
+  border-style: solid;
+  border-color:#D6B656;
+  overflow: auto;
+}
+#userH3Div{
+  width: 90%;
+  height: 90%;
+  font-family: "Microsoft JhengHei";
+  font-size: calc(1.6vh + 5px);
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
+#userTable td{
+  font-family: "Microsoft JhengHei";
+  line-height: 6vh;
+  text-align:center;
+  text-align:justify;
+  text-justify:distribute-all-lines;
+  text-align-last:justify
+}
+.titleH1{
+  font-size: 6vh;
+  font-family: "Microsoft JhengHei";
+  font-weight: bold;
+  padding-top: calc(15px + 2vh);
+  letter-spacing: 0.5vw;
+  position: relative;
+}
+.centerLost font{
+  font-size: 6vh;
+  letter-spacing: 3px;
+  margin-top: 1vh;
+}
+#levelSelect{
+  height: 4vh;
+  width: 6vw;
+  font-size: calc(10px + 0.5vw);
+  background-color: white;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  position: absolute;
+  top: 3vh;
+  left: 8%;
+}
+.clear {
+  display: none;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: 4px 0 0 -22px;
+  background:url("../../img/close.png") no-repeat;outline: none;
+}
+/*搜尋*/
+.search-box{
+  height: 3vh;
+  position: absolute;
+  top: 2vh;
+  right: 10%;
+  background: #7A7A7A;
+  border-radius: 3vh;
+  padding: 10px;
+}
+.search-box:hover > .search-text,.search-box > .search-text:focus{
+  width: 8vw;
+  padding: 0 6px;
+  margin-right: 0.5vw;
+}
+.search-box:hover > .search-btn{
+  color: #e84118;
+  background: white;
+}
+.search-btn{
+  height: 3vh;
+  width: 3vh;
+  color: white;
+  float: right;
+  border-radius: 50%;
+  background-color: #7A7A7A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+}
+.searchFocus{
+  width: 8vw;
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  font-size: 2vh;
+  transition: 0.4s;
+  line-height: 3vh;
+  margin-right: 0.5vw;
+}
+.search-text{
+  width: 0vw;
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  font-size: 2vh;
+  transition: 0.4s;
+  line-height: 3vh;
+}
+.search-text::placeholder{
+  color: white;
+}
+#selectType{
+  height: 3vh;
+  background-color: #7A7A7A;
+  color: white;
+}
+#createrDiv{
+  width: 100%;
+  height: 78%;
+  background-color: #8494A6;
+  position: absolute;
+  top: 12%;
+  border-style: solid;
+  border-width: 0px;
+  border-color: black;
+  overflow: auto;
+}
+#createrDiv #lostCreateTable{
+  width: 100%;
+  height: 70px;
+  font-size: calc(5px + 1.6vw);
+  background-color: #4E4E4E;
+  color: white;
+  border-style: solid;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-width: 2px;
+  border-color: black;
+}
+#createrDiv .td01{
+  width: 25%;
+  overflow: auto;
+  cursor: pointer;
+}
+#createrDiv .td02{
+  width: 15%;
+  cursor: pointer;
+}
+#createrDiv .td03{
+  width: 10%;
+  cursor: pointer;
+}
+#createrDiv .td04{
+  width: 10%;
+  cursor: pointer;
+}
+#createrDiv .td05{
+  width: 15%;
+  cursor: pointer;
+}
+#createrDiv .td06{
+  width: 25%;
+  cursor: pointer;
+}
+#createrDiv textarea{
+  height: 90%;
+  width: 98%;
+  text-align: center;
+  padding-top: 5%;
+  font-size: 3vh;
+  background-color: transparent;
+  border-color: transparent;
+  resize : none;
+  overflow: auto;
+}
+#createrDiv textarea:focus{
+  outline : 0;
+}
+#lostUserCreateDiv{
+  width: 100%;
+  height: 70px;
+}
+.lostUserCreateTable{
+  width: 100.01%;
+  height: 70px;
+  font-size: calc(5px + 1.2vw);
+  background-color: #99CCFF;
+  border-style: solid;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-width: 2px;
+  border-color: black;
+  cursor: pointer;
+}
+.centerButton{
+  width: 20vh;
+  height: 6vh;
+  font-size: 25px;
+  border: 0;
+  cursor: pointer;
+}
+#createLevel{
+  background-image: url("../../img/createLevel.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  left: 5%;
+  bottom: 1%;
+  background-color: rgba(0, 0, 0, 0);
+}
+#enterLevel{
+  background-image: url("../../img/enterLevel.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  right: 5%;
+  bottom: 1%;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/*設定*/
+#settingAllView{
+  z-index: 4;
+  height: 30%;
+  width: 30%;
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  background-color: #FFC777;
+  border-style: solid;
+  border-color: white;
+  border-width: 3px;
+  overflow: auto;
+}
+#settingAllTable{
+  width: 100%;
+  position: relative;
+  top: 0%;
+  border: 1px;
+}
+#settingMusic,#musicVolume,#settingSpeed{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family:Microsoft JhengHei;
+}
+#musicOpen,#musicClose,#speedLow,#speedMid,#speedQuick{
+  margin-right: 5px;
+}
+#openText,#speedLowText,#speedMidText{
+  margin-right: 10px;
+  font-family:Microsoft JhengHei;
+}
+#volumeButtonSub{
+  height: 20px;
+  width: 20px;
+  border-color: black;
+  border-width: 1px;
+  background-color: #FFD966;
+  margin: 5px auto;
+  cursor: pointer;
+}
+#musicVolumeDiv{
+  height: 50px;
+  width: 200px;
+  margin: 5px auto;
+}
+#settingAllTable input[type = "radio"]{
+  height: 20px;
+  width: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+#settingAllTable font{
+  font-size: 25px;
+  line-height: 0px;　
+  margin-top: -5px;
+}
+.musicVolumeInnerDivDefault{
+  height: 40px;
+  width: calc(4px + 0.5vw);
+  border-style:solid;
+  border-width: 1px;
+  margin-right: 2px;
+  margin-left: 3px;
+  margin-top: 10px;
+}
+.musicVolumeInnerDiv{
+  width: calc(4px + 0.5vw);
+  border-style:solid;
+  border-width: 1px;
+  margin-right: 2px;
+  margin-left: 3px;
+  background-color: red;
+}
+#musicVolumeInnerDiv0{
+  height: 4px;
+  margin-top: 36px;
+}
+#musicVolumeInnerDiv1{
+  height: 8px;
+  margin-top: 32px;
+}
+#musicVolumeInnerDiv2{
+  height: 12px;
+  margin-top: 28px;
+}
+#musicVolumeInnerDiv3{
+  height: 16px;
+  margin-top: 24px;
+}
+#musicVolumeInnerDiv4{
+  height: 20px;
+  margin-top: 20px;
+}
+#musicVolumeInnerDiv5{
+  height: 24px;
+  margin-top: 16px;
+}
+#musicVolumeInnerDiv6{
+  height: 28px;
+  margin-top: 12px;
+}
+#musicVolumeInnerDiv7{
+  height: 32px;
+  margin-top: 8px;
+}
+#musicVolumeInnerDiv8{
+  height: 36px;
+  margin-top: 4px;
+}
+#musicVolumeInnerDiv9{
+  height: 40px;
+  margin-top: 0px;
+}
+@media(max-aspect-ratio:17/10){
+  #settingAllView{
+    z-index: 4;
+    height: 27%;
+    width: 38%;
+    position: absolute;
+    top: 35%;
+    left: 31%;
+    background-color: #FFC777;
+    border-style: solid;
+    border-color: white;
+    border-width: 3px;
+    overflow: auto;
+  }
+  .centerLost{
+    background-color: #AEC9EF;
+    width: 80%;
+    height: 100%;
+    line-height: 90%;
+    position: relative;
+    min-width: 1000px;
+  }
+}

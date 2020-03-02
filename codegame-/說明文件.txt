@@ -1,0 +1,11 @@
+public　裡的檔案為　client端js可以讀取的  js要換路徑可參考 註冊 忘記密碼 跟登入的js
+要跟後端請求 用到 $.ajax 的話
+"一定要在ejs 檔 head的地方裡引入 "  
+" <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>"
+且發出的請求為post  需再後端相對應的地方做接收
+
+
+
+view 裡的內容須透過 routes 裡有render 的指令 並在相對應的路徑才能作用
+及其 route檔 需要app.js 被require  和 app.use() 使用才能作用
+

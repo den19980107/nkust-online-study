@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/backstage/managementModifyMap.css">
+  <link rel="stylesheet" href="css/share/mainFontFamily.css">
+  <link rel="stylesheet" href="css/share/share.css">
+  <link rel="stylesheet" href="css/share/main.css">
+  <link rel="stylesheet" href="css/share/left.css">
+  <link rel="stylesheet" href="css/share/right.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <!-- js -->
+  <SCRIPT LANGUAGE="JavaScript">
+
+    var maxLen = 9; // 字數頂限
+
+    function checkMaxInput(form) {
+      if (form.message.value.length > maxLen) { // if too long.... trim it!
+        form.message.value = form.message.value.substring(0, maxLen);
+      }
+    }
+  </script>
+  <script src="js/share.js"></script>
+  <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+  <title>全速衝線</title>
+</head>
+
+<body>
+  <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio>
+  <div class="wrap">
+    <div class="main">
+      <div class="box sidebarLeft">
+        <!--left-->
+        <img src="img/MARK.png" class="leftMark">
+        <input type="button" title="小幫手" id="helperBtn" value="" onclick="changeHelperMod('center')">
+      </div>
+      <div class="box center" id="center">
+        <div id="titleBar">
+          <input type="button" title="返回鍵" value="" id="goBack3" onclick="back()">
+          <table id="lostTitleTable" align="left">
+            <tr>
+              <!-- <td id="td00"><input type="button" value="地圖設置" onclick="settingMap()"></td> -->
+              <td id="td01">物件選擇：</td>
+              <td id="td02">
+                <form>
+                  <select id="objectSelect">
+                    <option id="op0" value="start">玩家起始位置</option>
+                    <option id="op1" value="end">終點</option>
+                    <option id="op2" value="stone">石頭</option>
+                    　<option id="op3" value="tree">樹木</option>
+                    <option id="op4" value="gold">金幣</option>
+                    <option id="op5" value="blueLock">藍色鎖頭</option>
+                    <option id="op6" value="questionMark">問號標誌</option>
+                    <option id="op7" value="questionStone">問號石頭</option>
+                    <option id="op8" value="yellowLock">黃色鎖頭</option>
+                    <option id="op9" value="yellowArrow">黃色箭頭</option>
+                    <option id="op10" value="bomb">炸彈</option>
+                    <option id="op11" value="enemy">敵人</option>
+                    <option id="op12" value="box">寶箱</option>
+                  </select>
+                </form>
+              </td>
+              <td id="td03">物件角度：</td>
+              <td id="td04">
+                <form>
+                  <select id="college-pos">
+                    <option value="0">0度</option>
+                    　<option value="90">90度</option>
+                    　<option value="180">180度</option>
+                    <option value="270">270度</option>
+                  </select>
+                </form>
+              </td>
+              <td id="td05">
+                <input type="button" name="" onclick="input()" value="新增物件">
+                <input type="button" name="" onclick="del()" value="刪除物件">
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="divcanvas"></div>
+        <div id="blocklyDiv"></div>
+        <div id="functionSetting">
+          <div id="tabsF">
+            <ul>
+              <li id="current"><a id="loadTabID1" href="javascript://" onclick="loadTab(this,1);"><span>地圖設定</span></a></li>
+              <li><a href="javascript://" onclick="loadTab(this,2);"><span>物件屬性</span></a></li>
+              <li><a href="javascript://" onclick="loadTab(this,3);"><span>地圖設置</span></a></li>
+              <li><a href="javascript://" onclick="loadTab(this,4);"><span>進階</span></a></li>
+            </ul>
+          </div>
+          <div id="tabsC">
+            <div id="S1" style="display:inline;">
+              <table id="levelDescriptionTable">
+                <tr>
+                  <td align="right" id="S1Td00">
+                    <h3>關卡名稱</h3>
+                  </td>
+                  <td id="S1Td01" colspan="3">
+                    <form method="post">
+                      <input type="text" id="levelNameTextarea" name=message wrap=physical
+                        onKeyDown="checkMaxInput(this.form)" onKeyUp="checkMaxInput(this.form)"></input>
+                    </form>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" id="S1Td10">
+                    <h3>　主要語法</h3>
+                    <br>
+                    <p style="margin:12px auto;font-size: calc(50% + 4px);"><font>　  備註：每個語法</p>
+                    <p style="margin:12px auto;font-size: calc(50% + 4px);"><font>　  　　　間須換行</p>
+                    <p style="margin:12px auto;font-size: calc(50% + 4px);"><font>　  範例：基本語法</p>
+                    <p style="margin:12px auto;font-size: calc(50% + 4px);"><font>　  　　　遊戲機制</p>
+                  </td>
+                  <td id="S1Td11" colspan="3">
+                    <textarea id="levelIntroductionTextarea"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right" id="S1Td20">
+                    <h3>關卡簡介</h3>
+                  </td>
+                  <td id="S1Td21" colspan="3">
+                    <textarea id="levelDescriptionTextarea"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right" id="S1Td30" rowspan="3">
+                    <br>
+                    <br>
+                    <br>
+                    <h3>通關條件</h3>
+                  </td>
+                  <td align="right" id="S1Td31">
+                    <h5>三星</h5>
+                  </td>
+                  <td id="S1Td32">
+                    <input type="number" id="starConditionTextareaThree"></input>
+                  </td>
+                  <td align="left" id="S1Td32">
+                    <h5>個指令</h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right" id="S1Td40">
+                    <h5>二星</h5>
+                  </td>
+                  <td id="S1Td41">
+                    <input type="number" id="starConditionTextareaTwo"></input>
+                  </td>
+                  <td align="left" id="S1Td42">
+                    <h5>個指令</h5>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div id="S2" style="display:none;">
+              <table id="enemyTable" style="display:none;">
+                <tr>
+                  <td align="right" id="S1Td00">
+                    <h3>血量</h3>
+                  </td>
+                  <td id="S1Td01">
+                    <input type="number" min="1" max="5" id="enemyBlodTextarea"></input>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right" id="S1Td10">
+                    <h3>攻擊力</h3>
+                  </td>
+                  <td id="S1Td11">
+                    <input type="number" min="1" max="5" id="enemyAttackTextarea"></input>
+                  </td>
+                </tr>
+              </table>
+              <table id="lockAnswerTable" style="display:none;">
+                <tr>
+                  <td align="right" id="S1Td00">
+                    <h3>鎖頭答案</h3>
+                  </td>
+                  <td id="S1Td01">
+                    <textarea id="lockAnswerTextarea"></textarea>
+                  </td>
+              </table>
+              <table id="boxTable" style="display:none;">
+                <tr>
+                  <td align="right" id="S1Td00">
+                    <h3>寶箱字串</h3>
+                  </td>
+                  <td id="S1Td01">
+                    <textarea id="boxTextarea"></textarea>
+                  </td>
+              </table>
+            </div>
+            <div id="S3" style="display:none;">
+              <table>
+                <tr>
+                  <td>
+                    <h2>地圖大小</h2>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <select id="mapSize" onchange="changeObjectAttributes()">
+                      <option value="6*6">6X6</option>
+                      <option value="7*7">7X7</option>
+                      <option value="8*8">8X8</option>
+                      <option value="9*9">9X9</option>
+                      <option value="10*10">10X10</option>
+                      <option value="11*11">11X11</option>
+                      <option value="12*12">12X12</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <h2>地圖配置</h2>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <select id="mapDeploy" onchange="changeObjectAttributes()">
+                      <option value="land">陸地</option>
+                      <option value="desert">沙漠</option>
+                      <option value="sea">海洋</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div id="S4" style="display:none;">
+              <table id="foggyTable">
+                <tr>
+                  <td align="center" id="S1Td00">
+                    <h3>迷霧</h3>
+                  </td>
+                  <td id="S1Td01">
+                    <form name="form1">
+                      <input name="c1" type="checkbox" id="openFoggy" onclick="return chk(this);">
+                      <font>有</font>
+                      <input name="c1" type="checkbox" id="closeFoggy" checked="true" onclick="return chk(this);">
+                      <font>無</font>
+                    </form>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" id="S1Td10">
+                    <h3>程式擴充區</h3>
+                  </td>
+                  <td id="S1Td11" colspan="2">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3"><textarea id="codingTextarea"></textarea></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <input type="button" id="resetModifyBtn" value="取消"  onclick="back()">
+          <input type="button" id="previewBtn" value="預覽">
+          <input type="button" id="saveModifyBtn" value="儲存" >
+        </div>
+        <div id="settingMapDiv" style="display:none;">
+          <input type="button" id="clossDiv" value="X" onclick="unSaveMap()">
+          <div id="settingMapTitleBar">
+            <font id="settingMaptitleFont">地圖設置</font>
+            <div id="settingMapDivCanvas"></div>
+            <div id="innerSettingMapDiv">
+              <input type="button" id="saveMap" value="儲存地圖" onclick="saveMap()">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box sidebarRight">
+        <!--right-->
+        <font class="userName" id="userName"></font>
+        <div class="userStar">
+          <img src="img/star.png" class="imgIcon">
+          <font class="starNumber" id="starNumber"></font>
+        </div>
+        <button class="btnUser" title="個人資料" onclick="userData()"></button>
+        <button class="btnLogout" title="登出" onclick="logout()"></button>
+        <div class="versionControl" id="versionControl">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="js/backstage/managementModifyMap.js"></script>
+<script src="modifyGameMap/js/p5.min.js"></script>
+<script src="modifyGameMap/js/p5.dom.js"></script>
+<script src="modifyGameMap/js/mian.js"></script>
+
+<script src="js/closeEvent.js"></script>
+
+</html>

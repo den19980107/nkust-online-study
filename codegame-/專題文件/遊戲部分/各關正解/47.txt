@@ -1,0 +1,112 @@
+/* �T�P:53�Ӱʧ@�]�t53�Ӱʧ@�H��  
+   �G�P:56�Ӱʧ@�]�t56�Ӱʧ@�H��53�Ӱʧ@�H�W  
+   �@�P���������L������Y�i*/ 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(int argc, char *argv[])
+{
+int i,j,length,times=0;
+char str[SIZE];
+getString(str);
+length=strlen(str);
+for(i=0;i<length-1;i++){
+ if(key[0]==str[i]){
+  if(key[1]==str[i+1]){
+   times++;
+}
+}
+}
+turnLeft();
+moveForward();
+turnRight();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnLeft();
+fire();
+moveForward();
+turnRight();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnRight();
+moveForward();
+turnLeft();
+fire();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+fire();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnLeft();
+fire();
+for(i=0;i<5;i++){
+ moveForward();
+}
+becameTank();
+moveForward();
+turnRight();
+moveForward();
+becameShip();
+for(i=0;i<2;i++){
+ moveForward();
+}
+becameCar();
+moveForward();
+becameShip();
+turnRight();
+moveForward();
+turnLeft();
+moveForward();
+becameTank();
+moveForward();
+turnLeft();
+moveForward();
+becameCar();
+moveForward();
+turnLeft();
+moveForward();
+becameShip();
+moveForward();
+turnLeft();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnRight();
+moveForward();
+becameCar();
+turnLeft();
+for(i=0;i<2;i++){
+ moveForward();
+}
+becameTank();
+for(i=0;i<3;i++){
+ moveForward();
+}
+turnLeft();
+moveForward();
+turnRight();
+fire();
+moveForward();
+becameShip();
+for(i=0;i<2;i++){
+ moveForward();
+}
+turnLeft();
+printf("%d",times);
+for(i=0;i<2;i++){
+ moveForward();
+}
+becameCar();
+moveForward();
+
+	return 0;
+ }
+
+

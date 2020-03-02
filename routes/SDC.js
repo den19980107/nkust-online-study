@@ -27,6 +27,8 @@ let studentCommentArticle = require('../model/studentCommentArticle');
 let studntSubmitTest = require('../model/studentSubmitTest');
 //bring student submit homework model
 let studntSubmitHomework = require('../model/studentSubmitHomework');
+//bring login history model
+const LoginHistory = require('../model/loginHistory');
 //寄email的工具
 // var nodemailer = require('nodemailer');
 
@@ -89,6 +91,8 @@ router.get('/student/:sid/Take/class/:cid', ensureAuthenticated, function (req, 
     let classID = req.params.cid;
     let studentID = req.params.sid;
     classID = classID.replace(':', '');
+    recordBehavior(req.user._id, "takeClass", classID);
+
     //console.log(classID);
     let stc = new StudebtTakeCourse();
     stc.studentID = studentID;
@@ -106,6 +110,8 @@ router.get('/student/:sid/Take/class/:cid', ensureAuthenticated, function (req, 
 
 
 router.get('/student/:sid/Quit/class/:cid', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "quitClass", req.params.cid);
+
     console.log("quit");
     let wantQuitSTC;
     let classID = req.params.cid;
@@ -132,6 +138,8 @@ router.get('/student/:sid/Quit/class/:cid', ensureAuthenticated, function (req, 
 });
 //使用者對文章留言
 router.get('/user/:uid/comment/chapter/:cid/body/:body', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "commentToChapter", req.params.cid);
+
     let userID = req.params.uid;
     let chapterID = req.params.cid;
     let body = req.params.body;
@@ -141,8 +149,8 @@ router.get('/user/:uid/comment/chapter/:cid/body/:body', ensureAuthenticated, fu
     scc.chapterID = chapterID;
     scc.body = body;
     let d = new Date();
-    let month =parseInt(d.getMonth())+1
-    scc.commentTime = d.getFullYear() + '/' + month+ '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+    let month = parseInt(d.getMonth()) + 1
+    scc.commentTime = d.getFullYear() + '/' + month + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
     scc.save(function (err) {
         if (err) {
@@ -152,16 +160,18 @@ router.get('/user/:uid/comment/chapter/:cid/body/:body', ensureAuthenticated, fu
     })
 });
 //使用者刪除文章留言
-router.get('/deleteChapterComment/:chapterID/:commentID',function(req,res){
-    studentCommentChapter.remove({_id:req.params.commentID},function(err){
-        if(err){
+router.get('/deleteChapterComment/:chapterID/:commentID', function (req, res) {
+    studentCommentChapter.remove({ _id: req.params.commentID }, function (err) {
+        if (err) {
             console.log(err);
         }
-        res.redirect('/class/showChapter/'+req.params.chapterID)
+        res.redirect('/class/showChapter/' + req.params.chapterID)
     })
 })
 //使用者對影片留言
 router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "commentToVideo", req.params.vid);
+
     let userID = req.params.uid;
     let videoID = req.params.vid;
     let body = req.params.body;
@@ -172,7 +182,7 @@ router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, func
     scv.body = body;
     scv.userName = userName;
     let d = new Date();
-    let month =parseInt(d.getMonth())+1
+    let month = parseInt(d.getMonth()) + 1
     scv.commentTime = d.getFullYear() + '/' + month + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
     //console.log("scv = " + scv);
@@ -186,18 +196,20 @@ router.get('/user/:uid/comment/video/:vid/body/:body', ensureAuthenticated, func
 
 });
 //使用者刪除影片留言
-router.get('/deleteVideoComment/:videoID/:commentID',function(req,res){
-    studentCommentVideo.remove({_id:req.params.commentID},function(err){
-        if(err){
+router.get('/deleteVideoComment/:videoID/:commentID', function (req, res) {
+    studentCommentVideo.remove({ _id: req.params.commentID }, function (err) {
+        if (err) {
             console.log(err);
         }
-        res.redirect('/class/showVideo/'+req.params.videoID)
+        res.redirect('/class/showVideo/' + req.params.videoID)
     })
 })
 
 //使用者對文章留言
 // /user/<%=user._id%>/comment/article/<%=article._id%>/body/
 router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "commentToArticle", req.params.aid);
+
     let userID = req.params.uid;
     let articleID = req.params.aid;
     let body = req.params.body;
@@ -208,7 +220,7 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuth
     sca.body = body;
     sca.userName = userName;
     let d = new Date();
-    let month =parseInt(d.getMonth())+1
+    let month = parseInt(d.getMonth()) + 1
     sca.commentTime = d.getFullYear() + '/' + month + '/' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
     //console.log("sca = " + sca);
@@ -222,17 +234,19 @@ router.get('/user/:uid/comment/article/:aid/body/:body/inClass/:cid', ensureAuth
 
 });
 //使用者刪除文章留言
-router.get('/deleteArticleComment/:articleID/:commentID/:classID',function(req,res){
-    studentCommentArticle.remove({_id:req.params.commentID},function(err){
-        if(err){
+router.get('/deleteArticleComment/:articleID/:commentID/:classID', function (req, res) {
+    studentCommentArticle.remove({ _id: req.params.commentID }, function (err) {
+        if (err) {
             console.log(err);
         }
-        res.redirect('/articles/'+req.params.articleID+'/inClass/'+req.params.classID)
+        res.redirect('/articles/' + req.params.articleID + '/inClass/' + req.params.classID)
     })
 })
 
 //學生對測驗進行填寫
 router.post('/submitTest', ensureAuthenticated, function (req, res) {
+    recordBehavior(req.user._id, "submitTest", req.body._id);
+
     let qutioninfo = req.body
     //console.log(qutioninfo);
     let newsubmit = new studntSubmitTest();
@@ -274,7 +288,9 @@ router.post('/submitHomework', ensureAuthenticated, function (req, res) {
     })
 });
 
-router.get('/likeChapter/:chapterID',function(req,res){
+router.get('/likeChapter/:chapterID', function (req, res) {
+    recordBehavior(req.user._id, "likeChapter", req.params.chapterID);
+
     var myquery = {
         _id: ObjectID(req.params.chapterID)
     };
@@ -284,24 +300,48 @@ router.get('/likeChapter/:chapterID',function(req,res){
         }
     };
     Chapter.updateOne(myquery, newvalues, function (err, res) {
-    if (err) {
-        console.log(err);
-    } else {
-        //console.log('update success');
-    }
+        if (err) {
+            console.log(err);
+        } else {
+            //console.log('update success');
+        }
     });
 })
 //Access Control
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return next();
+        return next();
     } else {
-      req.flash('danger', '請先登入');
-      let nextURL =  req.originalUrl.replace(new RegExp('/', 'g'),'%2F');
-      //console.log("inuser ensure = "+nextURL);
-      //console.log("url = /users/login/?r="+nextURL);
-      
-      res.redirect('/users/login/?r='+nextURL);
+        req.flash('danger', '請先登入');
+        let nextURL = req.originalUrl.replace(new RegExp('/', 'g'), '%2F');
+        //console.log("inuser ensure = "+nextURL);
+        //console.log("url = /users/login/?r="+nextURL);
+
+        res.redirect('/users/login/?r=' + nextURL);
     }
+}
+
+
+//紀錄行為
+function recordBehavior(userId, action, detail) {
+    let loginHistory = new LoginHistory();
+    loginHistory.userId = userId;
+    loginHistory.action = action;
+    loginHistory.detail = detail;
+    loginHistory.UTCDate = getUTCDate();
+    loginHistory.date = getLocalDate();
+    loginHistory.save(function (err) {
+        if (err) {
+            console.log(err)
+        }
+    })
+}
+
+function getLocalDate() {
+    let localTime = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
+    return localTime
+}
+function getUTCDate() {
+    return new Date();
 }
 module.exports = router;

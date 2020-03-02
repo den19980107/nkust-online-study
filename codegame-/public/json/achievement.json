@@ -1,0 +1,112 @@
+{
+    "record": [
+        {
+            "name": "小試身手",
+            "value": "通過10關",
+            "level": 1,
+            "type": "過關",
+            "limit": [
+				       {
+					       "value":10
+				       }
+			       ]
+        },
+        {
+            "name": "漸入佳境",
+            "value": "通過25關",
+            "level": 2,
+            "type": "過關",
+            "limit": [
+      				{
+      					"value":25
+      				}
+			      ]
+        },{
+            "name": "融會貫通",
+            "value": "通過第50關",
+            "level": 3,
+            "type": "過關",
+            "limit": [
+      				{
+      					"value":50
+      				}
+      			]
+        },
+        {
+            "name": "指令新手",
+            "value": "10關3星",
+            "level": 1,
+            "type": "過關",
+            "limit": [
+      				{
+      					"value":10
+      				},
+      				{
+      					"value":3
+      				}
+      			]
+        },
+        {
+            "name": "指令能手",
+            "value": "25關3星",
+            "level": 2,
+            "type": "過關",
+            "limit": [
+      				{
+      					"value":25
+      				},
+      				{
+      					"value":3
+      				}
+      			]
+        },
+        {
+            "name": "指令大師",
+            "value": "50關3星",
+            "level": 3,
+            "type": "過關",
+            "limit": [
+      				{
+      					"value":50
+      				},
+      				{
+      					"value":3
+      				}
+      			]
+        },
+        {
+            "name": "佛要金裝人要衣裝",
+            "value": "升級裝備1次",
+            "level": 1,
+            "type": "裝備",
+            "limit": [
+      				{
+      					"value":1
+      				}
+      			]
+        },
+        {
+            "name": "升級升級升級！",
+            "value": "升級裝備5次",
+            "level": 2,
+            "type": "裝備",
+            "limit": [
+      				{
+      					"value":5
+      				}
+      			]
+        },
+        {
+            "name": "全副武裝",
+            "value": "升級裝備15次",
+            "level": 3,
+            "type": "裝備",
+            "limit": [
+      				{
+      					"value":15
+      				}
+      			]
+        }
+
+    ]
+}

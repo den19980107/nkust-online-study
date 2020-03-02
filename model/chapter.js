@@ -18,6 +18,9 @@ let chapterSchema = mongoose.Schema({
     },
     like:{
         type: Number,
+    },
+    pdf:{
+        type: String
     }
 });
 

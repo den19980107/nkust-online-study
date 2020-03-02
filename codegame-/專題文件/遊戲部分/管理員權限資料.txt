@@ -1,0 +1,1016 @@
+"EasyEmpire" : {
+        "codeHighestLevel" : 24,
+        "blockHighestLevel" : 0,
+        "codeLevel" : [ 
+            {
+                "level" : "0",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:25:47 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nstep();\nstep();\nstep();\nstep();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 21 2019 20:40:33 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\n\tstep();\n\tstep();\n\tstep();\n\tstep();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 21 2019 20:44:56 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{step();step();step();step();step();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "0"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 21:58:21 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:00:12 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\n\tstep();\n\tstep();\n\tstep();\n\tstep();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:03:16 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nstep();\nstep();\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:03:54 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nstep();\nstep();\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:04:18 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{step();\nstep();\nstep();\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:05:07 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:06:13 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:08:24 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:10:08 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:11:08 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Tue Apr 23 2019 22:12:02 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Wed Apr 24 2019 20:59:36 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Wed Apr 24 2019 21:00:21 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Wed Apr 24 2019 21:00:45 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu Apr 25 2019 10:37:01 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu Apr 25 2019 10:37:13 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu Apr 25 2019 10:37:22 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu Apr 25 2019 10:37:29 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu Apr 25 2019 10:37:39 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nstep();\nstep();\nstep();\nstep();\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu May 02 2019 17:44:14 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\tstep();\n\tstep( );\n\tstep( );\n\tstep( );\n\tstep( );\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu May 02 2019 17:44:56 GMT+0800 (台北標準時間)",
+                        "result" : "未完成",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\tstep();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "1"
+                    }, 
+                    {
+                        "submitTime" : "Thu May 02 2019 17:45:54 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }, 
+                    {
+                        "submitTime" : "Thu May 02 2019 18:13:13 GMT+0800 (台北標準時間)",
+                        "result" : "未完成",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "1"
+                    }, 
+                    {
+                        "submitTime" : "Thu May 02 2019 18:13:33 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\nint main(int argc,char* argv[]){\n    step();\n    step();\n    step();\n    step();\n    step();\n    return 0;\n}\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "1",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:26:18 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:7個動作包含7個動作以內  \n   二星:8個動作包含8個動作以內7個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nstep();\nstep();\nstep();\nturnLeft();\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "7"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 21 2019 20:43:06 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:7個動作包含7個動作以內  \n   二星:8個動作包含8個動作以內7個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\n\tstep();\n\tstep();\n\tstep();\n\tturnLeft();\n\tstep();\n\tstep();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "7"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 21 2019 20:45:15 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{step();step();step();step();step();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "0"
+                    }
+                ]
+            }, 
+            {
+                "level" : "2",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:26:29 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:9個動作包含9個動作以內  \n   二星:10個動作包含10個動作以內9個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nstep();\nturnLeft();\nstep();\nstep();\nturnRight();\nstep();\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "9"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 21 2019 20:44:04 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:7個動作包含7個動作以內  \n   二星:8個動作包含8個動作以內7個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();step();step();step();turnLeft();step();step();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "6"
+                    }
+                ]
+            }, 
+            {
+                "level" : "3",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:26:46 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:9個動作包含9個動作以內  \n   二星:10個動作包含10個動作以內9個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nstep();\nstep();\nturnRight();\nstep();\nstep();\nturnRight();\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "9"
+                    }
+                ]
+            }, 
+            {
+                "level" : "4",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:27:53 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nstep();\nprintf(\"Hello\");\n\nstep();\nstep();\nstep();\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "5",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:28:16 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:10個動作包含10個動作以內  \n   二星:11個動作包含11個動作以內10個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nscanf(\"%d\",&i);\nstep();\nprintf(\"%d\",i+4);\n\n\nstep();\nstep();\nturnRight();\n\nstep();\nstep();\nturnRight();\n\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "10"
+                    }
+                ]
+            }, 
+            {
+                "level" : "6",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:28:42 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nif(hint=='L'){\nturnLeft();\n}\nif(hint=='R'){\nturnRight();\n}\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "7",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:29:03 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nstep();\nif (hint=='L'){\nturnLeft();\n}else{\nturnRight();\n}\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "8",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:29:18 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\tstep();\nswitch(hint){\ncase 'L':\nturnLeft();\nbreak;\ncase 'F':\nbreak;\ncase 'R':\nturnRight();\nbreak;\n}\nstep();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "9",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:29:33 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:1個動作包含1個動作以內  \n   二星:2個動作包含2個動作以內1個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=5;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "1"
+                    }
+                ]
+            }, 
+            {
+                "level" : "10",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:29:47 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=5;i>0;i--){\nstep();\n}\nturnRight();\nfor(i=4;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "3"
+                    }
+                ]
+            }, 
+            {
+                "level" : "11",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:30:13 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:7個動作包含7個動作以內  \n   二星:8個動作包含8個動作以內7個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=4;i>0;i--){\nstep();\n}\nturnRight();\nfor(i=3;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nturnRight();\nstep();\nturnLeft();\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "7"
+                    }
+                ]
+            }, 
+            {
+                "level" : "12",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:30:31 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:6個動作包含6個動作以內  \n   二星:7個動作包含7個動作以內6個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nstep();\nfor(i=5;i>0;i--){\nstep();\nstep();\nturnLeft();\n}\nfor(i=4;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "13",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:32:46 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:4個動作包含4個動作以內  \n   二星:5個動作包含5個動作以內4個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=5;i>0;i--){\nturnRight();\nstep();\nturnLeft();\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "4"
+                    }
+                ]
+            }, 
+            {
+                "level" : "14",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:33:06 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:2個動作包含2個動作以內  \n   二星:3個動作包含3個動作以內2個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfire();\nfor(i=5;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "2"
+                    }
+                ]
+            }, 
+            {
+                "level" : "15",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:33:25 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfire();\nfor(i=5;i>0;i--){\nstep();\n}\nturnLeft();\nfire();\nfor(i=4;i>0;i--){\nstep();\n}\n\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "16",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:33:46 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:5個動作包含5個動作以內  \n   二星:6個動作包含6個動作以內5個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nvoid clear(){\nturnRight();\nstep();\nturnLeft();\nstep();\n}\n\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=5;i>0;i--){\nclear();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "17",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:34:08 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nvoid clear(){\nint i=0;\nfor(i=5;i>0;i--){\nstep();\n}\n}\nint main(int argc, char *argv[])\n{\n\nint i;\nfor(i=3;i>0;i--){\nturnRight();\nclear();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "3"
+                    }
+                ]
+            }, 
+            {
+                "level" : "18",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:34:34 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:10個動作包含10個動作以內  \n   二星:12個動作包含12個動作以內10個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfire();\nfor(i=8;i>0;i--){\nstep();\n}\nturnLeft();\nturnLeft();\nfor(i=5;i>0;i--){\nstep();\n} \nturnLeft();\nfor(i=5;i>0;i--){\nstep();\n} \nturnLeft();\nprintf(\"5\");\nfor(i=5;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "10"
+                    }
+                ]
+            }, 
+            {
+                "level" : "19",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:35:12 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:14個動作包含14個動作以內  \n   二星:16個動作包含16個動作以內14個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfor(i=4;i>0;i--){\nstep();\n}\nfire();\nfor(i=4;i>0;i--){\nstep();\n}\nturnRight();\nstep();\nfire();\nstep();\nstep();\nturnRight();\nfor(i=5;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nstep();\nstep();\nturnLeft();\n}\n\n\nfor(i=5;i>0;i--){\nstep();\n}\n\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "14"
+                    }
+                ]
+            }, 
+            {
+                "level" : "20",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:35:32 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:39個動作包含39個動作以內  \n   二星:41個動作包含41個動作以內39個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[]){\n int i=0;\n int d=0;\n char c;\n scanf(\"%c%d\",&c,&d);\n printf(\"d= %d\",d);\n printf(\"c= %c\",c);\nfor(i=4;i>0;i--){\n step();\n}\nif(hint=='L'){\n turnLeft();\n for(i=4;i>0;i--){\n step();\n }\n turnRight();\n step();\n step();\n if(hint=='F'){\n  step();\n  turnRight();\n  for(i=4;i>0;i--){\n   step();\n      printf(\"%c\",c+d);\n   }\n  turnLeft();\n  step();\n }else{\n  turnRight();\n  for(i=4;i>0;i--){\n   step();\n   }\n printf(\"%c\",c+d);\n  turnLeft();\n  step();\n  step();\n  }\n}else{\n turnRight();\n for(i=4;i>0;i--){\n  step();\n  }\n turnLeft();\n step();\n step();\n if(hint=='F'){\n  step();\n  turnLeft();\n  for(i=4;i>0;i--){\n   step();\n   printf(\"%c\",c+d);\n   }\n  turnRight();\n  step();\n }else{\n  turnLeft();\n  for(i=4;i>0;i--){\n  step();\n  }\n printf(\"%c\",c+d);\n  turnRight();\n  step();\n  step();\n }\n}\n return 0;\n}",
+                        "srarNum" : "3",
+                        "instructionNum" : "38"
+                    }
+                ]
+            }, 
+            {
+                "level" : "21",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:35:53 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:19個動作包含19個動作以內  \n   二星:22個動作包含22個動作以內19個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nstep();\nswitch(hint){\ncase 'L':\nturnLeft();\nfor(i=3;i>0;i--){\nstep();\n}\nprintf(\"5\");\nstep();\nturnRight();\nfor(i=3;i>0;i--){\nstep();\n}\nfire();\nfor(i=3;i>0;i--){\nstep();\n}\nbreak;\ncase 'F':\nfor(i=3;i>0;i--){\nstep();\n}\nfire();\nfor(i=3;i>0;i--){\nstep();\n}\nbreak;\ncase 'R':\nturnRight();\nfor(i=4;i>0;i--){\nstep();\n}\nturnLeft();\nfor(i=3;i>0;i--){\nstep();\n}\nfire();\nfor(i=3;i>0;i--){\nstep();\n}\n}\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "19"
+                    }
+                ]
+            }, 
+            {
+                "level" : "22",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:36:32 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:9個動作包含9個動作以內  \n   二星:11個動作包含11個動作以內9個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nvoid A(){\nturnLeft();\nstep();\nturnRight();\nstep();\n}\n\nint main(int argc, char *argv[])\n{\nint i=0;\nint j=0;\nfor(i=3;i>0;i--){\nfor(j=3;j>0;j--){\nA();\n}\nturnLeft();\nstep();\nstep();\n}\nfor(i=3;i>0;i--){\nA();\n}\nreturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "8"
+                    }
+                ]
+            }, 
+            {
+                "level" : "23",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 11:37:10 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:12個動作包含12個動作以內  \n   二星:14個動作包含14個動作以內12個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{int i=0;\nint j=0;\nfor(i=2;i>0;i--){\nstep();\nstep();\nturnRight();\n}\nfor(i=2;i>0;i--){\nfor(j=4;j>0;j--){\nstep();\n}\nturnRight();\n}\nfor(i=4;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nstep();\nstep();\nturnLeft();\n}\nfor(i=2;i>0;i--){\nfor(j=8;j>0;j--){\nstep();\n}\nturnLeft();\n}\nfor(j=8;j>0;j--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "12"
+                    }
+                ]
+            }
+        ],
+        "blockLevel" : []
+    },
+    "MediumEmpire" : {
+        "HighestLevel" : 50,
+        "codeLevel" : [ 
+            {
+                "level" : "24",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 17:08:31 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfor(i=4;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nfire();\n}\nfor(i=4;i>0;i--){\nstep();\n}\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "3"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 17:10:15 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfor(i=4;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nfire();\n}\nfor(i=4;i>0;i--){\nstep();\n}\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "3"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 17:10:51 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfor(i=4;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nfire();\n}\nfor(i=4;i>0;i--){\nstep();\n}\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "3"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 14 2019 17:11:58 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfor(i=4;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nfire();\n}\nfor(i=4;i>0;i--){\nstep();\n}\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "3"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 15 2019 10:02:38 GMT+0800 (台北標準時間)",
+                        "result" : "被炸彈炸死",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfor(i=4;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nfire();\n}\nfor(i=4;i>0;i--){\nstep();\n}\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "3"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 15 2019 10:03:00 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:3個動作包含3個動作以內  \n   二星:4個動作包含4個動作以內3個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i=0;\nfor(i=4;i>0;i--){\nstep();\n}\nfor(i=2;i>0;i--){\nfire();\n}\nfor(i=4;i>0;i--){\nstep();\n}\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "3"
+                    }
+                ]
+            }, 
+            {
+                "level" : "25",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Wed Apr 17 2019 17:46:03 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:11個動作包含11個動作以內  \n   二星:12個動作包含12個動作以內11個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=3;i>0;i--){\nstep();\n}\nturnLeft();\nfor(i=4;i>0;i--){\nstep();\n}\nturnRight();\nfor(i=4;i>0;i--){\nstep();\n}\nturnRight();\nstep();\nfor(i=3;i>0;i--){\nfire();\n}\nfor(i=3;i>0;i--){\nstep();\n}\nturnLeft();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "11"
+                    }
+                ]
+            }, 
+            {
+                "level" : "26",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Wed Apr 17 2019 17:46:20 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:2個動作包含2個動作以內  \n   二星:3個動作包含3個動作以內2個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=4;i>0;i--){\nstep();\n}\nbecameShip();\nfor(i=4;i>0;i--){\nstep();\n}\n\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "2"
+                    }
+                ]
+            }, 
+            {
+                "level" : "27",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Wed Apr 17 2019 17:46:37 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 三星:6個動作包含6個動作以內  \n   二星:7個動作包含7個動作以內6個動作以上  \n   一星限為滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nstep();\nbecameTank();\nturnRight();\nfor(i=4;i>0;i--){\nstep();\n}\nturnLeft();\nfor(i=5;i>0;i--){\nstep();\n}\nbecameShip();\nfor(i=2;i>0;i--){\nstep();\n}\n\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "6"
+                    }
+                ]
+            }, 
+            {
+                "level" : "28",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:35:48 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:8個動作包含8個動作以內  \n   2星:9個動作包含9個動作以內8個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=3;i>0;i--){\nstep();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=3;i>0;i--){\nfire();\n}\nfor(i=3;i>0;i--){\nstep();\n}\nturnLeft();\nfor(i=6;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "8"
+                    }
+                ]
+            }, 
+            {
+                "level" : "29",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:36:18 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:17個動作包含17個動作以內  \n   2星:18個動作包含18個動作以內17個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=3;i>0;i--){\nstep();\nturnLeft();\nstep();\nturnRight();\n}\nfor(i=3;i>0;i--){\nstep();\n}\nturnRight();\nstep();\nbecameCar();\nstep();\nfor(i=3;i>0;i--){\nfire();\n}\nfor(i=2;i>0;i--){\nstep();\n}\nturnRight();\nfor(i=2;i>0;i--){\nstep();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=4;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "16"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:36:45 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:17個動作包含17個動作以內  \n   2星:18個動作包含18個動作以內17個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i;\nfor(i=3;i>0;i--){\nstep();\nturnLeft();\nstep();\nturnRight();\n}\nfor(i=3;i>0;i--){\nstep();\n}\nturnRight();\nstep();\nbecameCar();\nstep();\nfor(i=3;i>0;i--){\nfire();\n}\nfor(i=2;i>0;i--){\nstep();\n}\nturnRight();\nfor(i=2;i>0;i--){\nstep();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=4;i>0;i--){\nstep();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "16"
+                    }
+                ]
+            }, 
+            {
+                "level" : "30",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:37:10 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:18個動作包含18個動作以內  \n   2星:19個動作包含19個動作以內18個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\n\nint key[6];\nint size=6;\nint i,max;\ngetKeyArray(key,size);\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n  step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n  step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n  step();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n  step();\nstep();\n  turnLeft();\n}\nstep();\nmax=key[0];\nfor(i=0;i<size;i++){\n if(max<key[i]){\nmax=key[i];\n}\n}\nprintf(\"%d\",max);\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\n\n\treturn 0;\n }",
+                        "srarNum" : "3",
+                        "instructionNum" : "18"
+                    }
+                ]
+            }, 
+            {
+                "level" : "31",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:37:36 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:19個動作包含19個動作以內  \n   2星:20個動作包含20個動作以內19個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint size=6;\nint key[6];\nint i,j,tmp;\ngetKeyArray(key,size);\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n  step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n  step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n  step();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<3;i++){\n  step();\n}\nturnLeft();\nfor(i=0;i<2;i++){\n  step();\n}\nturnLeft();\nstep();\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<size;i++){\n printf(\"%d \",key[i]);\n}\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\n\n\treturn 0;\n }",
+                        "srarNum" : "0",
+                        "instructionNum" : "19"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:38:29 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:19個動作包含19個動作以內  \n   2星:20個動作包含20個動作以內19個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint size=6;\nint key[6];\nint i,j,tmp;\ngetKeyArray(key,size);\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n  step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n  step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n  step();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<3;i++){\n  step();\n}\nturnLeft();\nfor(i=0;i<2;i++){\n  step();\n}\nturnLeft();\nstep();\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<size;i++){\n printf(\"%d \",key[i]);\n}\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\n\n\treturn 0;\n }",
+                        "srarNum" : "3",
+                        "instructionNum" : "19"
+                    }
+                ]
+            }, 
+            {
+                "level" : "32",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:39:55 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:2個動作包含2個動作以內  \n   2星:3個動作包含3個動作以內2個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint size=6;\nint dArray[6];\ngetDistance(dArray,size);\nfor(i=0;i<size;i++){\n for(j=0;j<dArray[i];j++){\n step();\n}\n if(i<size-1){\n  turnRight();\n}\n}\n\n\treturn 0;\n }\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "2"
+                    }
+                ]
+            }, 
+            {
+                "level" : "33",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:40:28 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:3個動作包含3個動作以內  \n   2星:4個動作包含4個動作以內3個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint size=12;\nchar direArray[12];\ngetDirection(direArray);\nfor(i=0;i<size+1;i++){\n if(i>0){\n  if(direArray[i-1]=='L'){\n  turnLeft();\n}else{\n turnRight();\n}\n}\nfor(j=0;j<2;j++){\n step();\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "3"
+                    }
+                ]
+            }, 
+            {
+                "level" : "34",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:49:42 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:3個動作包含3個動作以內  \n   2星:4個動作包含4個動作以內3個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint size=6;\nint distArray[6];\nchar direArray[6];\ngetDistance(distArray,size);\ngetDirection(direArray);\nfor(i=0;i<size+1;i++){\n if(direArray[i]=='L'){\n  turnLeft();\n}else{\n turnRight();\n}\n for(j=0;j<distArray[i];j++){\n  step();\n}\n}\n\treturn 0;\n }\n\n\n\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "3"
+                    }
+                ]
+            }, 
+            {
+                "level" : "35",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:50:08 GMT+0800 (台北標準時間)",
+                        "result" : "被炸彈炸死或撞到敵人爆炸身亡",
+                        "code" : "/* 3星:4個動作包含4個動作以內  \n   2星:5個動作包含5個動作以內4個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint size=17;\nint distArray[18];\nchar direArray[18];\ngetDistance(distArray,size);\ngetDirection(direArray);\nfor(i=0;i<size;i++){\n if(direArray[i]=='L'){\n  turnLeft();\n}else if(direArray[i]=='R'){\n turnRight();\n}else if(direArray[i]=='F'){\n fire();\n}\n for(j=0;j<distArray[i];j++){\n  step();\n}\n}\n\n\treturn 0;\n }",
+                        "srarNum" : "0",
+                        "instructionNum" : "4"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:52:06 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:4個動作包含4個動作以內  \n   2星:5個動作包含5個動作以內4個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint size=17;\nint distArray[18];\nchar direArray[18];\ngetDistance(distArray,size);\ngetDirection(direArray);\nfor(i=0;i<size;i++){\n if(direArray[i]=='L'){\n  turnLeft();\n}else if(direArray[i]=='R'){\n turnRight();\n}else if(direArray[i]=='F'){\n fire();\n}\n for(j=0;j<distArray[i];j++){\n  step();\n}\n}\n\n\treturn 0;\n }",
+                        "srarNum" : "3",
+                        "instructionNum" : "4"
+                    }
+                ]
+            }, 
+            {
+                "level" : "36",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:52:42 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:28個動作包含28個動作以內  \n   2星:30個動作包含30個動作以內28個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint x,y;\nint i;\ngetKey(&x,&y);\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n step();\n turnRight();\n}\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nstep();\nfor(i=0;i<2;i++){\nturnRight();\n step();\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nstep();\nturnLeft();\nprintf(\"%d\",x+y);\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "28"
+                    }
+                ]
+            }, 
+            {
+                "level" : "37",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:53:25 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:48個動作包含48個動作以內  \n   2星:50個動作包含50個動作以內48個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,length;\nchar str1[SIZE];\nchar str2[SIZE];\nchar str3[SIZE];\nfor(i=0;i<3;i++){\n step();\n}\nbecameTank();\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nfor(i=0;i<2;i++){\n step();\n}\nbecameShip();\nturnRight();\nstep();\nbecameTank();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\ngetBox(str1);\nstep();\nbecameCar();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nbecameCar();\nstep();\nbecameShip();\nstep();\nturnLeft();\nstep();\nbecameTank();\nfor(i=0;i<2;i++){\n step();\n}\nbecameCar();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\ngetBox(str2);\nstep();\nturnLeft();\nstep();\nturnRight();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\ngetBox (str3);\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nstep();\nstrcat(str1,str2);\nstrcat(str1,str3);\nprintf(\"%s\",str1);\nstep();\nturnLeft();\nstep();\nturnRight();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "48"
+                    }
+                ]
+            }, 
+            {
+                "level" : "38",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:53:55 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:3個動作包含3個動作以內  \n   2星:4個動作包含4個動作以內3個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint length;\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "3"
+                    }
+                ]
+            }, 
+            {
+                "level" : "39",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:54:23 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:4個動作包含4個動作以內  \n   2星:5個動作包含5個動作以內4個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint length;\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}\n}\n\n\treturn 0;\n }\n\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "4"
+                    }
+                ]
+            }, 
+            {
+                "level" : "40",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:54:57 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:4個動作包含4個動作以內  \n   2星:5個動作包含5個動作以內4個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j;\nint length;\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='T'){\n becameTank();\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "4"
+                    }
+                ]
+            }, 
+            {
+                "level" : "41",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:55:29 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='A'){\n for(j=0;j<size;j++){\n  printf(\"%d \",key[j]);\n}\n}\n}\n\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "42",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:55:52 GMT+0800 (台北標準時間)",
+                        "result" : "編譯失敗",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nvoid getKeyArray(int* arr,int size){\n\tint i;\n\tint key[10]={6,9,12,5,3,2,10,1,4,11};\n\tfor(i=0;i<10;i++){\n\t\tarr[i]=key[i];\n\t}\n}\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 00:56:09 GMT+0800 (台北標準時間)",
+                        "result" : "編譯失敗",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nvoid getKeyArray(int* arr,int size){\n\tint i;\n\tint key[10]={6,9,12,5,3,2,10,1,4,11};\n\tfor(i=0;i<10;i++){\n\t\tarr[i]=key[i];\n\t}\n}\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:01:32 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:02:37 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:06:17 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:08:26 GMT+0800 (台北標準時間)",
+                        "result" : "編譯失敗",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nvoid getKeyArray(int* arr,int size){\n\tint i;\n\tint key[10]={6,9,12,5,3,2,10,1,4,11};\n\tfor(i=0;i<10;i++){\n\t\tarr[i]=key[i];\n\t}\n}\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:09:47 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n return 0;\n }",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:10:45 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n return 0;\n }",
+                        "srarNum" : "0",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:15:48 GMT+0800 (台北標準時間)",
+                        "result" : "恭喜你二星! \n~差一點就有一星了!加油~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='F'){\n fire();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "2",
+                        "instructionNum" : "6"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:19:26 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:5個動作包含5個動作以內  \n   2星:6個動作包含6個動作以內5個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j,tmp;\nint size=10;\nint key[10];\nint length;\nchar str[SIZE];\ngetKeyArray(key,size);\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<size-1;i++){\n for(j=0;j<size-1-i;j++){\n    if(key[j]>key[j+1]){\n    tmp=key[j];\n    key[j]=key[j+1];\n    key[j+1]=tmp;\n}\n}\n}\nfor(i=0;i<length;i++){\n if(str[i]>='0'&&str[i]<='9'){\n  for(j=0;j<str[i]-'0';j++){\n   step();\n}\n}else if(str[i]=='L'){\n turnLeft();\n}else if(str[i]=='R'){\n turnRight();\n}else if(str[i]=='F'){\n fire();\n}else if(str[i]=='S'){\n becameShip();\n}else if(str[i]=='C'){\n becameCar();\n}else if(str[i]=='T'){\n becameTank();\n}\nelse if(str[i]=='A'){\n for(j=0;j<size;j++){\n  if(key[j]%2!=0){\n    printf(\"%d \",key[j]);\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "5"
+                    }
+                ]
+            }, 
+            {
+                "level" : "43",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:16:28 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:20個動作包含20個動作以內  \n   2星:22個動作包含22個動作以內20個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,x,y;\nint size=9,dire=2;\nint map[9][9];\ngetMap(map[0],size);\nx=0;\ny=0;\ni=map[y][x];\nwhile(i!=4){\n if(x<8){\n  if(map[y][x+1]>0){\n  if(dire==0){\n   turnRight();\n   step();\n}else if(dire==1){\n step();\n}else if(dire==2){\n turnLeft();\n step();\n}\nmap[y][x]=-1;\nx++;\ndire=1;\ni=map[y][x];\n}\n} \nif(x>0){\n  if(map[y][x-1]>0){\n  if(dire==0){\n   turnLeft();\n   step();\n}else if(dire==3){\n step();\n}else if(dire==2){\n turnRight();\n step();\n}\nmap[y][x]=-1;\nx--;\ndire=3;\ni=map[y][x];\n}\n}\nif(y>0){\n  if(map[y-1][x]>0){\n  if(dire==0){\n   step();\n}else if(dire==3){\n turnRight();\nstep();\n}else if(dire==1){\n turnLeft();\n step();\n}\nmap[y][x]=-1;\ny--;\ndire=0;\ni=map[y][x];\n}\n}\nif(y<8){\n  if(map[y+1][x]>0){\n  if(dire==2){\n   step();\n}else if(dire==1){\n turnRight();\nstep();\n}else if(dire==3){\n turnLeft();\n step();\n}\nmap[y][x]=-1;\ny++;\ndire=2;\ni=map[y][x];\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "20"
+                    }
+                ]
+            }, 
+            {
+                "level" : "44",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:17:40 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:20個動作包含20個動作以內  \n   2星:22個動作包含22個動作以內20個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j,x,y;\nint size=9,dire=0;\nint map[9][9];\ngetMap(map[0],size);\nx=0;\ny=8;\ni=map[y][x];\nj=1;\nwhile(i!=4){\n if(x<8){\n  if(map[y][x+1]>0){\n  if(dire==0){\n   turnRight();\n   step();\n}else if(dire==1){\n step();\n}else if(dire==2){\n turnLeft();\n step();\n}\nmap[y][x]=-1;\nx++;\ndire=1;\ni=map[y][x];\nif(i!=j){\n if(i==1){\n  becameCar();\n}else if(i==2){\n becameShip();\n}else if(i==3){\n becameTank();\n}\nj=i;\n}\n}\n} \nif(x>0){\n  if(map[y][x-1]>0){\n  if(dire==0){\n   turnLeft();\n   step();\n}else if(dire==3){\n step();\n}else if(dire==2){\n turnRight();\n step();\n}\nmap[y][x]=-1;\nx--;\ndire=3;\ni=map[y][x];\nif(i!=j){\n if(i==1){\n  becameCar();\n}else if(i==2){\n becameShip();\n}else if(i==3){\n becameTank();\n}\nj=i;\n}\n}\n}\nif(y>0){\n  if(map[y-1][x]>0){\n  if(dire==0){\n   step();\n}else if(dire==3){\n turnRight();\nstep();\n}else if(dire==1){\n turnLeft();\n step();\n}\nmap[y][x]=-1;\ny--;\ndire=0;\ni=map[y][x];\nif(i!=j){\n if(i==1){\n  becameCar();\n}else if(i==2){\n becameShip();\n}else if(i==3){\n becameTank();\n}\nj=i;\n}\n}\n}\nif(y<8){\n  if(map[y+1][x]>0){\n  if(dire==2){\n   step();\n}else if(dire==1){\n turnRight();\nstep();\n}else if(dire==3){\n turnLeft();\n step();\n}\nmap[y][x]=-1;\ny++;\ndire=2;\ni=map[y][x];\nif(i!=j){\n if(i==1){\n  becameCar();\n}else if(i==2){\n becameShip();\n}else if(i==3){\n becameTank();\n}\nj=i;\n}\n}\n}\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "20"
+                    }
+                ]
+            }, 
+            {
+                "level" : "45",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:24:19 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:55個動作包含55個動作以內  \n   2星:58個動作包含58個動作以內55個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main(int argc, char *argv[])\n{\n  int i;\n  int x, y;\n  getKey(&x,&y);\n  step();\n  turnLeft();\n  for (i = 0; i < 4; i++){\n    step();\n  }\n  turnLeft();\n  step();\n  turnRight();\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  turnRight();\n  step();\n  turnLeft();\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  turnLeft();\n  step();\n  turnRight();\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  turnRight();\n  fire();\n  for (i = 0; i < 3; i++){\n    step();\n  }\n  becameTank();\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  fire();\n  becameShip();\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  becameCar();\n  step();\n  becameShip();\n  turnRight();\n  step();\n  turnLeft();\n  step();\n  becameTank();\n  step();\n  turnLeft();\n  step();\n  becameCar();\n  step();\n  turnLeft();\n  step();\n  becameShip();\n  step();\n  turnLeft();\n  for (i = 0; i < 3; i++){\n    step();\n  }\n  turnRight();\n  step();\n  becameCar();\n  turnLeft();\n  for (i = 0; i < 2; i++){\n    step();\n  }\nbecameTank();\n  turnRight();\n  step();\nbecameCar();\n  turnLeft();\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  becameShip();\n  step();\n  becameTank();\n  turnLeft();\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  turnRight();\n  fire();\n  step();\nbecameShip();\n  printf(\"%d\",x+y);\n  for (i = 0; i < 2; i++){\n    step();\n  }\n  turnLeft();\n  step();\n  becameCar();\n  for (i = 0; i < 2; i++)\n  {\n    step();\n  }\n\n  return 0;\n}",
+                        "srarNum" : "3",
+                        "instructionNum" : "54"
+                    }
+                ]
+            }, 
+            {
+                "level" : "46",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 01:25:45 GMT+0800 (台北標準時間)",
+                        "result" : "撞到障礙物_失敗",
+                        "code" : "/* 3星:53個動作包含53個動作以內  \n   2星:56個動作包含56個動作以內53個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j,length,times=0;\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length-1;i++){\n if(key[0]==str[i]){\n  if(key[1]==str[i+1]){\n   times++;\n}\n}\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nfire();\nfor(i=0;i<5;i++){\n step();\n}\nbecameTank();\nstep();\nturnRight();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nbecameCar();\nstep();\nbecameShip();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameTank();\nstep();\nturnLeft();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nbecameShip();\nstep();\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nstep();\nbecameCar();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nfire();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nprintf(\"%d\",times);\nfor(i=0;i<2;i++){\n step();\n}\nbecameCar();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "53"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 11:04:16 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:53個動作包含53個動作以內  \n   2星:56個動作包含56個動作以內53個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,j,length,times=0;\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length-1;i++){\n if(key[0]==str[i]){\n  if(key[1]==str[i+1]){\n   times++;\n}\n}\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nfire();\nfor(i=0;i<5;i++){\n step();\n}\nbecameTank();\nstep();\nturnRight();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nbecameCar();\nstep();\nbecameShip();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameTank();\nstep();\nturnLeft();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nbecameShip();\nstep();\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nstep();\nbecameCar();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nfire();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nprintf(\"%d\",times);\nfor(i=0;i<2;i++){\n step();\n}\nbecameCar();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "53"
+                    }
+                ]
+            }, 
+            {
+                "level" : "47",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 11:05:43 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:75個動作包含75個動作以內  \n   2星:77個動作包含77個動作以內75個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,x,y,length,tmp;\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length;i++){\n if(str[i]==' '){\n  tmp=i;\n}\n}\nx=atoi(str);\ny=atoi(str+tmp);\nstep();\nbecameTank();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfire();\nstep();\nbecameShip();\nstep();\nbecameCar();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameShip();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nbecameTank();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nturnLeft();\nstep();\nbecameTank();\nturnRight();\nturnRight();\nstep();\nbecameCar();\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nbecameTank();\nstep();\nturnRight();\nstep();\nbecameCar();\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nfire();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnRight();\nstep();\nturnLeft();\nprintf(\"%d\",x+y);\nstep();\nbecameCar();\nturnRight();\nstep();\nturnLeft();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "75"
+                    }
+                ]
+            }, 
+            {
+                "level" : "48",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 11:06:27 GMT+0800 (台北標準時間)",
+                        "result" : "被炸彈炸死或撞到敵人爆炸身亡",
+                        "code" : "/* 3星:70個動作包含70個動作以內  \n   2星:72個動作包含72個動作以內70個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,length,carry=0,j=1;\nchar str[SIZE];\nint bit[SIZE]={0};\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length;i++){\n\tbit[length-i-1]=str[i]-'0';\n}\nfor(i=0;i<length;i++){\n bit[i]-=(y%10);\n bit[i]-=carry;\n carry=0;\n if(bit[i]<0){\n  bit[i]+=10;\n  carry=1;\n};\ny/=10;\n}\nstep();\nbecameShip();\nturnLeft();\nstep();\nturnRight();\nfire();\nstep();\nbecameCar();\nstep();\nturnRight();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nbecameCar();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nbecameTank();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nbecameShip();\nstep();\nbecameTank();\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nbecameCar();\nturnRight();\nstep();\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=SIZE-1;i>=0;i--){\n if(bit[i]!=0&&j==1){\n  j=0;\n  printf(\"%d\",bit[i]);\n}else if(bit[i]==0&&j==1){\n continue;\n}else if(j==0){\n printf(\"%d\",bit[i]);\n}\n}\nfor(i=0;i<3;i++){\n step();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "70"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 11:07:19 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:70個動作包含70個動作以內  \n   2星:72個動作包含72個動作以內70個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,length,carry=0,j=1;\nchar str[SIZE];\nint bit[SIZE]={0};\ngetString(str);\nlength=strlen(str);\nfor(i=0;i<length;i++){\n\tbit[length-i-1]=str[i]-'0';\n}\nfor(i=0;i<length;i++){\n bit[i]-=(y%10);\n bit[i]-=carry;\n carry=0;\n if(bit[i]<0){\n  bit[i]+=10;\n  carry=1;\n};\ny/=10;\n}\nstep();\nbecameShip();\nturnLeft();\nstep();\nturnRight();\nfire();\nstep();\nbecameCar();\nstep();\nturnRight();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nbecameCar();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nbecameShip();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nbecameTank();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nbecameShip();\nstep();\nbecameTank();\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nbecameCar();\nturnRight();\nstep();\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=SIZE-1;i>=0;i--){\n if(bit[i]!=0&&j==1){\n  j=0;\n  printf(\"%d\",bit[i]);\n}else if(bit[i]==0&&j==1){\n continue;\n}else if(j==0){\n printf(\"%d\",bit[i]);\n}\n}\nfor(i=0;i<3;i++){\n step();\n}\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "70"
+                    }
+                ]
+            }, 
+            {
+                "level" : "49",
+                "HighestStarNum" : "3",
+                "challengeLog" : [ 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 14:20:08 GMT+0800 (台北標準時間)",
+                        "result" : "被打死了",
+                        "code" : "/* 3星:98個動作包含98個動作以內  \n   2星:100個動作包含100個動作以內98個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,length,j=1,index=1;\nint carry=0;\nint x[SIZE]={0};\nint y[SIZE]={0};\nint bit[SIZE]={0};\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nstep();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameShip();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnLeft();\nfire();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnLeft();\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=0;i<3;i++){\nstep();\n}\nturnRight();\nfor(i=0;i<4;i++){\n step();\n}\nbecameTank();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nbecameShip();\nstep();\nbecameTank();\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameShip();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nfire();\nstep();\nbecameCar();\nstep();\nturnRight();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nstep();\nturnLeft();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nbecameCar();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nbecameCar();\nturnRight();\nfor(i=length-1;i>=0;i--){\n if(index==1){\n   if(str[i]!=' '){\n if(str[i]>='0'&&str[i]<='9'){\n \tx[length-1-i]=str[i]-'0';\n }\n}else{\n index=i;\n}\n}else{\n y[index-i-1]=str[i]-'0';\n}\n}\nj=0;\nfor(i=0;i<SIZE;i++){\n bit[i]=x[i]+y[i]+carry;\n carry=0;\n if(bit[i]>=10){\n   bit[i]-=10;\n   carry=1;\n}\n}\nj=1;\nfor(i=SIZE-1;i>=0;i--){\n if(bit[i]!=0&&j==1){\n  j=0;\n  printf(\"%d\",bit[i]);\n}else if(bit[i]==0&&j==1){\n continue;\n}else if(j==0){\n printf(\"%d\",bit[i]);\n}\n}\nstep();\nturnLeft();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "0",
+                        "instructionNum" : "99"
+                    }, 
+                    {
+                        "submitTime" : "Mon Apr 22 2019 14:21:23 GMT+0800 (台北標準時間)",
+                        "result" : "恭喜你二星! \n~差一點就有一星了!加油~",
+                        "code" : "/* 3星:98個動作包含98個動作以內  \n   2星:100個動作包含100個動作以內98個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,length,j=1,index=1;\nint carry=0;\nint x[SIZE]={0};\nint y[SIZE]={0};\nint bit[SIZE]={0};\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nstep();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameShip();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnLeft();\nfire();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnLeft();\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=0;i<3;i++){\nstep();\n}\nturnRight();\nfor(i=0;i<4;i++){\n step();\n}\nbecameTank();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nbecameShip();\nstep();\nbecameTank();\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameShip();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nfire();\nstep();\nbecameCar();\nstep();\nturnRight();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nstep();\nturnLeft();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nbecameCar();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nbecameCar();\nturnRight();\nfor(i=length-1;i>=0;i--){\n if(index==1){\n   if(str[i]!=' '){\n if(str[i]>='0'&&str[i]<='9'){\n \tx[length-1-i]=str[i]-'0';\n }\n}else{\n index=i;\n}\n}else{\n y[index-i-1]=str[i]-'0';\n}\n}\nj=0;\nfor(i=0;i<SIZE;i++){\n bit[i]=x[i]+y[i]+carry;\n carry=0;\n if(bit[i]>=10){\n   bit[i]-=10;\n   carry=1;\n}\n}\nj=1;\nfor(i=SIZE-1;i>=0;i--){\n if(bit[i]!=0&&j==1){\n  j=0;\n  printf(\"%d\",bit[i]);\n}else if(bit[i]==0&&j==1){\n continue;\n}else if(j==0){\n printf(\"%d\",bit[i]);\n}\n}\nstep();\nturnLeft();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "2",
+                        "instructionNum" : "99"
+                    }, 
+                    {
+                        "submitTime" : "Sun Apr 28 2019 23:04:41 GMT+0800 (台北標準時間)",
+                        "result" : "拍手!恭喜你獲得三星! \n~來繼續挑戰下關吧~",
+                        "code" : "/* 3星:99個動作包含99個動作以內  \n   2星:101個動作包含101個動作以內99個動作以上  \n   1星:滿足過關條件即可*/ \n\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main(int argc, char *argv[])\n{\nint i,length,j=1,index=1;\nint carry=0;\nint x[SIZE]={0};\nint y[SIZE]={0};\nint bit[SIZE]={0};\nchar str[SIZE];\ngetString(str);\nlength=strlen(str);\nstep();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameShip();\nturnRight();\nstep();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnLeft();\nfire();\nstep();\nbecameCar();\nstep();\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnLeft();\nturnLeft();\nstep();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfor(i=0;i<3;i++){\n step();\n}\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nturnLeft();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nfire();\nstep();\nturnRight();\nfor(i=0;i<3;i++){\nstep();\n}\nturnRight();\nfor(i=0;i<4;i++){\n step();\n}\nbecameTank();\nturnRight();\nfor(i=0;i<2;i++){\n step();\n}\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nstep();\nbecameCar();\nturnRight();\nfire();\nfor(i=0;i<3;i++){\n step();\n}\nbecameShip();\nstep();\nbecameTank();\nturnLeft();\nstep();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameShip();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnLeft();\nfire();\nstep();\nbecameCar();\nstep();\nturnRight();\nstep();\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nstep();\nturnLeft();\nfire();\nfor(i=0;i<2;i++){\n step();\n}\nturnRight();\nstep();\nbecameCar();\nfor(i=0;i<2;i++){\n step();\n}\nbecameTank();\nturnLeft();\nstep();\nbecameCar();\nstep();\nbecameTank();\nturnRight();\nstep();\nbecameCar();\nstep();\nbecameShip();\nturnRight();\nfor(i=0;i<3;i++){\n step();\n}\nbecameCar();\nturnRight();\nfor(i=length-1;i>=0;i--){\n if(index==1){\n   if(str[i]!=' '){\n if(str[i]>='0'&&str[i]<='9'){\n \tx[length-1-i]=str[i]-'0';\n }\n}else{\n index=i;\n}\n}else{\n y[index-i-1]=str[i]-'0';\n}\n}\nj=0;\nfor(i=0;i<SIZE;i++){\n bit[i]=x[i]+y[i]+carry;\n carry=0;\n if(bit[i]>=10){\n   bit[i]-=10;\n   carry=1;\n}\n}\nj=1;\nfor(i=SIZE-1;i>=0;i--){\n if(bit[i]!=0&&j==1){\n  j=0;\n  printf(\"%d\",bit[i]);\n}else if(bit[i]==0&&j==1){\n continue;\n}else if(j==0){\n printf(\"%d\",bit[i]);\n}\n}\nstep();\nturnLeft();\nstep();\n\n\treturn 0;\n }\n\n\n",
+                        "srarNum" : "3",
+                        "instructionNum" : "99"
+                    }
+                ]
+            }
+        ]
+    },
+    "levelUpLevel" : 15,
+    "weaponLevel" : 10,
+    "armorLevel" : 5,
+    "starNum" : 150

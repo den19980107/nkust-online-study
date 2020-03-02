@@ -1,0 +1,341 @@
+{
+    "mapNumber": "test",
+    "mapSize": 100,
+    "mapValue": "0000000000001102200000110220000011022000001102200000000000000000000000000000000000000000000000000000",
+    "level": "初階",
+    "winLinit": {
+        "threeStar": [
+            5
+        ],
+        "twoStar": [
+            6
+        ],
+        "oneStar": [
+            7
+        ]
+    },
+    "people_init": {
+        "type": "car",
+        "postion": [
+            0,
+            2,
+            0
+        ],
+        "hp": 5,
+        "armor": 20,
+        "atk": 2
+    },
+    "end_init": [
+        {
+            "type": "endline",
+            "postion": [
+                8,
+                2,
+                1
+            ]
+        },
+        {
+            "type": "endline",
+            "postion": [
+                8,
+                3,
+                1
+            ]
+        }
+    ],
+    "obj": [
+        {
+            "type": "enemyTank",
+            "postion": [
+                7,
+                1,
+                2
+            ],
+            "hp": 5,
+            "atk": 5
+        },
+        {
+            "type": "enemyTank",
+            "postion": [
+                7,
+                4,
+                2
+            ],
+            "hp": 5,
+            "atk": 5
+        },
+        {
+            "type": "tree",
+            "postion": [
+                1,
+                0
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                3,
+                0
+            ]
+        },
+        {
+            "type": "stone",
+            "postion": [
+                4,
+                0
+            ]
+        },
+        {
+            "type": "boon",
+            "postion": [
+                9,
+                5
+            ]
+        },
+        {
+            "type": "boon",
+            "postion": [
+                2,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                3,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                6
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                2,
+                4
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                4,
+                5
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                4,
+                4
+            ]
+        },
+        {
+            "type": "tree",
+            "postion": [
+                4,
+                6
+            ]
+        },
+        {
+            "type": "coin",
+            "postion": [
+                4,
+                2
+            ]
+        },
+        {
+            "type": "coin",
+            "postion": [
+                4,
+                3
+            ]
+        },
+        {
+            "type": "coin",
+            "postion": [
+                4,
+                1
+            ]
+        },
+        {
+            "type": "lock",
+            "unlock": "lock_arrow",
+            "postion": [
+                8,
+                1
+            ]
+        },
+        {
+            "type": "lock",
+            "unlock": "lock_arrow",
+            "postion": [
+                8,
+                4
+            ]
+        },
+        {
+            "type": "arrow",
+            "postion": [
+                2,
+                2,
+                0
+            ]
+        },
+        {
+            "type": "arrow",
+            "postion": [
+                3,
+                2,
+                1
+            ]
+        },
+        {
+            "type": "arrow",
+            "postion": [
+                3,
+                1,
+                2
+            ]
+        },
+        {
+            "type": "arrow",
+            "postion": [
+                2,
+                1,
+                3
+            ]
+        },
+        {
+            "type": "arrow",
+            "postion": [
+                5,
+                2,
+                1
+            ]
+        },
+        {
+            "type": "arrow",
+            "postion": [
+                6,
+                2,
+                1
+            ]
+        },
+        {
+            "type": "lock2",
+            "unlock": "lock_output",
+            "postion": [
+                7,
+                3
+            ],
+            "ans": "Hello",
+            "response": "Hello"
+        },
+        {
+            "type": "questionMark",
+            "postion": [
+                2,
+                8,
+                null
+            ],
+            "chooseNum": [
+                1,
+                3
+            ]
+        },
+        {
+            "type": "questionMark",
+            "postion": [
+                5,
+                8,
+                null
+            ],
+            "chooseNum": [
+                0,
+                1,
+                2
+            ]
+        },
+        {
+            "type": "questionMark",
+            "postion": [
+                8,
+                8,
+                null
+            ],
+            "chooseNum": [
+                0,
+                1,
+                3
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                2,
+                7
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                2,
+                9
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                4,
+                8
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                6,
+                8
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                8,
+                7
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                9,
+                8
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                5,
+                7
+            ]
+        },
+        {
+            "type": "questionstone",
+            "postion": [
+                8,
+                9
+            ]
+        }
+    ]
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html  dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/backstage/managementStatistics.css">
+    <link rel="stylesheet" href="css/share/mainFontFamily.css">
+    <link rel="stylesheet" href="css/share/share.css">
+    <link rel="stylesheet" href="css/share/main.css">
+    <link rel="stylesheet" href="css/share/left.css">
+    <link rel="stylesheet" href="css/share/right.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.0"></script>
+    <script src="https://unpkg.com/peerjs@1.0.0/dist/peerjs.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    <script src="js/backstage/managementStatistics.js"></script>
+    <script src="js/closeEvent.js"></script>
+    <script src="js/share.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+    <title>全速衝線</title>
+  </head>
+  <body>
+    <!-- <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio> -->
+    <div class="wrap">
+      <div class="main">
+        <div class="box sidebarLeft"><!--left-->
+          <img src="img/MARK.png" class = "leftMark">
+        </div>
+        <div class="box center">
+          <img  id="bkImg">
+          <div class="titleBar">
+            <h1 class="titleH1">統計資料</h1>
+            <input type="button" value="" id="goBack3" onclick="location.href='management';">
+            <select id="levelSelect" onchange="selectChart(this.value)">
+              <option value="playNumber">已遊玩人數</option>
+              <option value="successRate">通關率</option>
+              <option value="averageFailureRate">平均失敗次數</option>
+            </select>
+          </div>
+          <div class="selectBarDiv">
+            <table class="selectBar">
+              <tr>
+                <td>
+                  <a href="#" onclick="changeTimeFunc('oneDay')">一日</a>
+                </td>
+                <td>
+                  <a href="#" onclick="changeTimeFunc('sevenDay')">七日</a>
+                </td>
+                <td>
+                  <a href="#" onclick="changeTimeFunc('oneMonth')">一個月</a>
+                </td>
+                <td>
+                  <a href="#" onclick="changeTimeFunc('sixMonth')">六個月</a>
+                </td>
+                <td>
+                  <a href="#" onclick="changeTimeFunc('oneYear')">一年</a>
+                </td>
+                <td>
+                  起：<input type="datetime-local" id="timeStart" value="">
+                  訖：<input type="datetime-local" id="timeEnd" value="">
+                  <input type="button" id="selectBtn" value="搜尋" onclick="setTimeFunc()">
+                  <input type="button" id="clrBtn" value="取消" onclick="clrFunc()">
+                </td>
+                <td>
+                  <input type="button" id="reset_zoom" value="重設比例">
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="canvasDiv">
+            <canvas class="mycanvas" id="playNumberChart" style="display:none"></canvas>
+            <canvas class="mycanvas" id="successRateChart" style="display:none"></canvas>
+            <canvas class="mycanvas" id="averageFailureRateChart" style="display:none"></canvas>
+          </div>
+        </div>
+        <div class="box sidebarRight"><!--right-->
+          <button class="btnLogout" onclick="logout()"></button>
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+  </body>
+</html>

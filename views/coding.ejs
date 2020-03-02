@@ -18,9 +18,50 @@
     hr{
       margin-top:0px;
     }
+    .k-header .k-link{
+        text-align: center;
+    }
+    .ob-center {
+        text-align: center;
+    }
+    .ob-left {
+        text-align: left;
+    }
+    .k-button.k-button-icontext.k-grid-刪除{
+        background: rgba(236, 60, 60, 0.877);
+        border: 1px solid rgba(255, 136, 136, 0.678);
+        color:white;
+    }
+    .k-grid-header .k-header {
+        height: 30px;
+        padding: 0;
+    }
+    html .k-grid tr:hover {
+        background: transparent;
+    }
+    .k-link.k-pager-nav span{
+        padding: 12;
+    }
+    .k-grid-header th.k-header {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: center;
+    }
+    #myChart{
+        width: 100%;
+        height: 15rem;
+    }
 </style>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/kendo.common-material.min.css">
+    <link rel="stylesheet" href="./css/kendo.material.min.css">
+    <link rel="stylesheet" href="./css/uikit.min.css">
+</head>
 
 <h3>程式練習區</h3>
 <hr>
@@ -36,11 +77,14 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="/coding">所有題目</a>
                             <%tags.forEach(function(tag){%>
-                                <a class="dropdown-item" href="/coding/select/<%=tag.tagName%>"><%=tag.tagName%></a>
+                                <a class="dropdown-item" href="javascript: tagSearch('<%=tag.tagName%>');"><%=tag.tagName%></a>
                             <%})%>
                         </div>
                     </div>
-                    <a href="/coding/editTag" class="btn btn-info"style="display: flex;justify-content: center;flex-direction: column;color:white">編輯分類</a>
+                    <div style="display: flex;">
+                        <a href="/coding/createNewCodingQution" class="btn btn-success mr-1" style="display: flex;justify-content: center;flex-direction: column">新增題目</a>
+                        <a href="/coding/editTag" class="btn btn-info"style="display: flex;justify-content: center;flex-direction: column;color:white">編輯分類</a>
+                    </div>
                 <%}else{%>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,77 +93,14 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="/coding">所有題目</a>
                             <%tags.forEach(function(tag){%>
-                                <a class="dropdown-item" href="/coding/select/<%=tag.tagName%>"><%=tag.tagName%></a>
+                                <a class="dropdown-item" href="javascript: tagSearch('<%=tag.tagName%>');" ><%=tag.tagName%></a>
                             <%})%>
                         </div>
                     </div>
                 <%}%>
+                    
             </div>
-            <div class="mb-2" style="display: flex">
-                <input type="text" style="flex: 8;border: 1px solid rgb(182, 181, 181)">
-                <input type="submit" class="btn btn-primary" value="搜尋" style="flex: 1;margin-left: 1rem">
-                <%if(user.permission == "admin"){%>
-                    <a href="/coding/createNewCodingQution" class="btn btn-success"
-                    style="flex: 1;margin-left: 1rem">新增題目</a>
-                <%}%>
-            </div>
-            <div class="topic">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="width: 3%;"></th>
-                            <th scope="col">#</th>
-                            <th scope="col" style="width: 63%;">題目</th>
-                            <th scope="col">正確率</th>
-                            <th scope="col">難易度</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%for(let i = 0;i<qutions.length;i++){%>
-                        <tr>
-                            <th scope="row">
-                                <%if(qutions[i].isWritten == "Right"){%>
-                                <i class="fas fa-check" style="color: rgb(82, 164, 81)"></i>
-                                <%}%>
-                                <%if(qutions[i].isWritten == "Wrong"){%>
-                                <i class="fas fa-times" style="color: rgb(220, 68, 74)"></i>
-                                <%}%>
-                            </th>
-                            <th scope="row">
-                                <%=i+1%>
-                            </th>
-                            <td>
-                                <a href="/coding/showCodingQution/<%=qutions[i]._id%>"><%=qutions[i].title%></a>
-                            </td>
-                            <td>
-                                <%if(qutions[i].submitTime == 0){%>
-                                沒有提交紀錄
-                                <%}else{%>
-                                <%=Math.floor((qutions[i].acceptTime/qutions[i].submitTime) * 100)%>
-                                %
-                                <%}%>
-                            </td>
-                            <td>
-                                <%if(qutions[i].submitTime == 0){%>
-                                沒有提交紀錄
-                                <%}else{%>
-                                <%if(Math.floor((qutions[i].acceptTime/qutions[i].submitTime) * 100)>60){%>
-                                <span class="badge badge-success"
-                                    style="color: rgb(245, 245, 245);font-size: 12px">簡單</span>
-                                <%}else if(Math.floor((qutions[i].acceptTime/qutions[i].submitTime) * 100)>30){%>
-                                <span class="badge badge-warning"
-                                    style="color: rgb(245, 245, 245);font-size: 12px">普通</span>
-                                <%}else{%>
-                                <span class="badge badge-danger"
-                                    style="color: rgb(245, 245, 245);font-size: 12px">困難</span>
-                                <%}%>
-                                <%}%>
-                            </td>
-                        </tr>
-                        <%}%>
-
-                    </tbody>
-                </table>
+            <div id="CodeGrid">
             </div>
         </div>
     </div>
@@ -128,7 +109,9 @@
             <div>
                 <h5>你的解題情況</h5>
                 <div style="width: 100%;height: 18rem;border: 1px solid rgb(235, 235, 235);border-radius: 5px">
-                    <canvas id="myChart" style="width: 100%;height: 15rem;"></canvas>
+                    <div id = "myChartDiv">
+                        <canvas id="myChart" style="width: 100%;height: 15rem;"></canvas>
+                    </div>
                     <div style="width: 100%;height: 3rem;display: flex;justify-content: space-around">
                         <p id = "finish" style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(97, 158, 85)"></p>
                         <p id = "last"  style="display: flex;justify-content: center;flex-direction: column;margin: 0;color: rgb(224, 15, 15)"></p>
@@ -142,42 +125,45 @@
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2019.3.1023/js/kendo.all.min.js"></script>
+<script src="./js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
     let showQution = function (id) {
         //console.log(id);
         window.location = "/coding/showCodingQution/" + id
     }
-    let myRecord = <%-JSON.stringify(myRecord)%>
-    let qutions = <%-JSON.stringify(qutions)%>
+    let myRecord = <%-JSON.stringify(myRecord)%>;
+    let qutions = <%-JSON.stringify(qutions)%>;
+    let orgqutions = qutions;
     let totalRight = 0;
-    for (let i = 0; i < qutions.length; i++) {
-        qutions[i].isWritten = "Not";
-        qutions[i].acceptTime = 0;
-    }
-    for (let i = 0; i < qutions.length; i++) {
-        for (let j = 0; j < myRecord.length; j++) {
-            if (qutions[i]._id == myRecord[j].codingQutionID) {
-                qutions[i].submitTime += 1;
-                if (myRecord[j].status == "Accepted") {
-                    qutions[i].acceptTime += 1;
-                }
+    // for (let i = 0; i < qutions.length; i++) {
+    //     qutions[i].isWritten = "Not";
+    //     qutions[i].acceptTime = 0;
+    // }
+    // for (let i = 0; i < qutions.length; i++) {
+    //     for (let j = 0; j < myRecord.length; j++) {
+    //         if (qutions[i]._id == myRecord[j].codingQutionID) {
+    //             qutions[i].submitTime += 1;
+    //             if (myRecord[j].status == "Accepted") {
+    //                 qutions[i].acceptTime += 1;
+    //             }
 
-                if (myRecord[j].status == "Accepted") {
-                    if (qutions[i].isWritten == "Not" || qutions[i].isWritten == "Wrong") {
-                        qutions[i].isWritten = "Right"
-                    }
-                }
-                if (myRecord[j].status == "Wrong Answer" || myRecord[j].status == "Compile Error") {
-                    if (qutions[i].isWritten != "Right") {
-                        qutions[i].isWritten = "Wrong"
-                    }
-                }
+    //             if (myRecord[j].status == "Accepted") {
+    //                 if (qutions[i].isWritten == "Not" || qutions[i].isWritten == "Wrong") {
+    //                     qutions[i].isWritten = "Right"
+    //                 }
+    //             }
+    //             if (myRecord[j].status == "Wrong Answer" || myRecord[j].status == "Compile Error") {
+    //                 if (qutions[i].isWritten != "Right") {
+    //                     qutions[i].isWritten = "Wrong"
+    //                 }
+    //             }
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
     for(let i = 0 ;i<qutions.length;i++){
         if(qutions[i].isWritten == "Right"){
             totalRight +=1
@@ -244,6 +230,196 @@
         </div>
         `
     }
+
+    function deleteCodingQution(qutionId){
+        if(confirm("確定要刪除嗎？")){
+            $.ajax({
+                type: 'POST',
+                url: '/api/deletCodingQution/'+ qutionId,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    let qutionRow = document.getElementById("qutionRow"+qutionId);
+                    qutionRow.style.cssText = "display:none"
+                    alert("刪除成功！")
+                },
+                error: function (err) {
+                    alert("刪除失敗！")
+                }
+            });
+        }
+    }
+    let record = 0;
+    let user = <%-JSON.stringify(user)%>;
+    let codeKendoGrid;
+    if(user.permission == "admin"){
+        $("#CodeGrid").kendoGrid({
+            dataSource: {
+                data: qutions,
+                pageSize: 10
+            },
+            toolbar: ["search"],
+            sortable: true,
+            pageable: {
+                input: true,
+                numeric: false
+            },
+            columns: [
+                { field: "RowNumber", title: "#" ,headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-center" },template: "<span class='row-number'></span>", width: "10%"},
+                { field: "title",title: "題目",headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-left" }, template:"<a href='/coding/showCodingQution/#=_id#'>#=title#</a>",width: "41%" },
+                { field: "submitTime", title: "正確率",headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-center" }, template: "#:correctProbability(acceptTime,submitTime)#", width: "17%" },
+                { field: "acceptTime", title: "難易度",headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-center" }, template: "#=degreeOfDifficulty(acceptTime,submitTime)#", width: "17%" },
+                { command: [{ text: "刪除", click: deleteBook }], attributes:{ class:"ob-center" }, width: "15%" }
+            ],
+            height: "46em",
+            dataBound: function () {
+                let rows = this.items();
+                let currentPage = this.dataSource.page();
+                $(rows).each(function () {
+                    let index = (Number(currentPage)-1)*10 + Number($(this).index())%10 + 1;
+                    let rowLabel = $(this).find(".row-number");
+                    $(rowLabel).html(index);
+                });
+            }
+        });
+        codeKendoGrid = $("#CodeGrid");
+    }else{
+        $("#CodeGrid").kendoGrid({
+            dataSource: {
+                data: qutions,
+                pageSize: 10
+            },
+            toolbar: ["search"],
+            sortable: true,
+            pageable: {
+                input: true,
+                numeric: false
+            },
+            columns: [
+                { field: "isWritten",title: "<img src='./icon/isWrittenIcon.png' height='20' width='20'>",headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-center" }, template:"#=showIsWrittenIcon(isWritten)#", width: "10%" },
+                { field: "RowNumber", title: "#" ,headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-center" },template: "<span class='row-number'></span>", width: "10%"},
+                { field: "title",title: "題目",headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-left" }, template:"<a href='/coding/showCodingQution/#=_id#'>#=title#</a>", width: "40%" },
+                { field: "submitTime", title: "正確率",headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-center" }, template: "#:correctProbability(acceptTime,submitTime)#", width: "20%" },
+                { field: "acceptTime", title: "難易度",headerAttributes: {style: "font-weight:bold;"}, attributes:{ class:"ob-center" }, template: "#=degreeOfDifficulty(acceptTime,submitTime)#", width: "20%" }
+            ],
+            height: "46em",
+            dataBound: function () {
+                let rows = this.items();
+                let currentPage = this.dataSource.page();
+                $(rows).each(function () {
+                    let index = (Number(currentPage)-1)*10 + Number($(this).index())%10 + 1;
+                    let rowLabel = $(this).find(".row-number");
+                    $(rowLabel).html(index);
+                });
+            }
+        });
+        codeKendoGrid = $("#CodeGrid");
+    }
+    
+
+    function correctProbability(acceptTime,submitTime)
+    {
+    if (submitTime == 0)
+        return "沒有提交紀錄";
+    else
+        return Math.floor((acceptTime/submitTime) * 100) + "%";
+    }
+    function degreeOfDifficulty(acceptTime,submitTime)
+    {
+    if (submitTime == 0)
+        return "沒有提交紀錄";
+    else
+        if(Math.floor((acceptTime/submitTime) * 100)>60){
+            return ('<span class="badge badge-success" style="color: rgb(245, 245, 245);font-size: 12px">簡單</span>')
+        }else if(Math.floor((acceptTime/submitTime) * 100)>30){
+            return ('<span class="badge badge-warning" style="color: rgb(245, 245, 245);font-size: 12px">普通</span>')
+        }else{
+            return ('<span class="badge badge-danger" style="color: rgb(245, 245, 245);font-size: 12px">困難</span>')
+        }
+    }
+    function showIsWrittenIcon(isWritten){
+        if(isWritten == "Right"){
+            return ('<i class="fas fa-check" style="color: rgb(82, 164, 81)"></i>')
+        }else if(isWritten == "Wrong"){
+            return ('<i class="fas fa-times" style="color: rgb(220, 68, 74)"></i>')
+        }else{
+            return ('')
+        }
+    }
+
+    function tagSearch(tagName){
+        qutions = orgqutions.filter(
+            function(qution){
+                for(let i = 0 ; i < qution.tags.length ; i++){
+                    if(qution.tags[i] == tagName){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        );
+        let grid = codeKendoGrid.data("kendoGrid");
+        let dataSource = new kendo.data.DataSource({
+            data: qutions,
+            pageSize: 10
+        });
+        grid.setDataSource(dataSource);
+        grid.dataSource.sync();
+        
+        let chart =document.getElementById('myChartDiv');
+        chart.innerHTML = "";
+        let newCanvas = document.createElement('canvas');
+        newCanvas.style = "width: 100%;height: 15rem;";
+        newCanvas.width = 420;
+        newCanvas.height = 396;
+        var ctx = newCanvas.getContext('2d');
+        let totalRightReload = 0;
+        for(let i = 0 ;i<qutions.length;i++){
+            if(qutions[i].isWritten == "Right"){
+                totalRightReload +=1
+            }
+        }
+        finish.innerHTML = "已完成："+ totalRightReload;
+        last.innerHTML = "待解決："+ (qutions.length - totalRightReload);
+        let data = {
+            labels:['已完成','待解決'],
+            datasets: [{
+                data: [totalRightReload, qutions.length-totalRightReload],
+                backgroundColor: ['rgb(52, 191, 73)','rgb(255, 76, 76)',]
+            }]
+        };
+        var myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+                title: {
+                    display: true,
+                    text: '解題情況'
+                }
+            }
+        });
+        chart.appendChild(newCanvas);
+    }
+    function deleteBook(e){
+        e.preventDefault();
+        let qutionId = this.dataItem($(e.target).closest("tr"))._id;
+        if(confirm("確定要刪除嗎？")){
+            $.ajax({
+                type: 'POST',
+                url: '/api/deletCodingQution/'+ qutionId,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    alert("刪除成功！");
+                    window.location.reload();
+                },
+                error: function (err) {
+                    alert("刪除失敗！")
+                }
+            });
+        }
+    }
 </script>
 
 <% include layout/footer %>
+

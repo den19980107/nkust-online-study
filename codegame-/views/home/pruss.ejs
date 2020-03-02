@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/home/pruss.css">
+  <link rel="stylesheet" href="css/home/style_home.css">
+  <link rel="stylesheet" href="css/home/homeCenter.css">
+  <link rel="stylesheet" href="css/home/center.css">
+  <link rel="stylesheet" href="css/backstage/modifyBtn.css">
+  <link rel="stylesheet" href="css/share/main.css">
+  <link rel="stylesheet" href="css/share/left.css">
+  <link rel="stylesheet" href="css/share/right.css">
+  <link rel="stylesheet" href="css/share/mainFontFamily.css">
+  <link rel="stylesheet" href="css/share/share.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <link rel="Shortcut Icon" type="image/x-icon" href="img/titleIcon.ico" />
+  <!-- js -->
+  <script src="js/share.js"></script>
+  <script src="js/closeEvent.js"></script>
+  <script src="js/backstage/managementModify.js"></script>
+  <title>全速衝線</title>
+</head>
+
+<body>
+  <audio id="bkMusic" src="Fine_Line.mp3" preload loop volume="0"></audio>
+  <div class="wrap">
+    <div class="main">
+      <div class="box sidebarLeft">
+        <!--left-->
+        <img src="img/MARK.png" class="leftMark">
+      </div>
+      <div class="box centerBlockly" id="centerBlockly">
+        <img src="img/blockMapBk.jpg" id="bkImg">
+        <input type="button" title="返回鍵" value="" id="goBack3" onclick="back()">
+        <div class="onoffswitch">
+          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" onchange="changeLevelStage()">
+          <label class="onoffswitch-label" for="myonoffswitch">
+            <span class="onoffswitch-inner"></span>
+            <span class="onoffswitch-switch"></span>
+          </label>
+        </div>
+        <input type="button" title="第1關" id="btn0" class="unbtn" value="" onclick="btnClick(0)">
+        <img src="img/unPlayBtn.png" id="img0" class="btnImg">
+        <input type="button" title="第2關" id="btn1" class="unbtn" value="" onclick="btnClick(1)">
+        <img src="img/unPlayBtn.png" id="img1" class="btnImg">
+        <input type="button" title="第3關" id="btn2" class="unbtn" value="" onclick="btnClick(2)">
+        <img src="img/unPlayBtn.png" id="img2" class="btnImg">
+        <input type="button" title="第4關" id="btn3" class="unbtn" value="" onclick="btnClick(3)">
+        <img src="img/unPlayBtn.png" id="img3" class="btnImg">
+        <input type="button" title="第5關" id="btn4" class="unbtn" value="" onclick="btnClick(4)">
+        <img src="img/unPlayBtn.png" id="img4" class="btnImg">
+        <input type="button" title="第6關" id="btn5" class="unbtn" value="" onclick="btnClick(5)">
+        <img src="img/unPlayBtn.png" id="img5" class="btnImg">
+        <input type="button" title="第7關" id="btn6" class="unbtn" value="" onclick="btnClick(6)">
+        <img src="img/unPlayBtn.png" id="img6" class="btnImg">
+        <input type="button" title="第8關" id="btn7" class="unbtn" value="" onclick="btnClick(7)">
+        <img src="img/unPlayBtn.png" id="img7" class="btnImg">
+        <input type="button" title="第9關" id="btn8" class="unbtn" value="" onclick="btnClick(8)">
+        <img src="img/unPlayBtn.png" id="img8" class="btnImg">
+        <input type="button" title="第10關" id="btn9" class="unbtn" value="" onclick="btnClick(9)">
+        <img src="img/unPlayBtn.png" id="img9" class="btnImg">
+        <input type="button" title="第11關" id="btn10" class="unbtn" value="" onclick="btnClick(10)">
+        <img src="img/unPlayBtn.png" id="img10" class="btnImg">
+        <input type="button" title="第12關" id="btn11" class="unbtn" value="" onclick="btnClick(11)">
+        <img src="img/unPlayBtn.png" id="img11" class="btnImg">
+        <input type="button" title="第13關" id="btn12" class="unbtn" value="" onclick="btnClick(12)">
+        <img src="img/unPlayBtn.png" id="img12" class="btnImg">
+        <input type="button" title="第14關" id="btn13" class="unbtn" value="" onclick="btnClick(13)">
+        <img src="img/unPlayBtn.png" id="img13" class="btnImg">
+        <input type="button" title="第15關" id="btn14" class="unbtn" value="" onclick="btnClick(14)">
+        <img src="img/unPlayBtn.png" id="img14" class="btnImg">
+        <input type="button" title="第16關" id="btn15" class="unbtn" value="" onclick="btnClick(15)">
+        <img src="img/unPlayBtn.png" id="img15" class="btnImg">
+        <input type="button" title="第17關" id="btn16" class="unbtn" value="" onclick="btnClick(16)">
+        <img src="img/unPlayBtn.png" id="img16" class="btnImg">
+        <input type="button" title="第18關" id="btn17" class="unbtn" value="" onclick="btnClick(17)">
+        <img src="img/unPlayBtn.png" id="img17" class="btnImg">
+        <input type="button" title="第19關" id="btn18" class="unbtn" value="" onclick="btnClick(18)">
+        <img src="img/unPlayBtn.png" id="img18" class="btnImg">
+        <input type="button" title="第20關" id="btn19" class="unbtn" value="" onclick="btnClick(19)">
+        <img src="img/unPlayBtn.png" id="img19" class="btnImg">
+        <input type="button" title="第21關" id="btn20" class="unbtn" value="" onclick="btnClick(20)">
+        <img src="img/unPlayBtn.png" id="img20" class="btnImg">
+        <input type="button" title="第22關" id="btn21" class="unbtn" value="" onclick="btnClick(21)">
+        <img src="img/unPlayBtn.png" id="img21" class="btnImg">
+        <input type="button" title="第23關" id="btn22" class="unbtn" value="" onclick="btnClick(22)">
+        <img src="img/unPlayBtn.png" id="img22" class="btnImg">
+        <input type="button" title="第24關" id="btn23" class="unbtn" value="" onclick="btnClick(23)">
+        <img src="img/unPlayBtn.png" id="img23" class="btnImg">
+        <div id="buttonDiv">
+          <input type="button" class="equipageButton" value="" onclick="equipageView(centerBlockly)">
+          <input type="button" class="instructionButton" value="" onclick="instructionView(centerBlockly)">
+          <input type="button" class="achievementButton" value="" onclick="achievementView(centerBlockly)">
+          <input type="button" class="settingAllButton" value="" onclick="settingAllView(centerBlockly)">
+        </div>
+      </div>
+      <div class="box sidebarRight">
+        <!--right-->
+        <h1 class="userName" id="userName"></h1>
+        <div class="userStar">
+          <img src="img/star.png" class="imgIcon">
+          <font class="starNumber" id="starNumber"></font>
+        </div>
+        <button class="btnUser" onclick="userData()" title="個人資料"></button>
+        <button class="btnLogout" onclick="logout()" title="登出"></button>
+        <!--<input type="button" class="userData" value="個人資料" onclick="userData()">
+          <input type="button" class="signOut" value="登出" onclick="logout()">
+          <div class="userGold">
+            <img src="img/gold.png" class="imgIcon">
+            <font class="goldNumber">:xxx</font>
+          </div>-->
+      </div>
+    </div>
+    <div class="footer"></div>
+  </div>
+</body>
+
+<script src="js/home/pruss.js"></script>
+</html>
