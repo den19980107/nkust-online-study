@@ -31,13 +31,13 @@ router.get('/', function (req, res) {
     }
 
     // 先不開放
-    req.flash('danger', '此功能尚未開放');
-    res.redirect('/');
+    // req.flash('danger', '此功能尚未開放');
+    // res.redirect('/');
 
     // 開放
-    // router.use(express.static('iCoding_admin'))
-    // console.log(__dirname)
-    // res.sendFile(path.resolve(__dirname, '../iCoding_admin', 'index.html'));
+    router.use(express.static('iCoding_admin'))
+    console.log(__dirname)
+    res.sendFile(path.resolve(__dirname, '../iCoding_admin', 'index.html'));
 
 });
 
