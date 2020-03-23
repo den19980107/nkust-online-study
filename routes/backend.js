@@ -24,7 +24,7 @@ let School = require('../model/school');
 
 const path = require('path')
 //進入後台
-router.get('/', function (req, res) {
+router.get('/', ensureAuthenticated, function (req, res) {
     if (req.user.permission != "admin") {
         req.flash('danger', '您不是管理員');
         res.redirect('/');
