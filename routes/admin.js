@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+let mailServerInstant = require('../service/mailServer')
+
 //todo 做刪除單元
 let ObjectID = require('mongodb').ObjectID;
 //bring in Article models
@@ -47,7 +49,6 @@ let School = require('../model/school');
 // bring LoginHistoty model
 let LoginHistoty = require('../model/loginHistory');
 let CodeTag = require("../model/codeTags");
-var nodemailer = require('nodemailer');
 
 // 拿到所有 user
 router.get('/getUsers', function (req, res) {
@@ -236,7 +237,7 @@ router.post('/activeUser', async function (req, res) {
     try {
         let user = await User.findByIdAndUpdate(userId, { InActive: false })
         console.log(user)
-        mailToTeacher(user.email, `<h3>${user.name} 老師您好:</h3> \n<p>您的帳號已被管理員審核通過！🎉</p>,\n<p>現在可開始到平台上建立課程了!</p>\n<a href="${req.protocol + '://' + req.get('host')}">平台連結</a>`)
+        mailToTeacher(user.email, `<h3>${user.name} 老師您好:</h3> \n<p>您的帳號已被管理員審核通過！🎉</p>\n<p>現在可開始到平台上建立課程了!</p>\n<a href="${req.protocol + '://' + req.get('host')}">平台連結</a>`)
         res.json({ message: "審核成功" })
     } catch (err) {
         res.status(500).json({ error: "審核失敗" })
@@ -258,30 +259,7 @@ async function mailToTeacher(mail, message) {
     let admins = await User.find({ permission: "admin" })
     for (let i = 0; i < admins.length; i++) {
         const admin = admins[i]
-
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'nkust.online.study@gmail.com',
-                pass: 'kkc060500'
-            }
-        });
-        //console.log(student.email);
-        var mailOptions = {
-            from: 'nkust.online.study@gmail.com',
-            to: mail,
-            subject: 'i-Coding學習平臺 教師審核通過通知',
-            html: message
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                //console.log('Email sent: ' + info.response);
-            }
-        });
-
+        mailServerInstant.sendMail("nkust.online.study@gmail.com", mail, 'i-Coding學習平臺 教師審核通過通知', message)
     }
 }
 //Access Control

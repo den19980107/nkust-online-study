@@ -44,6 +44,9 @@ let studentWatchChapter = require('../model/studentWatchChapter');
 let CodingQution = require("../model/codeQution");
 //bring School model
 let School = require('../model/school');
+// bring mail server
+let mailServerInstant = require('../service/mailServer')
+
 
 //拿到所有學校
 router.get('/getSchools', function (req, res) {
@@ -815,28 +818,7 @@ router.post('/sendEmail', function (req, res) {
     let recever = req.body.recever.split(',');
     let body = req.body.body;
     for (let i = 0; i < recever.length; i++) {
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'nkust.online.study@gmail.com',
-                pass: 'kkc060500'
-            }
-        });
-        //console.log(student.email);
-        var mailOptions = {
-            from: sender,
-            to: recever[i],
-            subject: title,
-            text: body
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                res.sendStatus(500)
-            } else {
-                res.sendStatus(200)
-            }
-        });
+        mailServerInstant.sendMail(sender, recever[i], title, body, res);
     }
 })
 

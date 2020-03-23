@@ -256,7 +256,7 @@ router.post('/renewconfirm/:username/:email', function (req, res) {
                     service: 'gmail',
                     auth: {
                         user: 'nkust.online.study@gmail.com',
-                        pass: 'kkc060500'
+                        pass: `u3t"jnh4C\p&Q'gZ]I7Z,I[E)9Qk `
                     }
                 });
                 //console.log(student.email);
@@ -564,7 +564,7 @@ async function mailToAdmin(message) {
             service: 'gmail',
             auth: {
                 user: 'nkust.online.study@gmail.com',
-                pass: 'kkc060500'
+                pass: `u3t"jnh4C\p&Q'gZ]I7Z,I[E)9Qk `
             }
         });
         //console.log(student.email);
