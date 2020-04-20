@@ -140,7 +140,7 @@ router.post('/register', function (req, res) {
                                 req.flash('errors', '註冊失敗！');
                             } else {
                                 if (newUser.InActive) {
-                                    mailToAdmin(`<h3>使用者 ${newUser.name} 需要被審核！請您至後台審核</h3> \n<p>名稱:${newUser.name}</p> \n<p>電子郵件:${newUser.email}</p> \n <a href="${req.protocol + '://' + req.get('host')}/backend#/tool/active-teacher">點此進入平台審核</a>`)
+                                    mailToAdmin(`<h3>使用者 ${newUser.name} 需要被審核！請您至後台審核</h3> \n<p>名稱:${newUser.name}</p> \n<p>電子郵件:${newUser.email}</p> \n <p>學校名稱:${newUser.schoolname}</p> \n <p>科系:${newUser.department}</p> \n <a href="${req.protocol + '://' + req.get('host')}/backend#/tool/active-teacher">點此進入平台審核</a>`)
                                 }
                                 req.flash('success', '註冊成功！您現在已經註冊且可以使用此帳號密碼登入了！');
                                 res.redirect('/users/login'); //
