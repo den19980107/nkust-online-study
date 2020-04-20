@@ -28,7 +28,8 @@ let ActionType = require('../config/actionType');
 //full line speed api
 let API = require("../config/api");
 
-
+//寄email的工具
+const mailServerInstant = require("../service/mailServer");
 
 
 // Register Form
@@ -560,28 +561,29 @@ async function mailToAdmin(message) {
     for (let i = 0; i < admins.length; i++) {
         const admin = admins[i]
 
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'nkust.online.study@gmail.com',
-                pass: `u3t"jnh4C\p&Q'gZ]I7Z,I[E)9Qk `
-            }
-        });
-        //console.log(student.email);
-        var mailOptions = {
-            from: 'nkust.online.study@gmail.com',
-            to: admin.email,
-            subject: 'i-Coding學習平臺',
-            html: message
-        };
+        mailServerInstant.sendMail('nkust.online.study@gmail.com', admin.email, 'i-Coding學習平臺', message)
+        // var transporter = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         user: 'nkust.online.study@gmail.com',
+        //         pass: `u3t"jnh4C\p&Q'gZ]I7Z,I[E)9Qk `
+        //     }
+        // });
+        // //console.log(student.email);
+        // var mailOptions = {
+        //     from: 'nkust.online.study@gmail.com',
+        //     to: admin.email,
+        //     subject: 'i-Coding學習平臺',
+        //     html: message
+        // };
 
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                //console.log('Email sent: ' + info.response);
-            }
-        });
+        // transporter.sendMail(mailOptions, function (error, info) {
+        //     if (error) {
+        //         console.log(error);
+        //     } else {
+        //         //console.log('Email sent: ' + info.response);
+        //     }
+        // });
 
     }
 }

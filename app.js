@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const axios = require('axios').default;
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -276,7 +277,7 @@ let clientIdandSecret = [{
 },
 ]
 let indexOfAPIkey = Math.floor(Math.random() * clientIdandSecret.length)
-var sendScriptToApi = function (script, input, language, socket) {
+var sendScriptToApi =async function (script, input, language, socket) {
 
     var program = {
         stdin: input,
@@ -293,19 +294,38 @@ var sendScriptToApi = function (script, input, language, socket) {
         statusCode: "",
         body: ""
     }
-    request({
-        url: 'https://api.jdoodle.com/execute',
-        method: "POST",
-        json: program
-    },
-        function (error, response, body) {
-            answer.error = error;
-            answer.statusCode = response;
-            answer.body = body;
+
+    let {data} = await axios.post('http://localhost:5000/compile',{
+        userId:"5e9cf4bd45f4ee630bb67949",
+        apiKey:"6b38a4b65efc030b856dc3c5803218f17d99f43f09e2c93168cca50b08b1966a3ff12469fc4cb4e5b4bb0c24df584c3a",
+        language:program.language,
+        script:program.script,
+        stdin:program.stdin
+    })
+    answer.error = data.errorType?data.errorType:null;
+    answer.statusCode = data.errorType?"Compile Error":null;
+    answer.body = {
+        output:data.stdout,
+        memory:data.errorType?null:data.memoryUsage,
+        cpuTime:data.errorType?null:data.cpuUsage
+    };
+    console.log(data)
+
+    socket.emit('answer', answer);
+    console.log(answer)
+    // request({
+    //     url: 'https://api.jdoodle.com/execute',
+    //     method: "POST",
+    //     json: program
+    // },
+    //     function (error, response, body) {
+    //         answer.error = error;
+    //         answer.statusCode = response;
+    //         answer.body = body;
 
 
-            socket.emit('answer', answer);
-        });
+    //         socket.emit('answer', answer);
+    //     });
 }
 
 // 使用自己架的 api https://nodejs-online-compiler.appspot.com/compile
