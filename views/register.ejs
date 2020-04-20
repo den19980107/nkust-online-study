@@ -32,6 +32,16 @@
             <input type="password" class="form-control" name="password2">
         </div>
         <div class="form-group">
+            <label>學校名稱:</label>
+            <select  class="form-control" onchange="fetchDepartmentData()" name="schoolname" id = "schoolname">
+            </select>
+        </div>
+        <div class="form-group">
+            <label>科系:</label>
+            <select  class="form-control" name="department" id = "department">
+            </select>
+        </div>
+        <div class="form-group">
             <label style="margin-right: 10px">身份 <label style="color: red">*</label></label>
             <label>學生</label>
             <input type="checkbox" id="student" name="student">
@@ -41,16 +51,6 @@
            
         </div>
         <div id="hide" style="display: none">
-            <div class="form-group">
-                <label>學校名稱:</label>
-                <select  class="form-control" onchange="fetchDepartmentData()" name="schoolname" id = "schoolname">
-                </select>
-            </div>
-            <div class="form-group">
-                <label>科系:</label>
-                <select  class="form-control" name="department" id = "department">
-                </select>
-            </div>
             <div class="form-group">
                 <label>學號:</label>
                 <input type="text" class="form-control" name="studentid">
