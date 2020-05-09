@@ -577,7 +577,7 @@
     <!-- 測驗上傳Modal -->
     <div class="modal fade" id="uploadTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" style="width: 70%;max-width: 70%;" role="document">
+        <div class="modal-dialog" style="width: 95%;max-width: 95%;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="TestORHomeWork">新增測驗</h5>
@@ -587,7 +587,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row pr-3" style="height:75vh">
-                        <div class="col-5 h-100">
+                        <div class="col-4 h-100">
                             <div
                                 style="display:flex;flex-direction:column;justify-content: space-between;height:30%;padding-bottom:1rem">
                                 <div style="display:flex">
@@ -636,9 +636,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-7 h-100" style="background:rgba(239, 235, 247, 1);overflow-y:scroll"
+                        <div class="col-4 h-100" style="background:rgba(239, 235, 247, 1);overflow-y:scroll"
                             id="QuationList">
 
+                        </div>
+                        <div class="col-4 h-100" style="overflow:auto">
+                            <div id="codeQuestionDatabases" >
+                                <h3>程式題庫</h3>
+                                <span>點擊題目可新增</span>
+                                <div id="codeQuestion-loader">
+                                    <span>loading...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -760,6 +769,67 @@
             //showVideo();
             document.getElementById('unitID').value = selectedUnitID
         }
+    }
+    let onlineQuestionData =[]
+    window.onlineQuestionData = onlineQuestionData;
+    function showOnlineCodeQuestion(){
+        $.ajax({
+            type: 'GET',
+            url: '/coding/getAllCodeQution',
+            beforeSend: function () {
+                let loader = document.getElementById('codeQuestion-loader');
+                loader.style.display = "block"
+            },
+            complete: function () {
+                let loader = document.getElementById('codeQuestion-loader');
+                loader.style.display = "none";
+            },
+            success: function (response) {
+                let div = document.getElementById("codeQuestionDatabases");
+                let table = `
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">題目名稱</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `
+                onlineQuestionData = []
+                for(let i = 0;i<response.length;i++){
+                    onlineQuestionData[i] = {
+                        answer: false,
+                        inputDescription: "",
+                        inputExample: "",
+                        intputTest: response[i].testData[0].input,
+                        outputDescription: "",
+                        outputExample: "",
+                        outputTest: response[i].testData[0].output.slice(0,response[i].testData[0].output.length-1),
+                        qution: response[i].body,
+                        qutionName: response[i].title,
+                        score: "",
+                        type: "程式題"
+                    }
+                    table+= `
+                    <tr onclick="addOnlineQuestionDataToTest(${i})">
+                        <td>${response[i].title}</td>
+                    </tr>
+                    `
+                }
+                table+= `
+                    </tbody>
+                </table>
+                `
+                div.innerHTML += table;
+                
+            },
+            error: function (err) {
+                //console.log(err);
+            }
+        });
+    }
+    function addOnlineQuestionDataToTest (index) {
+        updateCreatedQutionList(onlineQuestionData[index])
     }
 
     function createNewUnit() {
@@ -1620,7 +1690,7 @@
         testName.placeholder = "請輸入測驗名稱";
         TestORHomeWorkMode = "Test"
         //console.log(TestORHomeWorkMode);
-
+        showOnlineCodeQuestion();
     }
 
 
@@ -1654,7 +1724,6 @@
     }
 
     let QuationList = [];
-
     function updateCreatedQutionList(newQution) {
         QuationList.push(newQution);
         updateQutionList();
@@ -1860,6 +1929,7 @@
                 let p1 = document.createElement('p');
                 p1.innerHTML = `題目內容：\n${newQution.qution}`
                 p1.className = "fullWidthImgDiv";
+                p1.style.cssText = "border:0.5px solid #ccc;padding:1rem";
                 // p1.innerHTML = `輸入說明：${newQution.inputDescription}`;
                 // let p2 = document.createElement('p');
                 // p2.innerHTML = `輸出說明：${newQution.outputDescription}`;
