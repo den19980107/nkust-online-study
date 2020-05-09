@@ -158,7 +158,7 @@ var sendScriptToApi = async function (script, input, language, socket) {
         body: "",
     };
 
-    let { data } = await axios.post("http://localhost:5000/compile", {
+    let { data } = await axios.post("http://localhost:5000/api/compile", {
         userId: "5e9cf4bd45f4ee630bb67949",
         apiKey:
             "6b38a4b65efc030b856dc3c5803218f17d99f43f09e2c93168cca50b08b1966a3ff12469fc4cb4e5b4bb0c24df584c3a",
