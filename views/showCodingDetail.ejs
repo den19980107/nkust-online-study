@@ -44,8 +44,14 @@
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/clouds");
     editor.session.setMode("ace/mode/<%=record.language%>");
-    let script = `<%=record.script%>`
-    script = script.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "'").replace(/&#39;/g, "'");
+    let oringinalScript = `<%=record.script%>`
+    let script
+    try{
+        script = decodeURI(oringinalScript).replace(/&amp;/,"&")
+    }catch(err){
+        console.log(err)
+        script = oringinalScript.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "\"").replace(/&#39;/g, "'").replace(/&amp;/,"&").replace(/<br>/g,"\n");
+    }
     editor.session.setValue(script)
     document.getElementById('editor').style.fontSize = '16px';
 

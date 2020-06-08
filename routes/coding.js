@@ -210,6 +210,27 @@ router.get("/showCodingQution/:qutionID", ensureAuthenticated, function (
     });
 });
 
+// 取得提交紀錄
+router.get("/getSubmitRecord/:qutionID", ensureAuthenticated, function (req, res) {
+    CodeQution.findById(req.params.qutionID, function (err, qutionData) {
+        if (err) {
+            console.log(err);
+        }
+        CodingSubmitRecord.find(
+            {
+                codingQutionID: qutionData._id,
+                submiterID: req.user._id,
+            },
+            function (err, submitRecord) {
+                if (err) {
+                    console.log(err);
+                }
+                res.status(200).send({ submitRecord })
+            }
+        );
+    });
+})
+
 //儲存使用者提交紀錄
 router.post("/saveRecord", ensureAuthenticated, function (req, res) {
     let newRecord = new CodingSubmitRecord();
@@ -218,7 +239,7 @@ router.post("/saveRecord", ensureAuthenticated, function (req, res) {
     newRecord.language = req.body.language;
     newRecord.memory = req.body.memory;
     newRecord.runtime = req.body.runtime;
-    newRecord.script = req.body.script;
+    newRecord.script = encodeURI(req.body.script);
     newRecord.status = req.body.status;
     newRecord.submitTime = req.body.submitTime;
     //console.log(newRecord);

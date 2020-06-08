@@ -233,7 +233,7 @@
                         <th scope="col">語言</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="recordTable">
                     <%submitRecord.forEach(function(record){%>
                     <tr>
                         <td><%=record.submitTime%></td>
@@ -498,6 +498,7 @@
                                     //errorMsg.value = output
                                     $('#errorModal').modal('show');
                                 }
+                                updateSubmitRecord();
                             }
                         })
                     }
@@ -510,6 +511,33 @@
         } else {
 
         }
+    }
+
+    const updateSubmitRecord = () => {
+        $.ajax({
+            url: `/coding/getSubmitRecord/<%=qutionData.id%>`,
+            type: 'GET',
+            error: function (xhr) {
+                alert('發生錯誤');
+            },
+            success: function (response) {
+                let submitRecord = response.submitRecord
+
+                let recordTable = document.getElementById('recordTable')
+                recordTable.innerHTML = ""
+                submitRecord.forEach(function(record){
+                recordTable.innerHTML += `
+                        <tr>
+                            <td>${record.submitTime}</td>
+                            <td><a href="/coding/showCodingDetail/${record._id}">${record.status}</a></td>
+                            <td>${record.runtime}</td>
+                            <td>${record.memory}</td>
+                            <td>${record.language}</td>
+                        </tr>
+                    `
+                })
+            }
+        })
     }
 </script>
 <% include layout/footer %>
