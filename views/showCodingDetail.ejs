@@ -47,7 +47,7 @@
     let oringinalScript = `<%=record.script%>`
     let script
     try{
-        script = decodeURI(oringinalScript).replace(/&amp;/,"&")
+        script = decodeURI(oringinalScript).replace(/&amp;/g,"&")
     }catch(err){
         console.log(err)
         script = oringinalScript.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#34;/g, "\"").replace(/&#39;/g, "'").replace(/&amp;/,"&").replace(/<br>/g,"\n");
