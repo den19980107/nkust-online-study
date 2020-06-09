@@ -336,8 +336,7 @@
     window.onload = function () {
         let fromEditScript = `<%if(locals.script){%><%=script%><%}%>`;
         let fromEditLanguage = `<%if(locals.language){%><%=language%><%}%>`;
-        //console.log(fromEditScript);
-        fromEditScript = fromEditScript.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#39;/g, "'");
+        fromEditScript = fromEditScript.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;nbsp;/g, '').replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/&#34;/g,"\"");
         let loader = document.getElementById('loader');
         loader.style.display = "none";
         //console.log(fromEditScript);
