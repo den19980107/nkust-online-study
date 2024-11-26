@@ -23,7 +23,7 @@
     "filelogger": "^1.0.3",
     "formidable": "^1.2.1",
     "jquery-file-upload-middleware": "^0.1.8",
-    "mongoose": "^5.4.19",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "mysql": "^2.15.0",
